@@ -1,0 +1,886 @@
+{
+  "_hash": "<volatile>",
+  "_spec_version": "1.1.0",
+  "_compiled": "<volatile>",
+  "_last_material_change": "<volatile>",
+  "_sanitized": true,
+  "meta": {
+    "name": "Sample Brand",
+    "version": "0.1.0",
+    "files": [
+      {
+        "file": "brand",
+        "version": "0.1.0",
+        "status": "draft",
+        "priority": 1,
+        "summary": "Strategy / Voice / Visual constitution.",
+        "relates_to": [
+          "DESIGN",
+          "examples",
+          "rules"
+        ],
+        "compliance": true,
+        "compliance_weight": "high",
+        "visibility": "public",
+        "cache_ttl": "30d"
+      },
+      {
+        "file": "DESIGN",
+        "version": "0.1.0",
+        "status": "draft",
+        "priority": 2,
+        "summary": "Implementation tokens and type scale.",
+        "relates_to": [
+          "brand"
+        ],
+        "compliance": true,
+        "compliance_weight": "high",
+        "visibility": "public",
+        "cache_ttl": "30d"
+      }
+    ]
+  },
+  "identity": {
+    "mission": "Hold brand meaning in the repo so humans and agents share one source of truth.",
+    "vision": "Every team that clones this kit ships on-brand work without reverse-engineering a PDF.",
+    "values": [
+      "Clarity",
+      "Craft",
+      "Portability"
+    ],
+    "origin": "Built as the default grayscale template inside this brand-guide kit so teams start from a finished example, not blank scaffolds."
+  },
+  "positioning": {
+    "audience": "Founders, designers, and builders who ship with AI tools and need shared brand context.",
+    "differentiation": "File-based, grayscale-first, dual audience (human guide + agent API).",
+    "only_we": [
+      "A starter that ships a filled Sample Brand, a visual guide, and a compiled `brand.json` in one repo."
+    ]
+  },
+  "personality": {
+    "archetypes": [
+      "Editor"
+    ],
+    "traits": {
+      "direct": 5,
+      "warm": 3,
+      "playful": 1
+    },
+    "anti_personality": [
+      "Hype-driven",
+      "Vague",
+      "Performatively premium",
+      "Loud for its own sake"
+    ]
+  },
+  "voice": {
+    "default": {
+      "pillars": [
+        "Direct",
+        "Calm",
+        "Specific"
+      ],
+      "do": [
+        "Lead with the user’s job to be done",
+        "Prefer short sentences",
+        "Use concrete nouns"
+      ],
+      "dont": [
+        "Hype without proof",
+        "Vague benefits",
+        "Corporate euphemism"
+      ],
+      "vocabulary": {
+        "use": [
+          "build",
+          "ship",
+          "clear",
+          "plain",
+          "specific",
+          "guide"
+        ],
+        "never": [
+          "synergistic",
+          "best-in-class",
+          "seamless",
+          "revolutionary",
+          "unlock your potential"
+        ]
+      },
+      "phrases": [
+        "Clear work, plainly said.",
+        "If it needs a synonym, it needs a rewrite.",
+        "The brand lives where the work lives.",
+        "Grayscale first; meaning first.",
+        "Specific beats impressive.",
+        "Agents read this file too.",
+        "Ornament is optional; clarity is not."
+      ],
+      "we_say": [
+        "Here’s what changed and why.",
+        "Ship the brand with the work.",
+        "Plain language, strong contrast.",
+        "Specific beats impressive."
+      ],
+      "we_never_say": [
+        "Unlock your potential.",
+        "Synergistic brand solutions.",
+        "Seamless holistic experience.",
+        "World-class premium vibes."
+      ]
+    }
+  },
+  "tone": {
+    "default": {
+      "contexts": [
+        {
+          "context": "product_ui",
+          "guidance": "Short labels; verbs on buttons.",
+          "example": "Save draft"
+        },
+        {
+          "context": "email",
+          "guidance": "One purpose; clear next step.",
+          "example": "Your guide preview is ready — open it."
+        },
+        {
+          "context": "social",
+          "guidance": "One idea; ownable phrase if possible.",
+          "example": "Clear work, plainly said."
+        },
+        {
+          "context": "support",
+          "guidance": "Patient, concrete, no blame.",
+          "example": "Here’s the exact file to update."
+        },
+        {
+          "context": "incident",
+          "guidance": "Facts first; no spin.",
+          "example": "We fixed the deploy path at 14:02 UTC."
+        }
+      ]
+    }
+  },
+  "messaging": {
+    "default": {
+      "core": "Brand context that lives in the repo and travels with the work.",
+      "pillars": [
+        "Clarity",
+        "Craft",
+        "Portability"
+      ],
+      "taglines": [
+        "Clear work, plainly said."
+      ],
+      "boilerplate": {
+        "short": "Sample Brand is a grayscale starter brand guide for humans and agents.",
+        "long": "Sample Brand is the filled example inside brand-guide: a Strategy / Voice / Visual constitution, DESIGN.md tokens, brand.json for agents, and a Next.js visual guide."
+      }
+    }
+  },
+  "color": {
+    "tokens": {
+      "color-border": {
+        "value": "#d0d0d0",
+        "type": "color",
+        "rgb": "208, 208, 208",
+        "hsl": "0, 0%, 82%",
+        "usage": "Dividers, hairlines, input borders",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-canvas": {
+        "value": "#dcdcdc",
+        "type": "color",
+        "rgb": "220, 220, 220",
+        "hsl": "0, 0%, 86%",
+        "usage": "App canvas behind the content card",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-ink": {
+        "value": "#111111",
+        "type": "color",
+        "rgb": "17, 17, 17",
+        "hsl": "0, 0%, 7%",
+        "usage": "Primary text, key chrome, CTAs",
+        "wcag_on_white": "AAA",
+        "wcag_on_black": "fail"
+      },
+      "color-ink-muted": {
+        "value": "#4a4a4a",
+        "type": "color",
+        "rgb": "74, 74, 74",
+        "hsl": "0, 0%, 29%",
+        "usage": "Secondary text, captions",
+        "wcag_on_white": "AAA",
+        "wcag_on_black": "fail"
+      },
+      "color-paper": {
+        "value": "#ffffff",
+        "type": "color",
+        "rgb": "255, 255, 255",
+        "hsl": "0, 0%, 100%",
+        "usage": "Page / content card background",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-rail": {
+        "value": "#e6e6e6",
+        "type": "color",
+        "rgb": "230, 230, 230",
+        "hsl": "0, 0%, 90%",
+        "usage": "Sidebar / rail background",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-surface": {
+        "value": "#f5f5f5",
+        "type": "color",
+        "rgb": "245, 245, 245",
+        "hsl": "0, 0%, 96%",
+        "usage": "Panels, zebra rows, subtle fills",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-surface-deep": {
+        "value": "#e8e8e8",
+        "type": "color",
+        "rgb": "232, 232, 232",
+        "hsl": "0, 0%, 91%",
+        "usage": "Deeper panels, hover fills",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      }
+    },
+    "palettes": {
+      "primary": [
+        "color-ink",
+        "color-paper"
+      ],
+      "neutral": [
+        "color-border",
+        "color-canvas",
+        "color-ink",
+        "color-ink-muted",
+        "color-paper",
+        "color-rail",
+        "color-surface",
+        "color-surface-deep"
+      ],
+      "semantic": {
+        "success": "color-border",
+        "error": "color-border"
+      }
+    },
+    "compliance_threshold_delta_e": 5
+  },
+  "typography": {
+    "tokens": {
+      "font-family-primary": {
+        "value": "Geist",
+        "type": "fontFamily"
+      },
+      "font-size-base": {
+        "value": "16px",
+        "type": "fontSize"
+      },
+      "font-size-display": {
+        "value": "48px",
+        "type": "fontSize"
+      }
+    },
+    "scale": {
+      "sm": "14px",
+      "base": "16px",
+      "lg": "20px",
+      "xl": "28px",
+      "display": "48px"
+    },
+    "hierarchy": {
+      "display": "Brand name, cover",
+      "xl": "Section titles",
+      "lg": "Subsection titles",
+      "base": "Body",
+      "sm": "Captions"
+    },
+    "accessibility": {
+      "min_body_size": "16px",
+      "min_line_height": 1.5,
+      "min_contrast_ratio": 4.5
+    }
+  },
+  "imagery": {
+    "style": "Editorial, natural light, product-in-context.",
+    "mood": "Focused, calm, confident.",
+    "prompts": {
+      "product_photography": "Sample Brand guide on desk, natural light, muted neutrals, candid crop --ar 4:5 --style raw",
+      "lifestyle": "Candid use in real environments, no stock smiles."
+    },
+    "negative_prompts": [
+      "oversaturated",
+      "generic stock office",
+      "neon gradients",
+      "purple AI cliché"
+    ],
+    "references": []
+  },
+  "logo": {
+    "wordmark": "Sample Brand",
+    "clearspace": "Approximately the height of the capital S",
+    "donts": [
+      "Don’t stretch or outline",
+      "Don’t add drop shadows",
+      "Don’t place on busy photography without a paper panel"
+    ]
+  },
+  "audience": {
+    "default": {
+      "primary": "Founders and product teams shipping with AI tools",
+      "secondary": "Designers maintaining a design system alongside brand meaning"
+    }
+  },
+  "channels": {
+    "web": "Document-like pages; brand name as hero signal",
+    "social": "Short ownable phrases; high-contrast wordmarks",
+    "print": "Same type hierarchy; generous margins",
+    "email": "One purpose; clear next step"
+  },
+  "agent": {
+    "compliance_threshold": 0.85,
+    "roles": {
+      "copywriter": {
+        "required": [
+          "identity",
+          "voice",
+          "tone",
+          "messaging",
+          "examples",
+          "templates"
+        ],
+        "optional": [
+          "personality",
+          "channels"
+        ]
+      },
+      "designer": {
+        "required": [
+          "personality",
+          "color",
+          "typography",
+          "imagery",
+          "logo",
+          "examples"
+        ],
+        "optional": [
+          "voice"
+        ]
+      },
+      "developer": {
+        "required": [
+          "color",
+          "typography"
+        ],
+        "optional": [
+          "logo"
+        ]
+      }
+    },
+    "system_prompts": {
+      "base": "You work on behalf of Sample Brand. Prefer plain language. Stay in the grayscale token set unless the user expands the palette."
+    },
+    "permissions": {
+      "autonomous": [
+        "fill_template_slots",
+        "run_compliance_check"
+      ],
+      "requires_approval": [
+        "create_new_tagline",
+        "extend_color_palette"
+      ],
+      "never": [
+        "modify_brand_json_silently",
+        "override_compliance_fail"
+      ]
+    },
+    "connector_scopes": {
+      "public": [
+        "color.tokens",
+        "typography.tokens",
+        "messaging.default.boilerplate"
+      ],
+      "cursor": [
+        "color.tokens",
+        "typography.tokens",
+        "voice.default",
+        "examples"
+      ]
+    }
+  },
+  "rules": {
+    "vocabulary": {
+      "blocklist": [
+        "synergistic",
+        "utilize",
+        "best-in-class",
+        "seamless",
+        "revolutionary",
+        "unlock your potential",
+        "world-class",
+        "holistic",
+        "leverage"
+      ],
+      "allowlist_preferred": [
+        "build",
+        "ship",
+        "clear",
+        "plain",
+        "specific",
+        "guide",
+        "update",
+        "open"
+      ]
+    },
+    "color_rules": {
+      "compliance_delta_e_threshold": 5,
+      "min_contrast_body_text": 4.5,
+      "palette": "grayscale_only"
+    },
+    "conflict_resolution": {
+      "precedence": [
+        "rules.md",
+        "active_variant",
+        "brand.md_guardrails_voice",
+        "brand.json",
+        "personality"
+      ]
+    }
+  },
+  "examples": {
+    "copy": [
+      {
+        "id": "copy-001",
+        "type": "headline",
+        "label": "off-brand",
+        "input": "Unlock your potential with our synergistic brand solutions.",
+        "reason": "Jargon, vague benefit, fails the litmus test."
+      },
+      {
+        "id": "copy-002",
+        "type": "headline",
+        "label": "on-brand",
+        "input": "Clear work, plainly said.",
+        "reason": "Ownable, specific, matches voice pillars."
+      },
+      {
+        "id": "copy-003",
+        "type": "cta",
+        "label": "off-brand",
+        "input": "Start your journey to world-class branding today!",
+        "reason": "Hype, fake urgency, not plain language."
+      },
+      {
+        "id": "copy-004",
+        "type": "cta",
+        "label": "on-brand",
+        "input": "Open the guide",
+        "reason": "Concrete verb, short, matches UI tone."
+      },
+      {
+        "id": "copy-005",
+        "type": "product_update",
+        "label": "off-brand",
+        "input": "We're thrilled to announce a seamless new experience.",
+        "reason": "Emotion theater + forbidden 'seamless'."
+      },
+      {
+        "id": "copy-006",
+        "type": "product_update",
+        "label": "on-brand",
+        "input": "We added grayscale token names to DESIGN.md so agents and CSS stay aligned.",
+        "reason": "Specific change and why it matters."
+      }
+    ],
+    "color": [
+      {
+        "id": "color-001",
+        "label": "off-brand",
+        "input": "#7C3AED",
+        "reason": "Accent purple breaks the grayscale starter; nearest approved is ink/paper/surface only."
+      },
+      {
+        "id": "color-002",
+        "label": "on-brand",
+        "input": "#111111",
+        "reason": "Matches --color-ink / color-ink."
+      },
+      {
+        "id": "color-003",
+        "label": "off-brand",
+        "input": "#FF6B35",
+        "reason": "Warm accent not in palette."
+      },
+      {
+        "id": "color-004",
+        "label": "on-brand",
+        "input": "#f5f5f5",
+        "reason": "Matches --color-surface."
+      }
+    ],
+    "imagery": [
+      {
+        "id": "imagery-001",
+        "label": "off-brand",
+        "input": "Neon gradient 3D blobs with stock handshake overlay",
+        "reason": "Oversaturated, generic stock, decorative noise."
+      },
+      {
+        "id": "imagery-002",
+        "label": "on-brand",
+        "input": "Natural light desk scene: open laptop showing a plain brand guide page, muted neutrals, candid crop",
+        "reason": "Editorial, product-in-context, calm mood."
+      },
+      {
+        "id": "imagery-003",
+        "label": "off-brand",
+        "input": "Glowing AI brain in purple void",
+        "reason": "Cliché AI visual; wrong palette and energy."
+      },
+      {
+        "id": "imagery-004",
+        "label": "on-brand",
+        "input": "Black wordmark on white paper with generous margins, photographed flat",
+        "reason": "Matches logo and style direction."
+      }
+    ]
+  },
+  "templates": {
+    "social_caption": {
+      "structure": "{{hook}} {{proof}} {{cta}}",
+      "constraints": {
+        "max_chars": 280
+      },
+      "example": {
+        "proof": "Sample Brand lives in your repo.",
+        "cta": "Open the guide."
+      }
+    },
+    "product_update": {
+      "structure": "{{change}} — {{why}}.",
+      "constraints": {
+        "max_sentences": 2
+      },
+      "example": {
+        "why": "so agents and CSS stay aligned"
+      }
+    },
+    "ui_empty_state": {
+      "structure": "{{observation}} {{next_step}}",
+      "constraints": {
+        "max_chars": 120
+      },
+      "example": {
+        "next_step": "Run the intake questionnaire and save the file here."
+      }
+    },
+    "meta_description": {
+      "structure": "{{what}}. {{promise}}.",
+      "constraints": {
+        "max_chars": 155
+      },
+      "example": {
+        "promise": "Clear work, plainly said"
+      }
+    }
+  },
+  "guide": {
+    "name": "Sample Brand",
+    "tagline": "Clear work, plainly said.",
+    "strategy": {
+      "actLabel": "What to say",
+      "overview": {
+        "what": "Sample Brand is a starter brand constitution for teams who want guidelines agents can read and humans can trust — without hunting PDFs.",
+        "problem": "Brand rules live in slide decks and tribal knowledge. Agents invent tone; humans disagree about “on brand.”",
+        "current": "Teams paste guidelines into every prompt, or ship generic creative and hope it sticks.",
+        "opportunity": "Keep meaning in the repo — one file agents load, one design system they implement.",
+        "solution": "A filled grayscale template: Strategy, Voice, and Visual in brand.md, tokens in DESIGN.md, and a visual guide you can open locally."
+      },
+      "promise": {
+        "mission": "Hold brand meaning in the repo so humans and agents share one source of truth.",
+        "purpose": "We exist to make brand context portable — clear, fast to load, and doable without a design ops team.",
+        "position": "Repo-native brand constitution for product and creative teams. Not a plugin. Not an agency. Not a vibes deck.",
+        "promise": "Say what we mean in plain language. Keep visuals quiet so content can lead. Treat agents as first-class readers."
+      },
+      "pillars": [
+        {
+          "name": "Clarity",
+          "summary": "Cut jargon; name the thing.",
+          "emotional": "Relieved",
+          "functional": "Plain-language copy and UI",
+          "trust": "You’ll always know what we mean."
+        },
+        {
+          "name": "Craft",
+          "summary": "Care shows in small decisions.",
+          "emotional": "Confident",
+          "functional": "Consistent type, space, contrast",
+          "trust": "Details aren’t decoration."
+        },
+        {
+          "name": "Portability",
+          "summary": "Brand rules move with the work.",
+          "emotional": "Steady",
+          "functional": "Files agents and humans share",
+          "trust": "The brand travels with the repo."
+        }
+      ],
+      "archetype": {
+        "name": "The Editor",
+        "drive": "Precision · Clarity · Restraint",
+        "seeks": "Understanding",
+        "atBest": [
+          "Wise",
+          "Accessible",
+          "Calm",
+          "Grounded",
+          "Trustworthy"
+        ],
+        "atWorst": [
+          "Aloof",
+          "Detached",
+          "Complicated",
+          "Dismissive"
+        ],
+        "motto": "Say the useful thing, then stop.",
+        "voice": [
+          "Knowledgeable",
+          "Assured",
+          "Guiding"
+        ]
+      },
+      "personality": {
+        "traits": [
+          "Clear",
+          "Steady",
+          "Direct",
+          "Respectful",
+          "Practical"
+        ],
+        "weAre": [
+          "Plainspoken",
+          "Specific",
+          "Diff-friendly",
+          "Respectful of the reader’s time."
+        ],
+        "weAreNot": [
+          "Hype-driven",
+          "Vague",
+          "Performatively premium",
+          "Loud for its own sake"
+        ]
+      },
+      "guardrails": {
+        "tone": "Direct, calm, specific, human.",
+        "cannotBe": [
+          "Synergy soup",
+          "Fake urgency",
+          "Empty inspiration",
+          "Decorative complexity."
+        ],
+        "litmus": "If you could swap in any other brand name and the line still works, rewrite it."
+      }
+    },
+    "voice": {
+      "actLabel": "What to say",
+      "identity": "We speak like a careful editor: short sentences, concrete nouns, no theater. We are Sample Brand — the quiet template that shows how a brand should live in a repository.",
+      "essence": "Say the useful thing, then stop.",
+      "phrases": [
+        "Clear work, plainly said.",
+        "If it needs a synonym, it needs a rewrite.",
+        "The brand lives where the work lives.",
+        "Grayscale first; meaning first.",
+        "Specific beats impressive.",
+        "Agents read this file too.",
+        "Ornament is optional; clarity is not."
+      ],
+      "andYet": [
+        {
+          "lean": "Knowledgeable",
+          "yet": "Humble"
+        },
+        {
+          "lean": "Direct",
+          "yet": "Warm"
+        },
+        {
+          "lean": "Precise",
+          "yet": "Plain"
+        },
+        {
+          "lean": "Confident",
+          "yet": "Quiet"
+        }
+      ],
+      "weSay": [
+        {
+          "say": "Here’s what changed and why.",
+          "never": "Unlock your potential."
+        },
+        {
+          "say": "Ship the brand with the work.",
+          "never": "Synergistic brand solutions."
+        },
+        {
+          "say": "Plain language, strong contrast.",
+          "never": "Seamless holistic experience."
+        },
+        {
+          "say": "Specific beats impressive.",
+          "never": "World-class premium vibes."
+        }
+      ],
+      "contexts": [
+        {
+          "context": "Product UI",
+          "guidance": "Short labels; verbs on buttons.",
+          "example": "Save draft"
+        },
+        {
+          "context": "Email",
+          "guidance": "One purpose; clear next step.",
+          "example": "Your guide preview is ready — open it."
+        },
+        {
+          "context": "Social",
+          "guidance": "One idea; ownable phrase if possible.",
+          "example": "Clear work, plainly said."
+        },
+        {
+          "context": "Support",
+          "guidance": "Patient, concrete, no blame.",
+          "example": "Here’s the exact file to update."
+        },
+        {
+          "context": "Incident",
+          "guidance": "Facts first; no spin.",
+          "example": "We fixed the deploy path at 14:02 UTC."
+        }
+      ]
+    },
+    "visual": {
+      "actLabel": "How to say it",
+      "colors": {
+        "intro": "Grayscale only in the starter. Concrete values live in DESIGN.md. Customize each layer when you adopt the kit.",
+        "brand": [
+          {
+            "name": "Ink",
+            "token": "--color-ink",
+            "value": "#111111",
+            "usage": "Primary text, key chrome, CTAs"
+          }
+        ],
+        "secondary": [
+          {
+            "name": "Ink Muted",
+            "token": "--color-ink-muted",
+            "value": "#4a4a4a",
+            "usage": "Secondary text, captions"
+          }
+        ],
+        "interface": [
+          {
+            "name": "Border",
+            "token": "--color-border",
+            "value": "#d0d0d0",
+            "usage": "Dividers, hairlines, input borders"
+          },
+          {
+            "name": "Paper",
+            "token": "--color-paper",
+            "value": "#ffffff",
+            "usage": "Page / content card background"
+          },
+          {
+            "name": "Surface",
+            "token": "--color-surface",
+            "value": "#f5f5f5",
+            "usage": "Panels, zebra rows, subtle fills"
+          },
+          {
+            "name": "Surface Deep",
+            "token": "--color-surface-deep",
+            "value": "#e8e8e8",
+            "usage": "Deeper panels, hover fills"
+          }
+        ]
+      },
+      "typography": {
+        "family": "Geist",
+        "note": "One grotesque for display and body. Hierarchy through size and weight — not a second decorative face.",
+        "faces": {
+          "primary": "Geist — display and body",
+          "fallback": "IBM Plex Sans, system-ui, sans-serif"
+        },
+        "specimens": [
+          {
+            "label": "Display",
+            "sample": "Sample Brand",
+            "size": "display"
+          },
+          {
+            "label": "Section",
+            "sample": "Brand Strategy",
+            "size": "xl"
+          },
+          {
+            "label": "Lead",
+            "sample": "Clear work, plainly said.",
+            "size": "lg"
+          },
+          {
+            "label": "Body",
+            "sample": "Brand context that lives in the repo and travels with the work.",
+            "size": "base"
+          }
+        ]
+      },
+      "logo": {
+        "description": "Wordmark in ink on paper (or reversed on ink). Clearspace ≈ height of the capital S.",
+        "donts": [
+          "Don’t stretch or outline",
+          "Don’t add drop shadows",
+          "Don’t place on busy photography without a paper panel"
+        ]
+      },
+      "imagery": {
+        "tone": "Human, authentic, reflective, hopeful",
+        "subjects": "Real workspaces, candid crops, product-in-context",
+        "settings": "Natural light, quiet interiors, honest materials",
+        "avoid": "Oversaturated stock, fake handshakes, neon gradients"
+      }
+    },
+    "expressions": {
+      "actLabel": "Where to say it",
+      "items": [
+        {
+          "channel": "Web",
+          "title": "Document-like pages",
+          "copy": "Brand name as the hero signal. One headline, one supporting line, one quiet system UI — grayscale throughout.",
+          "sample": "Open the guide"
+        },
+        {
+          "channel": "Social",
+          "title": "Ownable phrases",
+          "copy": "One idea per post. High-contrast wordmark on paper or ink. Prefer a phrase from the Voice list.",
+          "sample": "Clear work, plainly said."
+        },
+        {
+          "channel": "Print",
+          "title": "Decks & handouts",
+          "copy": "Same type hierarchy. Generous margins. Hairline rules only when they aid reading — never as decoration.",
+          "sample": "Brand Guide · 2026"
+        }
+      ]
+    }
+  }
+}

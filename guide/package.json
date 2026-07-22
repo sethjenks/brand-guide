@@ -1,0 +1,34 @@
+{
+  "name": "guide",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "compile": "node ../scripts/compile-all.mjs",
+    "compile:check": "npm run compile && node ../scripts/validate-brand.mjs",
+    "compile:golden": "node ../scripts/update-golden.mjs",
+    "tokens": "npm run compile",
+    "tokens:reset": "cp ../examples/DESIGN.default.md ../DESIGN.md && npm run compile",
+    "predev": "npm run compile",
+    "dev": "next dev --turbopack",
+    "prebuild": "npm run compile",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "lucide-react": "^1.25.0",
+    "next": "15.5.21",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.21",
+    "typescript": "^5"
+  }
+}

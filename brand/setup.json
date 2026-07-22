@@ -1,0 +1,26 @@
+{
+  "status": "starter",
+  "year": "2026",
+  "support": "A grayscale starter brand guide for humans and agents — filled example copy you customize.",
+  "headline": "Populate this guide from your brand",
+  "body": "Give your agent a source below plus this repo. Fill strategy, voice, visuals, and expressions in brand.md, DESIGN.md, examples.md, and brand/setup.json. Run npm run compile from guide/, then set status to \"populated\".",
+  "sources": [
+    {
+      "label": "Website URL",
+      "detail": "Marketing site, product page, or About page your agent can read."
+    },
+    {
+      "label": "Brand guide PDF",
+      "detail": "An existing PDF or deck — extract structure, voice, and visual rules."
+    },
+    {
+      "label": "brand.md",
+      "detail": "A brand constitution file (this repo’s format or a portable brand.md)."
+    },
+    {
+      "label": "DESIGN.md",
+      "detail": "Design tokens and system notes — colors, type, components."
+    }
+  ],
+  "prompt": "Using this brand-guide repo and my source (URL / PDF / brand.md / DESIGN.md), populate the guide: update brand.md, DESIGN.md, examples.md, rules.md, and brand/setup.json so every section reflects my brand. Keep the grayscale structure unless my source specifies a palette. Run npm run compile from guide/. When done, set brand/setup.json status to \"populated\"."
+}
