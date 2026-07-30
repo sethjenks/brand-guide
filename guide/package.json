@@ -7,7 +7,7 @@
     "compile:check": "npm run compile && node ../scripts/validate-brand.mjs",
     "compile:golden": "node ../scripts/update-golden.mjs",
     "tokens": "npm run compile",
-    "tokens:reset": "cp ../examples/DESIGN.default.md ../DESIGN.md && npm run compile",
+    "tokens:reset": "node ../scripts/reset-design-system.mjs",
     "predev": "npm run compile",
     "dev": "next dev --turbopack",
     "prebuild": "npm run compile",

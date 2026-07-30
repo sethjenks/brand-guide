@@ -36,7 +36,7 @@ structure: "{{change}} — {{why}}."
 constraints:
   max_sentences: 2
 example:
-  change: "We added grayscale tokens to DESIGN.md"
+  change: "We added grayscale tokens to brand.md Design system"
   why: "so agents and CSS stay aligned"
 ```
 
@@ -48,7 +48,7 @@ constraints:
   max_chars: 120
 example:
   observation: "No transcripts yet."
-  next_step: "Run the intake questionnaire and save the file here."
+  next_step: "Run the Branding Exercise and save the file here."
 ```
 
 ## meta_description

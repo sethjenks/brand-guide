@@ -1,5 +1,7 @@
-#!/usr/bin/env node
-/** Regenerate scripts/fixtures/brand.sample.expected.json from current sources. */
+/** Regenerate golden fixtures from current sources:
+ *   - scripts/fixtures/brand.sample.expected.json
+ *   - scripts/fixtures/tokens.sample.expected.json
+ */
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

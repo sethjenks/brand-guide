@@ -1,4 +1,4 @@
-/* Theme tokens: edit DESIGN.md, then `npm run compile` */
+/* Theme tokens: edit brand.md Design system, then `npm run compile` */
 @import "../styles/tokens.generated.css";
 /* Brand-owned additive CSS: edit brand/overrides.css */
 @import "../styles/brand.overrides.css";
@@ -6,8 +6,14 @@
 :root {
   /* App chrome only — not part of the brand theme */
   --chrome-h: 3rem;
+  --mobile-nav-h: 3rem;
   --sidebar-w: 15.5rem;
   --workspace-pad: 0.75rem;
+
+  /* Shell radius scale — tracks Design system --radius-base */
+  --radius-sm: calc(var(--radius-base) * 0.5);
+  --radius-md: var(--radius-base);
+  --radius-lg: calc(var(--radius-base) * 1.5);
 }
 
 *,
@@ -95,6 +101,7 @@ a:hover {
   align-items: center;
   justify-content: center;
   border: none;
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--color-ink);
   cursor: pointer;
@@ -116,6 +123,55 @@ a:hover {
 .chrome-brand:hover {
   color: var(--color-ink);
   text-decoration: none;
+}
+
+.mobile-nav {
+  display: none;
+}
+
+.mobile-nav-trigger {
+  width: 100%;
+  height: var(--mobile-nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0 0.85rem;
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  cursor: pointer;
+  text-align: left;
+}
+
+.mobile-nav-trigger:hover,
+.mobile-nav-trigger.is-open {
+  background: var(--color-paper);
+}
+
+.mobile-nav-label {
+  min-width: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobile-nav-chevron {
+  flex-shrink: 0;
+  transition: transform 0.18s ease;
+}
+
+.mobile-nav-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+.mobile-nav-backdrop {
+  display: none;
 }
 
 .sr-only {
@@ -178,6 +234,7 @@ html[data-sidebar="collapsed"] .app-body {
   gap: 0.5rem;
   padding: 0.65rem 0.65rem;
   border: none;
+  border-radius: var(--radius-md);
   background: transparent;
   color: var(--color-ink);
   font-family: var(--font-sans);
@@ -222,6 +279,7 @@ html[data-sidebar="collapsed"] .app-body {
 .sidebar-nav a {
   display: block;
   padding: 0.45rem 0.65rem;
+  border-radius: var(--radius-md);
   font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: -0.01em;
@@ -253,6 +311,7 @@ html[data-sidebar="collapsed"] .app-body {
 .sidebar-subnav a {
   display: block;
   padding: 0.3rem 0.55rem 0.3rem 0.75rem;
+  border-radius: var(--radius-md);
   font-size: 0.8125rem;
   font-weight: 450;
   letter-spacing: -0.01em;
@@ -316,7 +375,7 @@ html[data-sidebar="collapsed"] .app-body {
   flex: 1;
   min-width: 0;
   background: var(--color-paper);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius-lg);
   overflow: auto;
   max-height: calc(100vh - var(--chrome-h) - var(--workspace-pad));
 }
@@ -369,6 +428,7 @@ html[data-sidebar="collapsed"] .app-body {
   display: grid;
   gap: 0.25rem;
   padding: var(--space-4);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
 }
 
@@ -380,6 +440,7 @@ html[data-sidebar="collapsed"] .app-body {
 .setup-prompt {
   margin-top: var(--space-5);
   padding: var(--space-4);
+  border-radius: var(--radius-md);
   background: var(--color-ink);
   color: var(--color-paper);
   max-width: none;
@@ -452,6 +513,32 @@ html[data-sidebar="collapsed"] .app-body {
   background: var(--color-ink);
 }
 
+.agent-source {
+  width: 100%;
+  max-width: 40rem;
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.agent-source > p {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+}
+
+.agent-source-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.agent-source-actions > a {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
 .act {
   padding: var(--space-6) 0;
   position: relative;
@@ -522,6 +609,7 @@ html[data-sidebar="collapsed"] .app-body {
 
 .vision-cell {
   padding: var(--space-4);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
 }
 
@@ -543,6 +631,7 @@ html[data-sidebar="collapsed"] .app-body {
 
 .pillar {
   padding: var(--space-4);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
 }
 
@@ -598,6 +687,7 @@ html[data-sidebar="collapsed"] .app-body {
 
 .panel {
   padding: var(--space-4);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
   max-width: none;
 }
@@ -721,6 +811,7 @@ html[data-sidebar="collapsed"] .app-body {
 
 .swatch {
   overflow: hidden;
+  border-radius: var(--radius-md);
   background: var(--color-surface);
 }
 
@@ -739,15 +830,57 @@ html[data-sidebar="collapsed"] .app-body {
   margin-bottom: 0.15rem;
 }
 
-.swatch-meta code {
-  font-size: 0.75rem;
+.copy-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0.1rem 0.2rem 0.1rem 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
   color: var(--color-ink-muted);
+  font: inherit;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.copy-value code {
+  font-size: 0.75rem;
+  color: inherit;
+}
+
+.copy-value-icon {
+  display: inline-flex;
+  opacity: 0.45;
+  transition: opacity 120ms ease;
+}
+
+.copy-value:hover,
+.copy-value:focus-visible {
+  color: var(--color-ink);
+}
+
+.copy-value:hover .copy-value-icon,
+.copy-value:focus-visible .copy-value-icon,
+.copy-value.is-copied .copy-value-icon {
+  opacity: 0.85;
+}
+
+.copy-value:focus-visible {
+  outline: 1px solid var(--color-border);
+  outline-offset: 2px;
+}
+
+.copy-value.is-copied {
+  color: var(--color-ink);
 }
 
 .type-specimen {
   margin-bottom: var(--space-3);
   padding: var(--space-4);
   max-width: none;
+  border-radius: var(--radius-md);
   background: var(--color-surface);
 }
 
@@ -803,6 +936,7 @@ html[data-sidebar="collapsed"] .app-body {
   gap: var(--space-3);
   min-height: 15rem;
   padding: var(--space-4);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
   position: relative;
 }
@@ -853,39 +987,80 @@ html[data-sidebar="collapsed"] .app-body {
 }
 
 @media (max-width: 720px) {
+  .chrome-toggle {
+    display: none;
+  }
+
+  .app-chrome {
+    padding-left: var(--workspace-pad);
+  }
+
+  .mobile-nav {
+    display: block;
+    position: sticky;
+    top: var(--chrome-h);
+    z-index: 160;
+    flex-shrink: 0;
+    padding: 0 var(--workspace-pad) var(--workspace-pad);
+    background: var(--color-canvas);
+  }
+
+  .mobile-nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 140;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: color-mix(in srgb, var(--color-ink) 28%, transparent);
+    cursor: pointer;
+    animation: mobile-nav-backdrop-in 0.18s ease;
+  }
+
   .app-body {
     grid-template-columns: 1fr;
     padding: 0 var(--workspace-pad) var(--workspace-pad);
   }
 
-  html[data-sidebar="collapsed"] .app-body {
+  html[data-sidebar="collapsed"] .app-body,
+  html[data-sidebar="expanded"] .app-body {
     grid-template-columns: 1fr;
   }
 
-  .sidebar {
+  .sidebar,
+  .sidebar.is-collapsed {
     display: none;
   }
 
-  html[data-sidebar="expanded"] .sidebar {
+  .sidebar.is-mobile-open,
+  .sidebar.is-collapsed.is-mobile-open {
     display: flex;
     position: fixed;
-    top: var(--chrome-h);
+    top: calc(var(--chrome-h) + var(--mobile-nav-h) + var(--workspace-pad));
     left: var(--workspace-pad);
     right: var(--workspace-pad);
     bottom: auto;
     max-height: min(70vh, 28rem);
     z-index: 150;
     background: var(--color-rail);
-    border-radius: var(--radius-card);
-    padding: 1rem;
-  }
-
-  .sidebar.is-collapsed {
-    display: none;
+    border-radius: var(--radius-lg);
+    padding: 0.75rem 0.85rem 1rem;
+    box-shadow: 0 1rem 2.5rem color-mix(in srgb, var(--color-ink) 14%, transparent);
+    animation: mobile-nav-panel-in 0.2s ease;
+    transform-origin: top center;
   }
 
   .workspace {
-    min-height: calc(100vh - var(--chrome-h) - var(--workspace-pad));
+    min-height: calc(
+      100vh - var(--chrome-h) - var(--mobile-nav-h) - (var(--workspace-pad) * 2)
+    );
+  }
+
+  .content-card {
+    max-height: calc(
+      100vh - var(--chrome-h) - var(--mobile-nav-h) - (var(--workspace-pad) * 2)
+    );
   }
 
   .guide {
@@ -899,6 +1074,28 @@ html[data-sidebar="collapsed"] .app-body {
   }
 }
 
+@keyframes mobile-nav-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.65rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mobile-nav-backdrop-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -906,5 +1103,16 @@ html[data-sidebar="collapsed"] .app-body {
 
   .app-body {
     transition: none;
+  }
+
+  .mobile-nav-chevron,
+  .accordion-chevron {
+    transition: none;
+  }
+
+  .mobile-nav-backdrop,
+  .sidebar.is-mobile-open,
+  .sidebar.is-collapsed.is-mobile-open {
+    animation: none;
   }
 }

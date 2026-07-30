@@ -1,26 +1,27 @@
 {
   "status": "starter",
+  "intake": "pending",
   "year": "2026",
   "support": "A grayscale starter brand guide for humans and agents — filled example copy you customize.",
-  "headline": "Populate this guide from your brand",
-  "body": "Give your agent a source below plus this repo. Fill strategy, voice, visuals, and expressions in brand.md, DESIGN.md, examples.md, and brand/setup.json. Run npm run compile from guide/, then set status to \"populated\".",
+  "headline": "Start with the Branding Exercise",
+  "body": "If this kit is still a starter, run the Branding Exercise first (agent asks one question at a time, or share the written questionnaire). Prefer a website URL, brand PDF, or brand.md only when you already have source material — then skip intake and populate from that source. After fill, run npm run compile from guide/ and set status to \"populated\".",
   "sources": [
     {
+      "label": "Branding Exercise (recommended)",
+      "detail": "intake/brand-intake-questionnaire.md — agent asks one-by-one, or send as a written questionnaire."
+    },
+    {
       "label": "Website URL",
-      "detail": "Marketing site, product page, or About page your agent can read."
+      "detail": "Marketing site, product page, or About page your agent can read. Skips the questionnaire."
     },
     {
       "label": "Brand guide PDF",
-      "detail": "An existing PDF or deck — extract structure, voice, and visual rules."
+      "detail": "An existing PDF or deck — extract structure, voice, and visual rules. Skips the questionnaire."
     },
     {
       "label": "brand.md",
-      "detail": "A brand constitution file (this repo’s format or a portable brand.md)."
-    },
-    {
-      "label": "DESIGN.md",
-      "detail": "Design tokens and system notes — colors, type, components."
+      "detail": "A brand constitution file (this repo’s format — Strategy / Voice / Visual + Design system). Skips the questionnaire."
     }
   ],
-  "prompt": "Using this brand-guide repo and my source (URL / PDF / brand.md / DESIGN.md), populate the guide: update brand.md, DESIGN.md, examples.md, rules.md, and brand/setup.json so every section reflects my brand. Keep the grayscale structure unless my source specifies a palette. Run npm run compile from guide/. When done, set brand/setup.json status to \"populated\"."
+  "prompt": "This brand-guide kit is still a starter (intake pending). Start with the Branding Exercise in intake/brand-intake-questionnaire.md: ask one question at a time, save answers to resources/transcripts/, set brand/setup.json intake to \"complete\", then rewrite brand.md (including Design system), examples.md, rules.md, and setup from the transcript. Run npm run compile from guide/. When done, set status to \"populated\". If I already have a URL / PDF / brand.md, set intake to \"skipped\" and follow intake/populate-from-source.md instead."
 }

@@ -6,24 +6,21 @@ Brands customize **theme + content**; the Next.js shell is upstream-owned. See [
 
 ## Out of the box
 
-The cover asks you to populate the guide from an existing source:
+The cover asks you to complete intake before the Sample Brand preview demotes:
 
-- Website **URL**
-- Brand guide **PDF**
-- **`brand.md`**
-- **`DESIGN.md`**
+1. **Branding Exercise** (recommended when you have no existing guide) — [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md). An agent can ask the questions **one by one**, or you can fill the written questionnaire.
+2. **Or populate from a source** — Website **URL**, brand guide **PDF**, or **`brand.md`**. Follow [`intake/populate-from-source.md`](intake/populate-from-source.md) and set `intake` to `"skipped"`.
 
-Give that source to your agent (or harness) along with this repo. Follow [`intake/populate-from-source.md`](intake/populate-from-source.md). When finished, set `status` to `"populated"` in [`brand/setup.json`](brand/setup.json) — the setup callout then drops to a small tertiary note.
-
-Until then, Sample Brand content remains as a structural preview.
+When finished, set `status` to `"populated"` in [`brand/setup.json`](brand/setup.json) — the setup callout then drops to a small tertiary note. Until then, Sample Brand content remains as a structural preview. See the filled default at [`examples/brand.default.md`](examples/brand.default.md).
 
 ## Edit → compile → run
 
 | Edit (brand-owned) | Generated (do not hand-edit) |
 | --- | --- |
-| `brand.md`, `examples.md`, `rules.md`, `templates.md` | `brand.json` |
-| `DESIGN.md` | `guide/src/styles/tokens.generated.css` |
+| `brand.md` (Strategy / Voice / Visual + Design system), `examples.md`, `rules.md`, `templates.md` | `brand.json`, `guide/public/brand.txt`, `guide/src/styles/tokens.generated.css`, `tokens.json`, `guide/public/tokens.json` |
 | `brand/setup.json`, `brand/overrides.css`, `brand/assets/` | `guide/src/styles/brand.overrides.css`, `guide/public/brand/` |
+
+Theme authoring stays in **`brand.md` → Design system** (fenced block). Compile also emits a DTCG [`tokens.json`](tokens.json) for design-tool / external interchange (same values as the CSS). Prefer `brand.json` for voice, rules, and the visual guide payload.
 
 ```bash
 cd guide
@@ -32,34 +29,36 @@ npm run compile   # also runs on npm run dev / build
 npm run dev
 ```
 
-**Reset** theme to the out-of-box grayscale:
+**Reset** theme tokens to the out-of-box grayscale (Strategy / Voice / Visual unchanged):
 
 ```bash
 cd guide && npm run tokens:reset
 ```
 
-That copies [`examples/DESIGN.default.md`](examples/DESIGN.default.md) → `DESIGN.md` and recompiles. Other swap-ins live under `examples/`.
+That splices [`examples/design-system.default.md`](examples/design-system.default.md) into the Design system fence in `brand.md` and recompiles. For the **full** Sample Brand constitution (not just tokens), copy [`examples/brand.default.md`](examples/brand.default.md) → `brand.md` and recompile. Other swap-ins live under `examples/`.
 
-App chrome sizes (sidebar width, top bar height) stay in `globals.css` and are not themed from `DESIGN.md`.
+App chrome sizes (sidebar width, top bar height) stay in `globals.css` and are not themed from the Design system section.
 
 ## Dual audience
 
 | Audience | Start here |
 | --- | --- |
-| **Humans** | Browse the visual guide (`guide/`) or read [`brand.md`](brand.md) + [`DESIGN.md`](DESIGN.md) |
-| **Agents** | Discover root [`brand.md`](brand.md); prefer compiled [`brand.json`](brand.json) for structured reads; for first fill use [`intake/populate-from-source.md`](intake/populate-from-source.md) |
+| **Humans** | Browse the visual guide (`guide/`) or read [`brand.md`](brand.md) |
+| **Agents** | Give the deployed guide’s `/brand` URL for one-link loading (`/brand.txt` is the direct file); in-repo agents can discover root [`brand.md`](brand.md); prefer compiled [`brand.json`](brand.json) for structured reads |
 
 ## Agent load order
 
-1. Read `brand.md` frontmatter (`name`, `tagline`, `version`, `language`).
+0. If `brand/setup.json` is `starter` with `intake: "pending"`, run the Branding Exercise in [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) first (one question at a time by default). See [`agent.md`](agent.md).
+1. Read `brand.md` frontmatter (`name`, `tagline`, `version`, `language`) and the **For agents** section map.
 2. Prefer `brand.json` for tokens, rules, examples, templates, and `guide` (visual guide payload).
-3. Slice by task:
-   - **Copy / social** → Voice in `brand.md` + [`examples.md`](examples.md)
-   - **UI / CSS** → Visual in `brand.md` + [`DESIGN.md`](DESIGN.md)
-   - **Pitch / strategy** → Strategy in `brand.md`
-4. Use Voice **Phrases** and **We Say / We Never Say** as lightweight few-shots; use `examples.md` for labeled on/off-brand review.
-5. Respect [`rules.md`](rules.md) and [`agent.md`](agent.md) for permissions and conflict precedence.
-6. After editing sources, run `npm run compile` from `guide/` — never patch `brand.json` by hand.
+3. For portable design tokens (Figma, Style Dictionary, external tools), use generated [`tokens.json`](tokens.json) (DTCG). Do not hand-edit it.
+4. Slice by task (also in `brand.md`):
+   - **Copy / social** → Voice + [`examples.md`](examples.md)
+   - **UI / CSS** → Visual + Design system
+   - **Pitch / strategy** → Strategy + Voice
+5. Use Voice **Phrases** and **We Say / We Never Say** as lightweight few-shots; use `examples.md` for labeled on/off-brand review.
+6. Respect [`rules.md`](rules.md) and [`agent.md`](agent.md) for permissions and conflict precedence.
+7. After editing sources, run `npm run compile` from `guide/` — never patch `brand.json` or `tokens.json` by hand.
 
 ## Quick start (visual guide)
 
@@ -74,16 +73,16 @@ Open [http://localhost:3000](http://localhost:3000) (or the port Next prints).
 ## Repo map
 
 ```text
-brand.md          Strategy / Voice / Visual constitution (edit)
-DESIGN.md         Tokens / theme source (edit)
+brand.md          Strategy / Voice / Visual + Design system (edit)
 brand.json        Compiled agent API + guide payload (generated)
+tokens.json       DTCG design tokens export (generated; also guide/public/)
 brand/            setup.json, overrides.css, assets/ (brand-owned)
 examples.md       Few-shot on/off-brand pairs
-examples/         Swap-in theme examples (e.g. DESIGN.revhawk.md)
+examples/         brand.default.md (full Sample Brand) + Design system patches
 rules.md          Blocklists, contrast, conflict resolution
 agent.md          Roles, prompts, permissions, load recipe
 templates.md      Slot-based output templates
-scripts/          compile-brand, compile-design, compile-all
+scripts/          compile-brand, compile-design, reset-design-system, compile-all
 intake/           Populate-from-source + questionnaire
 optional/         Deeper scaffolds when you outgrow the single page
 guide/            Next.js visual brand guide (shell — upstream-owned)
@@ -92,10 +91,10 @@ UPSTREAM.md       Ownership map + upgrade recipe
 
 ## Customize
 
-1. Prefer [`intake/populate-from-source.md`](intake/populate-from-source.md) with a URL, PDF, `brand.md`, or `DESIGN.md`.
-2. Or run [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md), save under `resources/transcripts/`, then update brand markdown + `brand/setup.json` and `npm run compile` (never hand-edit `brand.json`).
-3. Theme the guide by editing `DESIGN.md` (including new `--color-*` rows and optional Guide column) and running `npm run compile` in `guide/`.
-4. Keep strategy/voice copy in `brand.md`; compile updates `brand.json`.
+1. Prefer [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) when starting from scratch (agent one-by-one or written). Save under `resources/transcripts/`, set `intake` to `"complete"`, then update brand markdown + `brand/setup.json` and `npm run compile` (never hand-edit `brand.json`).
+2. Or skip intake with [`intake/populate-from-source.md`](intake/populate-from-source.md) when you have a URL, PDF, or `brand.md` (set `intake` to `"skipped"`).
+3. Theme the guide by editing `brand.md` → Design system (including new `--color-*` rows and optional Guide column) and running `npm run compile` in `guide/`.
+4. Keep strategy/voice copy in the upper sections of `brand.md`; compile updates `brand.json`.
 5. Light tweaks: `brand/overrides.css`, logos in `brand/assets/`.
 6. Set `brand/setup.json` `status` to `"populated"` when the starter callout should demote.
 

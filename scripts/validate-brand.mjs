@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 /**
- * Validate brand.json after compile:
+ * Validate brand.json + DTCG tokens.json after compile:
  * 1) Required keys smoke check
  * 2) Golden fixture parity (stable fields) against Sample Brand sources
+ * 3) DTCG smoke + golden fixture for tokens.json
  *
- * Regenerate fixture after intentional Sample Brand changes:
+ * Regenerate fixtures after intentional Sample Brand changes:
  *   UPDATE_GOLDEN=1 npm run compile:check
  *   # or: node scripts/update-golden.mjs
  */
@@ -14,9 +15,17 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const brandPath = path.join(root, "brand.json");
+const brandMarkdownPath = path.join(root, "brand.md");
+const publicBrandPath = path.join(root, "guide/public/brand.txt");
 const fixturePath = path.join(
   root,
   "scripts/fixtures/brand.sample.expected.json",
+);
+const dtcgPath = path.join(root, "tokens.json");
+const dtcgPublicPath = path.join(root, "guide/public/tokens.json");
+const dtcgFixturePath = path.join(
+  root,
+  "scripts/fixtures/tokens.sample.expected.json",
 );
 
 if (!fs.existsSync(brandPath)) {
@@ -139,6 +148,98 @@ if (process.env.UPDATE_GOLDEN === "1") {
   }
 }
 
+// —— Public agent source ——
+if (!fs.existsSync(publicBrandPath)) {
+  console.error("FAIL missing guide/public/brand.txt — run compile first");
+  failed += 1;
+} else if (
+  fs.readFileSync(brandMarkdownPath, "utf8") !==
+  fs.readFileSync(publicBrandPath, "utf8")
+) {
+  console.error("FAIL brand.md and guide/public/brand.txt differ");
+  failed += 1;
+} else {
+  console.log("OK public brand.txt parity");
+}
+
+// —— DTCG tokens.json ——
+if (!fs.existsSync(dtcgPath)) {
+  console.error("FAIL missing tokens.json — run compile first");
+  failed += 1;
+} else if (!fs.existsSync(dtcgPublicPath)) {
+  console.error("FAIL missing guide/public/tokens.json — run compile first");
+  failed += 1;
+} else {
+  const dtcgRaw = fs.readFileSync(dtcgPath, "utf8");
+  const dtcgPublicRaw = fs.readFileSync(dtcgPublicPath, "utf8");
+  if (dtcgRaw !== dtcgPublicRaw) {
+    console.error("FAIL tokens.json and guide/public/tokens.json differ");
+    failed += 1;
+  }
+
+  let dtcg;
+  try {
+    dtcg = JSON.parse(dtcgRaw);
+  } catch {
+    console.error("FAIL tokens.json is not valid JSON");
+    failed += 1;
+    dtcg = null;
+  }
+
+  if (dtcg) {
+    const desc = String(dtcg.$description || "");
+    if (!/generated/i.test(desc) || !/brand\.md/i.test(desc)) {
+      console.error(
+        "FAIL tokens.json $description should mention generated + brand.md",
+      );
+      failed += 1;
+    }
+    if (!dtcg.color?.ink?.$value) {
+      console.error("FAIL tokens.json missing color.ink.$value");
+      failed += 1;
+    }
+    if (!dtcg.color?.paper?.$value) {
+      console.error("FAIL tokens.json missing color.paper.$value");
+      failed += 1;
+    }
+    if (!dtcg.space || typeof dtcg.space !== "object") {
+      console.error("FAIL tokens.json missing space group");
+      failed += 1;
+    }
+
+    if (process.env.UPDATE_GOLDEN === "1") {
+      fs.mkdirSync(path.dirname(dtcgFixturePath), { recursive: true });
+      fs.writeFileSync(
+        dtcgFixturePath,
+        `${JSON.stringify(dtcg, null, 2)}\n`,
+        "utf8",
+      );
+      console.log(
+        `Updated DTCG golden fixture → ${path.relative(root, dtcgFixturePath)}`,
+      );
+    } else if (!fs.existsSync(dtcgFixturePath)) {
+      console.error(
+        `Missing DTCG golden fixture at ${path.relative(root, dtcgFixturePath)}. Run UPDATE_GOLDEN=1 npm run compile:check once.`,
+      );
+      failed += 1;
+    } else {
+      const expectedDtcg = JSON.parse(fs.readFileSync(dtcgFixturePath, "utf8"));
+      const actualDtcgJson = JSON.stringify(dtcg, null, 2);
+      const expectedDtcgJson = JSON.stringify(expectedDtcg, null, 2);
+      if (actualDtcgJson !== expectedDtcgJson) {
+        console.error(
+          "FAIL DTCG golden fixture mismatch. If brand.md Design system tokens changed intentionally:\n  UPDATE_GOLDEN=1 npm run compile:check\n",
+        );
+        failed += 1;
+      } else {
+        console.log(
+          `OK DTCG golden fixture parity (${path.relative(root, dtcgFixturePath)})`,
+        );
+      }
+    }
+  }
+}
+
 if (failed > 0) {
   process.exit(1);
 }
@@ -146,3 +247,4 @@ if (failed > 0) {
 console.log(
   `OK brand.json checks (${required.length} keys, spec ${brand._spec_version})`,
 );
+console.log("OK tokens.json DTCG checks");

@@ -32,8 +32,12 @@ export type ColorSwatch = {
 
 export type SetupStatus = "starter" | "populated";
 
+export type IntakeStatus = "pending" | "complete" | "skipped";
+
 export type BrandSetup = {
   status: SetupStatus;
+  /** Branding Exercise gate: pending until questionnaire done or skipped for a source. */
+  intake: IntakeStatus;
   year: string;
   support: string;
   headline: string;

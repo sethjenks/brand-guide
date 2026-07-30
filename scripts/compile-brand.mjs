@@ -19,6 +19,7 @@ const EXAMPLES_MD = path.join(root, "examples.md");
 const RULES_MD = path.join(root, "rules.md");
 const TEMPLATES_MD = path.join(root, "templates.md");
 const BRAND_JSON = path.join(root, "brand.json");
+const PUBLIC_BRAND_TXT = path.join(root, "guide/public/brand.txt");
 const SPEC_VERSION = "1.1.0";
 
 /** @param {string} s */
@@ -488,7 +489,7 @@ function main() {
     visual: {
       actLabel: actVisual,
       colors: {
-        // Swatches rebuilt from DESIGN.md by compile-design.mjs
+        // Swatches rebuilt from brand.md Design system by compile-design.mjs
         intro: visColors.get("colors intro") || "",
         brand: [],
         secondary: [],
@@ -573,20 +574,9 @@ function main() {
           version: "0.1.0",
           status: "draft",
           priority: 1,
-          summary: "Strategy / Voice / Visual constitution.",
-          relates_to: ["DESIGN", "examples", "rules"],
-          compliance: true,
-          compliance_weight: "high",
-          visibility: "public",
-          cache_ttl: "30d",
-        },
-        {
-          file: "DESIGN",
-          version: "0.1.0",
-          status: "draft",
-          priority: 2,
-          summary: "Implementation tokens and type scale.",
-          relates_to: ["brand"],
+          summary:
+            "Strategy / Voice / Visual constitution plus Design system tokens.",
+          relates_to: ["examples", "rules"],
           compliance: true,
           compliance_weight: "high",
           visibility: "public",
@@ -657,7 +647,7 @@ function main() {
       },
     },
     color: {
-      // tokens + palettes rebuilt from DESIGN.md by compile-design.mjs
+      // tokens + palettes rebuilt from brand.md Design system by compile-design.mjs
       tokens: {},
       palettes: {
         primary: [],
@@ -869,6 +859,9 @@ function main() {
 
   fs.writeFileSync(BRAND_JSON, `${JSON.stringify(brandJson, null, 2)}\n`, "utf8");
   console.log(`Wrote ${path.relative(root, BRAND_JSON)} (_spec_version ${SPEC_VERSION})`);
+  fs.mkdirSync(path.dirname(PUBLIC_BRAND_TXT), { recursive: true });
+  fs.copyFileSync(BRAND_MD, PUBLIC_BRAND_TXT);
+  console.log(`Copied brand.md → ${path.relative(root, PUBLIC_BRAND_TXT)}`);
 }
 
 main();

@@ -22,6 +22,8 @@ type AppShellProps = {
 const STORAGE_KEY = "brand-guide-sidebar-collapsed";
 const SCROLL_OFFSET_PX = 96;
 
+const MOBILE_MQ = "(max-width: 720px)";
+
 function groupForSectionId(
   sectionId: string,
   groups: readonly NavGroup[],
@@ -36,6 +38,20 @@ function groupForSectionId(
     }
   }
   return groups[0]?.id ?? null;
+}
+
+function labelForSectionId(
+  sectionId: string,
+  groups: readonly NavGroup[],
+): string {
+  for (const group of groups) {
+    for (const item of group.items) {
+      if (item.id === sectionId) return item.label;
+      const child = item.children?.find((entry) => entry.id === sectionId);
+      if (child) return child.label;
+    }
+  }
+  return "Sections";
 }
 
 function applySidebarState(collapsed: boolean) {
@@ -55,7 +71,26 @@ export function AppShell({
   const [openId, setOpenId] = useState<string>(groups[0]?.id ?? "");
   const [activeId, setActiveId] = useState<string>(sectionIds[0] ?? "");
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  const activeLabel = useMemo(
+    () => labelForSectionId(activeId, groups),
+    [activeId, groups],
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_MQ);
+    const sync = () => {
+      const matches = mq.matches;
+      setIsMobile(matches);
+      if (!matches) setMobileNavOpen(false);
+    };
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
     const saved = window.localStorage.getItem(STORAGE_KEY);
@@ -68,6 +103,15 @@ export function AppShell({
     applySidebarState(collapsed);
     window.localStorage.setItem(STORAGE_KEY, collapsed ? "1" : "0");
   }, [collapsed]);
+
+  useEffect(() => {
+    if (!mobileNavOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileNavOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileNavOpen]);
 
   const syncActiveFromScroll = useCallback(() => {
     const root = cardRef.current;
@@ -129,10 +173,22 @@ export function AppShell({
     setCollapsed((current) => !current);
   }, []);
 
+  const toggleMobileNav = useCallback(() => {
+    setMobileNavOpen((current) => !current);
+  }, []);
+
+  const closeMobileNav = useCallback(() => {
+    setMobileNavOpen(false);
+  }, []);
+
   const onNavClick = useCallback((itemId: string, groupId: string) => {
     setActiveId(itemId);
     setOpenId(groupId);
+    setMobileNavOpen(false);
   }, []);
+
+  const navHidden = isMobile ? !mobileNavOpen : collapsed;
+  const navTabIndex = navHidden ? -1 : undefined;
 
   return (
     <div className="app-shell">
@@ -159,12 +215,37 @@ export function AppShell({
         </a>
       </header>
 
+      <div className="mobile-nav">
+        <button
+          type="button"
+          className={`mobile-nav-trigger${mobileNavOpen ? " is-open" : ""}`}
+          onClick={toggleMobileNav}
+          aria-expanded={mobileNavOpen}
+          aria-controls="app-sidebar"
+        >
+          <span className="mobile-nav-label">{activeLabel}</span>
+          <Icons.ChevronDown
+            className={`mobile-nav-chevron${mobileNavOpen ? " is-open" : ""}`}
+            aria-hidden
+          />
+        </button>
+      </div>
+
+      {mobileNavOpen ? (
+        <button
+          type="button"
+          className="mobile-nav-backdrop"
+          aria-label="Close navigation"
+          onClick={closeMobileNav}
+        />
+      ) : null}
+
       <div className="app-body">
         <aside
           id="app-sidebar"
-          className={`sidebar${collapsed ? " is-collapsed" : ""}`}
+          className={`sidebar${collapsed ? " is-collapsed" : ""}${mobileNavOpen ? " is-mobile-open" : ""}`}
           aria-label="Brand guide navigation"
-          aria-hidden={collapsed}
+          aria-hidden={navHidden}
         >
           <nav className="sidebar-accordion" aria-label="Guide sections">
             {groups.map((group) => {
@@ -186,7 +267,7 @@ export function AppShell({
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onClick={() => toggleAccordion(group.id)}
-                    tabIndex={collapsed ? -1 : undefined}
+                    tabIndex={navTabIndex}
                   >
                     <span>{group.label}</span>
                     <Icons.ChevronDown
@@ -216,7 +297,7 @@ export function AppShell({
                               aria-current={
                                 item.id === activeId ? "location" : undefined
                               }
-                              tabIndex={collapsed ? -1 : undefined}
+                              tabIndex={navTabIndex}
                               onClick={() => onNavClick(item.id, group.id)}
                             >
                               {item.label}
@@ -235,7 +316,7 @@ export function AppShell({
                                         aria-current={
                                           isChildActive ? "location" : undefined
                                         }
-                                        tabIndex={collapsed ? -1 : undefined}
+                                        tabIndex={navTabIndex}
                                         onClick={() =>
                                           onNavClick(child.id, group.id)
                                         }

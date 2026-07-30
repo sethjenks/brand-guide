@@ -32,10 +32,10 @@ Machine-oriented constraints. Narrative guardrails also live in `brand.md` → S
 
 ## Color
 
-- Starter palette is grayscale only (`DESIGN.md` five tokens).
+- Starter palette is grayscale only (`brand.md` → Design system).
 - Compliance ΔE threshold vs approved tokens: `5.0`
 - Min contrast body text on paper: `4.5`
-- Off-palette accents require human approval and a `brand.md` / `DESIGN.md` update.
+- Off-palette accents require human approval and a `brand.md` Design system update.
 
 ## Conflict resolution
 
@@ -47,4 +47,4 @@ Machine-oriented constraints. Narrative guardrails also live in `brand.md` → S
 4. `brand.json` compiled fields
 5. Personality / archetype color alone
 
-If `DESIGN.md` hex values disagree with `brand.md` semantic roles, flag the conflict; prefer Strategy essence unless the user names the design system as authoritative for that decision.
+If Design system hex values disagree with Visual semantic roles in `brand.md`, flag the conflict; prefer Strategy essence unless the user names the design system as authoritative for that decision.

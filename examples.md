@@ -53,7 +53,7 @@ Few-shot pairs for creative review. Compiled into `brand.json` → `examples` vi
 - id: copy-006
   type: product_update
   label: on-brand
-  input: "We added grayscale token names to DESIGN.md so agents and CSS stay aligned."
+  input: "We added grayscale token names to brand.md Design system so agents and CSS stay aligned."
   reason: "Specific change and why it matters."
 ```
 

@@ -1,0 +1,323 @@
+{
+  "$description": "Brand Guide design tokens — DTCG format. Generated at compile time from brand.md Design system section (same pass as tokens.generated.css). Do not edit by hand.",
+  "color": {
+    "border": {
+      "$type": "color",
+      "$value": "#d0d0d0",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--color-border",
+          "guide": "interface"
+        }
+      },
+      "$description": "Dividers, hairlines, input borders"
+    },
+    "canvas": {
+      "$type": "color",
+      "$value": "#dcdcdc",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--color-canvas",
+          "guide": "chrome"
+        }
+      },
+      "$description": "App canvas behind the content card"
+    },
+    "ink": {
+      "$type": "color",
+      "$value": "#111111",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--color-ink",
+          "guide": "brand"
+        }
+      },
+      "$description": "Primary text, key chrome, CTAs"
+    },
+    "ink-muted": {
+      "$type": "color",
+      "$value": "#4a4a4a",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--color-ink-muted",
+          "guide": "secondary"
+        }
+      },
+      "$description": "Secondary text, captions"
+    },
+    "paper": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--color-paper",
+          "guide": "interface"
+        }
+      },
+      "$description": "Page / content card background"
+    },
+    "rail": {
+      "$type": "color",
+      "$value": "#e6e6e6",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--color-rail",
+          "guide": "chrome"
+        }
+      },
+      "$description": "Sidebar / rail background"
+    },
+    "surface": {
+      "$type": "color",
+      "$value": "#f5f5f5",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--color-surface",
+          "guide": "interface"
+        }
+      },
+      "$description": "Panels, zebra rows, subtle fills"
+    },
+    "surface-deep": {
+      "$type": "color",
+      "$value": "#e8e8e8",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--color-surface-deep",
+          "guide": "interface"
+        }
+      },
+      "$description": "Deeper panels, hover fills"
+    }
+  },
+  "layout": {
+    "content-max": {
+      "$type": "dimension",
+      "$value": "44rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--content-max",
+          "guide": "interface"
+        }
+      }
+    },
+    "guide-max": {
+      "$type": "dimension",
+      "$value": "60rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--guide-max",
+          "guide": "interface"
+        }
+      }
+    }
+  },
+  "font": {
+    "sans": {
+      "$type": "fontFamily",
+      "$value": [
+        "var(--font-geist-sans)",
+        "Geist",
+        "IBM Plex Sans",
+        "system-ui",
+        "sans-serif"
+      ],
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--font-sans",
+          "guide": "interface"
+        }
+      },
+      "$description": "Display + body"
+    },
+    "weight": {
+      "medium": {
+        "$type": "fontWeight",
+        "$value": 500,
+        "$extensions": {
+          "com.brand-guide": {
+            "css": "--font-weight-medium",
+            "guide": "interface"
+          }
+        },
+        "$description": "Labels"
+      },
+      "regular": {
+        "$type": "fontWeight",
+        "$value": 400,
+        "$extensions": {
+          "com.brand-guide": {
+            "css": "--font-weight-regular",
+            "guide": "interface"
+          }
+        },
+        "$description": "Body"
+      },
+      "semibold": {
+        "$type": "fontWeight",
+        "$value": 600,
+        "$extensions": {
+          "com.brand-guide": {
+            "css": "--font-weight-semibold",
+            "guide": "interface"
+          }
+        },
+        "$description": "Headings"
+      }
+    }
+  },
+  "text": {
+    "base": {
+      "$type": "dimension",
+      "$value": "1rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--font-size-base",
+          "guide": "interface"
+        }
+      },
+      "$description": "Body"
+    },
+    "display": {
+      "$type": "dimension",
+      "$value": "clamp(2.75rem, 6vw, 4.25rem)",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--font-size-display",
+          "guide": "interface"
+        }
+      },
+      "$description": "Cover / hero brand name"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "1.25rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--font-size-lg",
+          "guide": "interface"
+        }
+      },
+      "$description": "Lead"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "0.875rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--font-size-sm",
+          "guide": "interface"
+        }
+      },
+      "$description": "Captions, meta"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "1.75rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--font-size-xl",
+          "guide": "interface"
+        }
+      },
+      "$description": "Section titles"
+    },
+    "lineHeight": {
+      "body": {
+        "$type": "number",
+        "$value": 1.55,
+        "$extensions": {
+          "com.brand-guide": {
+            "css": "--line-height-body",
+            "guide": "interface"
+          }
+        },
+        "$description": "Body copy"
+      }
+    }
+  },
+  "radius": {
+    "base": {
+      "$type": "dimension",
+      "$value": "0.5rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--radius-base",
+          "guide": "interface"
+        }
+      }
+    }
+  },
+  "space": {
+    "1": {
+      "$type": "dimension",
+      "$value": "0.25rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--space-1",
+          "guide": "interface"
+        }
+      }
+    },
+    "2": {
+      "$type": "dimension",
+      "$value": "0.5rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--space-2",
+          "guide": "interface"
+        }
+      }
+    },
+    "3": {
+      "$type": "dimension",
+      "$value": "1rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--space-3",
+          "guide": "interface"
+        }
+      }
+    },
+    "4": {
+      "$type": "dimension",
+      "$value": "1.5rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--space-4",
+          "guide": "interface"
+        }
+      }
+    },
+    "5": {
+      "$type": "dimension",
+      "$value": "2.5rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--space-5",
+          "guide": "interface"
+        }
+      }
+    },
+    "6": {
+      "$type": "dimension",
+      "$value": "4rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--space-6",
+          "guide": "interface"
+        }
+      }
+    },
+    "7": {
+      "$type": "dimension",
+      "$value": "6rem",
+      "$extensions": {
+        "com.brand-guide": {
+          "css": "--space-7",
+          "guide": "interface"
+        }
+      }
+    }
+  }
+}

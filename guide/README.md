@@ -9,15 +9,16 @@ npm run dev
 
 `npm run dev` / `npm run build` run `npm run compile` first:
 
-1. `brand.md` (+ examples / rules / templates) → `../brand.json`
-2. `DESIGN.md` → `src/styles/tokens.generated.css` + color sync in `brand.json`
+1. `brand.md` (+ examples / rules / templates) → `../brand.json` and public agent source `public/brand.txt`
+2. `brand.md` Design system → `src/styles/tokens.generated.css` + color sync in `brand.json` + DTCG `tokens.json`
 3. `brand/overrides.css` → `src/styles/brand.overrides.css`
 4. `brand/assets/` → `public/brand/`
 
 Open [http://localhost:3000](http://localhost:3000).
+The overview links to [http://localhost:3000/brand](http://localhost:3000/brand), which serves the complete brand guide as plain text for agents. The direct file is `/brand.txt`.
 
-- **Theme:** edit root `DESIGN.md`, then `npm run compile`
-- **Copy:** edit root `brand.md` (and related markdown), then compile
+- **Theme:** edit root `brand.md` → Design system, then `npm run compile`
+- **Copy:** edit root `brand.md` (Strategy / Voice / Visual and related markdown), then compile
 - **Setup callout:** `../brand/setup.json`
 - **Light CSS tweaks:** `../brand/overrides.css`
 - **Do not edit** shell UI for theming — see `../UPSTREAM.md`

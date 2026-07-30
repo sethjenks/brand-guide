@@ -6,15 +6,14 @@ This kit is a **clone-per-brand** template. Brands customize theme and content; 
 
 | Zone | Paths | Who edits |
 | --- | --- | --- |
-| Brand content | `brand.md`, `examples.md`, `rules.md`, `templates.md` | Brand |
-| Theme | `DESIGN.md` | Brand |
+| Brand content + theme | `brand.md` (includes Design system), `examples.md`, `rules.md`, `templates.md` | Brand |
 | Overrides | `brand/setup.json`, `brand/overrides.css`, `brand/assets/**` | Brand |
-| Generated | `brand.json`, `guide/src/styles/tokens.generated.css`, `guide/src/styles/brand.overrides.css`, `guide/public/brand/**` | Compiler only (commit the outputs) |
+| Generated | `brand.json`, `tokens.json`, `guide/public/brand.txt`, `guide/public/tokens.json`, `guide/src/styles/tokens.generated.css`, `guide/src/styles/brand.overrides.css`, `guide/public/brand/**` | Compiler only (commit the outputs) |
 | Shell | `guide/src/app/**`, `guide/src/components/**`, `guide/src/lib/**`, `scripts/**`, `agent.md`, intake templates | Upstream |
 
-**Do not hand-edit** `brand.json`, `tokens.generated.css`, or `guide/src/styles/brand.overrides.css`. Edit sources and run `npm run compile` from `guide/`.
+**Do not hand-edit** `brand.json`, `tokens.json`, `guide/public/brand.txt`, `guide/public/tokens.json`, `tokens.generated.css`, or `guide/src/styles/brand.overrides.css`. Edit sources and run `npm run compile` from `guide/`.
 
-**Do not edit** shell UI to theme the guide — use `DESIGN.md` and optional `brand/overrides.css`.
+**Do not edit** shell UI to theme the guide — use `brand.md` → Design system and optional `brand/overrides.css`.
 
 ### `agent.md` (shell-owned)
 
@@ -22,9 +21,11 @@ This kit is a **clone-per-brand** template. Brands customize theme and content; 
 
 `brand.json` → `agent.roles` / `permissions` / `connector_scopes` are **shell defaults** emitted by `compile-brand.mjs` (not brand-edited). Changing them is an upstream shell change.
 
-### Theme colors (`DESIGN.md`)
+### Theme colors (`brand.md` Design system)
 
-Every `--color-*` hex row becomes an agent token in `brand.json`. Optional **Guide** column values: `brand` | `secondary` | `interface` | `chrome` (CSS/agent only — not a guide swatch). If Guide is omitted, defaults apply (`canvas` / `rail` → chrome; names containing `brand` / `accent` / `primary` → brand; everything else → interface so new colors still appear in the guide).
+Every `--color-*` hex row in the fenced Design system section becomes an agent token in `brand.json` and a DTCG leaf in `tokens.json`. Optional **Guide** column values: `brand` | `secondary` | `interface` | `chrome` (CSS/agent only — not a guide swatch). If Guide is omitted, defaults apply (`canvas` / `rail` → chrome; names containing `brand` / `accent` / `primary` → brand; everything else → interface so new colors still appear in the guide).
+
+`tokens.json` is a Design Tokens Community Group (DTCG) export for external tools. Theme authoring stays in `brand.md` → Design system only.
 
 ### CSS overrides
 
@@ -32,7 +33,7 @@ Every `--color-*` hex row becomes an agent token in `brand.json`. Optional **Gui
 | --- | --- |
 | [`brand/overrides.css`](brand/overrides.css) | `guide/src/styles/brand.overrides.css` |
 
-The file under `guide/src/styles/` is **generated** on compile (copied from `brand/overrides.css`). Edits there are wiped on the next `npm run compile` and will fight upstream merges. Prefer tokens in `DESIGN.md` first; use overrides only for light additive tweaks.
+The file under `guide/src/styles/` is **generated** on compile (copied from `brand/overrides.css`). Edits there are wiped on the next `npm run compile` and will fight upstream merges. Prefer tokens in the Design system section first; use overrides only for light additive tweaks.
 
 ## Spec version
 
@@ -55,12 +56,14 @@ Resolve conflicts in brand-owned paths carefully. Conflicts under `guide/src/` u
 From `guide/`:
 
 ```bash
-npm run compile         # brand.md (+ examples/rules/templates) → brand.json, then DESIGN.md → CSS + colors
+npm run compile         # brand.md (+ examples/rules/templates) → brand.json, then Design system → CSS + colors + DTCG
 npm run compile:check   # compile + smoke + golden fixture parity
-npm run compile:golden  # regenerate scripts/fixtures/brand.sample.expected.json
+npm run compile:golden  # regenerate scripts/fixtures/*.sample.expected.json
 npm run tokens          # alias of compile
-npm run tokens:reset    # restore examples/DESIGN.default.md → DESIGN.md, then compile
+npm run tokens:reset    # splice examples/design-system.default.md into brand.md Design system fence, then compile
 ```
+
+Full Sample Brand constitution (Strategy through Design system): [`examples/brand.default.md`](examples/brand.default.md) — copy over root `brand.md` when you want the grayscale starter end-to-end.
 
 `predev` / `prebuild` run compile automatically.
 

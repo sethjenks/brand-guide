@@ -1,8 +1,8 @@
 {
-  "_hash": "sha256:09926e6e47cfb0a9e597bd881b4a82efc72e820e42f50df2656c613431d1ef72",
+  "_hash": "sha256:106e5de5248aaf57d229525f83e9ceca7dbe7538b9d550e986005142402848a6",
   "_spec_version": "1.1.0",
-  "_compiled": "2026-07-22T23:17:52.810Z",
-  "_last_material_change": "2026-07-22",
+  "_compiled": "2026-07-30T16:12:00.726Z",
+  "_last_material_change": "2026-07-30",
   "_sanitized": true,
   "meta": {
     "name": "Sample Brand",
@@ -13,25 +13,10 @@
         "version": "0.1.0",
         "status": "draft",
         "priority": 1,
-        "summary": "Strategy / Voice / Visual constitution.",
+        "summary": "Strategy / Voice / Visual constitution plus Design system tokens.",
         "relates_to": [
-          "DESIGN",
           "examples",
           "rules"
-        ],
-        "compliance": true,
-        "compliance_weight": "high",
-        "visibility": "public",
-        "cache_ttl": "30d"
-      },
-      {
-        "file": "DESIGN",
-        "version": "0.1.0",
-        "status": "draft",
-        "priority": 2,
-        "summary": "Implementation tokens and type scale.",
-        "relates_to": [
-          "brand"
         ],
         "compliance": true,
         "compliance_weight": "high",
@@ -174,82 +159,46 @@
       ],
       "boilerplate": {
         "short": "Sample Brand is a grayscale starter brand guide for humans and agents.",
-        "long": "Sample Brand is the filled example inside brand-guide: a Strategy / Voice / Visual constitution, DESIGN.md tokens, brand.json for agents, and a Next.js visual guide."
+        "long": "Sample Brand is the filled example inside brand-guide: a Strategy / Voice / Visual constitution, Design system tokens, brand.json for agents, and a Next.js visual guide."
       }
     }
   },
   "color": {
     "tokens": {
       "color-border": {
-        "value": "#e1e6ea",
+        "value": "#d0d0d0",
         "type": "color",
-        "rgb": "225, 230, 234",
-        "hsl": "207, 18%, 90%",
+        "rgb": "208, 208, 208",
+        "hsl": "0, 0%, 82%",
         "usage": "Dividers, hairlines, input borders",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
-      "color-brand": {
-        "value": "#07cf7c",
-        "type": "color",
-        "rgb": "7, 207, 124",
-        "hsl": "155, 93%, 42%",
-        "usage": "Primary mint — CTAs, rings, glow",
-        "wcag_on_white": "fail",
-        "wcag_on_black": "AAA"
-      },
-      "color-brand-bright": {
-        "value": "#52fab4",
-        "type": "color",
-        "rgb": "82, 250, 180",
-        "hsl": "155, 94%, 65%",
-        "usage": "Lighter mint accents",
-        "wcag_on_white": "fail",
-        "wcag_on_black": "AAA"
-      },
-      "color-brand-soft": {
-        "value": "#effbf6",
-        "type": "color",
-        "rgb": "239, 251, 246",
-        "hsl": "155, 60%, 96%",
-        "usage": "Mint wash / soft highlights",
-        "wcag_on_white": "fail",
-        "wcag_on_black": "AAA"
-      },
       "color-canvas": {
-        "value": "#fbfaf8",
+        "value": "#dcdcdc",
         "type": "color",
-        "rgb": "251, 250, 248",
-        "hsl": "40, 27%, 98%",
-        "usage": "Page background (warm off-white)",
+        "rgb": "220, 220, 220",
+        "hsl": "0, 0%, 86%",
+        "usage": "App canvas behind the content card",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
-      },
-      "color-destructive": {
-        "value": "#dc2828",
-        "type": "color",
-        "rgb": "220, 40, 40",
-        "hsl": "0, 72%, 51%",
-        "usage": "Errors / destructive actions",
-        "wcag_on_white": "AA",
-        "wcag_on_black": "fail"
       },
       "color-ink": {
-        "value": "#13181b",
+        "value": "#111111",
         "type": "color",
-        "rgb": "19, 24, 27",
-        "hsl": "203, 17%, 9%",
-        "usage": "Primary text (`foreground` / cool near-black)",
+        "rgb": "17, 17, 17",
+        "hsl": "0, 0%, 7%",
+        "usage": "Primary text, key chrome, CTAs",
         "wcag_on_white": "AAA",
         "wcag_on_black": "fail"
       },
       "color-ink-muted": {
-        "value": "#57616b",
+        "value": "#4a4a4a",
         "type": "color",
-        "rgb": "87, 97, 107",
-        "hsl": "210, 10%, 38%",
-        "usage": "Secondary text (`muted-foreground`)",
-        "wcag_on_white": "AA",
+        "rgb": "74, 74, 74",
+        "hsl": "0, 0%, 29%",
+        "usage": "Secondary text, captions",
+        "wcag_on_white": "AAA",
         "wcag_on_black": "fail"
       },
       "color-paper": {
@@ -257,71 +206,56 @@
         "type": "color",
         "rgb": "255, 255, 255",
         "hsl": "0, 0%, 100%",
-        "usage": "Cards, content surfaces",
+        "usage": "Page / content card background",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-rail": {
-        "value": "#f7f3ee",
+        "value": "#e6e6e6",
         "type": "color",
-        "rgb": "247, 243, 238",
-        "hsl": "33, 36%, 95%",
-        "usage": "Sidebar / rail (`accent` warm wash)",
+        "rgb": "230, 230, 230",
+        "hsl": "0, 0%, 90%",
+        "usage": "Sidebar / rail background",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-surface": {
-        "value": "#f2f1ed",
+        "value": "#f5f5f5",
         "type": "color",
-        "rgb": "242, 241, 237",
-        "hsl": "48, 16%, 94%",
-        "usage": "Panels, muted fills (warm)",
+        "rgb": "245, 245, 245",
+        "hsl": "0, 0%, 96%",
+        "usage": "Panels, zebra rows, subtle fills",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-surface-deep": {
-        "value": "#f5f3f0",
+        "value": "#e8e8e8",
         "type": "color",
-        "rgb": "245, 243, 240",
-        "hsl": "36, 20%, 95%",
-        "usage": "Deeper / secondary panels",
+        "rgb": "232, 232, 232",
+        "hsl": "0, 0%, 91%",
+        "usage": "Deeper panels, hover fills",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
-      },
-      "color-teal-deep": {
-        "value": "#01363c",
-        "type": "color",
-        "rgb": "1, 54, 60",
-        "hsl": "186, 97%, 12%",
-        "usage": "Deep teal (contrast panels, dark UI)",
-        "wcag_on_white": "AAA",
-        "wcag_on_black": "fail"
       }
     },
     "palettes": {
       "primary": [
-        "color-brand",
         "color-ink",
         "color-paper"
       ],
       "neutral": [
         "color-border",
-        "color-brand",
-        "color-brand-bright",
-        "color-brand-soft",
         "color-canvas",
-        "color-destructive",
         "color-ink",
         "color-ink-muted",
         "color-paper",
         "color-rail",
         "color-surface",
-        "color-surface-deep",
-        "color-teal-deep"
+        "color-surface-deep"
       ],
       "semantic": {
-        "success": "color-brand",
-        "error": "color-destructive"
+        "success": "color-border",
+        "error": "color-border"
       }
     },
     "compliance_threshold_delta_e": 5
@@ -548,7 +482,7 @@
         "id": "copy-006",
         "type": "product_update",
         "label": "on-brand",
-        "input": "We added grayscale token names to DESIGN.md so agents and CSS stay aligned.",
+        "input": "We added grayscale token names to brand.md Design system so agents and CSS stay aligned.",
         "reason": "Specific change and why it matters."
       }
     ],
@@ -631,7 +565,7 @@
         "max_chars": 120
       },
       "example": {
-        "next_step": "Run the intake questionnaire and save the file here."
+        "next_step": "Run the Branding Exercise and save the file here."
       }
     },
     "meta_description": {
@@ -654,7 +588,7 @@
         "problem": "Brand rules live in slide decks and tribal knowledge. Agents invent tone; humans disagree about “on brand.”",
         "current": "Teams paste guidelines into every prompt, or ship generic creative and hope it sticks.",
         "opportunity": "Keep meaning in the repo — one file agents load, one design system they implement.",
-        "solution": "A filled grayscale template: Strategy, Voice, and Visual in brand.md, tokens in DESIGN.md, and a visual guide you can open locally."
+        "solution": "A filled grayscale template: Strategy, Voice, Visual, and Design system tokens in one `brand.md`, plus a visual guide you can open locally."
       },
       "promise": {
         "mission": "Hold brand meaning in the repo so humans and agents share one source of truth.",
@@ -821,83 +755,53 @@
     "visual": {
       "actLabel": "How to say it",
       "colors": {
-        "intro": "Grayscale only in the starter. Concrete values live in DESIGN.md. Customize each layer when you adopt the kit.",
+        "intro": "Grayscale only in the starter. Values: Design system → Color tokens. Customize each layer when you adopt the kit.",
         "brand": [
-          {
-            "name": "Brand",
-            "token": "--color-brand",
-            "value": "#07cf7c",
-            "usage": "Primary mint — CTAs, rings, glow"
-          },
           {
             "name": "Ink",
             "token": "--color-ink",
-            "value": "#13181b",
-            "usage": "Primary text (`foreground` / cool near-black)"
+            "value": "#111111",
+            "usage": "Primary text, key chrome, CTAs"
           }
         ],
         "secondary": [
           {
-            "name": "Brand Bright",
-            "token": "--color-brand-bright",
-            "value": "#52fab4",
-            "usage": "Lighter mint accents"
-          },
-          {
-            "name": "Brand Soft",
-            "token": "--color-brand-soft",
-            "value": "#effbf6",
-            "usage": "Mint wash / soft highlights"
-          },
-          {
             "name": "Ink Muted",
             "token": "--color-ink-muted",
-            "value": "#57616b",
-            "usage": "Secondary text (`muted-foreground`)"
+            "value": "#4a4a4a",
+            "usage": "Secondary text, captions"
           }
         ],
         "interface": [
           {
             "name": "Border",
             "token": "--color-border",
-            "value": "#e1e6ea",
+            "value": "#d0d0d0",
             "usage": "Dividers, hairlines, input borders"
-          },
-          {
-            "name": "Destructive",
-            "token": "--color-destructive",
-            "value": "#dc2828",
-            "usage": "Errors / destructive actions"
           },
           {
             "name": "Paper",
             "token": "--color-paper",
             "value": "#ffffff",
-            "usage": "Cards, content surfaces"
+            "usage": "Page / content card background"
           },
           {
             "name": "Surface",
             "token": "--color-surface",
-            "value": "#f2f1ed",
-            "usage": "Panels, muted fills (warm)"
+            "value": "#f5f5f5",
+            "usage": "Panels, zebra rows, subtle fills"
           },
           {
             "name": "Surface Deep",
             "token": "--color-surface-deep",
-            "value": "#f5f3f0",
-            "usage": "Deeper / secondary panels"
-          },
-          {
-            "name": "Teal Deep",
-            "token": "--color-teal-deep",
-            "value": "#01363c",
-            "usage": "Deep teal (contrast panels, dark UI)"
+            "value": "#e8e8e8",
+            "usage": "Deeper panels, hover fills"
           }
         ]
       },
       "typography": {
         "family": "Geist",
-        "note": "One grotesque for display and body. Hierarchy through size and weight — not a second decorative face.",
+        "note": "One grotesque for display and body. Hierarchy through size and weight — not a second decorative face. Scale tokens: Design system → Type tokens.",
         "faces": {
           "primary": "Geist — display and body",
           "fallback": "IBM Plex Sans, system-ui, sans-serif"
@@ -926,7 +830,7 @@
         ]
       },
       "logo": {
-        "description": "Wordmark in ink on paper (or reversed on ink). Clearspace ≈ height of the capital S.",
+        "description": "Wordmark in ink on paper (or reversed on ink). Clearspace ≈ height of the capital S. Implementation: Design system → Logo (implementation).",
         "donts": [
           "Don’t stretch or outline",
           "Don’t add drop shadows",

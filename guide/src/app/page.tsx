@@ -1,4 +1,5 @@
 import { AppShell } from "@/components/AppShell";
+import { CopyValue } from "@/components/CopyValue";
 import { loadBrand, type ColorSwatch } from "@/lib/load-brand";
 
 function SwatchGrid({ colors }: { colors: readonly ColorSwatch[] }) {
@@ -13,7 +14,7 @@ function SwatchGrid({ colors }: { colors: readonly ColorSwatch[] }) {
           />
           <div className="swatch-meta">
             <strong>{color.name}</strong>
-            <code>{color.value}</code>
+            <CopyValue value={color.value} label={color.name} />
             <p className="muted">{color.usage}</p>
           </div>
         </div>
@@ -73,6 +74,21 @@ export default function Home() {
               </p>
             </>
           )}
+
+          <div className="agent-source">
+            <span className="stack-label">Agent source</span>
+            <p className="muted">
+              Give an agent this URL to load the complete brand guide.
+            </p>
+            <div className="agent-source-actions">
+              <a href="/brand">Open brand source</a>
+              <CopyValue
+                value="/brand"
+                label="agent brand guide URL"
+                absoluteUrl
+              />
+            </div>
+          </div>
         </header>
 
         {/* —— What to say —— */}
@@ -303,6 +319,11 @@ export default function Home() {
           <div className="block" id="colors" style={{ maxWidth: "none" }}>
             <h3>Colors</h3>
             <p className="muted">{brand.visual.colors.intro}</p>
+            <p className="muted" style={{ marginTop: "0.5rem" }}>
+              <a href="/tokens.json">Design tokens (DTCG)</a>
+              {" — "}
+              generated from brand.md Design system; do not hand-edit.
+            </p>
 
             <div className="subsection" id="colors-brand">
               <h4>Brand colors</h4>
@@ -448,8 +469,7 @@ export default function Home() {
 
         <footer className="footer">
           <p>
-            {brand.name} · Customize <code>brand.md</code> and{" "}
-            <code>DESIGN.md</code>
+            {brand.name} ·             Customize <code>brand.md</code> (including Design system)
           </p>
           <p>Grayscale starter · Agents: prefer brand.json (compiled)</p>
         </footer>

@@ -1,10 +1,14 @@
 #!/usr/bin/env node
 /**
- * Compile DESIGN.md tokens into the visual guide + rebuild colors in brand.json.
+ * Compile Design system tokens from brand.md into the visual guide + rebuild
+ * colors in brand.json.
  *
- * Reads token tables + the ```css :root``` block from DESIGN.md, then writes:
+ * Reads the fenced Design system region in brand.md
+ * (`<!-- brand-guide:design-system -->` … `<!-- /brand-guide:design-system -->`),
+ * then parses token tables + the ```css :root``` block and writes:
  *   - guide/src/styles/tokens.generated.css
- *   - brand.json color.tokens + guide.visual.colors (derived from DESIGN.md)
+ *   - tokens.json (DTCG) + guide/public/tokens.json (identical copy)
+ *   - brand.json color.tokens + guide.visual.colors (derived from Design system)
  *   - copies brand/assets → guide/public/brand
  *   - syncs brand/overrides.css
  *
@@ -26,19 +30,27 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 
-const DESIGN_PATH = path.join(root, "DESIGN.md");
+const BRAND_MD_PATH = path.join(root, "brand.md");
 const TOKENS_OUT = path.join(root, "guide/src/styles/tokens.generated.css");
+const DTCG_OUT = path.join(root, "tokens.json");
+const DTCG_PUBLIC_OUT = path.join(root, "guide/public/tokens.json");
 const BRAND_JSON_PATH = path.join(root, "brand.json");
 const ASSETS_SRC = path.join(root, "brand/assets");
 const ASSETS_DEST = path.join(root, "guide/public/brand");
 const OVERRIDES_SRC = path.join(root, "brand/overrides.css");
 const OVERRIDES_DEST = path.join(root, "guide/src/styles/brand.overrides.css");
 
+const DESIGN_SYSTEM_START = "<!-- brand-guide:design-system -->";
+const DESIGN_SYSTEM_END = "<!-- /brand-guide:design-system -->";
+
+const DTCG_DESCRIPTION =
+  "Brand Guide design tokens — DTCG format. Generated at compile time from brand.md Design system section (same pass as tokens.generated.css). Do not edit by hand.";
+
 /** @typedef {{ value: string, usage?: string, guide?: string }} TokenDef */
 
 const GUIDE_LAYERS = new Set(["brand", "secondary", "interface"]);
 
-/** Default guide layer when DESIGN.md omits the Guide column. */
+/** Default guide layer when Design system omits the Guide column. */
 const DEFAULT_GUIDE_LAYER = {
   "--color-ink": "brand",
   "--color-ink-muted": "secondary",
@@ -162,13 +174,37 @@ function mergeTokens(fromTables, fromCss) {
 }
 
 /**
+ * Extract the fenced Design system region from brand.md.
+ * @param {string} md
+ * @returns {string}
+ */
+function extractDesignSystem(md) {
+  const start = md.indexOf(DESIGN_SYSTEM_START);
+  const end = md.indexOf(DESIGN_SYSTEM_END);
+  if (start === -1 || end === -1 || end <= start) {
+    console.error(
+      `Missing Design system fence in brand.md (expected ${DESIGN_SYSTEM_START} … ${DESIGN_SYSTEM_END}).`,
+    );
+    process.exit(1);
+  }
+  const slice = md
+    .slice(start + DESIGN_SYSTEM_START.length, end)
+    .trim();
+  if (!slice) {
+    console.error("Design system fence in brand.md is empty.");
+    process.exit(1);
+  }
+  return slice;
+}
+
+/**
  * @param {Map<string, TokenDef>} tokens
  * @returns {string}
  */
 function renderTokensCss(tokens) {
   const lines = [
     "/* GENERATED FILE — do not edit by hand.",
-    " * Source: DESIGN.md",
+    " * Source: brand.md Design system section",
     " * Regenerate: node scripts/compile-design.mjs  (or npm run compile)",
     " */",
     "",
@@ -181,6 +217,265 @@ function renderTokensCss(tokens) {
   }
   lines.push("}", "");
   return lines.join("\n");
+}
+
+/**
+ * Split a CSS font-family list into DTCG fontFamily array entries.
+ * @param {string} value
+ * @returns {string | string[]}
+ */
+function parseFontFamilyValue(value) {
+  const parts = [];
+  let current = "";
+  let quote = null;
+  for (let i = 0; i < value.length; i++) {
+    const ch = value[i];
+    if (quote) {
+      if (ch === quote) quote = null;
+      else current += ch;
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      quote = ch;
+      continue;
+    }
+    if (ch === ",") {
+      const trimmed = current.trim();
+      if (trimmed) parts.push(trimmed);
+      current = "";
+      continue;
+    }
+    current += ch;
+  }
+  const last = current.trim();
+  if (last) parts.push(last);
+  if (parts.length === 0) return value.trim();
+  if (parts.length === 1) return parts[0];
+  return parts;
+}
+
+/**
+ * Best-effort $type for unknown / misc tokens.
+ * @param {string} value
+ * @returns {string}
+ */
+function guessDtcgType(value) {
+  const v = value.trim();
+  if (isColorValue(v)) return "color";
+  if (/^-?\d+(\.\d+)?$/.test(v)) return "number";
+  if (/^-?\d+(\.\d+)?(px|rem|em|ms|s|%)$/i.test(v)) return "dimension";
+  if (/^(thin|hairline|extra-light|ultra-light|light|normal|regular|book|medium|semi-bold|demi-bold|bold|extra-bold|ultra-bold|black|heavy)$/i.test(v)) {
+    return "fontWeight";
+  }
+  if (/var\(--font|sans-serif|serif|monospace|system-ui/i.test(v)) {
+    return "fontFamily";
+  }
+  return "string";
+}
+
+/**
+ * @param {string} cssName
+ * @param {TokenDef} def
+ * @param {string} type
+ * @param {unknown} value
+ * @returns {Record<string, unknown>}
+ */
+function dtcgToken(cssName, def, type, value) {
+  /** @type {Record<string, unknown>} */
+  const ext = { css: cssName };
+  const layer = resolveGuideLayer(cssName, def.guide);
+  if (layer) ext.guide = layer;
+
+  /** @type {Record<string, unknown>} */
+  const token = {
+    $type: type,
+    $value: value,
+    $extensions: { "com.brand-guide": ext },
+  };
+  if (def.usage) token.$description = def.usage;
+  return token;
+}
+
+/**
+ * Ensure a nested group path exists; return the leaf parent object.
+ * @param {Record<string, any>} root
+ * @param {string[]} pathParts
+ * @returns {Record<string, any>}
+ */
+function ensureGroup(root, pathParts) {
+  let cur = root;
+  for (const part of pathParts) {
+    if (!cur[part] || typeof cur[part] !== "object") {
+      cur[part] = {};
+    }
+    cur = cur[part];
+  }
+  return cur;
+}
+
+/**
+ * Build DTCG document from the merged DESIGN token map.
+ * Unknown prefixes land under `misc` (warn only — keep markdown easy to extend).
+ * @param {Map<string, TokenDef>} tokens
+ * @returns {{ doc: Record<string, any>, leafCount: number, miscNames: string[] }}
+ */
+function renderTokensDtcg(tokens) {
+  /** @type {Record<string, any>} */
+  const doc = { $description: DTCG_DESCRIPTION };
+  let leafCount = 0;
+  /** @type {string[]} */
+  const miscNames = [];
+
+  const ordered = [...tokens.entries()].sort(([a], [b]) => a.localeCompare(b));
+
+  for (const [name, def] of ordered) {
+    const value = def.value;
+
+    if (name.startsWith("--color-") && isColorValue(value)) {
+      const leaf = name.slice("--color-".length);
+      const group = ensureGroup(doc, ["color"]);
+      group[leaf] = dtcgToken(name, def, "color", value);
+      leafCount += 1;
+      continue;
+    }
+
+    if (name === "--font-sans") {
+      const group = ensureGroup(doc, ["font"]);
+      group.sans = dtcgToken(name, def, "fontFamily", parseFontFamilyValue(value));
+      leafCount += 1;
+      continue;
+    }
+
+    if (name.startsWith("--font-weight-")) {
+      const leaf = name.slice("--font-weight-".length);
+      const group = ensureGroup(doc, ["font", "weight"]);
+      const num = Number(value);
+      group[leaf] = dtcgToken(
+        name,
+        def,
+        "fontWeight",
+        Number.isFinite(num) ? num : value,
+      );
+      leafCount += 1;
+      continue;
+    }
+
+    if (name.startsWith("--font-size-")) {
+      const leaf = name.slice("--font-size-".length);
+      const group = ensureGroup(doc, ["text"]);
+      group[leaf] = dtcgToken(name, def, "dimension", value);
+      leafCount += 1;
+      continue;
+    }
+
+    if (name.startsWith("--line-height-")) {
+      const leaf = name.slice("--line-height-".length);
+      const group = ensureGroup(doc, ["text", "lineHeight"]);
+      const num = Number(value);
+      group[leaf] = dtcgToken(
+        name,
+        def,
+        "number",
+        Number.isFinite(num) ? num : value,
+      );
+      leafCount += 1;
+      continue;
+    }
+
+    if (name.startsWith("--space-")) {
+      const leaf = name.slice("--space-".length);
+      const group = ensureGroup(doc, ["space"]);
+      group[leaf] = dtcgToken(name, def, "dimension", value);
+      leafCount += 1;
+      continue;
+    }
+
+    if (name === "--content-max" || name === "--guide-max") {
+      const leaf = name.slice(2);
+      const group = ensureGroup(doc, ["layout"]);
+      group[leaf] = dtcgToken(name, def, "dimension", value);
+      leafCount += 1;
+      continue;
+    }
+
+    if (name.startsWith("--radius-")) {
+      const leaf = name.slice("--radius-".length);
+      const group = ensureGroup(doc, ["radius"]);
+      group[leaf] = dtcgToken(name, def, "dimension", value);
+      leafCount += 1;
+      continue;
+    }
+
+    // Unknown prefix — misc (do not fail compile; brands may add custom rows)
+    miscNames.push(name);
+    const leaf = name.replace(/^--/, "").replace(/\//g, "-");
+    const group = ensureGroup(doc, ["misc"]);
+    group[leaf] = dtcgToken(name, def, guessDtcgType(value), value);
+    leafCount += 1;
+  }
+
+  return { doc, leafCount, miscNames };
+}
+
+/**
+ * Write DTCG to repo root + public copy; fail if required colors missing.
+ * @param {Map<string, TokenDef>} tokens
+ */
+function writeDtcg(tokens) {
+  const ink = tokens.get("--color-ink");
+  const paper = tokens.get("--color-paper");
+  if (!ink || !isColorValue(ink.value)) {
+    console.error(
+      "Missing required token --color-ink with a color value in brand.md Design system",
+    );
+    process.exit(1);
+  }
+  if (!paper || !isColorValue(paper.value)) {
+    console.error(
+      "Missing required token --color-paper with a color value in brand.md Design system",
+    );
+    process.exit(1);
+  }
+
+  const { doc, leafCount, miscNames } = renderTokensDtcg(tokens);
+
+  if (!doc.color || typeof doc.color !== "object") {
+    console.error("DTCG color group is empty — check brand.md Design system color tokens");
+    process.exit(1);
+  }
+  const colorLeaves = Object.keys(doc.color).filter(
+    (k) => k !== "$description" && doc.color[k]?.$value != null,
+  );
+  if (colorLeaves.length === 0) {
+    console.error("DTCG color group has no leaf tokens");
+    process.exit(1);
+  }
+  if (!doc.color.ink?.$value || !doc.color.paper?.$value) {
+    console.error("DTCG missing color.ink or color.paper");
+    process.exit(1);
+  }
+
+  const json = `${JSON.stringify(doc, null, 2)}\n`;
+  fs.writeFileSync(DTCG_OUT, json, "utf8");
+  fs.mkdirSync(path.dirname(DTCG_PUBLIC_OUT), { recursive: true });
+  fs.writeFileSync(DTCG_PUBLIC_OUT, json, "utf8");
+
+  // Verify round-trip
+  const written = JSON.parse(fs.readFileSync(DTCG_OUT, "utf8"));
+  if (!written.color?.ink?.$value) {
+    console.error("DTCG write verification failed: color.ink.$value empty");
+    process.exit(1);
+  }
+
+  if (miscNames.length > 0) {
+    console.warn(
+      `DTCG: ${miscNames.length} token(s) under misc (unknown prefix): ${miscNames.join(", ")}`,
+    );
+  }
+
+  console.log(
+    `Wrote ${leafCount} DTCG tokens → ${path.relative(root, DTCG_OUT)} (+ public copy)`,
+  );
 }
 
 /** @param {string} hex */
@@ -416,19 +711,20 @@ function syncOverrides() {
 }
 
 function main() {
-  if (!fs.existsSync(DESIGN_PATH)) {
-    console.error(`Missing ${DESIGN_PATH}`);
+  if (!fs.existsSync(BRAND_MD_PATH)) {
+    console.error(`Missing ${BRAND_MD_PATH}`);
     process.exit(1);
   }
 
-  const md = fs.readFileSync(DESIGN_PATH, "utf8");
+  const brandMd = fs.readFileSync(BRAND_MD_PATH, "utf8");
+  const md = extractDesignSystem(brandMd);
   const fromTables = parseTokenTables(md);
   const fromCss = parseCssRootBlock(md);
   const tokens = mergeTokens(fromTables, fromCss);
 
   if (tokens.size === 0) {
     console.error(
-      "No tokens found in DESIGN.md (expected tables or a css :root block).",
+      "No tokens found in brand.md Design system (expected tables or a css :root block).",
     );
     process.exit(1);
   }
@@ -438,6 +734,8 @@ function main() {
   console.log(
     `Wrote ${tokens.size} tokens → ${path.relative(root, TOKENS_OUT)}`,
   );
+
+  writeDtcg(tokens);
 
   if (fs.existsSync(BRAND_JSON_PATH)) {
     const json = JSON.parse(fs.readFileSync(BRAND_JSON_PATH, "utf8"));
@@ -449,7 +747,7 @@ function main() {
       "utf8",
     );
     console.log(
-      `Rebuilt brand.json colors from DESIGN.md (${agentCount} agent tokens, ${guideCount} guide swatches)`,
+      `Rebuilt brand.json colors from brand.md Design system (${agentCount} agent tokens, ${guideCount} guide swatches)`,
     );
   } else {
     console.warn("brand.json missing — run compile-brand first");

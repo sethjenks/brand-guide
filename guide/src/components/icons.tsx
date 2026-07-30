@@ -5,7 +5,9 @@
  * To switch: change imports below and keep the same named exports + IconProps.
  */
 import {
+  Check,
   ChevronDown,
+  Copy,
   PanelLeft,
   PanelLeftClose,
   type LucideProps,
@@ -29,7 +31,9 @@ function withDefaults(Icon: typeof ChevronDown) {
 }
 
 export const Icons = {
+  Check: withDefaults(Check),
   ChevronDown: withDefaults(ChevronDown),
+  Copy: withDefaults(Copy),
   PanelLeft: withDefaults(PanelLeft),
   PanelLeftClose: withDefaults(PanelLeftClose),
 } as const;

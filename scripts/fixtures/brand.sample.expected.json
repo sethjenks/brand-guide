@@ -13,25 +13,10 @@
         "version": "0.1.0",
         "status": "draft",
         "priority": 1,
-        "summary": "Strategy / Voice / Visual constitution.",
+        "summary": "Strategy / Voice / Visual constitution plus Design system tokens.",
         "relates_to": [
-          "DESIGN",
           "examples",
           "rules"
-        ],
-        "compliance": true,
-        "compliance_weight": "high",
-        "visibility": "public",
-        "cache_ttl": "30d"
-      },
-      {
-        "file": "DESIGN",
-        "version": "0.1.0",
-        "status": "draft",
-        "priority": 2,
-        "summary": "Implementation tokens and type scale.",
-        "relates_to": [
-          "brand"
         ],
         "compliance": true,
         "compliance_weight": "high",
@@ -174,7 +159,7 @@
       ],
       "boilerplate": {
         "short": "Sample Brand is a grayscale starter brand guide for humans and agents.",
-        "long": "Sample Brand is the filled example inside brand-guide: a Strategy / Voice / Visual constitution, DESIGN.md tokens, brand.json for agents, and a Next.js visual guide."
+        "long": "Sample Brand is the filled example inside brand-guide: a Strategy / Voice / Visual constitution, Design system tokens, brand.json for agents, and a Next.js visual guide."
       }
     }
   },
@@ -497,7 +482,7 @@
         "id": "copy-006",
         "type": "product_update",
         "label": "on-brand",
-        "input": "We added grayscale token names to DESIGN.md so agents and CSS stay aligned.",
+        "input": "We added grayscale token names to brand.md Design system so agents and CSS stay aligned.",
         "reason": "Specific change and why it matters."
       }
     ],
@@ -603,7 +588,7 @@
         "problem": "Brand rules live in slide decks and tribal knowledge. Agents invent tone; humans disagree about “on brand.”",
         "current": "Teams paste guidelines into every prompt, or ship generic creative and hope it sticks.",
         "opportunity": "Keep meaning in the repo — one file agents load, one design system they implement.",
-        "solution": "A filled grayscale template: Strategy, Voice, and Visual in brand.md, tokens in DESIGN.md, and a visual guide you can open locally."
+        "solution": "A filled grayscale template: Strategy, Voice, Visual, and Design system tokens in one `brand.md`, plus a visual guide you can open locally."
       },
       "promise": {
         "mission": "Hold brand meaning in the repo so humans and agents share one source of truth.",
@@ -770,7 +755,7 @@
     "visual": {
       "actLabel": "How to say it",
       "colors": {
-        "intro": "Grayscale only in the starter. Concrete values live in DESIGN.md. Customize each layer when you adopt the kit.",
+        "intro": "Grayscale only in the starter. Values: Design system → Color tokens. Customize each layer when you adopt the kit.",
         "brand": [
           {
             "name": "Ink",
@@ -816,7 +801,7 @@
       },
       "typography": {
         "family": "Geist",
-        "note": "One grotesque for display and body. Hierarchy through size and weight — not a second decorative face.",
+        "note": "One grotesque for display and body. Hierarchy through size and weight — not a second decorative face. Scale tokens: Design system → Type tokens.",
         "faces": {
           "primary": "Geist — display and body",
           "fallback": "IBM Plex Sans, system-ui, sans-serif"
@@ -845,7 +830,7 @@
         ]
       },
       "logo": {
-        "description": "Wordmark in ink on paper (or reversed on ink). Clearspace ≈ height of the capital S.",
+        "description": "Wordmark in ink on paper (or reversed on ink). Clearspace ≈ height of the capital S. Implementation: Design system → Logo (implementation).",
         "donts": [
           "Don’t stretch or outline",
           "Don’t add drop shadows",

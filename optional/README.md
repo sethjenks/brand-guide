@@ -10,7 +10,7 @@ Use these when the single-page [`brand.md`](../brand.md) is no longer enough. Pr
 | Multiple audiences | `audience.md` + `audience/` variants |
 | Channel-specific tone | `channels.md` or `tone/` variants |
 | Voice variants (e.g. B2B) | `voice.md` + `voice/voice-b2b.md` with `extends: voice` |
-| Token tables beyond DESIGN.md | `color.md`, `typography.md` |
+| Token tables beyond brand.md Design system | `color.md`, `typography.md` |
 | Logo / imagery long-form | `logo.md`, `photography.md`, `illustration.md` |
 
 ## Inheritance rule

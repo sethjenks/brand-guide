@@ -10,19 +10,20 @@ type: master
 
 Portable brand constitution and design system for humans and agents. Aesthetic **intent** lives in Strategy / Voice / Visual; concrete tokens live in **Design system** (below).
 
-This is the out-of-box grayscale starter. Canonical copy also lives at [`examples/brand.default.md`](examples/brand.default.md). Edit this file (and `examples.md`, `rules.md`, `templates.md`, `brand/setup.json`). Run `npm run compile` from `guide/` to regenerate `brand.json`, CSS, and `tokens.json`. Do not hand-edit generated outputs.
+This file is the **out-of-box default example** for the brand-guide kit — grayscale Sample Brand with every section filled. Copy it to root [`brand.md`](../brand.md) when you want the starter constitution (not only theme tokens). Theme-only reset: `npm run tokens:reset` (splices [`design-system.default.md`](design-system.default.md) into an existing `brand.md`).
+
+Edit root `brand.md` (and `examples.md`, `rules.md`, `templates.md`, `brand/setup.json`). Run `npm run compile` from `guide/` to regenerate `brand.json`, CSS, and `tokens.json`. Do not hand-edit generated outputs.
 
 ---
 
 ## For agents (LLM)
 
-**First fill (recommended):** If `brand/setup.json` → `intake` is `"pending"`, start with the Branding Exercise in [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) — ask one question at a time by default. If the user already has a website URL, brand-guide PDF, or this `brand.md`, set `intake` to `"skipped"` and follow [`intake/populate-from-source.md`](intake/populate-from-source.md). After fill: update this file, `examples.md`, `rules.md`, and `brand/setup.json`; run compile; set `intake` to `"complete"` (or leave `"skipped"`) and `status` to `"populated"` so the cover callout demotes.
+**First fill (recommended):** If `brand/setup.json` → `intake` is `"pending"`, start with the Branding Exercise in [`intake/brand-intake-questionnaire.md`](../intake/brand-intake-questionnaire.md) — ask one question at a time by default. If the user already has a website URL, brand-guide PDF, or a `brand.md`, set `intake` to `"skipped"` and follow [`intake/populate-from-source.md`](../intake/populate-from-source.md). After fill: update root `brand.md`, `examples.md`, `rules.md`, and `brand/setup.json`; run compile; set `intake` to `"complete"` (or leave `"skipped"`) and `status` to `"populated"` so the cover callout demotes.
 
-When this file is empty or partially filled and no external source is provided, do **one** of the following:
+When the root file is empty or partially filled and no external source is provided, do **one** of the following:
 
-1. **Branding Exercise** — Run [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) one question at a time. Save the transcript, then write complete sections.
-2. **Populate from context** — Infer from the repo (`README.md`, tokens, marketing copy). Cite sources. Replace placeholders.
-3. **Short interview** — If they decline the full exercise, ask a short ordered set (mission, audience, differentiation, voice do/don’t, one visual anchor). Then write complete sections.
+1. **Populate from context** — Infer from the repo (`README.md`, tokens, marketing copy). Cite sources. Replace placeholders.
+2. **Interview** — Ask a short ordered set (mission, audience, differentiation, voice do/don’t, one visual anchor). Then write complete sections.
 
 **Conflict rule.** If Visual intent and Design system values disagree, prefer Strategy / Guardrails / Voice unless the user says the design system wins — then update Visual to match.
 
@@ -359,9 +360,9 @@ Where the brand shows up (also rendered in the visual guide):
 
 Implementation layer for the grayscale **Sample Brand** starter. Strategy / Voice / Visual above are the brief; this section defines **what to ship**: tokens, type scale, spacing, and component notes.
 
-**Theme authoring:** edit this fenced block only. Run `npm run tokens` or `npm run compile` from `guide/`. Canonical token-only reset snapshot: [`examples/design-system.default.md`](examples/design-system.default.md) (same tokens as this block). Reset with `npm run tokens:reset` (replaces this block; leaves Strategy / Voice / Visual untouched).
+**Theme authoring:** edit this fenced block only. Run `npm run tokens` or `npm run compile` from `guide/`. Canonical token-only reset snapshot: [`design-system.default.md`](design-system.default.md) (same tokens as this block). Reset with `npm run tokens:reset` (replaces this block; leaves Strategy / Voice / Visual untouched).
 
-Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`tokens.json`](tokens.json), `guide/public/tokens.json`, and `brand.json` color fields.
+Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`tokens.json`](../tokens.json), `guide/public/tokens.json`, and `brand.json` color fields.
 
 ### Color tokens
 
@@ -514,7 +515,7 @@ App chrome sizes (`--chrome-h`, `--sidebar-w`, `--workspace-pad`) live in `guide
 
 When restoring or editing the default:
 
-1. Prefer [`examples/brand.default.md`](examples/brand.default.md) when resetting the whole constitution
-2. Prefer [`examples/design-system.default.md`](examples/design-system.default.md) / `npm run tokens:reset` when resetting tokens only
+1. Prefer this full example ([`brand.default.md`](brand.default.md)) when resetting the whole constitution
+2. Prefer [`design-system.default.md`](design-system.default.md) / `npm run tokens:reset` when resetting tokens only
 3. Spot-check the guide; color swatches and `brand.json` values sync automatically
 <!-- /brand-guide:design-system -->

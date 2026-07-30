@@ -119,6 +119,7 @@ const guideSchema = z.object({
 
 const setupSchema = z.object({
   status: z.enum(["starter", "populated"]),
+  intake: z.enum(["pending", "complete", "skipped"]),
   year: z.string(),
   support: z.string(),
   headline: z.string(),

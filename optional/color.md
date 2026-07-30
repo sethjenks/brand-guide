@@ -9,10 +9,10 @@ compliance: true
 compliance_weight: high
 visibility: public
 summary: >
-  Extended color tables (optional). Starter tokens live in DESIGN.md.
+  Extended color tables (optional). Starter tokens live in brand.md Design system.
 cache_ttl: 30d
 ---
 
 # Color
 
-_Fill in when token tables outgrow `DESIGN.md`._
+_Fill in when token tables outgrow `brand.md` Design system._

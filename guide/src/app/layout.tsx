@@ -15,6 +15,11 @@ export function generateMetadata(): Metadata {
     description:
       brand.setup.support ||
       `${brand.name}. ${brand.tagline}`,
+    alternates: {
+      types: {
+        "text/plain": "/brand",
+      },
+    },
   };
 }
 

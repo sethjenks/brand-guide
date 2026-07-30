@@ -1,23 +1,13 @@
-# Sample Brand — DESIGN.md (default)
+<!-- brand-guide:design-system -->
+## Design system
 
-Implementation layer for **Sample Brand**. Aesthetic intent and semantic roles live in [`brand.md`](brand.md). This file defines **what to ship**: tokens, type scale, spacing, and component notes.
+Implementation layer for the grayscale **Sample Brand** starter. Strategy / Voice / Visual above are the brief; this section defines **what to ship**: tokens, type scale, spacing, and component notes.
 
-Tokens below implement the **Color ↔ Brand contract** in `brand.md`.
+**Theme authoring:** edit this fenced block only. Run `npm run tokens` or `npm run compile` from `guide/`. Canonical reset snapshot: [`examples/design-system.default.md`](design-system.default.md). Reset with `npm run tokens:reset` (replaces this block; leaves Strategy / Voice / Visual untouched). Full Sample Brand constitution (including this block): [`brand.default.md`](brand.default.md).
 
-**Theme source:** swap or edit root `DESIGN.md`, then run `npm run tokens` (from `guide/`). Canonical out-of-box copy: [`examples/DESIGN.default.md`](examples/DESIGN.default.md). Reset with `npm run tokens:reset`.
+Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`tokens.json`](../tokens.json), `guide/public/tokens.json`, and `brand.json` color fields.
 
----
-
-## Link to brand
-
-- Brand constitution: [`brand.md`](brand.md)
-- Compiled agent API: [`brand.json`](brand.json)
-- Visual guide CSS is generated from the tokens below
-- Reset snapshot path when this file lives under `examples/`: copy to root `DESIGN.md` via `npm run tokens:reset`
-
----
-
-## Color tokens
+### Color tokens
 
 | Token | Value | Usage | Guide |
 | --- | --- | --- | --- |
@@ -29,6 +19,8 @@ Tokens below implement the **Color ↔ Brand contract** in `brand.md`.
 | `--color-paper` | `#ffffff` | Page / content card background | interface |
 | `--color-canvas` | `#dcdcdc` | App canvas behind the content card | chrome |
 | `--color-rail` | `#e6e6e6` | Sidebar / rail background | chrome |
+
+`Guide` column: `brand` | `secondary` | `interface` | `chrome` (CSS only). New `--color-*` rows default to `interface` unless the name suggests brand/accent.
 
 ```css
 :root {
@@ -64,7 +56,9 @@ Tokens below implement the **Color ↔ Brand contract** in `brand.md`.
   --space-7: 6rem;
   --content-max: 44rem;
   --guide-max: 60rem;
-  --radius-card: 0.75rem;
+
+  /* Radius — change --radius-base to soften/sharpen the whole shell */
+  --radius-base: 0.5rem;
 }
 ```
 
@@ -74,19 +68,25 @@ Tokens below implement the **Color ↔ Brand contract** in `brand.md`.
 - Body text on `--color-paper` must meet WCAG AA (≥ 4.5:1). Ink on paper exceeds AAA.
 - Prefer these tokens for marketing and UI; add new semantic tokens here before using one-off hex in CSS.
 
-**W3C-style names (for `brand.json`)**
+**DTCG / agent names (compiled)**
 
-| Name | Value | Usage |
-| --- | --- | --- |
-| `color-ink` | `#111111` | Primary text / CTA |
-| `color-ink-muted` | `#4a4a4a` | Secondary text |
-| `color-border` | `#d0d0d0` | Borders |
-| `color-surface` | `#f5f5f5` | Surfaces |
-| `color-paper` | `#ffffff` | Background |
+Edit tokens in the tables above (and the `:root` block). On `npm run compile`:
 
----
+- CSS custom properties → `guide/src/styles/tokens.generated.css`
+- Agent color map → `brand.json` (`color-ink`, …)
+- DTCG export → `tokens.json` (`color.ink`, …) and `guide/public/tokens.json`
 
-## Typography
+Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this Design system section.
+
+| Agent key | DTCG path | Value | Usage |
+| --- | --- | --- | --- |
+| `color-ink` | `color.ink` | `#111111` | Primary text / CTA |
+| `color-ink-muted` | `color.ink-muted` | `#4a4a4a` | Secondary text |
+| `color-border` | `color.border` | `#d0d0d0` | Borders |
+| `color-surface` | `color.surface` | `#f5f5f5` | Surfaces |
+| `color-paper` | `color.paper` | `#ffffff` | Background |
+
+### Type tokens
 
 | Token | Value | Usage |
 | --- | --- | --- |
@@ -115,9 +115,7 @@ Tokens below implement the **Color ↔ Brand contract** in `brand.md`.
 - Min line-height: `1.5`
 - Min contrast ratio (body): `4.5`
 
----
-
-## Spacing & layout
+### Spacing & layout
 
 | Token | Value |
 | --- | --- |
@@ -130,15 +128,15 @@ Tokens below implement the **Color ↔ Brand contract** in `brand.md`.
 | `--space-7` | `6rem` |
 | `--content-max` | `44rem` |
 | `--guide-max` | `60rem` |
-| `--radius-card` | `0.75rem` |
+| `--radius-base` | `0.5rem` |
+
+**Radius.** `--radius-base` is the single roundness knob for the app shell. The guide derives `--radius-sm` (½×), `--radius-md` (1×), and `--radius-lg` (1½×) from it in CSS — nav items, panels, swatches, and the content card all track this value. Set to `0` for sharp corners.
 
 Document-like layout: single column for prose; wide enough for swatches and type specimens. Generous vertical rhythm between sections (`--space-6`).
 
-App chrome sizes (`--chrome-h`, `--sidebar-w`, `--workspace-pad`) live in `guide/src/app/globals.css` and are not themed from this file.
+App chrome sizes (`--chrome-h`, `--sidebar-w`, `--workspace-pad`) live in `guide/src/app/globals.css` and are not themed from this section.
 
----
-
-## Components (notes)
+### Components
 
 | Component | Guidance |
 | --- | --- |
@@ -149,21 +147,17 @@ App chrome sizes (`--chrome-h`, `--sidebar-w`, `--workspace-pad`) live in `guide
 | Dividers | `--color-border` hairlines |
 | Code / tokens | Surface background, mono optional |
 
----
-
-## Logo usage (implementation)
+### Logo (implementation)
 
 - Default: ink wordmark on paper
 - Inverse: paper wordmark on ink
 - Min clearspace: `1em` of the wordmark height
 - Export SVG preferred; PNG fallback with transparent background
 
----
-
-## Sync checklist
+### Sync checklist
 
 When restoring or editing the default:
 
-1. Copy this file to root `DESIGN.md`
-2. Run `npm run tokens` from `guide/` (or `npm run tokens:reset`)
-3. Spot-check the guide; color swatches and `brand.json` values sync automatically
+1. Run `npm run tokens:reset` from `guide/` (or splice this file into `brand.md` Design system fence)
+2. Spot-check the guide; color swatches and `brand.json` values sync automatically
+<!-- /brand-guide:design-system -->
