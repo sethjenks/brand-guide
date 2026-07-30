@@ -33,13 +33,15 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 | Section | Job | Use when | Skip when | Compiled truth |
 | --- | --- | --- | --- | --- |
 | **For agents** | Load order, conflict rules, this map | Always first | — | — |
-| **Strategy** | Positioning, promise, pillars, guardrails | Pitch, about, “what is this brand?” | Pure UI token tweaks | `brand.json` strategy / guide copy |
-| **Voice** | Tone, phrases, do/don’t, tone-by-context | Blog, email, social, UI microcopy, support | Theme-only CSS edits | `brand.json` → voice |
-| **Visual** | Aesthetic *intent*: roles, mood, type faces, imagery, logo principles | Design brief, art direction, on-brand feel | You only need hex/CSS values | `brand.json` → visual (narrative) |
+| **Strategy** | Positioning, promise, pillars, guardrails | Pitch, about, “what is this brand?” | Pure UI token tweaks | `brand.json` strategy / guide copy → guide **Strategy** |
+| **Voice** | Tone, phrases, do/don’t, tone-by-context | Blog, email, social, UI microcopy, support | Theme-only CSS edits | `brand.json` → voice → guide **Language** |
+| **Visual** | Aesthetic *intent*: roles, mood, type faces, imagery, logo principles | Design brief, art direction, on-brand feel | You only need hex/CSS values | `brand.json` → visual → guide **Logo / Typography / Color / Photography** |
 | **Color ↔ Brand contract** | Brand ideas → semantic roles → token *names* | Renaming roles, explaining why a color exists | Shipping CSS values | Docs + validation aid |
-| **Expressions** | Channel patterns | Channel-specific copy | Token or strategy work | `brand.json` (+ `examples.md` for few-shots) |
+| **Expressions** | Channel patterns | Channel-specific copy | Token or strategy work | `brand.json` (+ `examples.md` for few-shots) → guide **Applications** |
 | **Agent** | System prompt base, agent labels | Building prompts / agent config | Human-facing marketing | `brand.json` → agent |
-| **Design system** | Ship layer: token tables, `:root`, spacing, components | UI, CSS, Figma/DTCG, theme edits | Copy-only or strategy-only tasks | `tokens.generated.css`, `tokens.json`, `brand.json` colors |
+| **Design system** | Ship layer: token tables, `:root`, spacing, components | UI, CSS, Figma/DTCG, theme edits | Copy-only or strategy-only tasks | `tokens.generated.css`, `tokens.json`, `brand.json` colors → guide **System** (partial) |
+
+The human-facing guide is organized as eight brand-book chapters (Strategy, Language, Logo, Typography, Color, Photography, System, Applications). Authoring headings in this file stay Strategy / Voice / Visual / Expressions / Design system; the shell maps compiled fields into those chapters.
 
 ### Task slices
 
@@ -57,7 +59,7 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 
 ## Strategy
 
-**Act label.** What to say
+**Act label.** Strategy
 
 ### Overview
 
@@ -77,9 +79,13 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 
 **Transformation.** Before: fragmented vibe checks. After: one file agents load and humans edit — constitution and tokens together.
 
+**Vision intro.** Where we are headed — the long-term ambition that keeps strategy, product, and creative pointed at the same horizon.
+
 **Long-term ambition.** Every team that clones this kit ships on-brand work without reverse-engineering a PDF.
 
 ### Positioning
+
+**Positioning intro.** A succinct expression of our core business activity and what sets us apart. This statement helps align marketing efforts with our brand and value proposition.
 
 **Category.** Repo-native brand constitution for product and creative teams.
 
@@ -97,6 +103,16 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 
 **Territory.** Clarity over ornament. Plain language over hype.
 
+### Audience
+
+**Audience intro.** A closer look at the groups of people that help our business thrive. We should consider who they are and how they think when we make decisions about design and messaging.
+
+| Segments | Wants | Needs |
+| --- | --- | --- |
+| Founders · Product teams · AI builders | A shared brand context that travels with the work — not another PDF to hunt when shipping with agents. | Plain rules they can load once, trust, and apply without a design ops team. |
+| Designers · Design-system leads · Brand owners | Meaning and tokens in the same place so visual decisions stay tied to voice and strategy. | Clear do/don’t guidance, grayscale-first tokens, and a guide that shows the system in use. |
+| Agents · Cursor workflows · Automation | Structured brand facts they can retrieve without inventing tone or palette. | Stable `brand.json`, retrieval tags, and copy that fails a litmus test when it could belong to anyone. |
+
 ### Personality
 
 **Archetype.** The Editor
@@ -113,6 +129,8 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 
 **Archetype voice.** Knowledgeable · Assured · Guiding
 
+**Personality intro.** A unique set of characteristics that make our brand feel truly human. We strive to maintain this personality in all of our communications.
+
 **Attributes.** Clear · Steady · Direct · Respectful · Practical
 
 **Trait scores.** direct: 5 · warm: 3 · playful: 1
@@ -121,7 +139,85 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 
 **We are not.** Hype-driven · Vague · Performatively premium · Loud for its own sake
 
+| Trait | Description |
+| --- | --- |
+| Clear | Prefer the plain word. If a line needs a decoder ring, rewrite it until it can only mean one thing. |
+| Steady | Keep the same register across product, docs, and agents — no sudden hype spikes or mood swings. |
+| Direct | Lead with the useful fact. Cut throat-clearing, fake urgency, and ornamental setup. |
+| Respectful | Assume the reader is busy and capable. Earn attention; don’t perform for it. |
+
+Copy a `#### Primary|Secondary|Tertiary archetype` block below for each wheel selection. Keep **Wheel.** aligned with a classic archetype id (or alias) so the guide can emphasize the ring.
+
+#### Primary archetype
+
+**Name.** Editor / Sage
+
+**Wheel.** Sage
+
+**Motivations.** Seeking understanding
+
+**Personality narrative.** The Editor wants clarity that lasts — cutting noise so the useful thing remains. They distrust jargon and theater, and believe restraint is a form of respect. At their best they make complex work feel simple; at their worst they can sound aloof or over-precise.
+
+**Quote.** Say the useful thing, then stop.
+
+**Drive.** Precision · Clarity · Restraint · Understanding · Craft
+
+**Fears.** Ambiguity · Noise · Hype · Performative complexity · Vague inspiration
+
+**Strategy.** Cut to the useful thing · Prefer concrete nouns · Edit until the line can only mean one thing
+
+**Voice.** Knowledgeable · Assured · Guiding · Direct · Calm
+
+**Seeks.** Understanding
+
+**Motto.** Say the useful thing, then stop. · Clear work, plainly said.
+
+**Audience feels.** Relieved · Oriented · Respected · Steady · Clear-headed
+
+**Brands.** Strunk & White · The Economist · Notion docs done well
+
+**At best.** Wise · Accessible · Calm · Grounded · Trustworthy
+
+**At worst.** Aloof · Detached · Complicated · Dismissive
+
+**Characters.** The careful editor · The reference librarian · The senior who deletes the flourish
+
+**Types.** Editor · Guide · Critic · Analyst
+
+**Types highlighted.** Editor · Guide
+
+<!--
+#### Secondary archetype
+
+**Name.** Creator / Maker
+**Wheel.** Creator
+**Motivations.** Seeking innovation
+**Personality narrative.** …
+**Quote.**
+**Drive.** …
+**Fears.** …
+**Strategy.** …
+**Voice.** …
+**Seeks.** Innovation
+**Motto.** …
+**Audience feels.** …
+**Brands.** …
+**At best.** …
+**At worst.** …
+**Characters.** …
+**Types.** …
+**Types highlighted.** …
+
+#### Tertiary archetype
+
+**Name.** Outlaw / Revolutionary / Maverick
+**Wheel.** Rebel
+…same fields as Primary…
+-->
+
 ### Promise
+
+**Mission intro.** Why we exist in practical terms — the job we do every day for the people who depend on this brand.
 
 **Mission.** Hold brand meaning in the repo so humans and agents share one source of truth.
 
@@ -145,6 +241,10 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 
 ### Message Pillars
 
+**Values intro.** The beliefs we return to when design and messaging decisions get hard — short enough to remember, sharp enough to choose.
+
+**Pillars intro.** The message pillars that carry strategy into copy, product, and campaigns — each one a shorthand for what we stand on.
+
 | Pillar | Summary | Emotional driver | Functional value | Trust message |
 | --- | --- | --- | --- | --- |
 | **Clarity** | Cut jargon; name the thing | Relieved | Plain-language copy and UI | You’ll always know what we mean. |
@@ -152,6 +252,8 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 | **Portability** | Brand rules move with the work | Steady | Files agents and humans share | The brand travels with the repo. |
 
 ### Guardrails
+
+**Guardrails intro.** Hard edges for agents and humans — what we sound like, what we refuse, and the test that keeps us on-brand.
 
 **Tone summary.** Direct, calm, specific, human.
 
@@ -163,7 +265,7 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 
 ## Voice
 
-**Act label.** What to say
+**Act label.** Language
 
 ### Identity
 
@@ -171,10 +273,64 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 
 **Essence.** Say the useful thing, then stop.
 
+#### Voice spectrum
+
+**Spectrum intro.** Where this brand sits on volume, energy, sociability, and attitude — the range we inhabit, not the extremes we avoid.
+
+Mark the brand’s range with **From** / **To** (labels must match the shell spectrum steps). **Notes** sit under the table in the guide.
+
+| Dimension | From | To | Notes |
+| --- | --- | --- | --- |
+| Volume | Inside voices | Inside voices | Quiet, measured; never loud for its own sake. |
+| Energy | Relaxed | Going for a stroll | Calm confidence; purposeful, not frantic. |
+| Sociability | Just in the family | Friends & family | Clear for the people who need it — not a party brand. |
+| Attitude | Opinionated when needed | Opinionated when needed | Direct when it matters; never polarizing for sport. |
+
+### Principles
+
+**Principles intro.** Refer to these language principles when authoring written content. These principles cover tone of voice and the subject matter that matters in the brand, products, and services.
+
+| Principle | Description | Do | Don't |
+| --- | --- | --- | --- |
+| Say the useful thing, then stop. | Cut to the job the reader needs done. Short sentences, concrete nouns, no theater — then leave the rest unsaid. | Lead with the change and why it matters. | Pad the point with hype, throat-clearing, or synonym stacks. |
+| Specific beats impressive. | Prefer the exact noun over the polished adjective. Proof before flourish; if a line could belong to any brand, rewrite it. | Name the file, the step, or the outcome. | Claim seamless, revolutionary, or best-in-class without evidence. |
+
 ### Tagline & Slogans
+
+**Tagline intro.** An external piece of language that sums up our brand promise in a few memorable words.
 
 - **Primary:** Clear work, plainly said.
 - Alternatives: Brand context that ships with the work. · Guidelines agents can actually read. · Quiet system, loud clarity.
+
+### Story
+
+**Story intro.** Our story is an external tool that translates our core beliefs and reason for being.
+
+**Story long.** Brand work used to live in decks, Notion pages, and tribal memory — then vanish the moment a new hire or an agent needed it. Sample Brand exists so meaning stays where the work stays: in the repo. We started with a grayscale starter on purpose. Color and flourish can wait; clarity cannot. Strategy, language, and visual rules compile into files humans browse and agents read, so every surface — product UI, email, support — can pull from the same constitution. We are not a plugin and not an agency. We are the quiet template that shows how a brand should travel with the work.
+
+**Story medium.** Brand context used to scatter across decks and chat threads. Sample Brand keeps it in the repo — Strategy, Language, and Visual rules that compile for humans and agents alike. Grayscale first; meaning first. Clear work, plainly said.
+
+**Story short.** Sample Brand keeps brand meaning in the repo so humans and agents share one source of truth.
+
+### Headlines
+
+**Headlines intro.** Short, ownable lines for campaigns, product, and empty states — voice first, benefit clear.
+
+- Clear work, plainly said.
+- The brand lives where the work lives.
+- Specific beats impressive.
+- Ornament is optional; clarity is not.
+
+### Calls to action
+
+**CTA intro.** Clarity and brevity in wording calls to action is critical. Avoid ambiguous actions or drawn-out phrasing. Use action verbs.
+
+| Do | Don't |
+| --- | --- |
+| Save draft | Click here |
+| Open the guide | Learn more |
+| Ship with the work | Get started now |
+| Copy token | Unlock your potential |
 
 ### Phrases
 
@@ -200,12 +356,14 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 
 **And / yet pairs**
 
-| Lean | And yet |
-| --- | --- |
-| Knowledgeable | Humble |
-| Direct | Warm |
-| Precise | Plain |
-| Confident | Quiet |
+**And yet intro.** Tension pairs that keep the voice from tipping into a single trait — lean into one pole, then balance with the other.
+
+| Lean | Bridge | And yet | Phrase |
+| --- | --- | --- | --- |
+| Knowledgeable | yet | Humble | Clear work, plainly said. |
+| Direct | yet | Warm | Specific beats impressive. |
+| Precise | yet | Plain | If it needs a synonym, it needs a rewrite. |
+| Confident | yet | Quiet | Grayscale first; meaning first. |
 
 **Rules**
 
@@ -229,6 +387,8 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 
 ### Tone by context
 
+**Context intro.** How the voice flexes by channel — same principles, different length and urgency.
+
 | Context | Guidance | Example |
 | --- | --- | --- |
 | Product UI | Short labels; verbs on buttons | Save draft |
@@ -241,23 +401,24 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 
 ## Visual
 
-**Act label.** How to say it
+**Act label.** Visual
 
 This section is the brief. Concrete hex / CSS values live in **Design system** below.
 
 ### Colors
 
-**Colors intro.** Grayscale only in the starter. Values: Design system → Color tokens. Customize each layer when you adopt the kit.
+**Colors intro.** Grayscale starter with a 12-step interface scale (Radix-style). Values: Design system → Color tokens. Swap the scale for your Radix (or equivalent) palette when you adopt the kit.
 
 Semantic roles (token names only):
 
-- **Ink** — primary text, key UI chrome (`--color-ink`)
-- **Muted** — secondary text (`--color-ink-muted`)
+- **Primary text** — body, headings, key chrome (`--color-ink`)
+- **Secondary text** — supporting copy, captions (`--color-ink-muted`)
+- **Tertiary text** — meta, timestamps, placeholders (`--color-ink-subtle`)
 - **Border** — rules and dividers (`--color-border`)
 - **Surface** — subtle panels (`--color-surface`)
 - **Paper** — page background (`--color-paper`)
 
-Accessibility expectation: body text ≥ 4.5:1 contrast on paper.
+Accessibility expectation: primary and secondary body text ≥ 4.5:1 on paper; tertiary ≥ 4.5:1 when used at body size.
 
 ### Typography
 
@@ -318,7 +479,8 @@ Direction: The identity should communicate system and clarity, not decoration.
 | Clarity / focus | Primary text & actions | `--color-ink` |
 | Calm surfaces | Page / panels | `--color-paper`, `--color-surface` |
 | Quiet structure | Borders / rules | `--color-border` |
-| Secondary info | Muted text | `--color-ink-muted` |
+| Secondary info | Supporting copy | `--color-ink-muted` |
+| Tertiary meta | Timestamps, placeholders | `--color-ink-subtle` |
 
 When aesthetic principles change, update Visual here and align Design system tokens. When palette hex shifts materially, update Design system first, then confirm this contract still names the right roles.
 
@@ -326,7 +488,7 @@ When aesthetic principles change, update Visual here and align Design system tok
 
 ## Expressions
 
-**Act label.** Where to say it
+**Act label.** Applications
 
 Where the brand shows up (also rendered in the visual guide):
 
@@ -369,20 +531,46 @@ Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`
 | --- | --- | --- | --- |
 | `--color-ink` | `#111111` | Primary text, key chrome, CTAs | brand |
 | `--color-ink-muted` | `#4a4a4a` | Secondary text, captions | secondary |
-| `--color-border` | `#d0d0d0` | Dividers, hairlines, input borders | interface |
-| `--color-surface` | `#f5f5f5` | Panels, zebra rows, subtle fills | interface |
-| `--color-surface-deep` | `#e8e8e8` | Deeper panels, hover fills | interface |
-| `--color-paper` | `#ffffff` | Page / content card background | interface |
+| `--color-ink-subtle` | `#6b6b6b` | Tertiary text, meta, placeholders | secondary |
+| `--color-gray-1` | `#fcfcfc` | App background | interface |
+| `--color-gray-2` | `#f9f9f9` | Subtle background | interface |
+| `--color-gray-3` | `#f0f0f0` | UI element background | interface |
+| `--color-gray-4` | `#e8e8e8` | Hovered UI element background | interface |
+| `--color-gray-5` | `#e0e0e0` | Active / selected UI element background | interface |
+| `--color-gray-6` | `#d9d9d9` | Subtle borders and separators | interface |
+| `--color-gray-7` | `#cecece` | UI element border and focus rings | interface |
+| `--color-gray-8` | `#bbbbbb` | Hovered UI element border | interface |
+| `--color-gray-9` | `#8d8d8d` | Solid backgrounds | interface |
+| `--color-gray-10` | `#838383` | Hovered solid backgrounds | interface |
+| `--color-gray-11` | `#646464` | Low-contrast text | interface |
+| `--color-gray-12` | `#202020` | High-contrast text | interface |
+| `--color-border` | `#d0d0d0` | Dividers, hairlines, input borders | chrome |
+| `--color-surface` | `#f5f5f5` | Panels, zebra rows, subtle fills | chrome |
+| `--color-surface-deep` | `#e8e8e8` | Deeper panels, hover fills | chrome |
+| `--color-paper` | `#ffffff` | Page / content card background | chrome |
 | `--color-canvas` | `#dcdcdc` | App canvas behind the content card | chrome |
 | `--color-rail` | `#e6e6e6` | Sidebar / rail background | chrome |
 
-`Guide` column: `brand` | `secondary` | `interface` | `chrome` (CSS only). New `--color-*` rows default to `interface` unless the name suggests brand/accent.
+`Guide` column: `brand` | `secondary` | `interface` | `chrome` (CSS only). Interface is the 12-step Radix-style scale shown in the guide; semantic aliases (`paper`, `surface`, …) stay `chrome` for theme CSS. New `--color-*` rows default to `interface` unless the name suggests brand/accent.
 
 ```css
 :root {
   /* Color */
   --color-ink: #111111;
   --color-ink-muted: #4a4a4a;
+  --color-ink-subtle: #6b6b6b;
+  --color-gray-1: #fcfcfc;
+  --color-gray-2: #f9f9f9;
+  --color-gray-3: #f0f0f0;
+  --color-gray-4: #e8e8e8;
+  --color-gray-5: #e0e0e0;
+  --color-gray-6: #d9d9d9;
+  --color-gray-7: #cecece;
+  --color-gray-8: #bbbbbb;
+  --color-gray-9: #8d8d8d;
+  --color-gray-10: #838383;
+  --color-gray-11: #646464;
+  --color-gray-12: #202020;
   --color-border: #d0d0d0;
   --color-surface: #f5f5f5;
   --color-surface-deep: #e8e8e8;
@@ -397,6 +585,7 @@ Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`
   --font-size-lg: 1.25rem;
   --font-size-xl: 1.75rem;
   --font-size-display: clamp(2.75rem, 6vw, 4.25rem);
+  --font-size-h0: clamp(4.5rem, 14vw, 9rem);
   --line-height-body: 1.55;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
@@ -410,7 +599,7 @@ Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`
   --space-5: 2.5rem;
   --space-6: 4rem;
   --space-7: 6rem;
-  --content-max: 44rem;
+  --content-max: 65ch;
   --guide-max: 60rem;
 
   /* Radius — change --radius-base to soften/sharpen the whole shell */
@@ -438,6 +627,7 @@ Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this De
 | --- | --- | --- | --- |
 | `color-ink` | `color.ink` | `#111111` | Primary text / CTA |
 | `color-ink-muted` | `color.ink-muted` | `#4a4a4a` | Secondary text |
+| `color-ink-subtle` | `color.ink-subtle` | `#6b6b6b` | Tertiary text |
 | `color-border` | `color.border` | `#d0d0d0` | Borders |
 | `color-surface` | `color.surface` | `#f5f5f5` | Surfaces |
 | `color-paper` | `color.paper` | `#ffffff` | Background |
@@ -452,6 +642,7 @@ Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this De
 | `--font-size-lg` | `1.25rem` | Lead |
 | `--font-size-xl` | `1.75rem` | Section titles |
 | `--font-size-display` | `clamp(2.75rem, 6vw, 4.25rem)` | Cover / hero brand name |
+| `--font-size-h0` | `clamp(4.5rem, 14vw, 9rem)` | Chapter openers (Strategy, Language, …) |
 | `--line-height-body` | `1.55` | Body copy |
 | `--font-weight-regular` | `400` | Body |
 | `--font-weight-medium` | `500` | Labels |
@@ -459,11 +650,12 @@ Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this De
 
 **Hierarchy**
 
-1. Display — brand name, cover
-2. XL — section titles (Strategy, Voice, Visual)
-3. LG — subsection titles
-4. Base — body
-5. SM — captions, token labels
+1. H0 — chapter openers (inverted ink panels)
+2. Display — brand name, cover
+3. XL — section titles
+4. LG — subsection titles
+5. Base — body
+6. SM — captions, token labels
 
 **Accessibility**
 
@@ -482,13 +674,13 @@ Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this De
 | `--space-5` | `2.5rem` |
 | `--space-6` | `4rem` |
 | `--space-7` | `6rem` |
-| `--content-max` | `44rem` |
+| `--content-max` | `65ch` (prose measure ≈ 65–75 characters) |
 | `--guide-max` | `60rem` |
 | `--radius-base` | `0.5rem` |
 
 **Radius.** `--radius-base` is the single roundness knob for the app shell. The guide derives `--radius-sm` (½×), `--radius-md` (1×), and `--radius-lg` (1½×) from it in CSS — nav items, panels, swatches, and the content card all track this value. Set to `0` for sharp corners.
 
-Document-like layout: single column for prose; wide enough for swatches and type specimens. Generous vertical rhythm between sections (`--space-6`).
+Document-like layout: single column for prose. Constrain readable copy to `--content-max` (≈ 65 characters) so lines stay in the 65–75 character comfort range; grids, swatches, and specimens may span wider. Generous vertical rhythm between sections (`--space-6`).
 
 App chrome sizes (`--chrome-h`, `--sidebar-w`, `--workspace-pad`) live in `guide/src/app/globals.css` and are not themed from this section.
 

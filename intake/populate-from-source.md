@@ -23,7 +23,7 @@ Use this path when the user already has brand materials. If they do **not**, pre
    - [`examples.md`](../examples.md), [`rules.md`](../rules.md), [`templates.md`](../templates.md) as needed
    - [`brand/setup.json`](../brand/setup.json) — hero/setup copy if needed
 4. From `guide/`, run `npm run compile` so `brand.json`, CSS, and `tokens.json` regenerate.
-5. Preserve the guide’s section structure (What to say / How to say it / Where to say it). Replace Sample Brand copy with the real brand; keep grayscale unless the source specifies a palette.
+5. Preserve the guide’s section structure (Strategy / Language / Logo / Typography / Color / Photography / System / Applications — authored in brand.md as Strategy / Voice / Visual / Expressions / Design system). Replace Sample Brand copy with the real brand; keep grayscale unless the source specifies a palette.
 6. Set in `brand/setup.json`:
 
 ```json

@@ -30,6 +30,52 @@ export type ColorSwatch = {
   usage: string;
 };
 
+export type ArchetypeRole = "primary" | "secondary" | "tertiary";
+
+/** Brand Voice spectrum row (Identity → Voice spectrum table). */
+export type VoiceSpectrumRow = {
+  id: string;
+  label: string;
+  steps: readonly string[];
+  /** Inclusive start index into steps; end < 0 means no range marked. */
+  start: number;
+  end: number;
+  notes: string;
+};
+
+/** And / yet tonal pair — optional phrase illustrates the rule in the guide. */
+export type AndYetPair = {
+  lean: string;
+  yet: string;
+  /** Which connective the brand uses between the two poles. */
+  bridge?: "and" | "yet";
+  /** Ownable phrase that illustrates this tonal pair. */
+  phrase?: string;
+};
+
+/** Full influencer-style archetype profile (copy for 2nd/3rd as needed). */
+export type ArchetypeProfile = {
+  role: ArchetypeRole;
+  name: string;
+  wheel: string;
+  motivations: string;
+  personality: string;
+  quote: string;
+  drive: readonly string[];
+  fears: readonly string[];
+  strategy: readonly string[];
+  voice: readonly string[];
+  seeks: string;
+  mottos: readonly string[];
+  audienceFeels: readonly string[];
+  brands: readonly string[];
+  atBest: readonly string[];
+  atWorst: readonly string[];
+  characters: readonly string[];
+  types: readonly string[];
+  typesHighlighted: readonly string[];
+};
+
 export type SetupStatus = "starter" | "populated";
 
 export type IntakeStatus = "pending" | "complete" | "skipped";
@@ -65,13 +111,40 @@ export type GuidePayload = {
       position: string;
       promise: string;
     };
-    pillars: readonly {
-      name: string;
-      summary: string;
-      emotional: string;
-      functional: string;
-      trust: string;
-    }[];
+    audience: {
+      intro: string;
+      groups: readonly {
+        segments: readonly string[];
+        wants: string;
+        needs: string;
+      }[];
+    };
+    positioning: {
+      intro: string;
+      statement: string;
+    };
+    vision: {
+      intro: string;
+      statement: string;
+    };
+    mission: {
+      intro: string;
+      statement: string;
+    };
+    values: {
+      intro: string;
+      items: readonly { title: string; body: string }[];
+    };
+    pillars: {
+      intro: string;
+      items: readonly {
+        name: string;
+        summary: string;
+        emotional: string;
+        functional: string;
+        trust: string;
+      }[];
+    };
     archetype: {
       name: string;
       drive: string;
@@ -81,12 +154,17 @@ export type GuidePayload = {
       motto: string;
       voice: readonly string[];
     };
+    /** Primary / secondary / tertiary profile cards (template under the wheel). */
+    archetypeProfiles: readonly ArchetypeProfile[];
     personality: {
+      intro: string;
+      items: readonly { title: string; body: string }[];
       traits: readonly string[];
       weAre: readonly string[];
       weAreNot: readonly string[];
     };
     guardrails: {
+      intro: string;
       tone: string;
       cannotBe: readonly string[];
       litmus: string;
@@ -96,14 +174,52 @@ export type GuidePayload = {
     actLabel: string;
     identity: string;
     essence: string;
+    principles: {
+      intro: string;
+      items: readonly {
+        title: string;
+        body: string;
+        do: string;
+        dont: string;
+      }[];
+    };
+    tagline: {
+      intro: string;
+      statement: string;
+    };
+    story: {
+      intro: string;
+      long: string;
+      medium: string;
+      short: string;
+    };
+    headlines: {
+      intro: string;
+      items: readonly string[];
+    };
+    cta: {
+      intro: string;
+      do: readonly string[];
+      dont: readonly string[];
+    };
+    spectrum: {
+      intro: string;
+      rows: readonly VoiceSpectrumRow[];
+    };
     phrases: readonly string[];
-    andYet: readonly { lean: string; yet: string }[];
+    andYet: {
+      intro: string;
+      pairs: readonly AndYetPair[];
+    };
     weSay: readonly { say: string; never: string }[];
-    contexts: readonly {
-      context: string;
-      guidance: string;
-      example: string;
-    }[];
+    contexts: {
+      intro: string;
+      items: readonly {
+        context: string;
+        guidance: string;
+        example: string;
+      }[];
+    };
   };
   visual: {
     actLabel: string;

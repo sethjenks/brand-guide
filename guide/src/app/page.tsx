@@ -1,33 +1,631 @@
+import { Button } from "@astryxdesign/core/Button";
+import { Grid } from "@astryxdesign/core/Grid";
+import { HStack } from "@astryxdesign/core/HStack";
+import { Text } from "@astryxdesign/core/Text";
+import { VStack } from "@astryxdesign/core/VStack";
+import { AgentLabel } from "@/components/AgentLabel";
+import { AndYetSection } from "@/components/AndYetSection";
 import { AppShell } from "@/components/AppShell";
+import { ArchetypeExplorer } from "@/components/ArchetypeExplorer";
+import { AudienceSection } from "@/components/AudienceSection";
+import { ChapterSection } from "@/components/ChapterSection";
+import { Clothesline } from "@/components/Clothesline";
+import { ClotheslineGrid } from "@/components/ClotheslineGrid";
+import {
+  ColorCombinations,
+  type ColorCombinationItem,
+} from "@/components/ColorCombinations";
+import {
+  ColorContrastGrid,
+  type ColorContrastItem,
+} from "@/components/ColorContrastGrid";
+import { ColorPaletteSection } from "@/components/ColorPaletteSection";
+import { ColorTiles, type ColorTileItem } from "@/components/ColorTiles";
+import { ContextSection } from "@/components/ContextSection";
+import { CopySnippet } from "@/components/CopySnippet";
 import { CopyValue } from "@/components/CopyValue";
+import { CtaSection } from "@/components/CtaSection";
+import { GraphicStatement } from "@/components/GraphicStatement";
+import { GuardrailsSection } from "@/components/GuardrailsSection";
+import { HeadlinesSection } from "@/components/HeadlinesSection";
+import { AssetStage } from "@/components/AssetStage";
+import { DontGrid, type DontGridItem } from "@/components/DontGrid";
+import { ImageGrid, type ImageGridItem } from "@/components/ImageGrid";
+import {
+  PhotographyCategoriesSection,
+  type PhotographyCategoryNavItem,
+} from "@/components/PhotographyCategoriesSection";
+import { PhotographyCategorySection } from "@/components/PhotographyCategorySection";
+import { LogoAssetSection } from "@/components/LogoAssetSection";
+import { LogoUseItem } from "@/components/LogoUseItem";
+import { PrinciplesSection } from "@/components/PrinciplesSection";
+import { ScaleStack, type ScaleStackStep } from "@/components/ScaleStack";
+import { SectionStub } from "@/components/SectionStub";
+import { StatementSection } from "@/components/StatementSection";
+import { StorySection } from "@/components/StorySection";
+import { TypefaceSection } from "@/components/TypefaceSection";
+import {
+  TypeHierarchySection,
+  type TypeHierarchyLevel,
+} from "@/components/TypeHierarchySection";
+import {
+  TypePrinciplesSection,
+  type TypePrincipleItem,
+} from "@/components/TypePrinciplesSection";
+import { TypeSpecimenSection } from "@/components/TypeSpecimenSection";
+import {
+  TypeWeightsSection,
+  type TypeWeightItem,
+} from "@/components/TypeWeightsSection";
+import { VoiceSpectrumSection } from "@/components/VoiceSpectrumSection";
 import { loadBrand, type ColorSwatch } from "@/lib/load-brand";
+import { GUIDE_CHAPTERS } from "@/lib/nav";
 
-function SwatchGrid({ colors }: { colors: readonly ColorSwatch[] }) {
+function toColorTiles(colors: readonly ColorSwatch[]): ColorTileItem[] {
+  return colors.map((color) => ({
+    id: color.token,
+    name: color.name,
+    value: color.value,
+  }));
+}
+
+/** Approved pairs for the Combinations diagram (outer field + inset). */
+function colorCombinationItems(colors: {
+  brand: readonly ColorSwatch[];
+  secondary: readonly ColorSwatch[];
+  interface: readonly ColorSwatch[];
+}): ColorCombinationItem[] {
+  const ink = colorValue(colors.brand, "Ink", "var(--color-ink)");
+  const paper = colorValue(colors.interface, "Gray 1", "var(--color-paper)");
+  const surface = colorValue(
+    colors.interface,
+    "Gray 3",
+    "var(--color-surface)",
+  );
+  const muted = colorValue(
+    colors.secondary,
+    "Ink Muted",
+    "var(--color-ink-muted)",
+  );
+
+  return [
+    { id: "paper-ink", outer: paper, inner: ink },
+    { id: "surface-muted", outer: surface, inner: muted },
+    { id: "muted-surface", outer: muted, inner: surface },
+    { id: "ink-paper", outer: ink, inner: paper },
+  ];
+}
+
+/** Do / don’t contrast specimens (field + split bar). */
+function colorContrastItems(colors: {
+  brand: readonly ColorSwatch[];
+  interface: readonly ColorSwatch[];
+}): ColorContrastItem[] {
+  const ink = colorValue(colors.brand, "Ink", "var(--color-ink)");
+  const gray1 = colorValue(colors.interface, "Gray 1", "#fcfcfc");
+  const gray2 = colorValue(colors.interface, "Gray 2", "#f9f9f9");
+  const gray3 = colorValue(colors.interface, "Gray 3", "#f0f0f0");
+  const gray7 = colorValue(colors.interface, "Gray 7", "#cecece");
+  const gray9 = colorValue(colors.interface, "Gray 9", "#8d8d8d");
+  const gray10 = colorValue(colors.interface, "Gray 10", "#838383");
+  const paper = "var(--color-paper)";
+
+  return [
+    {
+      id: "contrast-light-do",
+      background: gray2,
+      left: ink,
+      right: gray7,
+      caption: "Always do this",
+      chipTone: "dark",
+    },
+    {
+      id: "contrast-light-dont",
+      background: gray2,
+      left: gray1,
+      right: gray3,
+      caption: "Don’t do this",
+      struck: true,
+      chipTone: "dark",
+    },
+    {
+      id: "contrast-dark-do",
+      background: ink,
+      left: paper,
+      right: gray7,
+      caption: "Always do this",
+      chipTone: "light",
+    },
+    {
+      id: "contrast-dark-dont",
+      background: ink,
+      left: gray10,
+      right: gray9,
+      caption: "Don’t do this",
+      struck: true,
+      chipTone: "light",
+    },
+  ];
+}
+
+function colorValue(
+  colors: readonly ColorSwatch[],
+  name: string,
+  fallback: string,
+): string {
+  return colors.find((c) => c.name === name)?.value ?? fallback;
+}
+
+/** First named face from a CSS font-family stack. */
+function faceNameFromStack(stack: string): string {
+  return stack.split(",")[0]?.trim() || stack;
+}
+
+/** Designated brand weights from Design system → Type tokens. */
+function typeWeightItems(family: string): TypeWeightItem[] {
+  return [
+    {
+      id: "weight-semibold",
+      label: `${family} Semibold`,
+      weight: "semibold",
+    },
+    {
+      id: "weight-medium",
+      label: `${family} Medium`,
+      weight: "medium",
+    },
+    {
+      id: "weight-regular",
+      label: `${family} Regular`,
+      weight: "normal",
+    },
+  ];
+}
+
+/** Typesetting principles — live do/don’t specimens (swap for assets later). */
+function typePrincipleItems(): TypePrincipleItem[] {
+  return [
+    {
+      id: "principle-margins",
+      description:
+        "Keep type inside a clear margin. Generous padding keeps left-aligned copy readable in a composition.",
+      doExample: (
+        <Text
+          weight="semibold"
+          color="primary"
+          display="block"
+          className="type-principle-copy type-principle-copy-padded"
+        >
+          Use clear consistent margins and generous padding when left aligning
+          type in a composition.
+        </Text>
+      ),
+      dontExample: (
+        <Text
+          weight="semibold"
+          color="primary"
+          display="block"
+          className="type-principle-copy type-principle-copy-crowded"
+        >
+          Do not allow type to overflow into the margins or crowd the
+          composition.
+        </Text>
+      ),
+    },
+    {
+      id: "principle-grid",
+      description:
+        "Align type to the same grid as surrounding elements. Floating blocks break rhythm and hierarchy.",
+      doExample: (
+        <Text
+          weight="semibold"
+          color="primary"
+          display="block"
+          className="type-principle-copy type-principle-copy-aligned"
+        >
+          Always align typography to the grid.
+        </Text>
+      ),
+      dontExample: (
+        <VStack gap={2} width="100%" className="type-principle-copy-float">
+          <Text
+            weight="semibold"
+            color="primary"
+            display="block"
+            className="type-principle-copy"
+          >
+            Do not misalign type
+          </Text>
+          <Text
+            weight="semibold"
+            color="primary"
+            display="block"
+            className="type-principle-copy type-principle-copy-offset"
+          >
+            from the grid, or allow elements to ‘float’.
+          </Text>
+        </VStack>
+      ),
+    },
+    {
+      id: "principle-scale",
+      description:
+        "Create emphasis with size and weight. All-caps shouting is not a substitute for hierarchy.",
+      doExample: (
+        <Text
+          weight="semibold"
+          color="primary"
+          display="block"
+          className="type-principle-copy type-principle-copy-scale"
+        >
+          <Text as="span" display="inline" className="type-principle-emphasis">
+            Always
+          </Text>{" "}
+          use scale to create emphasis.
+        </Text>
+      ),
+      dontExample: (
+        <Text
+          weight="semibold"
+          color="primary"
+          display="block"
+          className="type-principle-copy type-principle-copy-shout"
+        >
+          DO NOT USE TEXT CASE TO CREATE EMPHASIS.
+        </Text>
+      ),
+    },
+  ];
+}
+
+/** Hierarchy levels mapped to Design system type tokens (sizes illustrative). */
+function typeHierarchyLevels(family: string): TypeHierarchyLevel[] {
+  return [
+    {
+      id: "hierarchy-headline",
+      role: "Headline",
+      face: `${family} Semibold`,
+      size: "Display / 1.1",
+      casing: "Sentence case",
+      sample:
+        "Headlines nulla vitae euismod sem. Integer ut vehicula mauris.",
+      fontSize: "var(--font-size-display)",
+      lineHeight: "1.1",
+      weight: "semibold",
+    },
+    {
+      id: "hierarchy-subhead",
+      role: "Subhead",
+      face: `${family} Semibold`,
+      size: "XL / 1.2",
+      casing: "Sentence case",
+      sample:
+        "Subheads suspendisse aliquet at dui eu pellentesque. In dui turpis, mollis vel est ullamcorper, bibendum consectetur massa.",
+      fontSize: "var(--font-size-xl)",
+      lineHeight: "1.2",
+      weight: "semibold",
+    },
+    {
+      id: "hierarchy-body",
+      role: "Body",
+      face: `${family} Regular`,
+      size: "Base / 1.55",
+      casing: "Sentence case",
+      sample:
+        "Body phasellus at ornare mauris, eu viverra tellus. Curabitur sit amet lorem lorem. Praesent vel turpis ex. Pellentesque in felis ante. In massa dolor, porta sed dictum non, gravida et urna. Phasellus imperdiet ligula eu neque blandit, vitae lacinia augue consequat.",
+      fontSize: "var(--font-size-base)",
+      lineHeight: "var(--line-height-body)",
+      weight: "normal",
+    },
+  ];
+}
+
+function logoWordmark(brandName: string) {
   return (
-    <div className="swatches">
-      {colors.map((color) => (
-        <div className="swatch" key={color.token}>
-          <div
-            className="swatch-chip"
-            style={{ background: color.value }}
-            aria-hidden="true"
-          />
-          <div className="swatch-meta">
-            <strong>{color.name}</strong>
-            <CopyValue value={color.value} label={color.name} />
-            <p className="muted">{color.usage}</p>
-          </div>
-        </div>
-      ))}
-    </div>
+    <Text
+      type="display-2"
+      weight="bold"
+      display="block"
+      className="logo-stage-wordmark"
+    >
+      {brandName}
+    </Text>
+  );
+}
+
+function logoOnColorItems(
+  brandName: string,
+  colors: {
+    brand: readonly ColorSwatch[];
+    secondary: readonly ColorSwatch[];
+    interface: readonly ColorSwatch[];
+  },
+): ImageGridItem[] {
+  const wordmark = logoWordmark(brandName);
+
+  return [
+    {
+      id: "on-paper",
+      background: colorValue(colors.interface, "Paper", "var(--color-paper)"),
+      tone: "light",
+      children: wordmark,
+    },
+    {
+      id: "on-surface",
+      background: colorValue(
+        colors.interface,
+        "Surface",
+        "var(--color-surface)",
+      ),
+      tone: "light",
+      children: wordmark,
+    },
+    {
+      id: "on-ink-muted",
+      background: colorValue(
+        colors.secondary,
+        "Ink Muted",
+        "var(--color-ink-muted)",
+      ),
+      tone: "dark",
+      children: wordmark,
+    },
+    {
+      id: "on-ink",
+      background: colorValue(colors.brand, "Ink", "var(--color-ink)"),
+      tone: "dark",
+      children: wordmark,
+    },
+  ];
+}
+
+/** One-row reverse pair: ink-on-paper and paper-on-ink. */
+function logoSingleColorItems(
+  brandName: string,
+  colors: {
+    brand: readonly ColorSwatch[];
+    interface: readonly ColorSwatch[];
+  },
+): ImageGridItem[] {
+  const wordmark = logoWordmark(brandName);
+
+  return [
+    {
+      id: "single-on-ink",
+      background: colorValue(colors.brand, "Ink", "var(--color-ink)"),
+      tone: "dark",
+      children: wordmark,
+    },
+    {
+      id: "single-on-paper",
+      background: colorValue(colors.interface, "Paper", "var(--color-paper)"),
+      tone: "light",
+      children: wordmark,
+    },
+  ];
+}
+
+/** Default cascade widths; override per brand with assets via `src` / step `src`. */
+const LOGO_SCALE_STEPS: readonly ScaleStackStep[] = [
+  { id: "scale-xl", width: 320 },
+  { id: "scale-lg", width: 200 },
+  { id: "scale-md", width: 140 },
+  { id: "scale-sm", width: 96 },
+  { id: "scale-xs", width: 64 },
+  { id: "scale-min", width: 20, label: "20px min" },
+];
+
+function logoDontItems(
+  brandName: string,
+  donts: readonly string[],
+): DontGridItem[] {
+  const wordmark = logoWordmark(brandName);
+
+  return donts.map((caption, index) => ({
+    id: `logo-dont-${index}`,
+    caption,
+    // Prefer per-don’t assets: set `src` (e.g. `/brand/logo-dont-stretch.svg`).
+    children: wordmark,
+  }));
+}
+
+/** Color don’ts — placeholder specimens (swap for assets via `src`). */
+function colorDontItems(): DontGridItem[] {
+  return Array.from({ length: 6 }, (_, index) => ({
+    id: `color-dont-${index}`,
+    caption: "Don’t do this",
+  }));
+}
+
+/** Photography don’ts from imagery.avoid (comma-separated) + placeholders. */
+function photographyDontItems(avoid: string): DontGridItem[] {
+  const parts = avoid
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  const captions =
+    parts.length > 0
+      ? parts.map((part) =>
+          /^don[’']t/i.test(part) ? part : `Don’t use ${part.toLowerCase()}`,
+        )
+      : ["Don’t do this", "Don’t do this", "Don’t do this"];
+
+  return captions.map((caption, index) => ({
+    id: `photo-dont-${index}`,
+    caption,
+  }));
+}
+
+function photographyCategoryNav(): PhotographyCategoryNavItem[] {
+  return [
+    { id: "photography-category-subjects", label: "Subjects" },
+    { id: "photography-category-settings", label: "Settings" },
+    { id: "photography-category-product", label: "Product" },
+    { id: "photography-category-moments", label: "Moments" },
+  ];
+}
+
+/** Typography don’ts — live bad treatments (swap for assets via `src`). */
+function typeDontItems(family: string): DontGridItem[] {
+  return [
+    {
+      id: "type-dont-stretch",
+      caption: "Don’t stretch or condense type",
+      children: (
+        <Text
+          weight="semibold"
+          display="block"
+          className="type-dont-sample type-dont-stretch"
+        >
+          {family}
+        </Text>
+      ),
+    },
+    {
+      id: "type-dont-outline",
+      caption: "Don’t outline or stroke glyphs",
+      children: (
+        <Text
+          weight="semibold"
+          display="block"
+          className="type-dont-sample type-dont-outline"
+        >
+          {family}
+        </Text>
+      ),
+    },
+    {
+      id: "type-dont-shadow",
+      caption: "Don’t add drop shadows",
+      children: (
+        <Text
+          weight="semibold"
+          display="block"
+          className="type-dont-sample type-dont-shadow"
+        >
+          {family}
+        </Text>
+      ),
+    },
+    {
+      id: "type-dont-contrast",
+      caption: "Don’t set low-contrast type",
+      children: (
+        <Text
+          weight="semibold"
+          display="block"
+          className="type-dont-sample type-dont-contrast"
+        >
+          {family}
+        </Text>
+      ),
+    },
+    {
+      id: "type-dont-caps",
+      caption: "Don’t set long copy in all caps",
+      children: (
+        <Text
+          weight="semibold"
+          display="block"
+          className="type-dont-sample type-dont-caps"
+        >
+          LONG COPY IN ALL CAPS IS HARD TO READ
+        </Text>
+      ),
+    },
+    {
+      id: "type-dont-stack",
+      caption: "Don’t stack decorative faces",
+      children: (
+        <Text
+          weight="semibold"
+          display="block"
+          className="type-dont-sample type-dont-stack"
+        >
+          Aa Bb Cc
+        </Text>
+      ),
+    },
+  ];
+}
+
+const APPLICATION_PLACEHOLDER_CONTEXT =
+  "Describe how the brand appears in this channel. Include example applications below.";
+
+/** Applications leaf: label + description + one AssetStage or many ImageGrid cells. */
+function ApplicationSection({
+  id,
+  title,
+  context,
+  sample,
+  images = 1,
+}: {
+  id: string;
+  title: string;
+  context: string;
+  /** Temporary stage copy until real application assets exist. */
+  sample?: string;
+  /** 1 → AssetStage; 2+ → ImageGrid. */
+  images?: number;
+}) {
+  const sampleNode = sample ? (
+    <Text
+      type="display-2"
+      weight="bold"
+      color="secondary"
+      display="block"
+      className="expression-sample"
+    >
+      {sample}
+    </Text>
+  ) : null;
+
+  return (
+    <LogoAssetSection id={id} title={title} context={context}>
+      {/* Prefer application assets: src="/brand/applications/{id}-*.jpg". */}
+      {images <= 1 ? (
+        <AssetStage aria-label={`${title} application`}>{sampleNode}</AssetStage>
+      ) : (
+        <ImageGrid
+          aria-label={`${title} application examples`}
+          columns={Math.min(images, 3)}
+          gap={3}
+          ratio={4 / 3}
+          items={Array.from({ length: images }, (_, index) => ({
+            id: `${id}-image-${index}`,
+            background: "var(--color-wash)",
+            tone: "light" as const,
+            children: index === 0 ? sampleNode : undefined,
+          }))}
+        />
+      )}
+    </LogoAssetSection>
   );
 }
 
 export default function Home() {
   const brand = loadBrand();
+  const [
+    strategyChapter,
+    languageChapter,
+    logoChapter,
+    typographyChapter,
+    colorChapter,
+    photographyChapter,
+    systemChapter,
+    applicationsChapter,
+  ] = GUIDE_CHAPTERS;
+
+  const expressionByChannel = Object.fromEntries(
+    brand.expressions.items.map((item) => [
+      item.channel.trim().toLowerCase(),
+      item,
+    ]),
+  );
 
   return (
-    <AppShell brandName={brand.name} year={brand.year} groups={brand.nav}>
+    <AppShell brandName={brand.name} groups={brand.nav}>
       <div className="guide">
         <header
           className={`hero${brand.setup.status === "starter" ? " hero-setup" : ""}`}
@@ -36,30 +634,72 @@ export default function Home() {
           {brand.setup.status === "starter" ? (
             <>
               <p className="hero-meta">Brand Guide · Setup</p>
-              <h1 className="hero-name hero-name-setup">
+              <h1 className="hero-name hero-name-setup" data-type="h0">
                 {brand.setup.headline}
               </h1>
               <p className="hero-support">{brand.setup.body}</p>
 
-              <ul className="setup-sources" aria-label="Accepted sources">
+              <Grid
+                className="setup-sources"
+                columns={{ minWidth: 280, max: 2 }}
+                gap={6}
+                rowGap={8}
+                width="100%"
+                aria-label="Accepted sources"
+              >
                 {brand.setup.sources.map((source) => (
-                  <li key={source.label}>
-                    <strong>{source.label}</strong>
-                    <span className="muted">{source.detail}</span>
-                  </li>
+                  <Clothesline
+                    key={source.label}
+                    as="article"
+                    className="setup-source"
+                    title={source.label}
+                  >
+                    <Text
+                      color="secondary"
+                      type="supporting"
+                      as="p"
+                      display="block"
+                      className="measure"
+                    >
+                      {source.detail}
+                    </Text>
+                  </Clothesline>
                 ))}
-              </ul>
+              </Grid>
 
-              <div className="setup-prompt">
-                <span className="stack-label">Prompt for your agent</span>
-                <pre className="setup-prompt-text">{brand.setup.prompt}</pre>
-              </div>
+              <CopySnippet
+                id="setup-prompt"
+                title="Prompt for your agent"
+                text={brand.setup.prompt}
+              />
 
-              <p className="setup-footnote muted">
-                Starter preview below uses Sample Brand until you populate.
-                When finished, set <code>status</code> to{" "}
-                <code>populated</code> in <code>brand/setup.json</code>.
-              </p>
+              <Clothesline
+                as="section"
+                id="setup-footnote"
+                className="setup-footnote-section clothesline-grid-section"
+                title={
+                  <Text
+                    weight="semibold"
+                    color="primary"
+                    display="block"
+                    className="clothesline-title"
+                  >
+                    Note
+                  </Text>
+                }
+              >
+                <Text
+                  color="secondary"
+                  type="supporting"
+                  as="p"
+                  display="block"
+                  className="measure setup-footnote"
+                >
+                  Starter preview below uses Sample Brand until you populate.
+                  When finished, set <code>status</code> to{" "}
+                  <code>populated</code> in <code>brand/setup.json</code>.
+                </Text>
+              </Clothesline>
             </>
           ) : (
             <>
@@ -68,408 +708,870 @@ export default function Home() {
               <p className="hero-tagline">{brand.tagline}</p>
               <p className="hero-support">{brand.support}</p>
               <div className="hero-bar" aria-hidden="true" />
-              <p className="setup-tertiary muted">
-                Need to refresh from a source? See{" "}
-                <code>intake/populate-from-source.md</code>.
-              </p>
+              <Clothesline
+                as="section"
+                id="setup-refresh"
+                className="setup-footnote-section clothesline-grid-section"
+                title={
+                  <Text
+                    weight="semibold"
+                    color="primary"
+                    display="block"
+                    className="clothesline-title"
+                  >
+                    Refresh
+                  </Text>
+                }
+              >
+                <Text
+                  color="secondary"
+                  type="supporting"
+                  as="p"
+                  display="block"
+                  className="measure setup-tertiary"
+                >
+                  Need to refresh from a source? See{" "}
+                  <code>intake/populate-from-source.md</code>.
+                </Text>
+              </Clothesline>
             </>
           )}
 
-          <div className="agent-source">
-            <span className="stack-label">Agent source</span>
-            <p className="muted">
-              Give an agent this URL to load the complete brand guide.
-            </p>
-            <div className="agent-source-actions">
-              <a href="/brand">Open brand source</a>
-              <CopyValue
-                value="/brand"
-                label="agent brand guide URL"
-                absoluteUrl
-              />
-            </div>
-          </div>
+          <Clothesline
+            as="section"
+            id="agent-source"
+            className="agent-source-section clothesline-grid-section"
+            title={
+              <HStack gap={2} align="center" wrap="wrap">
+                <Text
+                  weight="semibold"
+                  color="primary"
+                  display="block"
+                  className="clothesline-title"
+                >
+                  Agent source
+                </Text>
+                <AgentLabel />
+              </HStack>
+            }
+          >
+            <VStack gap={3}>
+              <Text
+                color="secondary"
+                type="supporting"
+                as="p"
+                display="block"
+                className="measure"
+              >
+                Give an agent this URL to load the complete brand guide.
+              </Text>
+              <HStack gap={3} wrap="wrap" className="agent-source-actions">
+                <a href="/brand">Open brand source</a>
+                <CopyValue
+                  value="/brand"
+                  label="agent brand guide URL"
+                  absoluteUrl
+                />
+              </HStack>
+            </VStack>
+          </Clothesline>
         </header>
 
-        {/* —— What to say —— */}
-        <section
-          className="act"
-          id="what-to-say"
-          aria-labelledby="what-to-say-title"
-        >
-          <p className="act-label">{brand.strategy.actLabel}</p>
-          <h2 className="act-title" id="what-to-say-title">
-            Brand Strategy
-          </h2>
+        <ChapterSection id={strategyChapter.id} title={strategyChapter.title}>
+          <GraphicStatement id="strategy-introduction">
+            {brand.strategy.overview.what}
+          </GraphicStatement>
 
-          <div className="block" id="vision">
-            <h3>Vision</h3>
-            <div className="subsection" id="vision-overview">
-              <h4>Overview</h4>
-              <p>{brand.strategy.overview.what}</p>
-            </div>
-            <div className="subsection" id="vision-frame">
-              <h4>Problem frame</h4>
-              <div className="vision-grid">
-                <div className="vision-cell">
-                  <span className="stack-label">Problem</span>
-                  <p>{brand.strategy.overview.problem}</p>
-                </div>
-                <div className="vision-cell">
-                  <span className="stack-label">Current</span>
-                  <p>{brand.strategy.overview.current}</p>
-                </div>
-                <div className="vision-cell">
-                  <span className="stack-label">Opportunity</span>
-                  <p>{brand.strategy.overview.opportunity}</p>
-                </div>
-                <div className="vision-cell">
-                  <span className="stack-label">Solution</span>
-                  <p>{brand.strategy.overview.solution}</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <AudienceSection
+            id="strategy-audience"
+            intro={brand.strategy.audience.intro}
+            groups={brand.strategy.audience.groups}
+          />
 
-          <div className="block" id="core-message" style={{ maxWidth: "none" }}>
-            <h3>Core message</h3>
-            <div className="vision-grid">
-              <div className="vision-cell" id="core-mission">
-                <span className="stack-label">Mission</span>
-                <p>{brand.strategy.promise.mission}</p>
-              </div>
-              <div className="vision-cell" id="core-purpose">
-                <span className="stack-label">Purpose</span>
-                <p>{brand.strategy.promise.purpose}</p>
-              </div>
-              <div className="vision-cell" id="core-position">
-                <span className="stack-label">Position</span>
-                <p>{brand.strategy.promise.position}</p>
-              </div>
-              <div className="vision-cell" id="core-promise">
-                <span className="stack-label">Promise</span>
-                <p>{brand.strategy.promise.promise}</p>
-              </div>
-            </div>
-          </div>
+          <StatementSection
+            id="strategy-positioning"
+            title="Positioning"
+            intro={brand.strategy.positioning.intro}
+            statement={brand.strategy.positioning.statement}
+          />
 
-          <div className="block" id="pillars" style={{ maxWidth: "none" }}>
-            <h3>Message pillars</h3>
-            <div className="pillar-grid">
-              {brand.strategy.pillars.map((pillar) => (
-                <article className="pillar" key={pillar.name}>
-                  <h4>{pillar.name}</h4>
-                  <p>{pillar.summary}</p>
-                  <dl>
-                    <div>
-                      <dt>Emotional</dt>
-                      <dd>{pillar.emotional}</dd>
-                    </div>
-                    <div>
-                      <dt>Functional</dt>
-                      <dd>{pillar.functional}</dd>
-                    </div>
-                    <div>
-                      <dt>Trust</dt>
-                      <dd>“{pillar.trust}”</dd>
-                    </div>
-                  </dl>
-                </article>
-              ))}
-            </div>
-          </div>
+          <StatementSection
+            id="strategy-vision"
+            title="Vision"
+            intro={brand.strategy.vision.intro}
+            statement={brand.strategy.vision.statement}
+          />
 
-          <div className="block panel" id="archetype">
-            <h3>Archetype</h3>
-            <p>
-              <strong>{brand.strategy.archetype.name}</strong>
-            </p>
-            <p className="muted" style={{ marginTop: "0.75rem" }}>
-              {brand.strategy.archetype.drive}
-            </p>
-            <p style={{ marginTop: "1rem" }}>
-              Motto: {brand.strategy.archetype.motto}
-            </p>
-            <ul className="chip-row" aria-label="At best">
-              {brand.strategy.archetype.atBest.map((t) => (
-                <li key={t}>{t}</li>
-              ))}
-            </ul>
-          </div>
+          <StatementSection
+            id="strategy-mission"
+            title="Mission"
+            intro={brand.strategy.mission.intro}
+            statement={brand.strategy.mission.statement}
+          />
 
-          <div className="block panel" id="personality">
-            <h3>Personality</h3>
-            <ul className="chip-row" aria-label="Traits">
-              {brand.strategy.personality.traits.map((t) => (
-                <li key={t}>{t}</li>
-              ))}
-            </ul>
-            <p style={{ marginTop: "1.25rem" }}>
-              <span className="stack-label">We are</span>
-              {brand.strategy.personality.weAre.join(" · ")}
-            </p>
-            <p style={{ marginTop: "1rem" }}>
-              <span className="stack-label">We are not</span>
-              {brand.strategy.personality.weAreNot.join(" · ")}
-            </p>
-          </div>
+          <ClotheslineGrid
+            id="strategy-values"
+            title="Values"
+            intro={brand.strategy.values.intro}
+            items={brand.strategy.values.items}
+          />
 
-          <div className="block" id="guardrails">
-            <h3>Guardrails</h3>
-            <p>{brand.strategy.guardrails.tone}</p>
-            <ul className="chip-row" aria-label="Cannot be">
-              {brand.strategy.guardrails.cannotBe.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-            <p className="litmus">{brand.strategy.guardrails.litmus}</p>
-          </div>
-        </section>
+          <ClotheslineGrid
+            id="strategy-personality"
+            title="Personality"
+            intro={brand.strategy.personality.intro}
+            items={brand.strategy.personality.items}
+          />
 
-        <section className="act" id="voice" aria-labelledby="voice-title">
-          <p className="act-label">{brand.voice.actLabel}</p>
-          <h2 className="act-title" id="voice-title">
-            Voice & Tone
-          </h2>
+          <ArchetypeExplorer
+            brandProfiles={brand.strategy.archetypeProfiles}
+            fallbackName={brand.strategy.archetype.name}
+            id="strategy-archetype"
+          />
 
-          <div className="block subsection" id="voice-identity">
-            <h3>Identity</h3>
-            <p>{brand.voice.identity}</p>
-            <p style={{ marginTop: "1rem", fontWeight: 500 }}>
-              {brand.voice.essence}
-            </p>
-          </div>
+          <ClotheslineGrid
+            id="strategy-pillars"
+            title="Pillars"
+            intro={brand.strategy.pillars.intro}
+            items={brand.strategy.pillars.items.map((pillar) => ({
+              title: pillar.name,
+              body: pillar.summary,
+            }))}
+          />
 
-          <div
-            className="block subsection"
-            id="voice-phrases"
-            style={{ maxWidth: "none" }}
+          <GuardrailsSection
+            id="strategy-guardrails"
+            intro={brand.strategy.guardrails.intro}
+            tone={brand.strategy.guardrails.tone}
+            cannotBe={brand.strategy.guardrails.cannotBe}
+            litmus={brand.strategy.guardrails.litmus}
+          />
+        </ChapterSection>
+
+        <ChapterSection id={languageChapter.id} title={languageChapter.title}>
+          <GraphicStatement id="language-introduction">
+            {brand.voice.identity}
+          </GraphicStatement>
+
+          <PrinciplesSection
+            intro={brand.voice.principles.intro}
+            items={brand.voice.principles.items}
+          />
+
+          <StatementSection
+            id="language-tagline"
+            title="Tagline"
+            intro={brand.voice.tagline.intro}
+            statement={brand.voice.tagline.statement}
+          />
+
+          <StorySection
+            intro={brand.voice.story.intro}
+            long={brand.voice.story.long}
+            medium={brand.voice.story.medium}
+            short={brand.voice.story.short}
+          />
+
+          <HeadlinesSection
+            intro={brand.voice.headlines.intro}
+            items={brand.voice.headlines.items}
+          />
+
+          <CtaSection
+            intro={brand.voice.cta.intro}
+            doItems={brand.voice.cta.do}
+            dontItems={brand.voice.cta.dont}
+          />
+
+          <VoiceSpectrumSection
+            intro={brand.voice.spectrum.intro}
+            rows={brand.voice.spectrum.rows}
+          />
+
+          <AndYetSection
+            intro={brand.voice.andYet.intro}
+            pairs={brand.voice.andYet.pairs}
+          />
+
+          <ContextSection
+            intro={brand.voice.contexts.intro}
+            items={brand.voice.contexts.items}
+          />
+        </ChapterSection>
+
+        <ChapterSection id={logoChapter.id} title={logoChapter.title}>
+          <GraphicStatement id="logo-introduction">
+            {brand.visual.logo.description}
+          </GraphicStatement>
+
+          <LogoAssetSection
+            id="logo-background"
+            title="Background"
+            context="Include a background on the logo history or approach here if applicable. Use an image if you need a visual aid."
           >
-            <h3>Phrases</h3>
-            <ul className="phrase-list">
-              {brand.voice.phrases.map((phrase) => (
-                <li key={phrase}>{phrase}</li>
-              ))}
-            </ul>
-          </div>
+            <AssetStage aria-label="Logo background collage">
+              <Grid
+                columns={2}
+                gap={3}
+                className="logo-collage"
+                aria-label="Logo history collage"
+              >
+                <VStack
+                  gap={0}
+                  padding={4}
+                  hAlign="start"
+                  vAlign="center"
+                  className="logo-collage-cell logo-collage-cell-wordmark"
+                >
+                  <Text weight="bold" color="secondary" display="block">
+                    {brand.name}
+                  </Text>
+                </VStack>
+                <VStack
+                  gap={0}
+                  padding={4}
+                  hAlign="center"
+                  vAlign="center"
+                  className="logo-collage-cell logo-collage-cell-framed"
+                >
+                  <Text weight="bold" color="secondary" display="block">
+                    {brand.name}
+                  </Text>
+                </VStack>
+                <VStack
+                  gap={0}
+                  padding={4}
+                  hAlign="start"
+                  vAlign="center"
+                  className="logo-collage-cell logo-collage-cell-lockup"
+                >
+                  <Text weight="semibold" color="secondary" display="block">
+                    {brand.name}
+                  </Text>
+                </VStack>
+                <VStack
+                  gap={0}
+                  padding={4}
+                  hAlign="center"
+                  vAlign="center"
+                  className="logo-collage-cell logo-collage-cell-mark"
+                >
+                  <Text weight="bold" color="secondary" display="block">
+                    {brand.name.slice(0, 1)}
+                  </Text>
+                </VStack>
+              </Grid>
+            </AssetStage>
+          </LogoAssetSection>
 
-          <div
-            className="block subsection"
-            id="voice-rules"
-            style={{ maxWidth: "none" }}
+          <LogoAssetSection
+            id="logo-mark"
+            title="Logo"
+            context="Our logo is the primary identifier for our brand. It captures our name, mission, and legacy."
+            action={<Button label="Download" variant="primary" />}
           >
-            <h3>Tonal rules</h3>
-            <div className="subsection">
-              <h4>And / yet</h4>
-              <ul className="andyet">
-                {brand.voice.andYet.map((row) => (
-                  <li key={row.lean}>
-                    <span>{row.lean}</span>
-                    <span className="yet">and yet</span>
-                    <span>{row.yet}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="subsection">
-              <h4>We say / we never say</h4>
-              <table className="say-table">
-                <thead>
-                  <tr>
-                    <th scope="col">We say</th>
-                    <th scope="col">We never say</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {brand.voice.weSay.map((row) => (
-                    <tr key={row.say}>
-                      <td>{row.say}</td>
-                      <td className="never">{row.never}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="block subsection" id="voice-context">
-            <h3>By context</h3>
-            {brand.voice.contexts.map((ctx) => (
-              <p key={ctx.context} style={{ marginBottom: "1rem" }}>
-                <span className="stack-label">{ctx.context}</span>
-                <span className="muted">{ctx.guidance}</span>
-                <br />
-                <em>“{ctx.example}”</em>
-              </p>
-            ))}
-          </div>
-        </section>
-
-        {/* —— How to say it —— */}
-        <section
-          className="act"
-          id="how-to-say-it"
-          aria-labelledby="how-to-say-it-title"
-        >
-          <p className="act-label">{brand.visual.actLabel}</p>
-          <h2 className="act-title" id="how-to-say-it-title">
-            Visual Identity
-          </h2>
-
-          <div className="block" id="colors" style={{ maxWidth: "none" }}>
-            <h3>Colors</h3>
-            <p className="muted">{brand.visual.colors.intro}</p>
-            <p className="muted" style={{ marginTop: "0.5rem" }}>
-              <a href="/tokens.json">Design tokens (DTCG)</a>
-              {" — "}
-              generated from brand.md Design system; do not hand-edit.
-            </p>
-
-            <div className="subsection" id="colors-brand">
-              <h4>Brand colors</h4>
-              <p className="muted">
-                Signature ink — the primary brand signal for type, wordmark, and
-                key actions.
-              </p>
-              <SwatchGrid colors={brand.visual.colors.brand} />
-            </div>
-
-            <div className="subsection" id="colors-secondary">
-              <h4>Secondary colors</h4>
-              <p className="muted">
-                Supporting tones for hierarchy without introducing a second brand
-                hue.
-              </p>
-              <SwatchGrid colors={brand.visual.colors.secondary} />
-            </div>
-
-            <div className="subsection" id="colors-interface">
-              <h4>Interface colors</h4>
-              <p className="muted">
-                Structural surfaces and edges for UI — not decorative accents.
-              </p>
-              <SwatchGrid colors={brand.visual.colors.interface} />
-            </div>
-          </div>
-
-          <div className="block" id="typography" style={{ maxWidth: "none" }}>
-            <h3>Typography</h3>
-
-            <div className="subsection" id="type-faces">
-              <h4>Typefaces</h4>
-              <p className="muted">{brand.visual.typography.note}</p>
-              <p style={{ marginTop: "0.75rem" }}>
-                <span className="stack-label">Primary</span>
-                {brand.visual.typography.faces.primary}
-              </p>
-              <p style={{ marginTop: "0.75rem" }}>
-                <span className="stack-label">Fallback</span>
-                {brand.visual.typography.faces.fallback}
-              </p>
-            </div>
-
-            <div className="subsection" id="type-scale">
-              <h4>Scale</h4>
-              {brand.visual.typography.specimens.map((spec) => (
-                <div className="type-specimen" key={spec.label}>
-                  <p className="label">{spec.label}</p>
-                  <p
-                    className={
-                      spec.size === "display"
-                        ? "type-display"
-                        : spec.size === "xl"
-                          ? "type-xl"
-                          : spec.size === "lg"
-                            ? "type-lg"
-                            : "type-base"
-                    }
-                  >
-                    {spec.sample}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="block" id="wordmark" style={{ maxWidth: "none" }}>
-            <h3>Wordmark</h3>
-            <div className="panel subsection" id="wordmark-usage">
-              <h4>Usage</h4>
-              <p
-                style={{
-                  fontSize: "2rem",
-                  fontWeight: 600,
-                  letterSpacing: "-0.04em",
-                  marginBottom: "1rem",
-                }}
+            <AssetStage aria-label={`${brand.name} logo`}>
+              <Text
+                type="display-2"
+                weight="bold"
+                color="primary"
+                display="block"
+                className="logo-stage-wordmark"
               >
                 {brand.name}
-              </p>
-              <p>{brand.visual.logo.description}</p>
-            </div>
-            <div className="panel subsection" id="wordmark-donts">
-              <h4>Don’ts</h4>
-              <ul className="chip-row">
-                {brand.visual.logo.donts.map((d) => (
-                  <li key={d}>{d}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
+              </Text>
+            </AssetStage>
+          </LogoAssetSection>
 
-          <div className="block" id="imagery" style={{ maxWidth: "none" }}>
-            <h3>Imagery</h3>
-            <div className="panel subsection" id="imagery-direction">
-              <h4>Direction</h4>
-              <p>
-                <span className="stack-label">Tone</span>
-                {brand.visual.imagery.tone}
-              </p>
-              <p style={{ marginTop: "0.75rem" }}>
-                <span className="stack-label">Subjects</span>
-                {brand.visual.imagery.subjects}
-              </p>
-              <p style={{ marginTop: "0.75rem" }}>
-                <span className="stack-label">Settings</span>
-                {brand.visual.imagery.settings}
-              </p>
-            </div>
-            <div className="panel subsection" id="imagery-avoid">
-              <h4>Avoid</h4>
-              <p>{brand.visual.imagery.avoid}</p>
-            </div>
-          </div>
-        </section>
+          <LogoAssetSection
+            id="logo-on-color"
+            title="On color"
+            context="When combining the logo with brand colors, always ensure there is ample contrast in color pairings. The following examples are approved combinations."
+          >
+            <ImageGrid
+              aria-label="Logo on brand colors"
+              items={logoOnColorItems(brand.name, brand.visual.colors)}
+            />
+          </LogoAssetSection>
 
-        {/* —— Where to say it —— */}
-        <section
-          className="act"
-          id="where-to-say-it"
-          aria-labelledby="where-to-say-it-title"
-        >
-          <p className="act-label">{brand.expressions.actLabel}</p>
-          <h2 className="act-title" id="where-to-say-it-title">
-            Brand Expressions
-          </h2>
-          <div className="expression-grid">
-            {brand.expressions.items.map((item) => (
-              <article
-                className="expression"
-                key={item.channel}
-                id={`expression-${item.channel.toLowerCase()}`}
+          <LogoAssetSection
+            id="logo-single-color"
+            title="Single color"
+            context="Always maintain ample contrast between the background and the logo."
+          >
+            <ImageGrid
+              aria-label="Single-color logo pair"
+              columns={2}
+              gap={0}
+              items={logoSingleColorItems(brand.name, brand.visual.colors)}
+            />
+          </LogoAssetSection>
+
+          <LogoAssetSection
+            id="logo-scaling"
+            title="Scaling"
+            context="The logo has been carefully crafted to read well, even at small sizes. There is no limit at large scale, but be careful at smaller sizes. If legibility is an issue, it’s too small. Recommended minimum size is 20 pixels for screen, and 1/4 inches in print."
+          >
+            {/* Shared SVG: src="/brand/logo.svg". Size-specific PNGs: set step.src. */}
+            <ScaleStack
+              aria-label={`${brand.name} logo scaling`}
+              steps={LOGO_SCALE_STEPS}
+            >
+              {logoWordmark(brand.name)}
+            </ScaleStack>
+          </LogoAssetSection>
+
+          <LogoAssetSection
+            id="logo-clearspace"
+            title="Clearspace"
+            context="Don’t crowd the logo. When placing other elements nearby, ensure minimum clear space for brand consistency. Describe how the clear space is calculated relative to a fixed element from the logo. See example below."
+          >
+            {/* Prefer a diagram asset: <img src="/brand/logo-clearspace.svg" alt="…" /> */}
+            <AssetStage aria-label={`${brand.name} logo clearspace`}>
+              <VStack
+                gap={4}
+                hAlign="center"
+                vAlign="center"
+                className="logo-clearspace-diagram"
               >
-                <p className="expression-channel">{item.channel}</p>
-                <h4>{item.title}</h4>
-                <p className="muted">{item.copy}</p>
-                <p className="expression-sample">{item.sample}</p>
-              </article>
-            ))}
-          </div>
-        </section>
+                <HStack
+                  gap={3}
+                  vAlign="center"
+                  hAlign="center"
+                  className="logo-clearspace-row"
+                >
+                  <Text
+                    color="secondary"
+                    display="block"
+                    className="logo-clearspace-x"
+                    aria-hidden="true"
+                  >
+                    ×
+                  </Text>
+                  <Text
+                    type="display-2"
+                    weight="bold"
+                    color="primary"
+                    display="block"
+                    className="logo-stage-wordmark"
+                  >
+                    {brand.name}
+                  </Text>
+                  <Text
+                    color="secondary"
+                    display="block"
+                    className="logo-clearspace-x"
+                    aria-hidden="true"
+                  >
+                    ×
+                  </Text>
+                </HStack>
+                <Text type="supporting" color="secondary" display="block">
+                  Clearspace ≈ height of a capital letter in the wordmark
+                </Text>
+              </VStack>
+            </AssetStage>
+          </LogoAssetSection>
+
+          <SectionStub id="logo-supporting" title="Supporting logo" />
+
+          <LogoAssetSection
+            id="logo-use"
+            title="Logo use"
+            context="Together, the logo, supporting logo, and social icon comprise our logo collection. Though they all represent our brand and should be used, briefly describe how and when each logo should be used."
+          >
+            <VStack gap={8} width="100%" className="logo-use-stack">
+              <LogoUseItem title="Logo" detail="Used most often">
+                {logoWordmark(brand.name)}
+              </LogoUseItem>
+              <LogoUseItem
+                title="Supporting logo"
+                detail="Pair with the wordmark when a secondary mark helps recognition"
+              >
+                {logoWordmark(brand.name)}
+              </LogoUseItem>
+              <LogoUseItem
+                title="Social icon"
+                detail="Use at small sizes where the full wordmark won’t fit"
+              >
+                <Text
+                  type="display-2"
+                  weight="bold"
+                  color="primary"
+                  display="block"
+                  className="logo-stage-wordmark"
+                >
+                  {brand.name.slice(0, 1)}
+                </Text>
+              </LogoUseItem>
+            </VStack>
+          </LogoAssetSection>
+
+          <LogoAssetSection
+            id="logo-donts"
+            title="Don’ts"
+            context="Do not diminish the value of the logo in our brand. Avoid the following treatments."
+          >
+            <DontGrid
+              aria-label="Logo don’ts"
+              columns={3}
+              items={logoDontItems(brand.name, brand.visual.logo.donts)}
+            />
+          </LogoAssetSection>
+        </ChapterSection>
+
+        <ChapterSection id={typographyChapter.id} title={typographyChapter.title}>
+          <GraphicStatement id="typography-introduction">
+            {brand.visual.typography.note}
+          </GraphicStatement>
+
+          <LogoAssetSection
+            id="typography-background"
+            title="Background"
+            context="Include a background on the typography history or approach here if applicable. Use an image if you need a visual aid."
+          >
+            {/* Prefer specimen assets: src="/brand/type-background-*.jpg" on ImageGrid items. */}
+            <VStack gap={3} width="100%" className="type-background-media">
+              <AssetStage
+                aria-label={`${brand.visual.typography.family} typography background`}
+                className="type-background-hero"
+                minHeight={360}
+              >
+                <VStack
+                  gap={2}
+                  hAlign="start"
+                  vAlign="center"
+                  width="100%"
+                  className="type-treatment type-treatment-hero"
+                >
+                  <Text
+                    weight="bold"
+                    color="primary"
+                    display="block"
+                    className="type-treatment-display"
+                  >
+                    {brand.visual.typography.family}
+                  </Text>
+                  <Text
+                    weight="semibold"
+                    color="secondary"
+                    display="block"
+                    className="type-treatment-meta"
+                  >
+                    {brand.visual.typography.faces.primary}
+                  </Text>
+                </VStack>
+              </AssetStage>
+              <ImageGrid
+                aria-label="Typography treatment examples"
+                columns={2}
+                gap={3}
+                items={[
+                  {
+                    id: "type-family",
+                    background: colorValue(
+                      brand.visual.colors.interface,
+                      "Surface",
+                      "var(--color-surface)",
+                    ),
+                    tone: "light",
+                    children: (
+                      <Text
+                        weight="bold"
+                        display="block"
+                        className="type-treatment-display"
+                      >
+                        {brand.visual.typography.family}
+                      </Text>
+                    ),
+                  },
+                  {
+                    id: "type-glyph",
+                    background: colorValue(
+                      brand.visual.colors.interface,
+                      "Surface",
+                      "var(--color-surface)",
+                    ),
+                    tone: "light",
+                    children: (
+                      <VStack gap={2} hAlign="start" width="100%">
+                        <Text
+                          type="supporting"
+                          color="secondary"
+                          display="block"
+                        >
+                          {brand.visual.typography.faces.fallback}
+                        </Text>
+                        <Text
+                          weight="bold"
+                          display="block"
+                          className="type-treatment-display"
+                        >
+                          Aa
+                        </Text>
+                      </VStack>
+                    ),
+                  },
+                ]}
+              />
+            </VStack>
+          </LogoAssetSection>
+
+          <TypefaceSection
+            id="typography-primary"
+            title="Primary typeface"
+            context={`${brand.visual.typography.family} is our primary typeface. ${brand.visual.typography.note}`}
+            faceName={brand.visual.typography.family}
+            foundry="Vercel"
+            downloadHref="/brand/fonts/primary.zip"
+          />
+
+          <TypefaceSection
+            id="typography-supporting"
+            title="Supporting typeface"
+            context={`${faceNameFromStack(brand.visual.typography.faces.fallback)} is our supporting typeface. Use it when the primary face is unavailable or for system fallbacks.`}
+            faceName={faceNameFromStack(brand.visual.typography.faces.fallback)}
+            foundry="IBM"
+            fontFamily={brand.visual.typography.faces.fallback}
+            downloadHref="/brand/fonts/supporting.zip"
+          />
+
+          <TypeWeightsSection
+            id="typography-weights"
+            context="Type weight provides hierarchy to distinguish between pieces of information. Use this as a guide for typeface weights employed in our brand."
+            items={typeWeightItems(brand.visual.typography.family)}
+          />
+
+          <TypeSpecimenSection
+            id="typography-specimen"
+            context="Typefaces transfer the voice of an organization to the reader."
+            items={typeWeightItems(brand.visual.typography.family).filter(
+              (item) => item.weight === "semibold" || item.weight === "normal",
+            )}
+          />
+
+          <SectionStub id="typography-setting" title="Setting type" />
+
+          <TypeHierarchySection
+            id="typography-hierarchy"
+            context="Size, scale and position all play a factor in how information is read. Always ensure there is a purposeful difference between type sizes. Type sizes are for example only."
+            levels={typeHierarchyLevels(brand.visual.typography.family)}
+          />
+
+          <SectionStub id="typography-testing" title="Testing type" />
+
+          <TypePrinciplesSection
+            id="typography-principles"
+            context="This is a guide that outlines general typesetting principles. Use them as a reference any time our typefaces are used."
+            items={typePrincipleItems()}
+          />
+
+          <LogoAssetSection
+            id="typography-donts"
+            title="Don’ts"
+            context="Do not diminish the value of typography in our brand. Avoid the following treatments."
+          >
+            <DontGrid
+              aria-label="Typography don’ts"
+              columns={3}
+              items={typeDontItems(brand.visual.typography.family)}
+            />
+          </LogoAssetSection>
+        </ChapterSection>
+
+        <ChapterSection id={colorChapter.id} title={colorChapter.title}>
+          <GraphicStatement
+            id="color-introduction"
+            footer={
+              <Text color="secondary" type="supporting">
+                <AgentLabel />{" "}
+                <a href="/tokens.json">Design tokens (DTCG)</a>
+                {" — "}
+                generated from brand.md Design system; do not hand-edit.
+              </Text>
+            }
+          >
+            {brand.visual.colors.intro}
+          </GraphicStatement>
+
+          <ColorPaletteSection
+            id="color-primary"
+            title="Primary palette"
+            context="Signature ink — the primary brand signal for type, wordmark, and key actions."
+          >
+            <ColorTiles
+              colors={toColorTiles(brand.visual.colors.brand)}
+              aria-label="Primary palette colors"
+            />
+          </ColorPaletteSection>
+
+          <ColorPaletteSection
+            id="color-secondary"
+            title="Secondary palette"
+            context="Supporting tones for hierarchy without introducing a second brand hue."
+          >
+            <ColorTiles
+              colors={toColorTiles(brand.visual.colors.secondary)}
+              aria-label="Secondary palette colors"
+            />
+          </ColorPaletteSection>
+
+          <ColorPaletteSection
+            id="color-interface"
+            title="Interface"
+            context="Twelve-step scale for UI surfaces, borders, and text — Radix-style steps, not decorative accents."
+          >
+            <ColorTiles
+              colors={toColorTiles(brand.visual.colors.interface)}
+              columns={6}
+              aria-label="Interface colors"
+            />
+          </ColorPaletteSection>
+
+          <SectionStub id="color-proportion" title="Proportion" />
+
+          <ColorPaletteSection
+            id="color-combinations"
+            title="Combinations"
+            context="Some colors are not suitable to be used in combination with others. The following diagram demonstrates approved color combinations."
+          >
+            <ColorCombinations
+              items={colorCombinationItems(brand.visual.colors)}
+            />
+          </ColorPaletteSection>
+
+          <ColorPaletteSection
+            id="color-contrast"
+            title="Contrast"
+            context="When using our colors in design, keep in mind how contrast may affect legibility. The following diagram demonstrates color contrast relationships. Use this as a starting point when combining colors."
+          >
+            <ColorContrastGrid
+              items={colorContrastItems(brand.visual.colors)}
+            />
+          </ColorPaletteSection>
+
+          <ColorPaletteSection
+            id="color-donts"
+            title="Don’ts"
+            context="Do not diminish the value of color in our brand. Avoid the following treatments."
+          >
+            <DontGrid
+              aria-label="Color don’ts"
+              columns={3}
+              items={colorDontItems()}
+            />
+          </ColorPaletteSection>
+        </ChapterSection>
+
+        <ChapterSection id={photographyChapter.id} title={photographyChapter.title}>
+          <GraphicStatement id="photography-introduction">
+            {brand.visual.imagery.tone}
+          </GraphicStatement>
+
+          <PhotographyCategoriesSection
+            id="photography-categories"
+            context="Imagery is broken into the following categories. Briefly describe the rationale behind the categories."
+            items={photographyCategoryNav()}
+          />
+
+          <PhotographyCategorySection
+            id="photography-category-subjects"
+            title="Subjects"
+            context={brand.visual.imagery.subjects}
+          />
+
+          <PhotographyCategorySection
+            id="photography-category-settings"
+            title="Settings"
+            context={brand.visual.imagery.settings}
+          />
+
+          <PhotographyCategorySection
+            id="photography-category-product"
+            title="Product"
+            context="Product-in-context: tools and surfaces in honest use, never catalog-white isolation."
+          />
+
+          <PhotographyCategorySection
+            id="photography-category-moments"
+            title="Moments"
+            context="Quiet candid beats — focused work, natural pause, reflective hope without staging."
+          />
+
+          <LogoAssetSection
+            id="photography-principles"
+            title="Principles"
+            context={brand.visual.imagery.tone}
+          />
+
+          <LogoAssetSection
+            id="photography-donts"
+            title="Don’ts"
+            context="Do not diminish the value of imagery in our brand. Avoid the following treatments."
+          >
+            <DontGrid
+              aria-label="Photography don’ts"
+              columns={3}
+              items={photographyDontItems(brand.visual.imagery.avoid)}
+            />
+          </LogoAssetSection>
+        </ChapterSection>
+
+        <ChapterSection id={systemChapter.id} title={systemChapter.title}>
+          <GraphicStatement
+            id="system-introduction"
+            footer={
+              <Text color="secondary" type="supporting">
+                Token values live in{" "}
+                <a href="/tokens.json">tokens.json</a> (compiled from brand.md
+                Design system).
+              </Text>
+            }
+          >
+            Layout and composition guidance for the design system — the grid,
+            structure, and supporting devices that keep every surface consistent.
+          </GraphicStatement>
+          <SectionStub id="system-grid" title="Grid" />
+          <LogoAssetSection
+            id="system-composition"
+            title="Composition"
+            context="Describe any composition principles in how the identity comes to life. Include examples to demonstrate these principles."
+          >
+            {/* Prefer a composition asset: <img src="/brand/composition-*.jpg" alt="…" /> */}
+            <VStack gap={2} width="100%" className="composition-examples">
+              <AssetStage
+                aria-label="Composition principle example"
+                minHeight={480}
+                className="composition-specimen"
+              >
+                <VStack
+                  gap={6}
+                  width="100%"
+                  hAlign="stretch"
+                  vAlign="between"
+                  className="composition-specimen-layout"
+                >
+                  <HStack
+                    hAlign="center"
+                    vAlign="center"
+                    width="100%"
+                    className="composition-media-frame"
+                    aria-hidden="true"
+                  />
+                  <HStack
+                    gap={4}
+                    hAlign="between"
+                    vAlign="end"
+                    width="100%"
+                    className="composition-specimen-footer"
+                  >
+                    <Text
+                      type="display-2"
+                      weight="bold"
+                      color="secondary"
+                      display="block"
+                      className="composition-headline"
+                    >
+                      This is a brief headline.
+                    </Text>
+                    <Text
+                      weight="bold"
+                      color="secondary"
+                      display="block"
+                      className="composition-logo"
+                    >
+                      Logo
+                    </Text>
+                  </HStack>
+                </VStack>
+              </AssetStage>
+              <Text
+                color="secondary"
+                type="supporting"
+                display="block"
+                className="composition-caption"
+              >
+                Caption describing composition principle
+              </Text>
+            </VStack>
+          </LogoAssetSection>
+          <LogoAssetSection
+            id="system-supporting"
+            title="Supporting device"
+            context="If applicable, describe a supporting device used in the identity system and its role. Add as much guidance as needed in this section."
+          >
+            {/* Prefer device assets: src="/brand/device-*.svg" (or jpg) on ImageGrid items. */}
+            <ImageGrid
+              aria-label="Supporting device specimens"
+              columns={3}
+              gap={3}
+              ratio={1}
+              items={[
+                {
+                  id: "system-device-1",
+                  background: "var(--color-wash)",
+                  tone: "light",
+                },
+                {
+                  id: "system-device-2",
+                  background: "var(--color-wash)",
+                  tone: "light",
+                },
+                {
+                  id: "system-device-3",
+                  background: "var(--color-wash)",
+                  tone: "light",
+                },
+                {
+                  id: "system-device-4",
+                  background: "var(--color-wash)",
+                  tone: "light",
+                },
+                {
+                  id: "system-device-5",
+                  background: "var(--color-wash)",
+                  tone: "light",
+                },
+                {
+                  id: "system-device-6",
+                  background: "var(--color-wash)",
+                  tone: "light",
+                },
+              ]}
+            />
+          </LogoAssetSection>
+        </ChapterSection>
+
+        <ChapterSection id={applicationsChapter.id} title={applicationsChapter.title}>
+          {applicationsChapter.items.map((item) => {
+            const channelKey = item.label.trim().toLowerCase();
+            const expression = expressionByChannel[channelKey];
+            const multiImage =
+              channelKey === "social" ||
+              channelKey === "digital ads" ||
+              channelKey === "out of home";
+
+            return (
+              <ApplicationSection
+                key={item.id}
+                id={item.id}
+                title={item.label}
+                context={
+                  expression
+                    ? `${expression.title}. ${expression.copy}`
+                    : APPLICATION_PLACEHOLDER_CONTEXT
+                }
+                sample={expression?.sample}
+                images={multiImage ? 3 : 1}
+              />
+            );
+          })}
+        </ChapterSection>
 
         <footer className="footer">
           <p>
-            {brand.name} ·             Customize <code>brand.md</code> (including Design system)
+            {brand.name} · Customize <code>brand.md</code> (including Design
+            system)
           </p>
           <p>Grayscale starter · Agents: prefer brand.json (compiled)</p>
         </footer>

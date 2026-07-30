@@ -13,6 +13,7 @@ Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`
 | --- | --- | --- | --- |
 | `--color-ink` | `#111111` | Primary text, key chrome, CTAs | brand |
 | `--color-ink-muted` | `#4a4a4a` | Secondary text, captions | secondary |
+| `--color-ink-subtle` | `#6b6b6b` | Tertiary text, meta, placeholders | secondary |
 | `--color-border` | `#d0d0d0` | Dividers, hairlines, input borders | interface |
 | `--color-surface` | `#f5f5f5` | Panels, zebra rows, subtle fills | interface |
 | `--color-surface-deep` | `#e8e8e8` | Deeper panels, hover fills | interface |
@@ -27,6 +28,7 @@ Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`
   /* Color */
   --color-ink: #111111;
   --color-ink-muted: #4a4a4a;
+  --color-ink-subtle: #6b6b6b;
   --color-border: #d0d0d0;
   --color-surface: #f5f5f5;
   --color-surface-deep: #e8e8e8;
@@ -54,7 +56,7 @@ Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`
   --space-5: 2.5rem;
   --space-6: 4rem;
   --space-7: 6rem;
-  --content-max: 44rem;
+  --content-max: 65ch;
   --guide-max: 60rem;
 
   /* Radius — change --radius-base to soften/sharpen the whole shell */
@@ -82,6 +84,7 @@ Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this De
 | --- | --- | --- | --- |
 | `color-ink` | `color.ink` | `#111111` | Primary text / CTA |
 | `color-ink-muted` | `color.ink-muted` | `#4a4a4a` | Secondary text |
+| `color-ink-subtle` | `color.ink-subtle` | `#6b6b6b` | Tertiary text |
 | `color-border` | `color.border` | `#d0d0d0` | Borders |
 | `color-surface` | `color.surface` | `#f5f5f5` | Surfaces |
 | `color-paper` | `color.paper` | `#ffffff` | Background |
@@ -126,7 +129,7 @@ Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this De
 | `--space-5` | `2.5rem` |
 | `--space-6` | `4rem` |
 | `--space-7` | `6rem` |
-| `--content-max` | `44rem` |
+| `--content-max` | `65ch` (prose measure ≈ 65–75 characters) |
 | `--guide-max` | `60rem` |
 | `--radius-base` | `0.5rem` |
 

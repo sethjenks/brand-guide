@@ -32,6 +32,10 @@ const root = path.resolve(__dirname, "..");
 
 const BRAND_MD_PATH = path.join(root, "brand.md");
 const TOKENS_OUT = path.join(root, "guide/src/styles/tokens.generated.css");
+const THEME_INPUT_OUT = path.join(
+  root,
+  "guide/src/themes/brand.generated.ts",
+);
 const DTCG_OUT = path.join(root, "tokens.json");
 const DTCG_PUBLIC_OUT = path.join(root, "guide/public/tokens.json");
 const BRAND_JSON_PATH = path.join(root, "brand.json");
@@ -39,6 +43,19 @@ const ASSETS_SRC = path.join(root, "brand/assets");
 const ASSETS_DEST = path.join(root, "guide/public/brand");
 const OVERRIDES_SRC = path.join(root, "brand/overrides.css");
 const OVERRIDES_DEST = path.join(root, "guide/src/styles/brand.overrides.css");
+
+/** Color tokens remapped to --brand-* with temporary --color-* aliases. */
+const BRAND_COLOR_ALIAS = {
+  "--color-ink": "--brand-ink",
+  "--color-ink-muted": "--brand-ink-muted",
+  "--color-ink-subtle": "--brand-ink-subtle",
+  "--color-canvas": "--brand-canvas",
+  "--color-rail": "--brand-rail",
+  "--color-paper": "--brand-paper",
+  "--color-surface": "--brand-surface",
+  "--color-surface-deep": "--brand-surface-deep",
+  "--color-border": "--brand-border",
+};
 
 const DESIGN_SYSTEM_START = "<!-- brand-guide:design-system -->";
 const DESIGN_SYSTEM_END = "<!-- /brand-guide:design-system -->";
@@ -54,10 +71,11 @@ const GUIDE_LAYERS = new Set(["brand", "secondary", "interface"]);
 const DEFAULT_GUIDE_LAYER = {
   "--color-ink": "brand",
   "--color-ink-muted": "secondary",
-  "--color-border": "interface",
-  "--color-surface": "interface",
-  "--color-surface-deep": "interface",
-  "--color-paper": "interface",
+  "--color-ink-subtle": "secondary",
+  "--color-border": "chrome",
+  "--color-surface": "chrome",
+  "--color-surface-deep": "chrome",
+  "--color-paper": "chrome",
   "--color-canvas": "chrome",
   "--color-rail": "chrome",
 };
@@ -206,17 +224,83 @@ function renderTokensCss(tokens) {
     "/* GENERATED FILE — do not edit by hand.",
     " * Source: brand.md Design system section",
     " * Regenerate: node scripts/compile-design.mjs  (or npm run compile)",
+    " *",
+    " * Color specimens use --brand-*. Legacy --color-* names alias to them",
+    " * so existing chapter CSS keeps working during the Astryx migration.",
     " */",
     "",
     ":root {",
   ];
 
   const ordered = [...tokens.entries()].sort(([a], [b]) => a.localeCompare(b));
+  /** @type {[string, string][]} */
+  const aliases = [];
+
   for (const [name, { value }] of ordered) {
+    const brandName = BRAND_COLOR_ALIAS[name];
+    if (brandName) {
+      lines.push(`  ${brandName}: ${value};`);
+      aliases.push([name, brandName]);
+      continue;
+    }
     lines.push(`  ${name}: ${value};`);
   }
+
+  if (aliases.length > 0) {
+    lines.push("");
+    lines.push("  /* Temporary aliases — retire after chapter CSS migrates */");
+    for (const [legacy, brandName] of aliases) {
+      lines.push(`  ${legacy}: var(${brandName});`);
+    }
+  }
+
   lines.push("}", "");
   return lines.join("\n");
+}
+
+/**
+ * Emit the small theme-input module consumed by guide/src/themes/brand.ts.
+ * @param {Map<string, TokenDef>} tokens
+ */
+function renderThemeInput(tokens) {
+  const color = (name, fallback) =>
+    tokens.get(name)?.value?.trim() || fallback;
+
+  const radiusRaw = tokens.get("--radius-base")?.value?.trim() || "0.5rem";
+  let radiusBasePx = 8;
+  if (radiusRaw.endsWith("rem")) {
+    radiusBasePx = Math.round(parseFloat(radiusRaw) * 16);
+  } else if (radiusRaw.endsWith("px")) {
+    radiusBasePx = Math.round(parseFloat(radiusRaw));
+  }
+
+  const ink = color("--color-ink", "#111111");
+  const input = {
+    accent: ink,
+    radiusBasePx,
+    colors: {
+      ink,
+      inkMuted: color("--color-ink-muted", "#4a4a4a"),
+      inkSubtle: color("--color-ink-subtle", "#6b6b6b"),
+      canvas: color("--color-canvas", "#dcdcdc"),
+      rail: color("--color-rail", "#e6e6e6"),
+      paper: color("--color-paper", "#ffffff"),
+      surface: color("--color-surface", "#f5f5f5"),
+      surfaceDeep: color("--color-surface-deep", "#e8e8e8"),
+      border: color("--color-border", "#d0d0d0"),
+    },
+  };
+
+  return [
+    "/**",
+    " * GENERATED FILE — do not edit by hand.",
+    " * Source: brand.md Design system (via scripts/compile-design.mjs)",
+    " * Consumed by guide/src/themes/brand.ts for Astryx defineTheme.",
+    " */",
+    "",
+    `export const brandThemeInput = ${JSON.stringify(input, null, 2)} as const;`,
+    "",
+  ].join("\n");
 }
 
 /**
@@ -604,7 +688,7 @@ function rebuildColorsFromDesign(json, tokens) {
 
   const colorEntries = [...tokens.entries()]
     .filter(([name, def]) => name.startsWith("--color-") && isColorValue(def.value))
-    .sort(([a], [b]) => a.localeCompare(b));
+    .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }));
 
   for (const [token, def] of colorEntries) {
     const key = token.replace(/^--/, "");
@@ -733,6 +817,12 @@ function main() {
   fs.writeFileSync(TOKENS_OUT, renderTokensCss(tokens), "utf8");
   console.log(
     `Wrote ${tokens.size} tokens → ${path.relative(root, TOKENS_OUT)}`,
+  );
+
+  fs.mkdirSync(path.dirname(THEME_INPUT_OUT), { recursive: true });
+  fs.writeFileSync(THEME_INPUT_OUT, renderThemeInput(tokens), "utf8");
+  console.log(
+    `Wrote Astryx theme input → ${path.relative(root, THEME_INPUT_OUT)}`,
   );
 
   writeDtcg(tokens);

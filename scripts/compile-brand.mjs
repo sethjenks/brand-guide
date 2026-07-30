@@ -112,6 +112,195 @@ function subsection(text, heading) {
   return sectionAfter(text, heading);
 }
 
+/**
+ * Extract #### heading blocks (stops at next #### or ###).
+ * @param {string} text
+ * @returns {{ title: string, body: string }[]}
+ */
+function h4Blocks(text) {
+  /** @type {{ title: string, body: string }[]} */
+  const blocks = [];
+  const re = /^####\s+(.+)\s*$/gm;
+  const matches = [...text.matchAll(re)];
+  for (let i = 0; i < matches.length; i++) {
+    const m = matches[i];
+    const title = (m[1] || "").trim();
+    const start = (m.index ?? 0) + m[0].length;
+    const end =
+      i + 1 < matches.length
+        ? (matches[i + 1].index ?? text.length)
+        : text.length;
+    let body = text.slice(start, end);
+    const nextH3 = body.search(/^###\s/m);
+    if (nextH3 !== -1) body = body.slice(0, nextH3);
+    // Drop HTML comments (template stubs)
+    body = body.replace(/<!--[\s\S]*?-->/g, "").trim();
+    if (!body) continue;
+    blocks.push({ title, body });
+  }
+  return blocks;
+}
+
+/**
+ * @param {string} personalityText
+ * @returns {object[]}
+ */
+function parseArchetypeProfiles(personalityText) {
+  const cleaned = personalityText.replace(/<!--[\s\S]*?-->/g, "");
+  const roleFromTitle = (title) => {
+    const t = title.toLowerCase();
+    if (t.startsWith("primary")) return "primary";
+    if (t.startsWith("secondary")) return "secondary";
+    if (t.startsWith("tertiary")) return "tertiary";
+    return null;
+  };
+
+  /** @type {object[]} */
+  const profiles = [];
+  for (const block of h4Blocks(cleaned)) {
+    const role = roleFromTitle(block.title);
+    if (!role) continue;
+    if (!/archetype/i.test(block.title)) continue;
+    const L = extractLabeled(block.body);
+    const mottos = splitList(L.get("motto") || "");
+    profiles.push({
+      role,
+      name: L.get("name") || "",
+      wheel: L.get("wheel") || "",
+      motivations: L.get("motivations") || "",
+      personality: L.get("personality narrative") || L.get("personality") || "",
+      quote: L.get("quote") || "",
+      drive: splitList(L.get("drive") || ""),
+      fears: splitList(L.get("fears") || L.get("fears/villains") || ""),
+      strategy: splitList(L.get("strategy") || ""),
+      voice: splitList(L.get("voice") || ""),
+      seeks: L.get("seeks") || "",
+      mottos,
+      audienceFeels: splitList(
+        L.get("audience feels") || L.get("audience feel") || "",
+      ),
+      brands: splitList(L.get("brands") || ""),
+      atBest: splitList(L.get("at best") || ""),
+      atWorst: splitList(L.get("at worst") || ""),
+      characters: splitList(L.get("characters") || ""),
+      types: splitList(L.get("types") || ""),
+      typesHighlighted: splitList(L.get("types highlighted") || ""),
+    });
+  }
+  return profiles;
+}
+
+/** Shell-owned Brand Voice spectrum scales (keep in sync with guide/src/lib/voice-spectrum.ts). */
+const VOICE_SPECTRUM_DIMENSIONS = [
+  {
+    id: "volume",
+    label: "Volume",
+    steps: [
+      "Whispers",
+      "Inside voices",
+      "Hanging out",
+      "At the game",
+      "Explosive",
+    ],
+  },
+  {
+    id: "energy",
+    label: "Energy",
+    steps: [
+      "Monk-like",
+      "Relaxed",
+      "Going for a stroll",
+      "Pumped",
+      "Crazed",
+    ],
+  },
+  {
+    id: "sociability",
+    label: "Sociability",
+    steps: [
+      "Lives alone",
+      "Just in the family",
+      "Friends & family",
+      "Neighborhood",
+      "Everyone's invited",
+    ],
+  },
+  {
+    id: "attitude",
+    label: "Attitude",
+    steps: [
+      "Completely PC",
+      "Traditional",
+      "Opinionated when needed",
+      "No filter",
+      "Polarizing",
+    ],
+  },
+];
+
+/**
+ * @param {string[]} steps
+ * @param {string} label
+ */
+function findSpectrumStepIndex(steps, label) {
+  const key = (label || "").trim().toLowerCase();
+  if (!key) return -1;
+  const exact = steps.findIndex((s) => s.toLowerCase() === key);
+  if (exact >= 0) return exact;
+  return steps.findIndex(
+    (s) => s.toLowerCase().includes(key) || key.includes(s.toLowerCase()),
+  );
+}
+
+/**
+ * @param {string} identityText
+ * @returns {{ intro: string, rows: object[] }}
+ */
+function parseVoiceSpectrum(identityText) {
+  const block = h4Blocks(identityText).find((b) =>
+    /voice\s+spectrum/i.test(b.title),
+  );
+  const body = block?.body || "";
+  const intro = extractLabeled(body).get("spectrum intro") || "";
+  const rows = block ? parseTables(body) : [];
+
+  return {
+    intro,
+    rows: VOICE_SPECTRUM_DIMENSIONS.map((dim) => {
+      const row = rows.find(
+        (r) =>
+          (r.dimension || r.dim || "")
+            .replace(/\*\*/g, "")
+            .trim()
+            .toLowerCase() === dim.label.toLowerCase(),
+      );
+      let start = findSpectrumStepIndex(dim.steps, row?.from || "");
+      let end = findSpectrumStepIndex(dim.steps, row?.to || "");
+      if (start < 0 && end < 0) {
+        start = 0;
+        end = -1; // no highlight
+      } else if (start < 0) {
+        start = end;
+      } else if (end < 0) {
+        end = start;
+      }
+      if (end < start) {
+        const tmp = start;
+        start = end;
+        end = tmp;
+      }
+      return {
+        id: dim.id,
+        label: dim.label,
+        steps: [...dim.steps],
+        start,
+        end,
+        notes: (row?.notes || "").trim(),
+      };
+    }),
+  };
+}
+
 /** Split "A · B · C" or "A. B. C." into parts */
 /** @param {string} s */
 function splitList(s) {
@@ -318,7 +507,16 @@ function main() {
 
   const overview = subsection(strategy, "### Overview");
   const positioning = subsection(strategy, "### Positioning");
+  const audienceSecRaw = subsection(strategy, "### Audience");
+  const audienceSec = (() => {
+    const nextH3 = audienceSecRaw.search(/^###\s/m);
+    return nextH3 === -1 ? audienceSecRaw : audienceSecRaw.slice(0, nextH3).trim();
+  })();
   const personality = subsection(strategy, "### Personality");
+  const personalityLead = (() => {
+    const nextH4 = personality.search(/^####\s/m);
+    return nextH4 === -1 ? personality : personality.slice(0, nextH4).trim();
+  })();
   const promise = subsection(strategy, "### Promise");
   const pillarsSec = subsection(strategy, "### Message Pillars");
   const guardrails = subsection(strategy, "### Guardrails");
@@ -326,10 +524,78 @@ function main() {
   const L = (sec) => extractLabeled(sec);
   const o = L(overview);
   const p = L(positioning);
+  const audienceL = L(audienceSec);
   const per = L(personality);
+  const pillarsL = L(pillarsSec);
   const pr = L(promise);
   const g = L(guardrails);
+
+  const personalityTraitRows = parseTables(personalityLead).filter(
+    (r) => r.trait || r.description,
+  );
+
+  const audienceIntro =
+    audienceL.get("audience intro") ||
+    p.get("audience") ||
+    "";
+  const audienceGroupRows = parseTables(audienceSec).filter(
+    (r) => r.segments || r.group || r.wants || r.needs,
+  );
+  const audienceGroups =
+    audienceGroupRows.length > 0
+      ? audienceGroupRows.map((r) => ({
+          segments: splitList(r.segments || r.group || ""),
+          wants: (r.wants || "").trim(),
+          needs: (r.needs || "").trim(),
+        }))
+      : [
+          p.get("audience primary")
+            ? {
+                segments: splitList(p.get("audience primary") || ""),
+                wants: "",
+                needs: "",
+              }
+            : null,
+          p.get("audience secondary")
+            ? {
+                segments: splitList(p.get("audience secondary") || ""),
+                wants: "",
+                needs: "",
+              }
+            : null,
+        ].filter(Boolean);
   const vId = L(subsection(voiceSec, "### Identity"));
+  const identitySec = subsection(voiceSec, "### Identity");
+  const voiceSpectrum = parseVoiceSpectrum(identitySec);
+  const principlesSec = subsection(voiceSec, "### Principles");
+  const principlesL = L(principlesSec);
+  const principlesIntro = principlesL.get("principles intro") || "";
+  const principleRows = parseTables(principlesSec).filter(
+    (r) => r.principle || r.title,
+  );
+  const principles = {
+    intro: principlesIntro,
+    items: principleRows.map((r) => ({
+      title: (r.principle || r.title || "").trim(),
+      body: (r.description || r.body || "").trim(),
+      do: (r.do || "").trim(),
+      dont: (r.dont || r["don't"] || r["don’t"] || "").trim(),
+    })),
+  };
+  const taglineSec = subsection(voiceSec, "### Tagline & Slogans");
+  const taglineL = L(taglineSec);
+  const voiceTagline = {
+    intro: taglineL.get("tagline intro") || "",
+    statement: tagline,
+  };
+  const storySec = subsection(voiceSec, "### Story");
+  const storyL = L(storySec);
+  const voiceStory = {
+    intro: storyL.get("story intro") || "",
+    long: storyL.get("story long") || "",
+    medium: storyL.get("story medium") || "",
+    short: storyL.get("story short") || "",
+  };
   const vRules = L(subsection(voiceSec, "### Tonal Rules"));
   const visColors = L(subsection(visual, "### Colors"));
   const visType = L(subsection(visual, "### Typography"));
@@ -346,10 +612,10 @@ function main() {
 
   const logoDonts = splitList(visLogo.get("logo donts") || "");
   const actStrategy =
-    strategyL.get("act label") || o.get("act label") || "What to say";
-  const actVoice = voiceTopL.get("act label") || "What to say";
-  const actVisual = visualTopL.get("act label") || "How to say it";
-  const actExpressions = exprL.get("act label") || "Where to say it";
+    strategyL.get("act label") || o.get("act label") || "Strategy";
+  const actVoice = voiceTopL.get("act label") || "Language";
+  const actVisual = visualTopL.get("act label") || "Visual";
+  const actExpressions = exprL.get("act label") || "Applications";
 
   const pillarRows = parseTables(pillarsSec);
   const tonalRulesSec = subsection(voiceSec, "### Tonal Rules");
@@ -363,15 +629,63 @@ function main() {
   const weSayTableMatch = tonalRulesSec.match(
     /\| We Say \| We Never Say \|[\s\S]*?(?=\n###|\n##|$)/i,
   );
+  const andYetL = extractLabeled(andYetChunk);
   const andYetRows = parseTables(andYetChunk).filter(
     (r) => r.lean && (r["and yet"] || r.andyet),
   );
+  const voiceAndYet = {
+    intro: andYetL.get("and yet intro") || "",
+    pairs: andYetRows.map((r) => {
+      const bridgeRaw = (r.bridge || "yet").trim().toLowerCase();
+      const bridge = bridgeRaw === "and" ? "and" : "yet";
+      const phrase = (r.phrase || "").trim();
+      return {
+        lean: r.lean,
+        yet: r["and yet"] || r.andyet || "",
+        bridge,
+        ...(phrase ? { phrase } : {}),
+      };
+    }),
+  };
   const weSayRows = parseTables(weSayTableMatch ? weSayTableMatch[0] : weSayChunk).filter(
     (r) => r["we say"] || r.wesay,
   );
-  const contextRows = parseTables(subsection(voiceSec, "### Tone by context"));
+  const contextSec = subsection(voiceSec, "### Tone by context");
+  const contextL = L(contextSec);
+  const contextRows = parseTables(contextSec);
+  const voiceContexts = {
+    intro: contextL.get("context intro") || "",
+    items: contextRows.map((r) => ({
+      context: r.context || "",
+      guidance: (r.guidance || "").replace(/\.$/, "") + ".",
+      example: (r.example || "").replace(/^[“"]|[”"]$/g, ""),
+    })),
+  };
   const expressionRows = parseTables(expressions).filter((r) => r.channel);
 
+  const headlinesSec = subsection(voiceSec, "### Headlines");
+  const headlinesL = L(headlinesSec);
+  const headlineItems = headlinesSec
+    .split("\n")
+    .filter((l) => /^-\s+/.test(l))
+    .map((l) => l.replace(/^-\s+/, "").trim())
+    .filter(Boolean);
+  const voiceHeadlines = {
+    intro: headlinesL.get("headlines intro") || "",
+    items: headlineItems,
+  };
+  const ctaSec =
+    subsection(voiceSec, "### Calls to action") ||
+    subsection(voiceSec, "### Calls to Action");
+  const ctaL = L(ctaSec);
+  const ctaRows = parseTables(ctaSec).filter((r) => r.do || r.dont || r["don't"] || r["don’t"]);
+  const voiceCta = {
+    intro: ctaL.get("cta intro") || ctaL.get("calls to action intro") || "",
+    do: ctaRows.map((r) => (r.do || "").trim()).filter(Boolean),
+    dont: ctaRows
+      .map((r) => (r.dont || r["don't"] || r["don’t"] || "").trim())
+      .filter(Boolean),
+  };
   const phrasesSec = subsection(voiceSec, "### Phrases");
   const phrases = phrasesSec
     .split("\n")
@@ -406,6 +720,39 @@ function main() {
   const attributes = splitList(per.get("attributes") || "");
   const cannotBe = splitList(g.get("the brand cannot be") || "");
 
+  let archetypeProfiles = parseArchetypeProfiles(personality);
+  if (archetypeProfiles.length === 0 && per.get("archetype")) {
+    // Legacy flat fields → single primary profile
+    archetypeProfiles = [
+      {
+        role: "primary",
+        name: archetypeName.replace(/^The\s+/i, ""),
+        wheel: archetypeName.replace(/^The\s+/i, "").split(/\s+[—–-]/)[0].trim(),
+        motivations: "",
+        personality: "",
+        quote: "",
+        drive: splitList(per.get("archetype drive") || ""),
+        fears: [],
+        strategy: [],
+        voice: splitList(per.get("archetype voice") || ""),
+        seeks: per.get("archetype seeks") || "",
+        mottos: splitList(per.get("archetype motto") || ""),
+        audienceFeels: [],
+        brands: [],
+        atBest: splitList(per.get("archetype at best") || ""),
+        atWorst: splitList(per.get("archetype at worst") || ""),
+        characters: [],
+        types: [],
+        typesHighlighted: [],
+      },
+    ];
+  }
+
+  const primaryProfile =
+    archetypeProfiles.find((p) => p.role === "primary") ||
+    archetypeProfiles[0] ||
+    null;
+
   const contextKey = (c) =>
     c
       .toLowerCase()
@@ -430,35 +777,104 @@ function main() {
         position: pr.get("position") || "",
         promise: pr.get("promise") || "",
       },
-      pillars: pillarRows.map((r) => {
-        const summary = (r.summary || "").trim();
-        return {
-          name: r.pillar || "",
-          summary: summary.endsWith(".") ? summary : `${summary}.`,
-          emotional: r["emotional driver"] || r.emotional || "",
-          functional: r["functional value"] || r.functional || "",
-          trust: (r["trust message"] || r.trust || "")
-            .replace(/^[“"]|[”"]$/g, "")
-            .trim(),
-        };
-      }),
-      archetype: {
-        name: archetypeName.startsWith("The ")
-          ? archetypeName
-          : `The ${archetypeName}`,
-        drive: per.get("archetype drive") || "",
-        seeks: per.get("archetype seeks") || "",
-        atBest: splitList(per.get("archetype at best") || ""),
-        atWorst: splitList(per.get("archetype at worst") || ""),
-        motto: per.get("archetype motto") || "",
-        voice: splitList(per.get("archetype voice") || ""),
+      audience: {
+        intro: audienceIntro,
+        groups: audienceGroups,
       },
+      positioning: {
+        intro: p.get("positioning intro") || "",
+        statement: pr.get("position") || p.get("category") || "",
+      },
+      vision: {
+        intro: o.get("vision intro") || "",
+        statement: o.get("long-term ambition") || "",
+      },
+      mission: {
+        intro: pr.get("mission intro") || "",
+        statement: pr.get("mission") || "",
+      },
+      values: {
+        intro: pillarsL.get("values intro") || "",
+        items: pillarRows.map((r) => {
+          const summary = (r.summary || "").trim();
+          const summaryLine = summary
+            ? summary.endsWith(".")
+              ? summary
+              : `${summary}.`
+            : "";
+          const trust = (r["trust message"] || r.trust || "")
+            .replace(/^[“"]|[”"]$/g, "")
+            .trim();
+          return {
+            title: r.pillar || "",
+            body: [summaryLine, trust].filter(Boolean).join(" "),
+          };
+        }),
+      },
+      pillars: {
+        intro: pillarsL.get("pillars intro") || "",
+        items: pillarRows.map((r) => {
+          const summary = (r.summary || "").trim();
+          return {
+            name: r.pillar || "",
+            summary: summary.endsWith(".") ? summary : `${summary}.`,
+            emotional: r["emotional driver"] || r.emotional || "",
+            functional: r["functional value"] || r.functional || "",
+            trust: (r["trust message"] || r.trust || "")
+              .replace(/^[“"]|[”"]$/g, "")
+              .trim(),
+          };
+        }),
+      },
+      archetype: {
+        name: primaryProfile
+          ? primaryProfile.name.startsWith("The ")
+            ? primaryProfile.name
+            : `The ${primaryProfile.name.split(/\s*\/\s*/)[0].trim()}`
+          : archetypeName.startsWith("The ")
+            ? archetypeName
+            : `The ${archetypeName}`,
+        drive:
+          (primaryProfile?.drive || []).join(" · ") ||
+          per.get("archetype drive") ||
+          "",
+        seeks: primaryProfile?.seeks || per.get("archetype seeks") || "",
+        atBest:
+          primaryProfile?.atBest?.length > 0
+            ? primaryProfile.atBest
+            : splitList(per.get("archetype at best") || ""),
+        atWorst:
+          primaryProfile?.atWorst?.length > 0
+            ? primaryProfile.atWorst
+            : splitList(per.get("archetype at worst") || ""),
+        motto:
+          (primaryProfile?.mottos || [])[0] ||
+          per.get("archetype motto") ||
+          "",
+        voice:
+          primaryProfile?.voice?.length > 0
+            ? primaryProfile.voice
+            : splitList(per.get("archetype voice") || ""),
+      },
+      archetypeProfiles,
       personality: {
+        intro: per.get("personality intro") || "",
+        items:
+          personalityTraitRows.length > 0
+            ? personalityTraitRows.map((r) => ({
+                title: (r.trait || "").trim(),
+                body: (r.description || "").trim(),
+              }))
+            : attributes.map((trait) => ({
+                title: trait,
+                body: "",
+              })),
         traits: attributes,
         weAre,
         weAreNot: splitList(per.get("we are not") || ""),
       },
       guardrails: {
+        intro: g.get("guardrails intro") || "",
         tone: g.get("tone summary") || "",
         cannotBe,
         litmus: g.get("litmus test") || "",
@@ -468,11 +884,14 @@ function main() {
       actLabel: actVoice,
       identity: vId.get("identity") || "",
       essence: vId.get("essence") || "",
+      principles,
+      tagline: voiceTagline,
+      story: voiceStory,
+      headlines: voiceHeadlines,
+      cta: voiceCta,
+      spectrum: voiceSpectrum,
       phrases,
-      andYet: andYetRows.map((r) => ({
-        lean: r.lean,
-        yet: r["and yet"] || r.andyet || "",
-      })),
+      andYet: voiceAndYet,
       weSay: weSayRows.map((r) => ({
         say: (r["we say"] || r.wesay || "").replace(/^[“"]|[”"]$/g, ""),
         never: (r["we never say"] || r.weneversay || "").replace(
@@ -480,11 +899,7 @@ function main() {
           "",
         ),
       })),
-      contexts: contextRows.map((r) => ({
-        context: r.context || "",
-        guidance: (r.guidance || "").replace(/\.$/, "") + ".",
-        example: (r.example || "").replace(/^[“"]|[”"]$/g, ""),
-      })),
+      contexts: voiceContexts,
     },
     visual: {
       actLabel: actVisual,
@@ -596,9 +1011,20 @@ function main() {
       only_we: [p.get("only we") || ""].filter(Boolean),
     },
     personality: {
-      archetypes: [
-        archetypeName.replace(/^The\s+/i, "").split(/\s+[—–-]/)[0].trim(),
-      ],
+      archetypes: (
+        archetypeProfiles.length > 0
+          ? archetypeProfiles.map(
+              (p) =>
+                p.wheel ||
+                p.name.replace(/^The\s+/i, "").split(/\s*\/\s*/)[0].trim(),
+            )
+          : [
+              archetypeName
+                .replace(/^The\s+/i, "")
+                .split(/\s+[—–-]/)[0]
+                .trim(),
+            ]
+      ).filter(Boolean),
       traits:
         Object.keys(traitScores).length > 0
           ? traitScores
@@ -704,6 +1130,8 @@ function main() {
       default: {
         primary: p.get("audience primary") || p.get("audience") || "",
         secondary: p.get("audience secondary") || "",
+        intro: audienceIntro,
+        groups: audienceGroups,
       },
     },
     channels: {
@@ -831,6 +1259,23 @@ function main() {
   need(!!g.get("litmus test"), "Strategy › Guardrails › **Litmus test.**", "Labeled guardrails field");
   need(!!vId.get("identity"), "Voice › Identity › **Identity.**", "Labeled voice field");
   need(!!vId.get("essence"), "Voice › Identity › **Essence.**", "Labeled voice field");
+  need(
+    principles.items.length > 0,
+    "Voice › Principles table",
+    "Principle | Description | Do | Don't",
+  );
+  need(!!voiceStory.long, "Voice › Story › **Story long.**", "Labeled story field");
+  need(!!voiceStory.short, "Voice › Story › **Story short.**", "Labeled story field");
+  need(
+    voiceHeadlines.items.length > 0,
+    "Voice › Headlines",
+    "Bullet list of headlines",
+  );
+  need(
+    voiceCta.do.length > 0 || voiceCta.dont.length > 0,
+    "Voice › Calls to action table",
+    "Do | Don't",
+  );
   need(phrases.length > 0, "Voice › Phrases", "Bullet list of phrases");
   need(andYetRows.length > 0, "Voice › And / yet table", "Lean | And yet rows");
   need(weSayRows.length > 0, "Voice › We Say / We Never Say table", "Table rows");

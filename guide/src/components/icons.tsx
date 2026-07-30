@@ -8,6 +8,7 @@ import {
   Check,
   ChevronDown,
   Copy,
+  Image,
   PanelLeft,
   PanelLeftClose,
   type LucideProps,
@@ -34,6 +35,7 @@ export const Icons = {
   Check: withDefaults(Check),
   ChevronDown: withDefaults(ChevronDown),
   Copy: withDefaults(Copy),
+  Image: withDefaults(Image),
   PanelLeft: withDefaults(PanelLeft),
   PanelLeftClose: withDefaults(PanelLeftClose),
 } as const;

@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@astryxdesign/core/Button";
+import { HStack } from "@astryxdesign/core/HStack";
 import { useEffect, useRef, useState } from "react";
 import { Icons } from "@/components/icons";
 
@@ -39,17 +41,23 @@ export function CopyValue({ value, label, absoluteUrl = false }: CopyValueProps)
     : `Copy ${value}`;
 
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
+      size="sm"
+      label={accessibleLabel}
+      tooltip={copied ? "Copied" : "Copy value"}
       className={`copy-value${copied ? " is-copied" : ""}`}
-      onClick={handleCopy}
-      aria-label={accessibleLabel}
-      title={copied ? "Copied" : "Copy value"}
+      onClick={() => {
+        void handleCopy();
+      }}
     >
-      <code>{value}</code>
-      <span className="copy-value-icon" aria-hidden="true">
-        {copied ? <Icons.Check size={12} /> : <Icons.Copy size={12} />}
-      </span>
-    </button>
+      <HStack gap={1} vAlign="center" className="copy-value-inner">
+        <code>{value}</code>
+        <span className="copy-value-icon" aria-hidden="true">
+          {copied ? <Icons.Check size={12} /> : <Icons.Copy size={12} />}
+        </span>
+      </HStack>
+    </Button>
   );
 }

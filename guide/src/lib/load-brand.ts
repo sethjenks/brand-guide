@@ -29,15 +29,49 @@ const guideSchema = z.object({
       position: z.string(),
       promise: z.string(),
     }),
-    pillars: z.array(
-      z.object({
-        name: z.string(),
-        summary: z.string(),
-        emotional: z.string(),
-        functional: z.string(),
-        trust: z.string(),
-      }),
-    ),
+    audience: z.object({
+      intro: z.string(),
+      groups: z.array(
+        z.object({
+          segments: z.array(z.string()),
+          wants: z.string(),
+          needs: z.string(),
+        }),
+      ),
+    }),
+    positioning: z.object({
+      intro: z.string(),
+      statement: z.string(),
+    }),
+    vision: z.object({
+      intro: z.string(),
+      statement: z.string(),
+    }),
+    mission: z.object({
+      intro: z.string(),
+      statement: z.string(),
+    }),
+    values: z.object({
+      intro: z.string(),
+      items: z.array(
+        z.object({
+          title: z.string(),
+          body: z.string(),
+        }),
+      ),
+    }),
+    pillars: z.object({
+      intro: z.string(),
+      items: z.array(
+        z.object({
+          name: z.string(),
+          summary: z.string(),
+          emotional: z.string(),
+          functional: z.string(),
+          trust: z.string(),
+        }),
+      ),
+    }),
     archetype: z.object({
       name: z.string(),
       drive: z.string(),
@@ -47,12 +81,43 @@ const guideSchema = z.object({
       motto: z.string(),
       voice: z.array(z.string()),
     }),
+    archetypeProfiles: z.array(
+      z.object({
+        role: z.enum(["primary", "secondary", "tertiary"]),
+        name: z.string(),
+        wheel: z.string(),
+        motivations: z.string(),
+        personality: z.string(),
+        quote: z.string(),
+        drive: z.array(z.string()),
+        fears: z.array(z.string()),
+        strategy: z.array(z.string()),
+        voice: z.array(z.string()),
+        seeks: z.string(),
+        mottos: z.array(z.string()),
+        audienceFeels: z.array(z.string()),
+        brands: z.array(z.string()),
+        atBest: z.array(z.string()),
+        atWorst: z.array(z.string()),
+        characters: z.array(z.string()),
+        types: z.array(z.string()),
+        typesHighlighted: z.array(z.string()),
+      }),
+    ),
     personality: z.object({
+      intro: z.string(),
+      items: z.array(
+        z.object({
+          title: z.string(),
+          body: z.string(),
+        }),
+      ),
       traits: z.array(z.string()),
       weAre: z.array(z.string()),
       weAreNot: z.array(z.string()),
     }),
     guardrails: z.object({
+      intro: z.string(),
       tone: z.string(),
       cannotBe: z.array(z.string()),
       litmus: z.string(),
@@ -62,16 +127,72 @@ const guideSchema = z.object({
     actLabel: z.string(),
     identity: z.string(),
     essence: z.string(),
+    principles: z.object({
+      intro: z.string(),
+      items: z.array(
+        z.object({
+          title: z.string(),
+          body: z.string(),
+          do: z.string(),
+          dont: z.string(),
+        }),
+      ),
+    }),
+    tagline: z.object({
+      intro: z.string(),
+      statement: z.string(),
+    }),
+    story: z.object({
+      intro: z.string(),
+      long: z.string(),
+      medium: z.string(),
+      short: z.string(),
+    }),
+    headlines: z.object({
+      intro: z.string(),
+      items: z.array(z.string()),
+    }),
+    cta: z.object({
+      intro: z.string(),
+      do: z.array(z.string()),
+      dont: z.array(z.string()),
+    }),
+    spectrum: z.object({
+      intro: z.string(),
+      rows: z.array(
+        z.object({
+          id: z.string(),
+          label: z.string(),
+          steps: z.array(z.string()),
+          start: z.number(),
+          end: z.number(),
+          notes: z.string(),
+        }),
+      ),
+    }),
     phrases: z.array(z.string()),
-    andYet: z.array(z.object({ lean: z.string(), yet: z.string() })),
+    andYet: z.object({
+      intro: z.string(),
+      pairs: z.array(
+        z.object({
+          lean: z.string(),
+          yet: z.string(),
+          bridge: z.enum(["and", "yet"]).optional(),
+          phrase: z.string().optional(),
+        }),
+      ),
+    }),
     weSay: z.array(z.object({ say: z.string(), never: z.string() })),
-    contexts: z.array(
-      z.object({
-        context: z.string(),
-        guidance: z.string(),
-        example: z.string(),
-      }),
-    ),
+    contexts: z.object({
+      intro: z.string(),
+      items: z.array(
+        z.object({
+          context: z.string(),
+          guidance: z.string(),
+          example: z.string(),
+        }),
+      ),
+    }),
   }),
   visual: z.object({
     actLabel: z.string(),

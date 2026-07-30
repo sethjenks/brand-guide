@@ -1,7 +1,7 @@
 {
-  "_hash": "sha256:106e5de5248aaf57d229525f83e9ceca7dbe7538b9d550e986005142402848a6",
+  "_hash": "sha256:ee14cd9b26a33aedcaa9257d32874637645d2daf4a572d05f47df56f2e55596a",
   "_spec_version": "1.1.0",
-  "_compiled": "2026-07-30T16:12:00.726Z",
+  "_compiled": "2026-07-30T21:36:54.541Z",
   "_last_material_change": "2026-07-30",
   "_sanitized": true,
   "meta": {
@@ -44,7 +44,7 @@
   },
   "personality": {
     "archetypes": [
-      "Editor"
+      "Sage"
     ],
     "traits": {
       "direct": 5,
@@ -183,6 +183,114 @@
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
+      "color-gray-1": {
+        "value": "#fcfcfc",
+        "type": "color",
+        "rgb": "252, 252, 252",
+        "hsl": "0, 0%, 99%",
+        "usage": "App background",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-gray-2": {
+        "value": "#f9f9f9",
+        "type": "color",
+        "rgb": "249, 249, 249",
+        "hsl": "0, 0%, 98%",
+        "usage": "Subtle background",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-gray-3": {
+        "value": "#f0f0f0",
+        "type": "color",
+        "rgb": "240, 240, 240",
+        "hsl": "0, 0%, 94%",
+        "usage": "UI element background",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-gray-4": {
+        "value": "#e8e8e8",
+        "type": "color",
+        "rgb": "232, 232, 232",
+        "hsl": "0, 0%, 91%",
+        "usage": "Hovered UI element background",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-gray-5": {
+        "value": "#e0e0e0",
+        "type": "color",
+        "rgb": "224, 224, 224",
+        "hsl": "0, 0%, 88%",
+        "usage": "Active / selected UI element background",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-gray-6": {
+        "value": "#d9d9d9",
+        "type": "color",
+        "rgb": "217, 217, 217",
+        "hsl": "0, 0%, 85%",
+        "usage": "Subtle borders and separators",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-gray-7": {
+        "value": "#cecece",
+        "type": "color",
+        "rgb": "206, 206, 206",
+        "hsl": "0, 0%, 81%",
+        "usage": "UI element border and focus rings",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-gray-8": {
+        "value": "#bbbbbb",
+        "type": "color",
+        "rgb": "187, 187, 187",
+        "hsl": "0, 0%, 73%",
+        "usage": "Hovered UI element border",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AAA"
+      },
+      "color-gray-9": {
+        "value": "#8d8d8d",
+        "type": "color",
+        "rgb": "141, 141, 141",
+        "hsl": "0, 0%, 55%",
+        "usage": "Solid backgrounds",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AA"
+      },
+      "color-gray-10": {
+        "value": "#838383",
+        "type": "color",
+        "rgb": "131, 131, 131",
+        "hsl": "0, 0%, 51%",
+        "usage": "Hovered solid backgrounds",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AA"
+      },
+      "color-gray-11": {
+        "value": "#646464",
+        "type": "color",
+        "rgb": "100, 100, 100",
+        "hsl": "0, 0%, 39%",
+        "usage": "Low-contrast text",
+        "wcag_on_white": "AA",
+        "wcag_on_black": "fail"
+      },
+      "color-gray-12": {
+        "value": "#202020",
+        "type": "color",
+        "rgb": "32, 32, 32",
+        "hsl": "0, 0%, 13%",
+        "usage": "High-contrast text",
+        "wcag_on_white": "AAA",
+        "wcag_on_black": "fail"
+      },
       "color-ink": {
         "value": "#111111",
         "type": "color",
@@ -199,6 +307,15 @@
         "hsl": "0, 0%, 29%",
         "usage": "Secondary text, captions",
         "wcag_on_white": "AAA",
+        "wcag_on_black": "fail"
+      },
+      "color-ink-subtle": {
+        "value": "#6b6b6b",
+        "type": "color",
+        "rgb": "107, 107, 107",
+        "hsl": "0, 0%, 42%",
+        "usage": "Tertiary text, meta, placeholders",
+        "wcag_on_white": "AA",
         "wcag_on_black": "fail"
       },
       "color-paper": {
@@ -246,8 +363,21 @@
       "neutral": [
         "color-border",
         "color-canvas",
+        "color-gray-1",
+        "color-gray-2",
+        "color-gray-3",
+        "color-gray-4",
+        "color-gray-5",
+        "color-gray-6",
+        "color-gray-7",
+        "color-gray-8",
+        "color-gray-9",
+        "color-gray-10",
+        "color-gray-11",
+        "color-gray-12",
         "color-ink",
         "color-ink-muted",
+        "color-ink-subtle",
         "color-paper",
         "color-rail",
         "color-surface",
@@ -322,7 +452,37 @@
   "audience": {
     "default": {
       "primary": "Founders and product teams shipping with AI tools",
-      "secondary": "Designers maintaining a design system alongside brand meaning"
+      "secondary": "Designers maintaining a design system alongside brand meaning",
+      "intro": "A closer look at the groups of people that help our business thrive. We should consider who they are and how they think when we make decisions about design and messaging.",
+      "groups": [
+        {
+          "segments": [
+            "Founders",
+            "Product teams",
+            "AI builders"
+          ],
+          "wants": "A shared brand context that travels with the work — not another PDF to hunt when shipping with agents.",
+          "needs": "Plain rules they can load once, trust, and apply without a design ops team."
+        },
+        {
+          "segments": [
+            "Designers",
+            "Design-system leads",
+            "Brand owners"
+          ],
+          "wants": "Meaning and tokens in the same place so visual decisions stay tied to voice and strategy.",
+          "needs": "Clear do/don’t guidance, grayscale-first tokens, and a guide that shows the system in use."
+        },
+        {
+          "segments": [
+            "Agents",
+            "Cursor workflows",
+            "Automation"
+          ],
+          "wants": "Structured brand facts they can retrieve without inventing tone or palette.",
+          "needs": "Stable `brand.json`, retrieval tags, and copy that fails a litmus test when it could belong to anyone."
+        }
+      ]
     }
   },
   "channels": {
@@ -582,7 +742,7 @@
     "name": "Sample Brand",
     "tagline": "Clear work, plainly said.",
     "strategy": {
-      "actLabel": "What to say",
+      "actLabel": "Strategy",
       "overview": {
         "what": "Sample Brand is a starter brand constitution for teams who want guidelines agents can read and humans can trust — without hunting PDFs.",
         "problem": "Brand rules live in slide decks and tribal knowledge. Agents invent tone; humans disagree about “on brand.”",
@@ -596,32 +756,96 @@
         "position": "Repo-native brand constitution for product and creative teams. Not a plugin. Not an agency. Not a vibes deck.",
         "promise": "Say what we mean in plain language. Keep visuals quiet so content can lead. Treat agents as first-class readers."
       },
-      "pillars": [
-        {
-          "name": "Clarity",
-          "summary": "Cut jargon; name the thing.",
-          "emotional": "Relieved",
-          "functional": "Plain-language copy and UI",
-          "trust": "You’ll always know what we mean."
-        },
-        {
-          "name": "Craft",
-          "summary": "Care shows in small decisions.",
-          "emotional": "Confident",
-          "functional": "Consistent type, space, contrast",
-          "trust": "Details aren’t decoration."
-        },
-        {
-          "name": "Portability",
-          "summary": "Brand rules move with the work.",
-          "emotional": "Steady",
-          "functional": "Files agents and humans share",
-          "trust": "The brand travels with the repo."
-        }
-      ],
+      "audience": {
+        "intro": "A closer look at the groups of people that help our business thrive. We should consider who they are and how they think when we make decisions about design and messaging.",
+        "groups": [
+          {
+            "segments": [
+              "Founders",
+              "Product teams",
+              "AI builders"
+            ],
+            "wants": "A shared brand context that travels with the work — not another PDF to hunt when shipping with agents.",
+            "needs": "Plain rules they can load once, trust, and apply without a design ops team."
+          },
+          {
+            "segments": [
+              "Designers",
+              "Design-system leads",
+              "Brand owners"
+            ],
+            "wants": "Meaning and tokens in the same place so visual decisions stay tied to voice and strategy.",
+            "needs": "Clear do/don’t guidance, grayscale-first tokens, and a guide that shows the system in use."
+          },
+          {
+            "segments": [
+              "Agents",
+              "Cursor workflows",
+              "Automation"
+            ],
+            "wants": "Structured brand facts they can retrieve without inventing tone or palette.",
+            "needs": "Stable `brand.json`, retrieval tags, and copy that fails a litmus test when it could belong to anyone."
+          }
+        ]
+      },
+      "positioning": {
+        "intro": "A succinct expression of our core business activity and what sets us apart. This statement helps align marketing efforts with our brand and value proposition.",
+        "statement": "Repo-native brand constitution for product and creative teams. Not a plugin. Not an agency. Not a vibes deck."
+      },
+      "vision": {
+        "intro": "Where we are headed — the long-term ambition that keeps strategy, product, and creative pointed at the same horizon.",
+        "statement": "Every team that clones this kit ships on-brand work without reverse-engineering a PDF."
+      },
+      "mission": {
+        "intro": "Why we exist in practical terms — the job we do every day for the people who depend on this brand.",
+        "statement": "Hold brand meaning in the repo so humans and agents share one source of truth."
+      },
+      "values": {
+        "intro": "The beliefs we return to when design and messaging decisions get hard — short enough to remember, sharp enough to choose.",
+        "items": [
+          {
+            "title": "Clarity",
+            "body": "Cut jargon; name the thing. You’ll always know what we mean."
+          },
+          {
+            "title": "Craft",
+            "body": "Care shows in small decisions. Details aren’t decoration."
+          },
+          {
+            "title": "Portability",
+            "body": "Brand rules move with the work. The brand travels with the repo."
+          }
+        ]
+      },
+      "pillars": {
+        "intro": "The message pillars that carry strategy into copy, product, and campaigns — each one a shorthand for what we stand on.",
+        "items": [
+          {
+            "name": "Clarity",
+            "summary": "Cut jargon; name the thing.",
+            "emotional": "Relieved",
+            "functional": "Plain-language copy and UI",
+            "trust": "You’ll always know what we mean."
+          },
+          {
+            "name": "Craft",
+            "summary": "Care shows in small decisions.",
+            "emotional": "Confident",
+            "functional": "Consistent type, space, contrast",
+            "trust": "Details aren’t decoration."
+          },
+          {
+            "name": "Portability",
+            "summary": "Brand rules move with the work.",
+            "emotional": "Steady",
+            "functional": "Files agents and humans share",
+            "trust": "The brand travels with the repo."
+          }
+        ]
+      },
       "archetype": {
         "name": "The Editor",
-        "drive": "Precision · Clarity · Restraint",
+        "drive": "Precision · Clarity · Restraint · Understanding · Craft",
         "seeks": "Understanding",
         "atBest": [
           "Wise",
@@ -640,10 +864,112 @@
         "voice": [
           "Knowledgeable",
           "Assured",
-          "Guiding"
+          "Guiding",
+          "Direct",
+          "Calm"
         ]
       },
+      "archetypeProfiles": [
+        {
+          "role": "primary",
+          "name": "Editor / Sage",
+          "wheel": "Sage",
+          "motivations": "Seeking understanding",
+          "personality": "The Editor wants clarity that lasts — cutting noise so the useful thing remains. They distrust jargon and theater, and believe restraint is a form of respect. At their best they make complex work feel simple; at their worst they can sound aloof or over-precise.",
+          "quote": "Say the useful thing, then stop.",
+          "drive": [
+            "Precision",
+            "Clarity",
+            "Restraint",
+            "Understanding",
+            "Craft"
+          ],
+          "fears": [
+            "Ambiguity",
+            "Noise",
+            "Hype",
+            "Performative complexity",
+            "Vague inspiration"
+          ],
+          "strategy": [
+            "Cut to the useful thing",
+            "Prefer concrete nouns",
+            "Edit until the line can only mean one thing"
+          ],
+          "voice": [
+            "Knowledgeable",
+            "Assured",
+            "Guiding",
+            "Direct",
+            "Calm"
+          ],
+          "seeks": "Understanding",
+          "mottos": [
+            "Say the useful thing, then stop.",
+            "Clear work, plainly said."
+          ],
+          "audienceFeels": [
+            "Relieved",
+            "Oriented",
+            "Respected",
+            "Steady",
+            "Clear-headed"
+          ],
+          "brands": [
+            "Strunk & White",
+            "The Economist",
+            "Notion docs done well"
+          ],
+          "atBest": [
+            "Wise",
+            "Accessible",
+            "Calm",
+            "Grounded",
+            "Trustworthy"
+          ],
+          "atWorst": [
+            "Aloof",
+            "Detached",
+            "Complicated",
+            "Dismissive"
+          ],
+          "characters": [
+            "The careful editor",
+            "The reference librarian",
+            "The senior who deletes the flourish"
+          ],
+          "types": [
+            "Editor",
+            "Guide",
+            "Critic",
+            "Analyst"
+          ],
+          "typesHighlighted": [
+            "Editor",
+            "Guide"
+          ]
+        }
+      ],
       "personality": {
+        "intro": "A unique set of characteristics that make our brand feel truly human. We strive to maintain this personality in all of our communications.",
+        "items": [
+          {
+            "title": "Clear",
+            "body": "Prefer the plain word. If a line needs a decoder ring, rewrite it until it can only mean one thing."
+          },
+          {
+            "title": "Steady",
+            "body": "Keep the same register across product, docs, and agents — no sudden hype spikes or mood swings."
+          },
+          {
+            "title": "Direct",
+            "body": "Lead with the useful fact. Cut throat-clearing, fake urgency, and ornamental setup."
+          },
+          {
+            "title": "Respectful",
+            "body": "Assume the reader is busy and capable. Earn attention; don’t perform for it."
+          }
+        ],
         "traits": [
           "Clear",
           "Steady",
@@ -665,6 +991,7 @@
         ]
       },
       "guardrails": {
+        "intro": "Hard edges for agents and humans — what we sound like, what we refuse, and the test that keeps us on-brand.",
         "tone": "Direct, calm, specific, human.",
         "cannotBe": [
           "Synergy soup",
@@ -676,9 +1003,128 @@
       }
     },
     "voice": {
-      "actLabel": "What to say",
+      "actLabel": "Language",
       "identity": "We speak like a careful editor: short sentences, concrete nouns, no theater. We are Sample Brand — the quiet template that shows how a brand should live in a repository.",
       "essence": "Say the useful thing, then stop.",
+      "principles": {
+        "intro": "Refer to these language principles when authoring written content. These principles cover tone of voice and the subject matter that matters in the brand, products, and services.",
+        "items": [
+          {
+            "title": "Say the useful thing, then stop.",
+            "body": "Cut to the job the reader needs done. Short sentences, concrete nouns, no theater — then leave the rest unsaid.",
+            "do": "Lead with the change and why it matters.",
+            "dont": "Pad the point with hype, throat-clearing, or synonym stacks."
+          },
+          {
+            "title": "Specific beats impressive.",
+            "body": "Prefer the exact noun over the polished adjective. Proof before flourish; if a line could belong to any brand, rewrite it.",
+            "do": "Name the file, the step, or the outcome.",
+            "dont": "Claim seamless, revolutionary, or best-in-class without evidence."
+          }
+        ]
+      },
+      "tagline": {
+        "intro": "An external piece of language that sums up our brand promise in a few memorable words.",
+        "statement": "Clear work, plainly said."
+      },
+      "story": {
+        "intro": "Our story is an external tool that translates our core beliefs and reason for being.",
+        "long": "Brand work used to live in decks, Notion pages, and tribal memory — then vanish the moment a new hire or an agent needed it. Sample Brand exists so meaning stays where the work stays: in the repo. We started with a grayscale starter on purpose. Color and flourish can wait; clarity cannot. Strategy, language, and visual rules compile into files humans browse and agents read, so every surface — product UI, email, support — can pull from the same constitution. We are not a plugin and not an agency. We are the quiet template that shows how a brand should travel with the work.",
+        "medium": "Brand context used to scatter across decks and chat threads. Sample Brand keeps it in the repo — Strategy, Language, and Visual rules that compile for humans and agents alike. Grayscale first; meaning first. Clear work, plainly said.",
+        "short": "Sample Brand keeps brand meaning in the repo so humans and agents share one source of truth."
+      },
+      "headlines": {
+        "intro": "Short, ownable lines for campaigns, product, and empty states — voice first, benefit clear.",
+        "items": [
+          "Clear work, plainly said.",
+          "The brand lives where the work lives.",
+          "Specific beats impressive.",
+          "Ornament is optional; clarity is not.",
+          "Clear work, plainly said.",
+          "If it needs a synonym, it needs a rewrite.",
+          "The brand lives where the work lives.",
+          "Grayscale first; meaning first.",
+          "Specific beats impressive.",
+          "Agents read this file too.",
+          "Ornament is optional; clarity is not."
+        ]
+      },
+      "cta": {
+        "intro": "Clarity and brevity in wording calls to action is critical. Avoid ambiguous actions or drawn-out phrasing. Use action verbs.",
+        "do": [
+          "Save draft",
+          "Open the guide",
+          "Ship with the work",
+          "Copy token"
+        ],
+        "dont": [
+          "Click here",
+          "Learn more",
+          "Get started now",
+          "Unlock your potential"
+        ]
+      },
+      "spectrum": {
+        "intro": "Where this brand sits on volume, energy, sociability, and attitude — the range we inhabit, not the extremes we avoid.",
+        "rows": [
+          {
+            "id": "volume",
+            "label": "Volume",
+            "steps": [
+              "Whispers",
+              "Inside voices",
+              "Hanging out",
+              "At the game",
+              "Explosive"
+            ],
+            "start": 1,
+            "end": 1,
+            "notes": "Quiet, measured; never loud for its own sake."
+          },
+          {
+            "id": "energy",
+            "label": "Energy",
+            "steps": [
+              "Monk-like",
+              "Relaxed",
+              "Going for a stroll",
+              "Pumped",
+              "Crazed"
+            ],
+            "start": 1,
+            "end": 2,
+            "notes": "Calm confidence; purposeful, not frantic."
+          },
+          {
+            "id": "sociability",
+            "label": "Sociability",
+            "steps": [
+              "Lives alone",
+              "Just in the family",
+              "Friends & family",
+              "Neighborhood",
+              "Everyone's invited"
+            ],
+            "start": 1,
+            "end": 2,
+            "notes": "Clear for the people who need it — not a party brand."
+          },
+          {
+            "id": "attitude",
+            "label": "Attitude",
+            "steps": [
+              "Completely PC",
+              "Traditional",
+              "Opinionated when needed",
+              "No filter",
+              "Polarizing"
+            ],
+            "start": 2,
+            "end": 2,
+            "notes": "Direct when it matters; never polarizing for sport."
+          }
+        ]
+      },
       "phrases": [
         "Clear work, plainly said.",
         "If it needs a synonym, it needs a rewrite.",
@@ -688,24 +1134,35 @@
         "Agents read this file too.",
         "Ornament is optional; clarity is not."
       ],
-      "andYet": [
-        {
-          "lean": "Knowledgeable",
-          "yet": "Humble"
-        },
-        {
-          "lean": "Direct",
-          "yet": "Warm"
-        },
-        {
-          "lean": "Precise",
-          "yet": "Plain"
-        },
-        {
-          "lean": "Confident",
-          "yet": "Quiet"
-        }
-      ],
+      "andYet": {
+        "intro": "Tension pairs that keep the voice from tipping into a single trait — lean into one pole, then balance with the other.",
+        "pairs": [
+          {
+            "lean": "Knowledgeable",
+            "yet": "Humble",
+            "bridge": "yet",
+            "phrase": "Clear work, plainly said."
+          },
+          {
+            "lean": "Direct",
+            "yet": "Warm",
+            "bridge": "yet",
+            "phrase": "Specific beats impressive."
+          },
+          {
+            "lean": "Precise",
+            "yet": "Plain",
+            "bridge": "yet",
+            "phrase": "If it needs a synonym, it needs a rewrite."
+          },
+          {
+            "lean": "Confident",
+            "yet": "Quiet",
+            "bridge": "yet",
+            "phrase": "Grayscale first; meaning first."
+          }
+        ]
+      },
       "weSay": [
         {
           "say": "Here’s what changed and why.",
@@ -724,38 +1181,41 @@
           "never": "World-class premium vibes."
         }
       ],
-      "contexts": [
-        {
-          "context": "Product UI",
-          "guidance": "Short labels; verbs on buttons.",
-          "example": "Save draft"
-        },
-        {
-          "context": "Email",
-          "guidance": "One purpose; clear next step.",
-          "example": "Your guide preview is ready — open it."
-        },
-        {
-          "context": "Social",
-          "guidance": "One idea; ownable phrase if possible.",
-          "example": "Clear work, plainly said."
-        },
-        {
-          "context": "Support",
-          "guidance": "Patient, concrete, no blame.",
-          "example": "Here’s the exact file to update."
-        },
-        {
-          "context": "Incident",
-          "guidance": "Facts first; no spin.",
-          "example": "We fixed the deploy path at 14:02 UTC."
-        }
-      ]
+      "contexts": {
+        "intro": "How the voice flexes by channel — same principles, different length and urgency.",
+        "items": [
+          {
+            "context": "Product UI",
+            "guidance": "Short labels; verbs on buttons.",
+            "example": "Save draft"
+          },
+          {
+            "context": "Email",
+            "guidance": "One purpose; clear next step.",
+            "example": "Your guide preview is ready — open it."
+          },
+          {
+            "context": "Social",
+            "guidance": "One idea; ownable phrase if possible.",
+            "example": "Clear work, plainly said."
+          },
+          {
+            "context": "Support",
+            "guidance": "Patient, concrete, no blame.",
+            "example": "Here’s the exact file to update."
+          },
+          {
+            "context": "Incident",
+            "guidance": "Facts first; no spin.",
+            "example": "We fixed the deploy path at 14:02 UTC."
+          }
+        ]
+      }
     },
     "visual": {
-      "actLabel": "How to say it",
+      "actLabel": "Visual",
       "colors": {
-        "intro": "Grayscale only in the starter. Values: Design system → Color tokens. Customize each layer when you adopt the kit.",
+        "intro": "Grayscale starter with a 12-step interface scale (Radix-style). Values: Design system → Color tokens. Swap the scale for your Radix (or equivalent) palette when you adopt the kit.",
         "brand": [
           {
             "name": "Ink",
@@ -770,32 +1230,86 @@
             "token": "--color-ink-muted",
             "value": "#4a4a4a",
             "usage": "Secondary text, captions"
+          },
+          {
+            "name": "Ink Subtle",
+            "token": "--color-ink-subtle",
+            "value": "#6b6b6b",
+            "usage": "Tertiary text, meta, placeholders"
           }
         ],
         "interface": [
           {
-            "name": "Border",
-            "token": "--color-border",
-            "value": "#d0d0d0",
-            "usage": "Dividers, hairlines, input borders"
+            "name": "Gray 1",
+            "token": "--color-gray-1",
+            "value": "#fcfcfc",
+            "usage": "App background"
           },
           {
-            "name": "Paper",
-            "token": "--color-paper",
-            "value": "#ffffff",
-            "usage": "Page / content card background"
+            "name": "Gray 2",
+            "token": "--color-gray-2",
+            "value": "#f9f9f9",
+            "usage": "Subtle background"
           },
           {
-            "name": "Surface",
-            "token": "--color-surface",
-            "value": "#f5f5f5",
-            "usage": "Panels, zebra rows, subtle fills"
+            "name": "Gray 3",
+            "token": "--color-gray-3",
+            "value": "#f0f0f0",
+            "usage": "UI element background"
           },
           {
-            "name": "Surface Deep",
-            "token": "--color-surface-deep",
+            "name": "Gray 4",
+            "token": "--color-gray-4",
             "value": "#e8e8e8",
-            "usage": "Deeper panels, hover fills"
+            "usage": "Hovered UI element background"
+          },
+          {
+            "name": "Gray 5",
+            "token": "--color-gray-5",
+            "value": "#e0e0e0",
+            "usage": "Active / selected UI element background"
+          },
+          {
+            "name": "Gray 6",
+            "token": "--color-gray-6",
+            "value": "#d9d9d9",
+            "usage": "Subtle borders and separators"
+          },
+          {
+            "name": "Gray 7",
+            "token": "--color-gray-7",
+            "value": "#cecece",
+            "usage": "UI element border and focus rings"
+          },
+          {
+            "name": "Gray 8",
+            "token": "--color-gray-8",
+            "value": "#bbbbbb",
+            "usage": "Hovered UI element border"
+          },
+          {
+            "name": "Gray 9",
+            "token": "--color-gray-9",
+            "value": "#8d8d8d",
+            "usage": "Solid backgrounds"
+          },
+          {
+            "name": "Gray 10",
+            "token": "--color-gray-10",
+            "value": "#838383",
+            "usage": "Hovered solid backgrounds"
+          },
+          {
+            "name": "Gray 11",
+            "token": "--color-gray-11",
+            "value": "#646464",
+            "usage": "Low-contrast text"
+          },
+          {
+            "name": "Gray 12",
+            "token": "--color-gray-12",
+            "value": "#202020",
+            "usage": "High-contrast text"
           }
         ]
       },
@@ -845,7 +1359,7 @@
       }
     },
     "expressions": {
-      "actLabel": "Where to say it",
+      "actLabel": "Applications",
       "items": [
         {
           "channel": "Web",

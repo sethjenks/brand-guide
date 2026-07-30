@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import { AstryxProviders } from "@/components/AstryxProviders";
 import { loadBrand } from "@/lib/load-brand";
+import "@astryxdesign/core/reset.css";
+import "@astryxdesign/core/astryx.css";
+import "@/themes/brand.theme.css";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,7 +34,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={geistSans.variable}>
-      <body className={geistSans.className}>{children}</body>
+      <body>
+        <AstryxProviders>{children}</AstryxProviders>
+      </body>
     </html>
   );
 }
