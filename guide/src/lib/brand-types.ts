@@ -88,7 +88,12 @@ export type BrandSetup = {
   support: string;
   headline: string;
   body: string;
-  sources: readonly { label: string; detail: string }[];
+  sources: readonly {
+    label: string;
+    detail: string;
+    /** Agentic prompt tailored to this source path (copyable in the setup UI). */
+    prompt: string;
+  }[];
   prompt: string;
 };
 

@@ -245,7 +245,13 @@ const setupSchema = z.object({
   support: z.string(),
   headline: z.string(),
   body: z.string(),
-  sources: z.array(z.object({ label: z.string(), detail: z.string() })),
+  sources: z.array(
+    z.object({
+      label: z.string(),
+      detail: z.string(),
+      prompt: z.string().min(1),
+    }),
+  ),
   prompt: z.string(),
 });
 

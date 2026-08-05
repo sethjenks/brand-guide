@@ -98,11 +98,17 @@ section[id] {
   min-width: 0;
 }
 
+.setup-source-prompt-text {
+  margin-top: var(--space-2);
+  max-height: 9rem;
+  overflow: auto;
+}
+
 .copy-snippet-text {
   margin: 0;
   font-family: var(--font-family-code);
   font-size: var(--font-size-sm);
-  line-height: 1.55;
+  line-height: var(--line-height-body);
   white-space: pre-wrap;
   word-break: break-word;
 }

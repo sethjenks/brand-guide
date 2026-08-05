@@ -43,6 +43,7 @@ import { LogoUseItem } from "@/components/LogoUseItem";
 import { PrinciplesSection } from "@/components/PrinciplesSection";
 import { ScaleStack, type ScaleStackStep } from "@/components/ScaleStack";
 import { SectionStub } from "@/components/SectionStub";
+import { SetupSourceCard } from "@/components/SetupSourceCard";
 import { StatementSection } from "@/components/StatementSection";
 import { StorySection } from "@/components/StorySection";
 import { TypefaceSection } from "@/components/TypefaceSection";
@@ -687,28 +688,18 @@ export default function Home() {
                 aria-label="Accepted sources"
               >
                 {brand.setup.sources.map((source) => (
-                  <Clothesline
+                  <SetupSourceCard
                     key={source.label}
-                    as="article"
-                    className="setup-source"
-                    title={source.label}
-                  >
-                    <Text
-                      color="secondary"
-                      type="supporting"
-                      as="p"
-                      display="block"
-                      className="measure"
-                    >
-                      {source.detail}
-                    </Text>
-                  </Clothesline>
+                    label={source.label}
+                    detail={source.detail}
+                    prompt={source.prompt}
+                  />
                 ))}
               </Grid>
 
               <CopySnippet
                 id="setup-prompt"
-                title="Prompt for your agent"
+                title="Default prompt"
                 text={brand.setup.prompt}
               />
 

@@ -8,24 +8,29 @@
   "sources": [
     {
       "label": "Branding Exercise (recommended)",
-      "detail": "intake/brand-intake-questionnaire.md — agent asks one-by-one, or send as a written questionnaire."
+      "detail": "intake/brand-intake-questionnaire.md — agent asks one-by-one, or send as a written questionnaire.",
+      "prompt": "This brand-guide kit is still a starter (intake pending). Run the Branding Exercise in intake/brand-intake-questionnaire.md: ask one question at a time, save answers to resources/transcripts/, set brand/setup.json intake to \"complete\", then rewrite brand.md (including Design system), examples.md, rules.md, and brand/setup.json from the transcript. Run npm run compile from guide/. When done, set brand/setup.json status to \"populated\". Do not hand-edit brand.json or tokens.json."
     },
     {
       "label": "Website URL",
-      "detail": "Marketing site, product page, or About page your agent can read. Skips the questionnaire."
+      "detail": "Marketing site, product page, or About page your agent can read. Skips the questionnaire.",
+      "prompt": "Populate this brand-guide kit from my website. Set brand/setup.json intake to \"skipped\". Follow intake/populate-from-source.md: read the URL I provide (marketing / product / About), then update brand.md (Strategy / Voice / Visual / Expressions / Design system), examples.md, rules.md, and brand/setup.json — cite the URL in sources[]. Run npm run compile from guide/. Keep the guide section structure; keep grayscale unless the site specifies a palette. When done, set status to \"populated\". Do not hand-edit brand.json or tokens.json.\n\nWebsite URL: "
     },
     {
       "label": "Brand guide PDF",
-      "detail": "An existing PDF or deck — extract structure, voice, and visual rules. Skips the questionnaire."
+      "detail": "An existing PDF or deck — extract structure, voice, and visual rules. Skips the questionnaire.",
+      "prompt": "Populate this brand-guide kit from my brand guide PDF (or deck). Set brand/setup.json intake to \"skipped\". Follow intake/populate-from-source.md: extract strategy, voice, and visual rules from the file I attach, then update brand.md (including Design system), examples.md, rules.md, and brand/setup.json — cite the PDF in sources[]. Run npm run compile from guide/. Keep the guide section structure; keep grayscale unless the PDF specifies a palette. When done, set status to \"populated\". Do not hand-edit brand.json or tokens.json.\n\nAttach or path to PDF: "
     },
     {
       "label": "brand.md",
-      "detail": "A brand constitution file (this repo’s format — Strategy / Voice / Visual + Design system). Skips the questionnaire."
+      "detail": "A brand constitution file (this repo’s format — Strategy / Voice / Visual + Design system). Skips the questionnaire.",
+      "prompt": "Populate this brand-guide kit from an existing brand.md (or compatible constitution). Set brand/setup.json intake to \"skipped\". Follow intake/populate-from-source.md: merge or replace this repo’s brand.md with my source (Strategy / Voice / Visual / Expressions / Design system), update examples.md, rules.md, and brand/setup.json as needed, and cite the source in sources[]. Run npm run compile from guide/. When done, set status to \"populated\". Do not hand-edit brand.json or tokens.json.\n\nSource brand.md path or paste: "
     },
     {
       "label": "Figma",
-      "detail": "A figma.com/design URL — agent uses Figma MCP per intake/populate-from-source.md. Skips the questionnaire."
+      "detail": "A figma.com/design URL — agent uses Figma MCP per intake/populate-from-source.md. Skips the questionnaire.",
+      "prompt": "Populate this brand-guide kit from my Figma design file. Set brand/setup.json intake to \"skipped\". Follow intake/populate-from-source.md → Figma MCP protocol: parse fileKey/nodeId, then metadata → variables/styles → frame copy → assets; write into brand.md (never hand-edit brand.json or tokens.json). Update examples.md, rules.md, and brand/setup.json; cite the Figma URL in sources[]. Run npm run compile from guide/. Keep grayscale unless the file specifies a palette. When done, set status to \"populated\".\n\nFigma design URL: "
     }
   ],
-  "prompt": "This brand-guide kit is still a starter (intake pending). Start with the Branding Exercise in intake/brand-intake-questionnaire.md: ask one question at a time, save answers to resources/transcripts/, set brand/setup.json intake to \"complete\", then rewrite brand.md (including Design system), examples.md, rules.md, and setup from the transcript. Run npm run compile from guide/. When done, set status to \"populated\". If I already have a URL / PDF / brand.md / Figma design URL, set intake to \"skipped\" and follow intake/populate-from-source.md instead."
+  "prompt": "This brand-guide kit is still a starter (intake pending). Start with the Branding Exercise in intake/brand-intake-questionnaire.md: ask one question at a time, save answers to resources/transcripts/, set brand/setup.json intake to \"complete\", then rewrite brand.md (including Design system), examples.md, rules.md, and setup from the transcript. Run npm run compile from guide/. When done, set status to \"populated\". If I already have a URL / PDF / brand.md / Figma design URL, set intake to \"skipped\" and follow intake/populate-from-source.md instead — or copy the matching prompt from the Accepted sources cards above."
 }
