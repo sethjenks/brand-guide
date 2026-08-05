@@ -46,7 +46,7 @@ Starting point for customizing this brand-guide kit. **Complete this before** re
 When `brand/setup.json` has `status: "starter"` and `intake` is `"pending"`, this exercise is the **first** thing the agent does.
 
 1. Tell the user you are starting the Branding Exercise (about 20 questions across six sections).
-2. Ask whether they want to proceed **one question at a time** (default), receive the **full written questionnaire**, or **skip** because they already have a website URL, brand PDF, or `brand.md` — in that case set `intake` to `"skipped"` and follow [`populate-from-source.md`](populate-from-source.md).
+2. Ask whether they want to proceed **one question at a time** (default), receive the **full written questionnaire**, or **skip** because they already have a website URL, brand PDF, `brand.md`, or Figma design URL — in that case set `intake` to `"skipped"` and follow [`populate-from-source.md`](populate-from-source.md).
 3. **One-by-one mode:** Ask exactly one question. Wait for the answer. Capture it. Optionally ask one short clarifying follow-up if the answer is vague. Then move to the next question. Do not dump the full list unless asked.
 4. After the last answer (or when the user stops early with enough signal), save the transcript to `resources/transcripts/questionnaire-{brand-name}-{YYYY-MM-DD}.txt`.
 5. Set `brand/setup.json` → `intake` to `"complete"`.

@@ -20,7 +20,7 @@ cache_ttl: 30d
 ## Loading priorities
 
 0. **Intake gate (first)** — If `brand/setup.json` has `status: "starter"` and `intake` is `"pending"`, run [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) **before** anything else. Default: ask the Branding Exercise **one question at a time**. User may take the full written questionnaire, or skip to a source (set `intake` to `"skipped"` and follow populate-from-source). When finished, set `intake` to `"complete"`, rewrite brand markdown + setup from the transcript, compile, then set `status` to `"populated"`.
-1. **Populate from source** — If `intake` is `"skipped"` (or the user already provided a URL, PDF, or `brand.md`), follow [`intake/populate-from-source.md`](intake/populate-from-source.md). Sync brand markdown + setup, run `npm run compile` from `guide/`, then set `status` to `"populated"`.
+1. **Populate from source** — If `intake` is `"skipped"` (or the user already provided a URL, PDF, `brand.md`, or Figma design URL), follow [`intake/populate-from-source.md`](intake/populate-from-source.md). Sync brand markdown + setup, run `npm run compile` from `guide/`, then set `status` to `"populated"`.
 2. `brand.md` frontmatter — name, tagline, version, language
 3. `brand.md` **For agents** — section map and task slices
 4. `brand.md` Strategy — for any strategic or positioning decision

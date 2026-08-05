@@ -9,7 +9,7 @@ Brands customize **theme + content**; the Next.js shell is upstream-owned. See [
 The cover asks you to complete intake before the Sample Brand preview demotes:
 
 1. **Branding Exercise** (recommended when you have no existing guide) — [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md). An agent can ask the questions **one by one**, or you can fill the written questionnaire.
-2. **Or populate from a source** — Website **URL**, brand guide **PDF**, or **`brand.md`**. Follow [`intake/populate-from-source.md`](intake/populate-from-source.md) and set `intake` to `"skipped"`.
+2. **Or populate from a source** — Website **URL**, brand guide **PDF**, **`brand.md`**, or a **Figma** design URL (via Figma MCP). Follow [`intake/populate-from-source.md`](intake/populate-from-source.md) and set `intake` to `"skipped"`.
 
 When finished, set `status` to `"populated"` in [`brand/setup.json`](brand/setup.json) — the setup callout then drops to a small tertiary note. Until then, Sample Brand content remains as a structural preview. See the filled default at [`examples/brand.default.md`](examples/brand.default.md).
 
@@ -92,7 +92,7 @@ UPSTREAM.md       Ownership map + upgrade recipe
 ## Customize
 
 1. Prefer [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) when starting from scratch (agent one-by-one or written). Save under `resources/transcripts/`, set `intake` to `"complete"`, then update brand markdown + `brand/setup.json` and `npm run compile` (never hand-edit `brand.json`).
-2. Or skip intake with [`intake/populate-from-source.md`](intake/populate-from-source.md) when you have a URL, PDF, or `brand.md` (set `intake` to `"skipped"`).
+2. Or skip intake with [`intake/populate-from-source.md`](intake/populate-from-source.md) when you have a URL, PDF, `brand.md`, or Figma design URL (set `intake` to `"skipped"`).
 3. Theme the guide by editing `brand.md` → Design system (including new `--color-*` rows and optional Guide column) and running `npm run compile` in `guide/`.
 4. Keep strategy/voice copy in the upper sections of `brand.md`; compile updates `brand.json`.
 5. Light tweaks: `brand/overrides.css`, logos in `brand/assets/`.

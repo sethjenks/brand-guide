@@ -18,7 +18,7 @@ Edit root `brand.md` (and `examples.md`, `rules.md`, `templates.md`, `brand/setu
 
 ## For agents (LLM)
 
-**First fill (recommended):** If `brand/setup.json` → `intake` is `"pending"`, start with the Branding Exercise in [`intake/brand-intake-questionnaire.md`](../intake/brand-intake-questionnaire.md) — ask one question at a time by default. If the user already has a website URL, brand-guide PDF, or a `brand.md`, set `intake` to `"skipped"` and follow [`intake/populate-from-source.md`](../intake/populate-from-source.md). After fill: update root `brand.md`, `examples.md`, `rules.md`, and `brand/setup.json`; run compile; set `intake` to `"complete"` (or leave `"skipped"`) and `status` to `"populated"` so the cover callout demotes.
+**First fill (recommended):** If `brand/setup.json` → `intake` is `"pending"`, start with the Branding Exercise in [`intake/brand-intake-questionnaire.md`](../intake/brand-intake-questionnaire.md) — ask one question at a time by default. If the user already has a website URL, brand-guide PDF, a `brand.md`, or a Figma design URL, set `intake` to `"skipped"` and follow [`intake/populate-from-source.md`](../intake/populate-from-source.md). After fill: update root `brand.md`, `examples.md`, `rules.md`, and `brand/setup.json`; run compile; set `intake` to `"complete"` (or leave `"skipped"`) and `status` to `"populated"` so the cover callout demotes.
 
 When the root file is empty or partially filled and no external source is provided, do **one** of the following:
 
