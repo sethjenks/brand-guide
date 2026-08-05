@@ -3,6 +3,7 @@ import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type StoryLength = {
   label: string;
@@ -40,7 +41,8 @@ export function StorySection({
       as="section"
       id={id}
       gap={8}
-      className="block subsection audience-section story-section"
+      className="audience-section story-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

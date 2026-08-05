@@ -15,7 +15,7 @@ export const brandTheme = defineTheme({
     neutralStyle: "neutral",
   },
   typography: {
-    scale: { base: 16, ratio: 1.2 },
+    scale: brandThemeInput.typeScale ?? { base: 16, ratio: 1.2 },
     // Loaded face first (Next font CSS variable), then named Geist / system fallbacks.
     body: {
       family: "var(--font-geist-sans)",
@@ -85,6 +85,15 @@ export const brandTheme = defineTheme({
     "--color-background-card": [
       brandThemeInput.colors.surface,
       brandThemeInput.colors.surface,
+    ],
+    "--color-background-muted": [
+      brandThemeInput.colors.surfaceDeep,
+      brandThemeInput.colors.surfaceDeep,
+    ],
+    // Chapter invert / ink panels — brand ink, not Neutral default.
+    "--color-background-inverted": [
+      brandThemeInput.colors.ink,
+      brandThemeInput.colors.ink,
     ],
     "--color-border": [
       brandThemeInput.colors.border,

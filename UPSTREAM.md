@@ -27,6 +27,31 @@ Every `--color-*` hex row in the fenced Design system section becomes an agent t
 
 `tokens.json` is a Design Tokens Community Group (DTCG) export for external tools. Theme authoring stays in `brand.md` → Design system only.
 
+### Semantic token contract
+
+These roles must appear as color tokens in `brand.md` → Design system. `compile-design.mjs` fails with a checklist if any are missing. The guide theme ([`guide/src/themes/brand.ts`](guide/src/themes/brand.ts)) maps them onto Astryx:
+
+| Role | Design token | Astryx mapping |
+| --- | --- | --- |
+| ink | `--color-ink` | text/icon primary, inverted background, accent |
+| ink-muted | `--color-ink-muted` | text/icon secondary |
+| ink-subtle | `--color-ink-subtle` | text/icon disabled |
+| canvas | `--color-canvas` | `--color-background-body` |
+| paper | `--color-paper` | `--color-background-surface` |
+| surface | `--color-surface` | `--color-background-card` |
+| surface-deep | `--color-surface-deep` | `--color-background-muted` |
+| border | `--color-border` | `--color-border` |
+
+**Derived:** theme `accent` equals ink (no separate `--color-accent` row required).
+
+**Optional** (grayscale defaults / existing fallbacks if omitted): `--color-gray-*`, `--color-rail`, `--radius-base`, `--type-base` / `--type-ratio` (default `16` / `1.2`), `--space-unit` (default `0.25rem`).
+
+**Derived scales (compile):** `--type-base` + `--type-ratio` → `--font-size-sm|base|lg|xl` (Astryx geometric formula) and `brandThemeInput.typeScale` for [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts). `--space-unit` → `--space-1`…`7` as `unit × [1, 2, 4, 6, 10, 16, 24]` (document rhythm). Keep fluid `--font-size-display` / `--font-size-h0` authored. Document `--space-*` is separate from Astryx UI `--spacing-*` — do not alias them.
+
+`--radius-base` → `radiusBasePx`; Astryx expands semantic radii (`inner`, `element`, `container`, `page`).
+
+Chrome required colors also emit as `--brand-*` in `tokens.generated.css`. Live UI reads Astryx semantic names from the built theme, not the temporary legacy aliases (those were removed).
+
 ### CSS overrides
 
 | Edit this | Not this |
@@ -34,6 +59,10 @@ Every `--color-*` hex row in the fenced Design system section becomes an agent t
 | [`brand/overrides.css`](brand/overrides.css) | `guide/src/styles/brand.overrides.css` |
 
 The file under `guide/src/styles/` is **generated** on compile (copied from `brand/overrides.css`). Edits there are wiped on the next `npm run compile` and will fight upstream merges. Prefer tokens in the Design system section first; use overrides only for light additive tweaks.
+
+### Guide flourish (shell-owned)
+
+Intentional brand-book chrome (chapter invert, type specimens, don’t strikes, archetype wheel, voice spectrum, hero type) lives in [`guide/src/styles/flourish/`](guide/src/styles/flourish/) and is imported by owning components. It is **not** Design system tokens and **not** `brand/overrides.css`. Upstream edits those files; brand clones should not fork flourish for theming.
 
 ## Spec version
 

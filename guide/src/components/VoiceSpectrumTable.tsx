@@ -1,4 +1,7 @@
+import { Text } from "@astryxdesign/core/Text";
+import { VStack } from "@astryxdesign/core/VStack";
 import type { VoiceSpectrumRow } from "@/lib/brand-types";
+import "@/styles/flourish/voice-spectrum.css";
 
 type VoiceSpectrumTableProps = {
   rows: readonly VoiceSpectrumRow[];
@@ -119,17 +122,33 @@ export function VoiceSpectrumTable({ rows }: VoiceSpectrumTableProps) {
   if (!rows.length) return null;
 
   return (
-    <div
+    <VStack
+      gap={4}
+      width="100%"
       className="voice-spectrum"
       role="list"
       aria-label="Brand voice spectrum — highlighted range marks where this brand sits on each dimension"
     >
       {rows.map((row) => (
         <div className="voice-spectrum-row" role="listitem" key={row.id}>
-          <p className="voice-spectrum-dim">{row.label}</p>
+          <Text
+            as="p"
+            type="label"
+            weight="bold"
+            color="primary"
+            display="block"
+            className="voice-spectrum-dim"
+            style={{
+              background: "var(--color-background-inverted)",
+              color: "var(--color-background-surface)",
+              borderRadius: "var(--radius-inner)",
+            }}
+          >
+            {row.label}
+          </Text>
           <SpectrumRowSvg row={row} />
         </div>
       ))}
-    </div>
+    </VStack>
   );
 }

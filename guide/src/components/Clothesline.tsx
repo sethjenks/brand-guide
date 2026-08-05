@@ -4,7 +4,7 @@ import { HStack } from "@astryxdesign/core/HStack";
 import { StackItem } from "@astryxdesign/core/Stack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
-import type { ElementType, ReactNode } from "react";
+import type { CSSProperties, ElementType, ReactNode } from "react";
 
 type ClotheslineProps = {
   /** Left-column title (string → bold Text; or pass a Heading). */
@@ -15,6 +15,7 @@ type ClotheslineProps = {
   action?: ReactNode;
   id?: string;
   className?: string;
+  style?: CSSProperties;
   as?: ElementType;
   "aria-labelledby"?: string;
   "aria-label"?: string;
@@ -30,6 +31,7 @@ export function Clothesline({
   action,
   id,
   className,
+  style,
   as = "div",
   "aria-labelledby": ariaLabelledBy,
   "aria-label": ariaLabel,
@@ -72,7 +74,9 @@ export function Clothesline({
       as={as}
       id={id}
       gap={4}
+      width="100%"
       className={["clothesline", className].filter(Boolean).join(" ")}
+      style={style}
       aria-labelledby={ariaLabelledBy}
       aria-label={ariaLabel}
     >

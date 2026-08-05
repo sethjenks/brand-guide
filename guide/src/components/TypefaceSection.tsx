@@ -7,6 +7,8 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { CSSProperties } from "react";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
+import "@/styles/flourish/type-specimens.css";
 
 const SPECIMEN_LINES = [
   "ABCDEFGHIJKLMNO",
@@ -66,9 +68,10 @@ export function TypefaceSection({
       as="section"
       id={id}
       gap={6}
-      className={["block subsection typeface-section", className]
+      className={["typeface-section", className]
         .filter(Boolean)
         .join(" ")}
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

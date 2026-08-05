@@ -194,13 +194,21 @@ if (!fs.existsSync(dtcgPath)) {
       );
       failed += 1;
     }
-    if (!dtcg.color?.ink?.$value) {
-      console.error("FAIL tokens.json missing color.ink.$value");
-      failed += 1;
-    }
-    if (!dtcg.color?.paper?.$value) {
-      console.error("FAIL tokens.json missing color.paper.$value");
-      failed += 1;
+    const requiredDtcgColors = [
+      "ink",
+      "ink-muted",
+      "ink-subtle",
+      "canvas",
+      "paper",
+      "surface",
+      "surface-deep",
+      "border",
+    ];
+    for (const leaf of requiredDtcgColors) {
+      if (!dtcg.color?.[leaf]?.$value) {
+        console.error(`FAIL tokens.json missing color.${leaf}.$value`);
+        failed += 1;
+      }
     }
     if (!dtcg.space || typeof dtcg.space !== "object") {
       console.error("FAIL tokens.json missing space group");

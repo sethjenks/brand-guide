@@ -5,6 +5,7 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { CSSProperties } from "react";
 import { Icons } from "@/components/icons";
+import "@/styles/flourish/dont-grid-strike.css";
 
 export type ColorContrastItem = {
   id: string;
@@ -100,6 +101,19 @@ export function ColorContrastGrid({
                     gap={1}
                     vAlign="center"
                     className={`color-contrast-chip color-contrast-chip-${chipTone}`}
+                    style={
+                      chipTone === "dark"
+                        ? {
+                            background: "var(--color-background-inverted)",
+                            color: "var(--color-background-surface)",
+                            borderRadius: "var(--radius-inner)",
+                          }
+                        : {
+                            background: "var(--color-background-surface)",
+                            color: "var(--color-text-primary)",
+                            borderRadius: "var(--radius-inner)",
+                          }
+                    }
                   >
                     <Icons.Image size={12} aria-hidden="true" />
                     <Text

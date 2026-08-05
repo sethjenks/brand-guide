@@ -1,6 +1,7 @@
 import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type SectionStubProps = {
   id: string;
@@ -13,7 +14,7 @@ export function SectionStub({ id, title }: SectionStubProps) {
     <Clothesline
       as="section"
       id={id}
-      className="block subsection"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
       title={
         <Heading level={3} id={`${id}-title`} className="clothesline-title">

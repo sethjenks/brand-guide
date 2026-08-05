@@ -232,11 +232,14 @@ export const ARCHETYPE_MOTIVES: readonly MotiveMeta[] = [
 
 /** Neutral (undecided) fills — grayscale ink steps. */
 export const ARCHETYPE_NEUTRAL = {
-  outer: "color-mix(in srgb, var(--color-ink) 42%, var(--color-paper))",
-  middle: "color-mix(in srgb, var(--color-ink) 18%, var(--color-paper))",
-  motive: "color-mix(in srgb, var(--color-ink) 12%, var(--color-paper))",
-  text: "var(--color-ink-muted)",
-  textActive: "var(--color-paper)",
+  outer:
+    "color-mix(in srgb, var(--color-text-primary) 42%, var(--color-background-surface))",
+  middle:
+    "color-mix(in srgb, var(--color-text-primary) 18%, var(--color-background-surface))",
+  motive:
+    "color-mix(in srgb, var(--color-text-primary) 12%, var(--color-background-surface))",
+  text: "var(--color-text-secondary)",
+  textActive: "var(--color-background-surface)",
 } as const;
 
 /**

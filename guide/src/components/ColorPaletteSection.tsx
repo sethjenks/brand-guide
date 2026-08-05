@@ -3,6 +3,7 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { ReactNode } from "react";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type ColorPaletteSectionProps = {
   id: string;
@@ -31,9 +32,10 @@ export function ColorPaletteSection({
       as="section"
       id={id}
       gap={4}
-      className={["block subsection color-palette-section", className]
+      className={["color-palette-section", className]
         .filter(Boolean)
         .join(" ")}
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

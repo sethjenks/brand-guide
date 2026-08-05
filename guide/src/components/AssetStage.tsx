@@ -29,6 +29,10 @@ export function AssetStage({
       minHeight={minHeight}
       aria-label={ariaLabel}
       className={["asset-stage", className].filter(Boolean).join(" ")}
+      style={{
+        border: "1px solid var(--color-border)",
+        borderRadius: 0,
+      }}
     >
       <HStack
         hAlign="center"

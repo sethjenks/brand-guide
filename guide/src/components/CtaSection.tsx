@@ -3,6 +3,7 @@ import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type CtaSectionProps = {
   id?: string;
@@ -65,7 +66,8 @@ export function CtaSection({
     <Clothesline
       as="section"
       id={id}
-      className="block subsection clothesline-grid-section cta-section"
+      className="clothesline-grid-section cta-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
       title={
         <Heading level={3} id={`${id}-title`} className="clothesline-title">

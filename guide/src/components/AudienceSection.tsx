@@ -4,6 +4,7 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { ReactNode } from "react";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 export type AudienceGroup = {
   segments: readonly string[];
@@ -49,7 +50,8 @@ export function AudienceSection({
       as="section"
       id={id}
       gap={8}
-      className="block subsection audience-section"
+      className="audience-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

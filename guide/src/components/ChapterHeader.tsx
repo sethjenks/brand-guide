@@ -3,6 +3,7 @@
 import { Heading } from "@astryxdesign/core/Heading";
 import { MediaTheme } from "@astryxdesign/core/theme";
 import { VStack } from "@astryxdesign/core/VStack";
+import "@/styles/flourish/chapter-header.css";
 
 type ChapterHeaderProps = {
   title: string;

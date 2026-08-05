@@ -36,26 +36,19 @@ Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`
   --color-canvas: #dcdcdc;
   --color-rail: #e6e6e6;
 
-  /* Typography */
+  /* Typography — --type-base / --type-ratio derive sm/base/lg/xl on compile */
   --font-sans: var(--font-geist-sans), "Geist", "IBM Plex Sans", system-ui, sans-serif;
-  --font-size-base: 1rem;
-  --font-size-sm: 0.875rem;
-  --font-size-lg: 1.25rem;
-  --font-size-xl: 1.75rem;
+  --type-base: 16;
+  --type-ratio: 1.2;
   --font-size-display: clamp(2.75rem, 6vw, 4.25rem);
+  --font-size-h0: clamp(4.5rem, 14vw, 9rem);
   --line-height-body: 1.55;
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
 
-  /* Spacing & layout */
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 1rem;
-  --space-4: 1.5rem;
-  --space-5: 2.5rem;
-  --space-6: 4rem;
-  --space-7: 6rem;
+  /* Spacing — --space-unit derives --space-1…7 on compile (document rhythm) */
+  --space-unit: 0.25rem;
   --content-max: 65ch;
   --guide-max: 60rem;
 
@@ -94,27 +87,29 @@ Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this De
 | Token | Value | Usage |
 | --- | --- | --- |
 | `--font-sans` | `var(--font-geist-sans), "Geist", "IBM Plex Sans", system-ui, sans-serif` | Display + body |
-| `--font-size-base` | `1rem` | Body |
-| `--font-size-sm` | `0.875rem` | Captions, meta |
-| `--font-size-lg` | `1.25rem` | Lead |
-| `--font-size-xl` | `1.75rem` | Section titles |
-| `--font-size-display` | `clamp(2.75rem, 6vw, 4.25rem)` | Cover / hero brand name |
+| `--type-base` | `16` | Modular scale base (px); compiles to Astryx `typography.scale.base` and `--font-size-*` steps |
+| `--type-ratio` | `1.2` | Modular scale ratio; compiles to Astryx `typography.scale.ratio` |
+| `--font-size-display` | `clamp(2.75rem, 6vw, 4.25rem)` | Cover / hero brand name (authored fluid) |
+| `--font-size-h0` | `clamp(4.5rem, 14vw, 9rem)` | Chapter openers (authored fluid) |
 | `--line-height-body` | `1.55` | Body copy |
 | `--font-weight-regular` | `400` | Body |
 | `--font-weight-medium` | `500` | Labels |
 | `--font-weight-semibold` | `600` | Headings |
 
+**Derived on compile** (do not hand-author): `--font-size-sm`, `--font-size-base`, `--font-size-lg`, `--font-size-xl` via geometric steps `base × ratio^n` (same formula as Astryx `expandTypeScale`).
+
 **Hierarchy**
 
-1. Display — brand name, cover
-2. XL — section titles (Strategy, Voice, Visual)
-3. LG — subsection titles
-4. Base — body
-5. SM — captions, token labels
+1. H0 — chapter openers (inverted ink panels)
+2. Display — brand name, cover
+3. XL — section titles (derived)
+4. LG — subsection titles (derived)
+5. Base — body (derived)
+6. SM — captions, token labels (derived)
 
 **Accessibility**
 
-- Min body size: `16px` (`1rem` at default root)
+- Min body size: `16px` (`--type-base` at default root)
 - Min line-height: `1.5`
 - Min contrast ratio (body): `4.5`
 
@@ -122,18 +117,14 @@ Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this De
 
 | Token | Value |
 | --- | --- |
-| `--space-1` | `0.25rem` |
-| `--space-2` | `0.5rem` |
-| `--space-3` | `1rem` |
-| `--space-4` | `1.5rem` |
-| `--space-5` | `2.5rem` |
-| `--space-6` | `4rem` |
-| `--space-7` | `6rem` |
+| `--space-unit` | `0.25rem` |
 | `--content-max` | `65ch` (prose measure ≈ 65–75 characters) |
 | `--guide-max` | `60rem` |
 | `--radius-base` | `0.5rem` |
 
-**Radius.** `--radius-base` is the single roundness knob for the app shell. The guide derives `--radius-sm` (½×), `--radius-md` (1×), and `--radius-lg` (1½×) from it in CSS — nav items, panels, swatches, and the content card all track this value. Set to `0` for sharp corners.
+**Derived on compile** (do not hand-author): `--space-1`…`--space-7` as `unit × [1, 2, 4, 6, 10, 16, 24]`. Document rhythm for guide CSS — not Astryx UI `--spacing-*`.
+
+**Radius.** `--radius-base` is the single roundness knob. Compile emits `radiusBasePx` into the Astryx theme; Astryx expands semantic radii (`inner`, `element`, `container`, `page`). Set to `0` for sharp corners.
 
 Document-like layout: single column for prose; wide enough for swatches and type specimens. Generous vertical rhythm between sections (`--space-6`).
 

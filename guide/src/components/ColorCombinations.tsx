@@ -84,9 +84,13 @@ export function ColorCombinations({
       className={["color-combinations", className].filter(Boolean).join(" ")}
     >
       {items.map((item) => {
+        const light = isLightSurface(item.outer);
         const style = {
           "--color-combination-outer": item.outer,
           "--color-combination-inner": item.inner,
+          ...(light
+            ? { boxShadow: "inset 0 0 0 1px var(--color-border)" }
+            : {}),
         } as CSSProperties;
 
         return (
@@ -98,7 +102,7 @@ export function ColorCombinations({
               height="100%"
               className={[
                 "color-combination",
-                isLightSurface(item.outer) ? "color-combination-light" : null,
+                light ? "color-combination-light" : null,
               ]
                 .filter(Boolean)
                 .join(" ")}

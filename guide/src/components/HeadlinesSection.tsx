@@ -2,6 +2,7 @@ import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type HeadlinesSectionProps = {
   id?: string;
@@ -24,7 +25,8 @@ export function HeadlinesSection({
       as="section"
       id={id}
       gap={8}
-      className="block subsection statement-section headlines-section"
+      className="statement-section headlines-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline
@@ -50,9 +52,9 @@ export function HeadlinesSection({
 
       {items.length > 0 ? (
         <VStack gap={8} role="list" aria-label="Headlines">
-          {items.map((headline) => (
+          {items.map((headline, index) => (
             <Text
-              key={headline}
+              key={`${id}-headline-${index}`}
               type="display-2"
               weight="bold"
               color="primary"

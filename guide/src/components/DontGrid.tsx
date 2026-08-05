@@ -4,6 +4,7 @@ import { HStack } from "@astryxdesign/core/HStack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { ReactNode } from "react";
+import "@/styles/flourish/dont-grid-strike.css";
 
 export type DontGridItem = {
   id: string;
@@ -64,6 +65,10 @@ export function DontGrid({
             vAlign="center"
             width="100%"
             className="dont-grid-stage"
+            style={{
+              border: "1px solid var(--color-border)",
+              background: "var(--color-background-card)",
+            }}
           >
             <AspectRatio ratio={ratio} fit="center">
               {item.src ? (

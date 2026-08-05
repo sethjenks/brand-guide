@@ -1,0 +1,11 @@
+{
+  "name": "brand-guide",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix guide",
+    "build": "npm run build --prefix guide",
+    "start": "npm run start --prefix guide",
+    "lint": "npm run lint --prefix guide",
+    "compile": "npm run compile --prefix guide"
+  }
+}

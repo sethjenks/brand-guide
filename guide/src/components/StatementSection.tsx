@@ -2,6 +2,7 @@ import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type StatementSectionProps = {
   id: string;
@@ -25,7 +26,8 @@ export function StatementSection({
     <Clothesline
       as="section"
       id={id}
-      className="block subsection statement-section"
+      className="statement-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
       title={
         <Heading level={3} id={`${id}-title`} className="clothesline-title">

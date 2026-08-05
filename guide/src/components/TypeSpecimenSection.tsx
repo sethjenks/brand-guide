@@ -6,6 +6,8 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Clothesline } from "@/components/Clothesline";
 import type { TypeWeightItem } from "@/components/TypeWeightsSection";
+import { sectionLeafStyle } from "@/lib/section-leaf";
+import "@/styles/flourish/type-specimens.css";
 
 /** A–Z then 0–9 → 4×9 glyph grid. */
 const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
@@ -37,9 +39,10 @@ export function TypeSpecimenSection({
       as="section"
       id={id}
       gap={8}
-      className={["block subsection type-specimen-section", className]
+      className={["type-specimen-section", className]
         .filter(Boolean)
         .join(" ")}
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

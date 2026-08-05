@@ -1,3 +1,5 @@
+import { Text } from "@astryxdesign/core/Text";
+
 type AgentLabelProps = {
   className?: string;
 };
@@ -5,11 +7,19 @@ type AgentLabelProps = {
 /** Marks guide content that is especially useful as agent instruction. */
 export function AgentLabel({ className }: AgentLabelProps) {
   return (
-    <span
+    <Text
+      as="span"
+      type="label"
+      weight="semibold"
+      color="secondary"
       className={["agent-label", className].filter(Boolean).join(" ")}
-      title="Structured guidance for agents generating on-brand work"
+      style={{
+        border: "1px solid var(--color-border)",
+        borderRadius: "var(--radius-inner)",
+      }}
+      aria-label="Structured guidance for agents generating on-brand work"
     >
       For agents
-    </span>
+    </Text>
   );
 }

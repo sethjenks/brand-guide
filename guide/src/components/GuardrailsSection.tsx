@@ -5,6 +5,7 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { AgentLabel } from "@/components/AgentLabel";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type GuardrailsSectionProps = {
   id?: string;
@@ -31,7 +32,8 @@ export function GuardrailsSection({
     <Clothesline
       as="section"
       id={id}
-      className="block subsection clothesline-grid-section"
+      className="clothesline-grid-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
       title={
         <HStack gap={2} align="center" wrap="wrap">
