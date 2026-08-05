@@ -5,6 +5,7 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { AgentLabel } from "@/components/AgentLabel";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 export type PrincipleItem = {
   title: string;
@@ -34,7 +35,8 @@ export function PrinciplesSection({
       as="section"
       id={id}
       gap={8}
-      className="block subsection audience-section principles-section"
+      className="audience-section principles-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

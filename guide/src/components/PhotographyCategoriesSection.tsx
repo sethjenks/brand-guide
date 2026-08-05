@@ -4,6 +4,7 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { AssetStage } from "@/components/AssetStage";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 export type PhotographyCategoryNavItem = {
   id: string;
@@ -39,9 +40,10 @@ export function PhotographyCategoriesSection({
       as="section"
       id={id}
       gap={4}
-      className={["block subsection photo-categories-section", className]
+      className={["photo-categories-section", className]
         .filter(Boolean)
         .join(" ")}
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline
@@ -63,11 +65,10 @@ export function PhotographyCategoriesSection({
       </Clothesline>
 
       <Grid
-        columns={2}
+        columns={{ minWidth: 280, max: 2 }}
         gap={6}
         width="100%"
         aria-label="Photography categories"
-        className="photo-categories-grid"
       >
         {items.map((item) => (
           <a

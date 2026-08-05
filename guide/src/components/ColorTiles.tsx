@@ -167,6 +167,9 @@ export function ColorTiles({
         const rgb = formatRgb(color.value);
         const style = {
           "--color-tile-bg": color.value,
+          ...(mode === "light"
+            ? { boxShadow: "inset 0 0 0 1px var(--color-border)" }
+            : {}),
         } as CSSProperties;
 
         return (

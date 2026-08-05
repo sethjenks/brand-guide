@@ -1,0 +1,144 @@
+/* Type principles stage gridlines, copy demos, don’t samples (flourish). */
+/* Gridline flourish kept; border on component; fill uses Astryx card token. */
+.type-principle-stage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      to right,
+      transparent calc(25% - 0.5px),
+      var(--color-border) calc(25% - 0.5px),
+      var(--color-border) calc(25% + 0.5px),
+      transparent calc(25% + 0.5px)
+    ),
+    linear-gradient(
+      to right,
+      transparent calc(50% - 0.5px),
+      var(--color-border) calc(50% - 0.5px),
+      var(--color-border) calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)
+    ),
+    linear-gradient(
+      to right,
+      transparent calc(75% - 0.5px),
+      var(--color-border) calc(75% - 0.5px),
+      var(--color-border) calc(75% + 0.5px),
+      transparent calc(75% + 0.5px)
+    ),
+    linear-gradient(
+      to bottom,
+      transparent calc(33.33% - 0.5px),
+      var(--color-border) calc(33.33% - 0.5px),
+      var(--color-border) calc(33.33% + 0.5px),
+      transparent calc(33.33% + 0.5px)
+    ),
+    linear-gradient(
+      to bottom,
+      transparent calc(66.66% - 0.5px),
+      var(--color-border) calc(66.66% - 0.5px),
+      var(--color-border) calc(66.66% + 0.5px),
+      transparent calc(66.66% + 0.5px)
+    ),
+    var(--color-background-card);
+}
+
+.type-principle-stage-inner {
+  width: 100%;
+  height: 100%;
+  padding: var(--space-4);
+  box-sizing: border-box;
+}
+
+.type-principle-caption {
+  font-size: var(--font-size-sm);
+}
+
+.type-principle-copy,
+.astryx-text.type-principle-copy {
+  font-family: var(--font-family-heading);
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  max-width: 100%;
+}
+
+.type-principle-copy-padded {
+  padding: var(--space-3);
+}
+
+.type-principle-copy-crowded {
+  margin-inline: calc(var(--space-4) * -1);
+  padding-inline: 0;
+}
+
+.type-principle-copy-aligned {
+  margin-inline: 0;
+}
+
+.type-principle-copy-float {
+  width: 100%;
+  padding-inline-start: var(--space-5);
+}
+
+.type-principle-copy-offset {
+  margin-inline-start: var(--space-4);
+}
+
+.type-principle-copy-scale {
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+}
+
+.type-principle-emphasis,
+.astryx-text.type-principle-emphasis {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.type-principle-copy-shout {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: var(--font-size-sm);
+}
+
+.type-dont-sample,
+.astryx-text.type-dont-sample {
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-align: center;
+}
+
+.type-dont-stretch {
+  transform: scaleX(1.55);
+}
+
+.type-dont-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-text-primary);
+}
+
+.type-dont-shadow {
+  text-shadow: 0.2em 0.2em 0 var(--color-text-disabled);
+}
+
+.type-dont-contrast {
+  color: var(--color-text-disabled);
+  opacity: 0.45;
+}
+
+.type-dont-caps {
+  font-size: clamp(0.85rem, 1.6vw, 1.1rem);
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.type-dont-stack {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  letter-spacing: 0.04em;
+}

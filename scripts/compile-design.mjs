@@ -44,7 +44,7 @@ const ASSETS_DEST = path.join(root, "guide/public/brand");
 const OVERRIDES_SRC = path.join(root, "brand/overrides.css");
 const OVERRIDES_DEST = path.join(root, "guide/src/styles/brand.overrides.css");
 
-/** Color tokens remapped to --brand-* with temporary --color-* aliases. */
+/** Color tokens remapped to --brand-* in tokens.generated.css (no temporary --color-* aliases). */
 const BRAND_COLOR_ALIAS = {
   "--color-ink": "--brand-ink",
   "--color-ink-muted": "--brand-ink-muted",
@@ -56,6 +56,43 @@ const BRAND_COLOR_ALIAS = {
   "--color-surface-deep": "--brand-surface-deep",
   "--color-border": "--brand-border",
 };
+
+/**
+ * Semantic roles required in brand.md Design system (theme contract).
+ * Accent is derived from ink; rail / gray scale / type / space stay optional.
+ */
+const REQUIRED_COLOR_TOKENS = [
+  "--color-ink",
+  "--color-ink-muted",
+  "--color-ink-subtle",
+  "--color-canvas",
+  "--color-paper",
+  "--color-surface",
+  "--color-surface-deep",
+  "--color-border",
+];
+
+/** Default modular type scale (Astryx expandTypeScale-compatible). */
+const DEFAULT_TYPE_BASE = 16;
+const DEFAULT_TYPE_RATIO = 1.2;
+
+/**
+ * Document space ramp multipliers for `--space-1`…`7` from `--space-unit`.
+ * Preserves classic rem steps when unit is `0.25rem`.
+ */
+const SPACE_UNIT_MULTIPLIERS = [1, 2, 4, 6, 10, 16, 24];
+const DEFAULT_SPACE_UNIT = "0.25rem";
+
+/**
+ * Guide CSS font-size steps derived from type knobs (Astryx step indices).
+ * display / h0 stay authored (fluid clamps).
+ */
+const TYPE_STEP_TOKENS = [
+  { name: "--font-size-sm", step: -1, usage: "Captions, meta" },
+  { name: "--font-size-base", step: 0, usage: "Body" },
+  { name: "--font-size-lg", step: 1, usage: "Lead" },
+  { name: "--font-size-xl", step: 2, usage: "Section titles" },
+];
 
 const DESIGN_SYSTEM_START = "<!-- brand-guide:design-system -->";
 const DESIGN_SYSTEM_END = "<!-- /brand-guide:design-system -->";
@@ -192,6 +229,97 @@ function mergeTokens(fromTables, fromCss) {
 }
 
 /**
+ * Match Astryx expandTypeScale: round(base × ratio^step), rem from 16px root.
+ * @param {number} base
+ * @param {number} ratio
+ * @param {number} step
+ * @returns {string}
+ */
+function typeStepToRem(base, ratio, step) {
+  const px = Math.round(base * Math.pow(ratio, step));
+  const rem = Math.round((px / 16) * 10000) / 10000;
+  return `${rem}rem`;
+}
+
+/**
+ * @param {string} unitRaw
+ * @returns {{ amount: number, unit: string }}
+ */
+function parseSpaceUnit(unitRaw) {
+  const trimmed = unitRaw.trim();
+  const match = trimmed.match(/^(-?[\d.]+)\s*(rem|px|em)$/i);
+  if (match) {
+    return { amount: Number(match[1]), unit: match[2].toLowerCase() };
+  }
+  const num = Number(trimmed);
+  if (Number.isFinite(num)) {
+    return { amount: num, unit: "rem" };
+  }
+  return parseSpaceUnit(DEFAULT_SPACE_UNIT);
+}
+
+/**
+ * Derive modular font sizes + document space ramp from knobs.
+ * Overwrites any hand-authored overlapping `--font-size-sm|base|lg|xl` and `--space-1`…`7`.
+ * @param {Map<string, TokenDef>} tokens
+ * @returns {{ typeBase: number, typeRatio: number }}
+ */
+function deriveTypeAndSpaceScales(tokens) {
+  const typeBaseRaw = tokens.get("--type-base")?.value?.trim();
+  const typeRatioRaw = tokens.get("--type-ratio")?.value?.trim();
+  let typeBase = DEFAULT_TYPE_BASE;
+  let typeRatio = DEFAULT_TYPE_RATIO;
+  if (typeBaseRaw) {
+    const n = Number.parseFloat(typeBaseRaw);
+    if (Number.isFinite(n) && n > 0) typeBase = n;
+  }
+  if (typeRatioRaw) {
+    const n = Number.parseFloat(typeRatioRaw);
+    if (Number.isFinite(n) && n > 0) typeRatio = n;
+  }
+
+  // Ensure knobs exist in the token map (defaults when omitted).
+  if (!tokens.has("--type-base")) {
+    tokens.set("--type-base", { value: String(typeBase), usage: "Modular type scale base (px)" });
+  }
+  if (!tokens.has("--type-ratio")) {
+    tokens.set("--type-ratio", { value: String(typeRatio), usage: "Modular type scale ratio" });
+  }
+
+  for (const { name, step, usage } of TYPE_STEP_TOKENS) {
+    const prev = tokens.get(name);
+    tokens.set(name, {
+      value: typeStepToRem(typeBase, typeRatio, step),
+      usage: prev?.usage || usage,
+      guide: prev?.guide,
+    });
+  }
+
+  const spaceUnitRaw =
+    tokens.get("--space-unit")?.value?.trim() || DEFAULT_SPACE_UNIT;
+  if (!tokens.has("--space-unit")) {
+    tokens.set("--space-unit", {
+      value: spaceUnitRaw,
+      usage: "Document spacing unit",
+    });
+  }
+  const { amount, unit } = parseSpaceUnit(spaceUnitRaw);
+  for (let i = 0; i < SPACE_UNIT_MULTIPLIERS.length; i++) {
+    const name = `--space-${i + 1}`;
+    const prev = tokens.get(name);
+    const product =
+      Math.round(amount * SPACE_UNIT_MULTIPLIERS[i] * 10000) / 10000;
+    tokens.set(name, {
+      value: `${product}${unit}`,
+      usage: prev?.usage,
+      guide: prev?.guide,
+    });
+  }
+
+  return { typeBase, typeRatio };
+}
+
+/**
  * Extract the fenced Design system region from brand.md.
  * @param {string} md
  * @returns {string}
@@ -225,33 +353,23 @@ function renderTokensCss(tokens) {
     " * Source: brand.md Design system section",
     " * Regenerate: node scripts/compile-design.mjs  (or npm run compile)",
     " *",
-    " * Color specimens use --brand-*. Legacy --color-* names alias to them",
-    " * so existing chapter CSS keeps working during the Astryx migration.",
+    " * Semantic chrome colors from brand.md emit as --brand-*.",
+    " * Interface scales (e.g. --color-gray-*) emit under their authored names.",
+    " * Astryx semantic tokens (--color-text-*, --color-background-*) come from the theme.",
     " */",
     "",
     ":root {",
   ];
 
   const ordered = [...tokens.entries()].sort(([a], [b]) => a.localeCompare(b));
-  /** @type {[string, string][]} */
-  const aliases = [];
 
   for (const [name, { value }] of ordered) {
     const brandName = BRAND_COLOR_ALIAS[name];
     if (brandName) {
       lines.push(`  ${brandName}: ${value};`);
-      aliases.push([name, brandName]);
       continue;
     }
     lines.push(`  ${name}: ${value};`);
-  }
-
-  if (aliases.length > 0) {
-    lines.push("");
-    lines.push("  /* Temporary aliases — retire after chapter CSS migrates */");
-    for (const [legacy, brandName] of aliases) {
-      lines.push(`  ${legacy}: var(${brandName});`);
-    }
   }
 
   lines.push("}", "");
@@ -260,10 +378,18 @@ function renderTokensCss(tokens) {
 
 /**
  * Emit the small theme-input module consumed by guide/src/themes/brand.ts.
+ * Required color roles must already be present (see assertRequiredColorTokens).
  * @param {Map<string, TokenDef>} tokens
  */
 function renderThemeInput(tokens) {
-  const color = (name, fallback) =>
+  const requiredColor = (name) => {
+    const value = tokens.get(name)?.value?.trim();
+    if (!value) {
+      throw new Error(`renderThemeInput: missing required token ${name}`);
+    }
+    return value;
+  };
+  const optionalColor = (name, fallback) =>
     tokens.get(name)?.value?.trim() || fallback;
 
   const radiusRaw = tokens.get("--radius-base")?.value?.trim() || "0.5rem";
@@ -274,20 +400,34 @@ function renderThemeInput(tokens) {
     radiusBasePx = Math.round(parseFloat(radiusRaw));
   }
 
-  const ink = color("--color-ink", "#111111");
+  const typeBaseRaw = tokens.get("--type-base")?.value?.trim();
+  const typeRatioRaw = tokens.get("--type-ratio")?.value?.trim();
+  let typeBase = DEFAULT_TYPE_BASE;
+  let typeRatio = DEFAULT_TYPE_RATIO;
+  if (typeBaseRaw) {
+    const n = Number.parseFloat(typeBaseRaw);
+    if (Number.isFinite(n) && n > 0) typeBase = n;
+  }
+  if (typeRatioRaw) {
+    const n = Number.parseFloat(typeRatioRaw);
+    if (Number.isFinite(n) && n > 0) typeRatio = n;
+  }
+
+  const ink = requiredColor("--color-ink");
   const input = {
     accent: ink,
     radiusBasePx,
+    typeScale: { base: typeBase, ratio: typeRatio },
     colors: {
       ink,
-      inkMuted: color("--color-ink-muted", "#4a4a4a"),
-      inkSubtle: color("--color-ink-subtle", "#6b6b6b"),
-      canvas: color("--color-canvas", "#dcdcdc"),
-      rail: color("--color-rail", "#e6e6e6"),
-      paper: color("--color-paper", "#ffffff"),
-      surface: color("--color-surface", "#f5f5f5"),
-      surfaceDeep: color("--color-surface-deep", "#e8e8e8"),
-      border: color("--color-border", "#d0d0d0"),
+      inkMuted: requiredColor("--color-ink-muted"),
+      inkSubtle: requiredColor("--color-ink-subtle"),
+      canvas: requiredColor("--color-canvas"),
+      rail: optionalColor("--color-rail", "#e6e6e6"),
+      paper: requiredColor("--color-paper"),
+      surface: requiredColor("--color-surface"),
+      surfaceDeep: requiredColor("--color-surface-deep"),
+      border: requiredColor("--color-border"),
     },
   };
 
@@ -444,6 +584,20 @@ function renderTokensDtcg(tokens) {
       continue;
     }
 
+    if (name === "--type-base" || name === "--type-ratio") {
+      const leaf = name.slice("--type-".length);
+      const group = ensureGroup(doc, ["type"]);
+      const num = Number(value);
+      group[leaf] = dtcgToken(
+        name,
+        def,
+        "number",
+        Number.isFinite(num) ? num : value,
+      );
+      leafCount += 1;
+      continue;
+    }
+
     if (name.startsWith("--font-size-")) {
       const leaf = name.slice("--font-size-".length);
       const group = ensureGroup(doc, ["text"]);
@@ -502,25 +656,42 @@ function renderTokensDtcg(tokens) {
 }
 
 /**
+ * Fail loudly if required semantic color roles are missing from Design system.
+ * @param {Map<string, TokenDef>} tokens
+ */
+function assertRequiredColorTokens(tokens) {
+  /** @type {string[]} */
+  const missing = [];
+  for (const name of REQUIRED_COLOR_TOKENS) {
+    const def = tokens.get(name);
+    if (!def || !isColorValue(def.value)) {
+      missing.push(name);
+    }
+  }
+  if (missing.length === 0) return;
+
+  console.error(
+    "brand.md Design system is missing required semantic color token(s):\n",
+  );
+  for (const name of missing) {
+    console.error(`  - ${name}`);
+  }
+  console.error(
+    "\nAdd each as a Color tokens table row (or :root hex) in brand.md → Design system.",
+  );
+  console.error(
+    "Required roles: ink, ink-muted, ink-subtle, canvas, paper, surface, surface-deep, border.",
+  );
+  console.error("See UPSTREAM.md → Semantic token contract.");
+  process.exit(1);
+}
+
+/**
  * Write DTCG to repo root + public copy; fail if required colors missing.
  * @param {Map<string, TokenDef>} tokens
  */
 function writeDtcg(tokens) {
-  const ink = tokens.get("--color-ink");
-  const paper = tokens.get("--color-paper");
-  if (!ink || !isColorValue(ink.value)) {
-    console.error(
-      "Missing required token --color-ink with a color value in brand.md Design system",
-    );
-    process.exit(1);
-  }
-  if (!paper || !isColorValue(paper.value)) {
-    console.error(
-      "Missing required token --color-paper with a color value in brand.md Design system",
-    );
-    process.exit(1);
-  }
-
+  // Required roles already asserted in main(); keep DTCG group sanity checks.
   const { doc, leafCount, miscNames } = renderTokensDtcg(tokens);
 
   if (!doc.color || typeof doc.color !== "object") {
@@ -534,9 +705,12 @@ function writeDtcg(tokens) {
     console.error("DTCG color group has no leaf tokens");
     process.exit(1);
   }
-  if (!doc.color.ink?.$value || !doc.color.paper?.$value) {
-    console.error("DTCG missing color.ink or color.paper");
-    process.exit(1);
+  for (const name of REQUIRED_COLOR_TOKENS) {
+    const leaf = name.slice("--color-".length);
+    if (!doc.color[leaf]?.$value) {
+      console.error(`DTCG missing color.${leaf}`);
+      process.exit(1);
+    }
   }
 
   const json = `${JSON.stringify(doc, null, 2)}\n`;
@@ -812,6 +986,13 @@ function main() {
     );
     process.exit(1);
   }
+
+  assertRequiredColorTokens(tokens);
+
+  const { typeBase, typeRatio } = deriveTypeAndSpaceScales(tokens);
+  console.log(
+    `Derived type scale (base=${typeBase}, ratio=${typeRatio}) + space-1…7 from --space-unit`,
+  );
 
   fs.mkdirSync(path.dirname(TOKENS_OUT), { recursive: true });
   fs.writeFileSync(TOKENS_OUT, renderTokensCss(tokens), "utf8");

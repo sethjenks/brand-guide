@@ -1,6 +1,7 @@
 import { AspectRatio } from "@astryxdesign/core/AspectRatio";
 import { Grid } from "@astryxdesign/core/Grid";
 import { HStack } from "@astryxdesign/core/HStack";
+import { MediaTheme } from "@astryxdesign/core/theme";
 import type { CSSProperties, ReactNode } from "react";
 
 export type ImageGridItem = {
@@ -26,6 +27,8 @@ type ImageGridProps = {
   gap?: ImageGridGap;
   /** Width/height ratio for each cell; defaults to 4/3. */
   ratio?: number;
+  /** Hairline border around each cell using `--color-border`. */
+  cellBorder?: boolean;
   "aria-label"?: string;
   className?: string;
 };
@@ -39,6 +42,7 @@ export function ImageGrid({
   columns = 2,
   gap = 3,
   ratio = 4 / 3,
+  cellBorder = false,
   "aria-label": ariaLabel = "Image grid",
   className,
 }: ImageGridProps) {
@@ -56,37 +60,42 @@ export function ImageGrid({
         const tone = item.tone ?? "light";
         const style = {
           "--image-grid-cell-bg": item.background,
+          color: "var(--color-text-primary)",
+          ...(cellBorder
+            ? { border: "1px solid var(--color-border)" }
+            : {}),
         } as CSSProperties;
 
         return (
-          <HStack
-            key={item.id}
-            hAlign="center"
-            vAlign="center"
-            width="100%"
-            className={`image-grid-cell image-grid-cell-${tone}`}
-            style={style}
-          >
-            <AspectRatio ratio={ratio} fit="center">
-              {item.src ? (
-                <img
-                  src={item.src}
-                  alt={item.alt ?? ""}
-                  className="image-grid-media"
-                />
-              ) : (
-                <HStack
-                  hAlign="center"
-                  vAlign="center"
-                  width="100%"
-                  height="100%"
-                  className="image-grid-placeholder"
-                >
-                  {item.children}
-                </HStack>
-              )}
-            </AspectRatio>
-          </HStack>
+          <MediaTheme key={item.id} mode={tone === "dark" ? "dark" : "light"}>
+            <HStack
+              hAlign="center"
+              vAlign="center"
+              width="100%"
+              className={`image-grid-cell image-grid-cell-${tone}`}
+              style={style}
+            >
+              <AspectRatio ratio={ratio} fit="center">
+                {item.src ? (
+                  <img
+                    src={item.src}
+                    alt={item.alt ?? ""}
+                    className="image-grid-media"
+                  />
+                ) : (
+                  <HStack
+                    hAlign="center"
+                    vAlign="center"
+                    width="100%"
+                    height="100%"
+                    className="image-grid-placeholder"
+                  >
+                    {item.children}
+                  </HStack>
+                )}
+              </AspectRatio>
+            </HStack>
+          </MediaTheme>
         );
       })}
     </Grid>

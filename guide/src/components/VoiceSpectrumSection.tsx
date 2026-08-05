@@ -4,6 +4,8 @@ import { VStack } from "@astryxdesign/core/VStack";
 import { Clothesline } from "@/components/Clothesline";
 import { VoiceSpectrumTable } from "@/components/VoiceSpectrumTable";
 import type { VoiceSpectrumRow } from "@/lib/brand-types";
+import { sectionLeafStyle } from "@/lib/section-leaf";
+import "@/styles/flourish/voice-spectrum.css";
 
 type VoiceSpectrumSectionProps = {
   id?: string;
@@ -28,7 +30,8 @@ export function VoiceSpectrumSection({
       as="section"
       id={id}
       gap={8}
-      className="block subsection clothesline-grid-section voice-spectrum-section"
+      className="clothesline-grid-section voice-spectrum-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

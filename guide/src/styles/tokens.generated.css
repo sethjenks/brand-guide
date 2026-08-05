@@ -2,8 +2,9 @@
  * Source: brand.md Design system section
  * Regenerate: node scripts/compile-design.mjs  (or npm run compile)
  *
- * Color specimens use --brand-*. Legacy --color-* names alias to them
- * so existing chapter CSS keeps working during the Astryx migration.
+ * Semantic chrome colors from brand.md emit as --brand-*.
+ * Interface scales (e.g. --color-gray-*) emit under their authored names.
+ * Astryx semantic tokens (--color-text-*, --color-background-*) come from the theme.
  */
 
 :root {
@@ -33,9 +34,9 @@
   --font-size-base: 1rem;
   --font-size-display: clamp(2.75rem, 6vw, 4.25rem);
   --font-size-h0: clamp(4.5rem, 14vw, 9rem);
-  --font-size-lg: 1.25rem;
-  --font-size-sm: 0.875rem;
-  --font-size-xl: 1.75rem;
+  --font-size-lg: 1.1875rem;
+  --font-size-sm: 0.8125rem;
+  --font-size-xl: 1.4375rem;
   --font-weight-medium: 500;
   --font-weight-regular: 400;
   --font-weight-semibold: 600;
@@ -49,15 +50,7 @@
   --space-5: 2.5rem;
   --space-6: 4rem;
   --space-7: 6rem;
-
-  /* Temporary aliases — retire after chapter CSS migrates */
-  --color-border: var(--brand-border);
-  --color-canvas: var(--brand-canvas);
-  --color-ink: var(--brand-ink);
-  --color-ink-muted: var(--brand-ink-muted);
-  --color-ink-subtle: var(--brand-ink-subtle);
-  --color-paper: var(--brand-paper);
-  --color-rail: var(--brand-rail);
-  --color-surface: var(--brand-surface);
-  --color-surface-deep: var(--brand-surface-deep);
+  --space-unit: 0.25rem;
+  --type-base: 16;
+  --type-ratio: 1.2;
 }

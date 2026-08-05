@@ -7,6 +7,10 @@
 export const brandThemeInput = {
   "accent": "#111111",
   "radiusBasePx": 8,
+  "typeScale": {
+    "base": 16,
+    "ratio": 1.2
+  },
   "colors": {
     "ink": "#111111",
     "inkMuted": "#4a4a4a",

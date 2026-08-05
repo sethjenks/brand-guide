@@ -3,6 +3,7 @@ import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 export type ClotheslineGridItem = {
   title: string;
@@ -32,7 +33,8 @@ export function ClotheslineGrid({
     <Clothesline
       as="section"
       id={id}
-      className="block subsection clothesline-grid-section"
+      className="clothesline-grid-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
       title={
         <Heading level={3} id={`${id}-title`} className="clothesline-title">

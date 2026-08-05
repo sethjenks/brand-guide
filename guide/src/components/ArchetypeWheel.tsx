@@ -5,6 +5,7 @@ import {
   ARCHETYPE_SEGMENTS,
   type ArchetypeId,
 } from "@/lib/archetype-wheel";
+import "@/styles/flourish/archetype-wheel.css";
 
 const CX = 200;
 const CY = 200;
@@ -26,7 +27,10 @@ type ArchetypeWheelProps = {
 
 function polar(r: number, angleDeg: number): [number, number] {
   const rad = ((angleDeg - 90) * Math.PI) / 180;
-  return [CX + r * Math.cos(rad), CY + r * Math.sin(rad)];
+  // Round so Node SSR and browser trig produce identical path strings.
+  const x = Math.round((CX + r * Math.cos(rad)) * 1e4) / 1e4;
+  const y = Math.round((CY + r * Math.sin(rad)) * 1e4) / 1e4;
+  return [x, y];
 }
 
 function annularPath(
@@ -194,8 +198,8 @@ export function ArchetypeWheel({
           const dimmed = hasLit && !isActive;
           const activeFill =
             segment.colors.label === "dark"
-              ? "var(--color-ink)"
-              : "var(--color-paper)";
+              ? "var(--color-text-primary)"
+              : "var(--color-background-surface)";
           return (
             <g
               key={`label-${segment.id}`}
@@ -218,7 +222,9 @@ export function ArchetypeWheel({
               <text
                 className={`aw-text aw-text-driver${isActive ? " is-active" : ""}${dimmed ? " is-dim" : ""}`}
                 style={
-                  isActive ? { fill: "var(--color-ink)" } : undefined
+                  isActive
+                    ? { fill: "var(--color-text-primary)" }
+                    : undefined
                 }
               >
                 <textPath
@@ -243,7 +249,9 @@ export function ArchetypeWheel({
               aria-hidden="true"
               style={{
                 pointerEvents: "none",
-                ...(motiveActive ? { fill: "var(--color-paper)" } : {}),
+                ...(motiveActive
+                  ? { fill: "var(--color-background-surface)" }
+                  : {}),
               }}
             >
               <textPath

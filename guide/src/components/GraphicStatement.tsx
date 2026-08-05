@@ -2,6 +2,7 @@ import { Section } from "@astryxdesign/core/Section";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { ReactNode } from "react";
+import "@/styles/flourish/graphic-statement.css";
 
 type GraphicStatementProps = {
   /** Hash target for guide nav (e.g. strategy-introduction). */

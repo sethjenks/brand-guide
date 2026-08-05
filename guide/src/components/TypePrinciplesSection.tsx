@@ -6,6 +6,9 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { ReactNode } from "react";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
+import "@/styles/flourish/dont-grid-strike.css";
+import "@/styles/flourish/type-principles.css";
 
 export type TypePrincipleItem = {
   id: string;
@@ -46,6 +49,7 @@ function PrincipleStage({
           "type-principle-stage",
           struck ? "type-principle-stage-dont" : "type-principle-stage-do",
         ].join(" ")}
+        style={{ border: "1px solid var(--color-border)" }}
       >
         <AspectRatio ratio={4 / 3} fit="center">
           <HStack
@@ -92,9 +96,10 @@ export function TypePrinciplesSection({
       as="section"
       id={id}
       gap={8}
-      className={["block subsection type-principles-section", className]
+      className={["type-principles-section", className]
         .filter(Boolean)
         .join(" ")}
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

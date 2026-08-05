@@ -3,6 +3,8 @@ import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
+import "@/styles/flourish/type-specimens.css";
 
 export type TypeWeightItem = {
   id: string;
@@ -40,9 +42,10 @@ export function TypeWeightsSection({
       as="section"
       id={id}
       gap={8}
-      className={["block subsection type-weights-section", className]
+      className={["type-weights-section", className]
         .filter(Boolean)
         .join(" ")}
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

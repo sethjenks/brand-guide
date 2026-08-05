@@ -4,6 +4,7 @@ import { VStack } from "@astryxdesign/core/VStack";
 import { AssetStage } from "@/components/AssetStage";
 import { Clothesline } from "@/components/Clothesline";
 import { ImageGrid, type ImageGridItem } from "@/components/ImageGrid";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type PhotographyCategorySectionProps = {
   id: string;
@@ -26,7 +27,7 @@ function placeholderGallery(
 ): ImageGridItem[] {
   return Array.from({ length: count }, (_, index) => ({
     id: `${categoryId}-gallery-${index}`,
-    background: "var(--color-wash)",
+    background: "var(--color-background-muted)",
     tone: "light" as const,
   }));
 }
@@ -51,9 +52,10 @@ export function PhotographyCategorySection({
       as="section"
       id={id}
       gap={4}
-      className={["block subsection photo-category-section", className]
+      className={["photo-category-section", className]
         .filter(Boolean)
         .join(" ")}
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline
@@ -95,6 +97,7 @@ export function PhotographyCategorySection({
           gap={3}
           ratio={4 / 3}
           items={galleryItems}
+          cellBorder
           className="photo-category-gallery"
         />
       ) : null}

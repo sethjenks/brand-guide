@@ -12,6 +12,7 @@ import {
   type ArchetypeId,
 } from "@/lib/archetype-wheel";
 import type { ArchetypeProfile } from "@/lib/brand-types";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type ArchetypeExplorerProps = {
   brandProfiles: readonly ArchetypeProfile[];
@@ -46,7 +47,8 @@ export function ArchetypeExplorer({
       as="section"
       id={id}
       gap={4}
-      className="block subsection clothesline clothesline-grid-section archetype-explorer"
+      className="clothesline clothesline-grid-section archetype-explorer"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Divider variant="strong" />

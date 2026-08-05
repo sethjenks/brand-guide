@@ -6,6 +6,7 @@ import { VStack } from "@astryxdesign/core/VStack";
 import { AgentLabel } from "@/components/AgentLabel";
 import { Clothesline } from "@/components/Clothesline";
 import type { AndYetPair } from "@/lib/brand-types";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type AndYetSectionProps = {
   id?: string;
@@ -28,7 +29,8 @@ export function AndYetSection({
       as="section"
       id={id}
       gap={8}
-      className="block subsection audience-section andyet-section"
+      className="audience-section andyet-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

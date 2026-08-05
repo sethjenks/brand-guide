@@ -4,6 +4,8 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { CSSProperties } from "react";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
+import "@/styles/flourish/type-specimens.css";
 
 export type TypeHierarchyLevel = {
   id: string;
@@ -51,9 +53,10 @@ export function TypeHierarchySection({
       as="section"
       id={id}
       gap={8}
-      className={["block subsection type-hierarchy-section", className]
+      className={["type-hierarchy-section", className]
         .filter(Boolean)
         .join(" ")}
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

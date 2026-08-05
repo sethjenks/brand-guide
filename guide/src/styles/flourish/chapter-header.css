@@ -1,0 +1,35 @@
+/* Inverted chapter opener (flourish: title on inverted ground) */
+.chapter-header {
+  background: var(--color-background-inverted);
+  color: var(--color-background-surface);
+  min-height: min(72vh, 40rem);
+  width: calc(100% + 2 * var(--guide-pad-inline));
+  margin-inline: calc(-1 * var(--guide-pad-inline));
+  margin-bottom: var(--section-gap);
+  padding: var(--space-6) var(--guide-pad-inline);
+  box-sizing: border-box;
+}
+
+/* H0 — above display-1; chapter openers only */
+.chapter-header-title,
+.astryx-heading.chapter-header-title {
+  max-width: 10ch;
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-h0);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+}
+
+@media (max-width: 1024px) {
+  .chapter-header {
+    min-height: min(60vh, 32rem);
+  }
+}
+
+@media (max-width: 720px) {
+  .chapter-header {
+    min-height: min(50vh, 24rem);
+    padding-block: var(--space-5);
+  }
+}

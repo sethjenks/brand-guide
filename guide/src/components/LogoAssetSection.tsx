@@ -3,6 +3,7 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { ReactNode } from "react";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type LogoAssetSectionProps = {
   id: string;
@@ -34,7 +35,8 @@ export function LogoAssetSection({
       as="section"
       id={id}
       gap={4}
-      className="block subsection logo-asset-section"
+      className="logo-asset-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

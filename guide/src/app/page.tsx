@@ -26,6 +26,8 @@ import { CopySnippet } from "@/components/CopySnippet";
 import { CopyValue } from "@/components/CopyValue";
 import { CtaSection } from "@/components/CtaSection";
 import { GraphicStatement } from "@/components/GraphicStatement";
+import { GuideColumn } from "@/components/GuideColumn";
+import { GuideHero } from "@/components/GuideHero";
 import { GuardrailsSection } from "@/components/GuardrailsSection";
 import { HeadlinesSection } from "@/components/HeadlinesSection";
 import { AssetStage } from "@/components/AssetStage";
@@ -59,7 +61,12 @@ import {
 } from "@/components/TypeWeightsSection";
 import { VoiceSpectrumSection } from "@/components/VoiceSpectrumSection";
 import { loadBrand, type ColorSwatch } from "@/lib/load-brand";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 import { GUIDE_CHAPTERS } from "@/lib/nav";
+import "@/styles/flourish/hero.css";
+import "@/styles/flourish/logo-collage.css";
+import "@/styles/flourish/type-principles.css";
+import "@/styles/flourish/type-treatment.css";
 
 function toColorTiles(colors: readonly ColorSwatch[]): ColorTileItem[] {
   return colors.map((color) => ({
@@ -75,17 +82,21 @@ function colorCombinationItems(colors: {
   secondary: readonly ColorSwatch[];
   interface: readonly ColorSwatch[];
 }): ColorCombinationItem[] {
-  const ink = colorValue(colors.brand, "Ink", "var(--color-ink)");
-  const paper = colorValue(colors.interface, "Gray 1", "var(--color-paper)");
+  const ink = colorValue(colors.brand, "Ink", "var(--color-text-primary)");
+  const paper = colorValue(
+    colors.interface,
+    "Gray 1",
+    "var(--color-background-surface)",
+  );
   const surface = colorValue(
     colors.interface,
     "Gray 3",
-    "var(--color-surface)",
+    "var(--color-background-card)",
   );
   const muted = colorValue(
     colors.secondary,
     "Ink Muted",
-    "var(--color-ink-muted)",
+    "var(--color-text-secondary)",
   );
 
   return [
@@ -101,14 +112,14 @@ function colorContrastItems(colors: {
   brand: readonly ColorSwatch[];
   interface: readonly ColorSwatch[];
 }): ColorContrastItem[] {
-  const ink = colorValue(colors.brand, "Ink", "var(--color-ink)");
+  const ink = colorValue(colors.brand, "Ink", "var(--color-text-primary)");
   const gray1 = colorValue(colors.interface, "Gray 1", "#fcfcfc");
   const gray2 = colorValue(colors.interface, "Gray 2", "#f9f9f9");
   const gray3 = colorValue(colors.interface, "Gray 3", "#f0f0f0");
   const gray7 = colorValue(colors.interface, "Gray 7", "#cecece");
   const gray9 = colorValue(colors.interface, "Gray 9", "#8d8d8d");
   const gray10 = colorValue(colors.interface, "Gray 10", "#838383");
-  const paper = "var(--color-paper)";
+  const paper = "var(--color-background-surface)";
 
   return [
     {
@@ -346,7 +357,11 @@ function logoOnColorItems(
   return [
     {
       id: "on-paper",
-      background: colorValue(colors.interface, "Paper", "var(--color-paper)"),
+      background: colorValue(
+        colors.interface,
+        "Paper",
+        "var(--color-background-surface)",
+      ),
       tone: "light",
       children: wordmark,
     },
@@ -355,7 +370,7 @@ function logoOnColorItems(
       background: colorValue(
         colors.interface,
         "Surface",
-        "var(--color-surface)",
+        "var(--color-background-card)",
       ),
       tone: "light",
       children: wordmark,
@@ -365,14 +380,18 @@ function logoOnColorItems(
       background: colorValue(
         colors.secondary,
         "Ink Muted",
-        "var(--color-ink-muted)",
+        "var(--color-text-secondary)",
       ),
       tone: "dark",
       children: wordmark,
     },
     {
       id: "on-ink",
-      background: colorValue(colors.brand, "Ink", "var(--color-ink)"),
+      background: colorValue(
+        colors.brand,
+        "Ink",
+        "var(--color-text-primary)",
+      ),
       tone: "dark",
       children: wordmark,
     },
@@ -392,13 +411,21 @@ function logoSingleColorItems(
   return [
     {
       id: "single-on-ink",
-      background: colorValue(colors.brand, "Ink", "var(--color-ink)"),
+      background: colorValue(
+        colors.brand,
+        "Ink",
+        "var(--color-text-primary)",
+      ),
       tone: "dark",
       children: wordmark,
     },
     {
       id: "single-on-paper",
-      background: colorValue(colors.interface, "Paper", "var(--color-paper)"),
+      background: colorValue(
+        colors.interface,
+        "Paper",
+        "var(--color-background-surface)",
+      ),
       tone: "light",
       children: wordmark,
     },
@@ -594,7 +621,7 @@ function ApplicationSection({
           ratio={4 / 3}
           items={Array.from({ length: images }, (_, index) => ({
             id: `${id}-image-${index}`,
-            background: "var(--color-wash)",
+            background: "var(--color-background-muted)",
             tone: "light" as const,
             children: index === 0 ? sampleNode : undefined,
           }))}
@@ -626,18 +653,30 @@ export default function Home() {
 
   return (
     <AppShell brandName={brand.name} groups={brand.nav}>
-      <div className="guide">
-        <header
-          className={`hero${brand.setup.status === "starter" ? " hero-setup" : ""}`}
-          id="top"
-        >
+      <GuideColumn>
+        <GuideHero setup={brand.setup.status === "starter"}>
           {brand.setup.status === "starter" ? (
             <>
-              <p className="hero-meta">Brand Guide · Setup</p>
+              <Text
+                as="p"
+                type="supporting"
+                color="secondary"
+                display="block"
+                className="hero-meta"
+              >
+                Brand Guide · Setup
+              </Text>
               <h1 className="hero-name hero-name-setup" data-type="h0">
                 {brand.setup.headline}
               </h1>
-              <p className="hero-support">{brand.setup.body}</p>
+              <Text
+                as="p"
+                color="secondary"
+                display="block"
+                className="hero-support"
+              >
+                {brand.setup.body}
+              </Text>
 
               <Grid
                 className="setup-sources"
@@ -676,7 +715,8 @@ export default function Home() {
               <Clothesline
                 as="section"
                 id="setup-footnote"
-                className="setup-footnote-section clothesline-grid-section"
+                className="clothesline-grid-section"
+                style={sectionLeafStyle}
                 title={
                   <Text
                     weight="semibold"
@@ -703,15 +743,36 @@ export default function Home() {
             </>
           ) : (
             <>
-              <p className="hero-meta">Brand Guide · {brand.year}</p>
+              <Text
+                as="p"
+                type="supporting"
+                color="secondary"
+                display="block"
+                className="hero-meta"
+              >
+                Brand Guide · {brand.year}
+              </Text>
               <h1 className="hero-name">{brand.name}</h1>
               <p className="hero-tagline">{brand.tagline}</p>
-              <p className="hero-support">{brand.support}</p>
-              <div className="hero-bar" aria-hidden="true" />
+              <Text
+                as="p"
+                color="secondary"
+                display="block"
+                className="hero-support"
+              >
+                {brand.support}
+              </Text>
+              <VStack
+                gap={0}
+                className="hero-bar"
+                aria-hidden="true"
+                style={{ background: "var(--color-text-primary)" }}
+              />
               <Clothesline
                 as="section"
                 id="setup-refresh"
-                className="setup-footnote-section clothesline-grid-section"
+                className="clothesline-grid-section"
+                style={sectionLeafStyle}
                 title={
                   <Text
                     weight="semibold"
@@ -740,7 +801,8 @@ export default function Home() {
           <Clothesline
             as="section"
             id="agent-source"
-            className="agent-source-section clothesline-grid-section"
+            className="clothesline-grid-section"
+            style={sectionLeafStyle}
             title={
               <HStack gap={2} align="center" wrap="wrap">
                 <Text
@@ -775,7 +837,7 @@ export default function Home() {
               </HStack>
             </VStack>
           </Clothesline>
-        </header>
+        </GuideHero>
 
         <ChapterSection id={strategyChapter.id} title={strategyChapter.title}>
           <GraphicStatement id="strategy-introduction">
@@ -922,6 +984,10 @@ export default function Home() {
                   hAlign="start"
                   vAlign="center"
                   className="logo-collage-cell logo-collage-cell-wordmark"
+                  style={{
+                    border: "1px solid var(--color-border)",
+                    background: "var(--color-background-card)",
+                  }}
                 >
                   <Text weight="bold" color="secondary" display="block">
                     {brand.name}
@@ -933,6 +999,10 @@ export default function Home() {
                   hAlign="center"
                   vAlign="center"
                   className="logo-collage-cell logo-collage-cell-framed"
+                  style={{
+                    border: "1px solid var(--color-border)",
+                    background: "var(--color-background-card)",
+                  }}
                 >
                   <Text weight="bold" color="secondary" display="block">
                     {brand.name}
@@ -944,6 +1014,10 @@ export default function Home() {
                   hAlign="start"
                   vAlign="center"
                   className="logo-collage-cell logo-collage-cell-lockup"
+                  style={{
+                    border: "1px solid var(--color-border)",
+                    background: "var(--color-background-card)",
+                  }}
                 >
                   <Text weight="semibold" color="secondary" display="block">
                     {brand.name}
@@ -955,6 +1029,10 @@ export default function Home() {
                   hAlign="center"
                   vAlign="center"
                   className="logo-collage-cell logo-collage-cell-mark"
+                  style={{
+                    border: "1px solid var(--color-border)",
+                    background: "var(--color-background-card)",
+                  }}
                 >
                   <Text weight="bold" color="secondary" display="block">
                     {brand.name.slice(0, 1)}
@@ -1172,7 +1250,7 @@ export default function Home() {
                     background: colorValue(
                       brand.visual.colors.interface,
                       "Surface",
-                      "var(--color-surface)",
+                      "var(--color-background-card)",
                     ),
                     tone: "light",
                     children: (
@@ -1190,7 +1268,7 @@ export default function Home() {
                     background: colorValue(
                       brand.visual.colors.interface,
                       "Surface",
-                      "var(--color-surface)",
+                      "var(--color-background-card)",
                     ),
                     tone: "light",
                     children: (
@@ -1456,6 +1534,10 @@ export default function Home() {
                     vAlign="center"
                     width="100%"
                     className="composition-media-frame"
+                    style={{
+                      border: "1px solid var(--color-border)",
+                      background: "var(--color-background-card)",
+                    }}
                     aria-hidden="true"
                   />
                   <HStack
@@ -1509,32 +1591,32 @@ export default function Home() {
               items={[
                 {
                   id: "system-device-1",
-                  background: "var(--color-wash)",
+                  background: "var(--color-background-muted)",
                   tone: "light",
                 },
                 {
                   id: "system-device-2",
-                  background: "var(--color-wash)",
+                  background: "var(--color-background-muted)",
                   tone: "light",
                 },
                 {
                   id: "system-device-3",
-                  background: "var(--color-wash)",
+                  background: "var(--color-background-muted)",
                   tone: "light",
                 },
                 {
                   id: "system-device-4",
-                  background: "var(--color-wash)",
+                  background: "var(--color-background-muted)",
                   tone: "light",
                 },
                 {
                   id: "system-device-5",
-                  background: "var(--color-wash)",
+                  background: "var(--color-background-muted)",
                   tone: "light",
                 },
                 {
                   id: "system-device-6",
-                  background: "var(--color-wash)",
+                  background: "var(--color-background-muted)",
                   tone: "light",
                 },
               ]}
@@ -1575,7 +1657,7 @@ export default function Home() {
           </p>
           <p>Grayscale starter · Agents: prefer brand.json (compiled)</p>
         </footer>
-      </div>
+      </GuideColumn>
     </AppShell>
   );
 }

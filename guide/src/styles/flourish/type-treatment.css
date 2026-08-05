@@ -1,0 +1,36 @@
+/* Type-on-media / treatment demos (flourish). */
+.type-background-media {
+  width: 100%;
+  max-width: none;
+}
+
+.type-background-hero {
+  overflow: hidden;
+}
+
+.type-treatment {
+  overflow: hidden;
+}
+
+.type-treatment-hero {
+  padding-inline: var(--space-2);
+}
+
+.type-treatment-display {
+  font-size: clamp(3rem, 12vw, 7.5rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.85;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.type-treatment-meta {
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.01em;
+}
+
+.type-background-media .image-grid-cell .type-treatment-display {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+}

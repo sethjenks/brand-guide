@@ -1,0 +1,114 @@
+/* Archetype wheel SVG chrome (flourish). */
+.archetype-wheel {
+  margin: 0;
+  width: 100%;
+  max-width: min(32rem, 100%);
+  justify-self: start;
+}
+
+.archetype-wheel svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.archetype-wheel .aw-band {
+  stroke: var(--color-background-surface);
+  stroke-width: 1.35;
+  transition:
+    fill 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.archetype-wheel .aw-outer {
+  fill: color-mix(in srgb, var(--color-text-primary) 40%, var(--color-background-surface));
+}
+
+.archetype-wheel .aw-middle {
+  fill: color-mix(in srgb, var(--color-text-primary) 26%, var(--color-background-surface));
+}
+
+.archetype-wheel .aw-motive {
+  fill: color-mix(in srgb, var(--color-text-primary) 12%, var(--color-background-surface));
+}
+
+.archetype-wheel.is-emphasized .aw-band {
+  opacity: 0.38;
+}
+
+.archetype-wheel.is-emphasized .aw-segment.is-active .aw-band,
+.archetype-wheel.is-emphasized .aw-motive.is-active {
+  opacity: 1;
+}
+
+.archetype-wheel.is-interactive .aw-hit {
+  fill: transparent;
+  stroke: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.archetype-wheel.is-interactive .aw-segment.is-decided:not(.is-active) .aw-outer {
+  stroke: var(--color-text-primary);
+  stroke-width: 2;
+  opacity: 0.55;
+}
+
+.archetype-wheel.is-interactive .aw-hit:focus-visible {
+  stroke: var(--color-text-primary);
+  stroke-width: 2.5;
+}
+
+.archetype-wheel .aw-hole {
+  fill: var(--color-background-surface);
+  stroke: var(--color-border);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.archetype-wheel .aw-text {
+  font-family: var(--font-family-body);
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  fill: var(--color-text-secondary);
+  transition:
+    fill 0.2s ease,
+    opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.archetype-wheel .aw-text-outer {
+  font-size: 9.5px;
+}
+
+.archetype-wheel .aw-text-driver {
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.archetype-wheel .aw-text-motive {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.archetype-wheel.is-emphasized .aw-text.is-dim {
+  opacity: 0.35;
+}
+
+.archetype-wheel.is-emphasized .aw-text-outer.is-active,
+.archetype-wheel.is-emphasized .aw-text-driver.is-active {
+  opacity: 1;
+}
+
+.archetype-wheel.is-emphasized .aw-text-motive.is-active {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .archetype-wheel .aw-band,
+  .archetype-wheel .aw-text {
+    transition: none;
+  }
+}

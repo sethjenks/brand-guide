@@ -5,6 +5,7 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { AgentLabel } from "@/components/AgentLabel";
 import { Clothesline } from "@/components/Clothesline";
+import { sectionLeafStyle } from "@/lib/section-leaf";
 
 export type ContextItem = {
   context: string;
@@ -33,7 +34,8 @@ export function ContextSection({
       as="section"
       id={id}
       gap={8}
-      className="block subsection audience-section context-section"
+      className="audience-section context-section"
+      style={sectionLeafStyle}
       aria-labelledby={`${id}-title`}
     >
       <Clothesline

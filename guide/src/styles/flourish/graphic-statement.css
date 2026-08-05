@@ -1,0 +1,18 @@
+/* Shared guide primitive: large graphic statement (section intros) */
+/* Shared guide primitive: large graphic statement (section intros) */
+.graphic-statement {
+  margin-bottom: var(--section-gap);
+  scroll-margin-top: 1.5rem;
+}
+
+.graphic-statement-text {
+  max-width: 66%;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+
+@media (max-width: 720px) {
+  .graphic-statement-text {
+    max-width: 100%;
+  }
+}
