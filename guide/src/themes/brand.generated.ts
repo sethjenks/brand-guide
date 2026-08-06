@@ -11,6 +11,7 @@ export const brandThemeInput = {
     "base": 16,
     "ratio": 1.2
   },
+  "fontSans": "var(--font-geist-sans), \"Geist\", \"IBM Plex Sans\", system-ui, sans-serif",
   "colors": {
     "ink": "#111111",
     "inkMuted": "#4a4a4a",

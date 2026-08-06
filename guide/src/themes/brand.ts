@@ -3,6 +3,64 @@ import { neutralTheme } from "@astryxdesign/theme-neutral";
 import { brandThemeInput } from "./brand.generated";
 
 /**
+ * Split a CSS font-family stack into primary family + remaining fallbacks.
+ * Preserves commas inside var() and quoted strings so the authored
+ * `--font-sans` stack can drive Astryx typography.body/heading.
+ */
+function splitFontStack(stack: string): { family: string; fallbacks?: string } {
+  const parts: string[] = [];
+  let current = "";
+  let quote: string | null = null;
+  let depth = 0;
+
+  for (let i = 0; i < stack.length; i++) {
+    const ch = stack[i]!;
+    if (quote) {
+      current += ch;
+      if (ch === quote) quote = null;
+      continue;
+    }
+    if (ch === '"' || ch === "'") {
+      quote = ch;
+      current += ch;
+      continue;
+    }
+    if (ch === "(") {
+      depth += 1;
+      current += ch;
+      continue;
+    }
+    if (ch === ")") {
+      depth = Math.max(0, depth - 1);
+      current += ch;
+      continue;
+    }
+    if (ch === "," && depth === 0) {
+      const trimmed = current.trim();
+      if (trimmed) parts.push(trimmed);
+      current = "";
+      continue;
+    }
+    current += ch;
+  }
+
+  const last = current.trim();
+  if (last) parts.push(last);
+
+  if (parts.length === 0) {
+    return { family: stack.trim() };
+  }
+
+  const [family, ...rest] = parts;
+  return {
+    family: family!,
+    fallbacks: rest.length > 0 ? rest.join(", ") : undefined,
+  };
+}
+
+const fontSans = splitFontStack(brandThemeInput.fontSans);
+
+/**
  * Brand Guide Astryx theme.
  * Color/radius/font values come from the design-system compile
  * (`brand.generated.ts`). Rebuild with `npx astryx theme build`.
@@ -16,15 +74,10 @@ export const brandTheme = defineTheme({
   },
   typography: {
     scale: brandThemeInput.typeScale ?? { base: 16, ratio: 1.2 },
-    // Loaded face first (Next font CSS variable), then named Geist / system fallbacks.
-    body: {
-      family: "var(--font-geist-sans)",
-      fallbacks: 'Geist, "IBM Plex Sans", system-ui, sans-serif',
-    },
-    heading: {
-      family: "var(--font-geist-sans)",
-      fallbacks: 'Geist, "IBM Plex Sans", system-ui, sans-serif',
-    },
+    // Face stack from Design system `--font-sans` (via brandThemeInput.fontSans).
+    // Next injects the webfont CSS variable in layout.tsx — keep that var in the stack.
+    body: fontSans,
+    heading: fontSans,
   },
   radius: {
     base: brandThemeInput.radiusBasePx,
@@ -103,12 +156,15 @@ export const brandTheme = defineTheme({
       brandThemeInput.accent,
       brandThemeInput.accent,
     ],
-    // Prefer the Next-loaded face so nav + content resolve identically.
-    // String (not [light, dark]) — font stacks must not go through light-dark().
-    "--font-family-body":
-      'var(--font-geist-sans), Geist, "IBM Plex Sans", system-ui, sans-serif',
-    "--font-family-heading":
-      'var(--font-geist-sans), Geist, "IBM Plex Sans", system-ui, sans-serif',
+    // Brand-controlled on-accent (avoid Neutral dark-mode green residue).
+    // Paper works for ink and typical dark chromatic accents; override when accent is light.
+    "--color-on-accent": [
+      brandThemeInput.colors.paper,
+      brandThemeInput.colors.paper,
+    ],
+    // Same stack as typography.body/heading — string so light-dark() is not applied.
+    "--font-family-body": brandThemeInput.fontSans,
+    "--font-family-heading": brandThemeInput.fontSans,
   },
 });
 

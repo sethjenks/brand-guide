@@ -44,22 +44,27 @@ const ASSETS_DEST = path.join(root, "guide/public/brand");
 const OVERRIDES_SRC = path.join(root, "brand/overrides.css");
 const OVERRIDES_DEST = path.join(root, "guide/src/styles/brand.overrides.css");
 
-/** Color tokens remapped to --brand-* in tokens.generated.css (no temporary --color-* aliases). */
-const BRAND_COLOR_ALIAS = {
-  "--color-ink": "--brand-ink",
-  "--color-ink-muted": "--brand-ink-muted",
-  "--color-ink-subtle": "--brand-ink-subtle",
-  "--color-canvas": "--brand-canvas",
-  "--color-rail": "--brand-rail",
-  "--color-paper": "--brand-paper",
-  "--color-surface": "--brand-surface",
-  "--color-surface-deep": "--brand-surface-deep",
-  "--color-border": "--brand-border",
-};
+/**
+ * Chrome / theme-owned colors: hexes stay in brand.generated.ts + DTCG only.
+ * Do not emit onto document :root — they collide with Astryx semantic `--color-*`
+ * if written under authored names, and orphan `--brand-*` remaps had no consumers.
+ */
+const THEME_OWNED_COLOR_TOKENS = new Set([
+  "--color-ink",
+  "--color-ink-muted",
+  "--color-ink-subtle",
+  "--color-canvas",
+  "--color-rail",
+  "--color-paper",
+  "--color-surface",
+  "--color-surface-deep",
+  "--color-border",
+  "--color-accent",
+]);
 
 /**
  * Semantic roles required in brand.md Design system (theme contract).
- * Accent is derived from ink; rail / gray scale / type / space stay optional.
+ * Accent is optional (`--color-accent`, defaults to ink); rail / gray / type / space stay optional.
  */
 const REQUIRED_COLOR_TOKENS = [
   "--color-ink",
@@ -353,9 +358,10 @@ function renderTokensCss(tokens) {
     " * Source: brand.md Design system section",
     " * Regenerate: node scripts/compile-design.mjs  (or npm run compile)",
     " *",
-    " * Semantic chrome colors from brand.md emit as --brand-*.",
-    " * Interface scales (e.g. --color-gray-*) emit under their authored names.",
-    " * Astryx semantic tokens (--color-text-*, --color-background-*) come from the theme.",
+    " * Theme-owned chrome (--color-ink, paper, accent, …) is omitted here:",
+    " * those hexes live in brand.generated.ts / tokens.json and map through brand.ts.",
+    " * Interface scales (e.g. --color-gray-*) and type/space knobs emit under authored names.",
+    " * Live UI chrome uses Astryx semantics (--color-text-*, --color-background-*).",
     " */",
     "",
     ":root {",
@@ -364,11 +370,7 @@ function renderTokensCss(tokens) {
   const ordered = [...tokens.entries()].sort(([a], [b]) => a.localeCompare(b));
 
   for (const [name, { value }] of ordered) {
-    const brandName = BRAND_COLOR_ALIAS[name];
-    if (brandName) {
-      lines.push(`  ${brandName}: ${value};`);
-      continue;
-    }
+    if (THEME_OWNED_COLOR_TOKENS.has(name)) continue;
     lines.push(`  ${name}: ${value};`);
   }
 
@@ -413,11 +415,20 @@ function renderThemeInput(tokens) {
     if (Number.isFinite(n) && n > 0) typeRatio = n;
   }
 
+  const fontSans = tokens.get("--font-sans")?.value?.trim();
+  if (!fontSans) {
+    throw new Error(
+      "renderThemeInput: missing required token --font-sans (author in brand.md Design system)",
+    );
+  }
+
   const ink = requiredColor("--color-ink");
   const input = {
-    accent: ink,
+    // Optional Design system role; grayscale starters omit it and keep accent === ink.
+    accent: optionalColor("--color-accent", ink),
     radiusBasePx,
     typeScale: { base: typeBase, ratio: typeRatio },
+    fontSans,
     colors: {
       ink,
       inkMuted: requiredColor("--color-ink-muted"),

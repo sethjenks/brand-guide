@@ -33,7 +33,7 @@ These roles must appear as color tokens in `brand.md` → Design system. `compil
 
 | Role | Design token | Astryx mapping |
 | --- | --- | --- |
-| ink | `--color-ink` | text/icon primary, inverted background, accent |
+| ink | `--color-ink` | text/icon primary, inverted background |
 | ink-muted | `--color-ink-muted` | text/icon secondary |
 | ink-subtle | `--color-ink-subtle` | text/icon disabled |
 | canvas | `--color-canvas` | `--color-background-body` |
@@ -42,15 +42,19 @@ These roles must appear as color tokens in `brand.md` → Design system. `compil
 | surface-deep | `--color-surface-deep` | `--color-background-muted` |
 | border | `--color-border` | `--color-border` |
 
-**Derived:** theme `accent` equals ink (no separate `--color-accent` row required).
+**Optional accent:** `--color-accent` (not in the required set). When omitted, theme `accent` equals ink (grayscale starters stay unchanged). When authored, it drives `brandThemeInput.accent` → Astryx `--color-accent` / primary actions.
 
 **Optional** (grayscale defaults / existing fallbacks if omitted): `--color-gray-*`, `--color-rail`, `--radius-base`, `--type-base` / `--type-ratio` (default `16` / `1.2`), `--space-unit` (default `0.25rem`).
+
+**Required face stack:** `--font-sans` (CSS `font-family` list). Compile fails if missing. Emitted as `brandThemeInput.fontSans` for [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts) (drives Astryx `typography.body/heading` and `--font-family-body/heading`).
+
+**Next font loader contract (two owners):** Design system owns the CSS stack; [`guide/src/app/layout.tsx`](guide/src/app/layout.tsx) owns which webfont CSS variable `next/font` injects (e.g. `--font-geist-sans`). Author `--font-sans` so it references that variable. Compile does **not** codegen `next/font` from the stack — swapping Google/local faces is a hand edit in `layout.tsx` (optional registry later).
 
 **Derived scales (compile):** `--type-base` + `--type-ratio` → `--font-size-sm|base|lg|xl` (Astryx geometric formula) and `brandThemeInput.typeScale` for [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts). `--space-unit` → `--space-1`…`7` as `unit × [1, 2, 4, 6, 10, 16, 24]` (document rhythm). Keep fluid `--font-size-display` / `--font-size-h0` authored. Document `--space-*` is separate from Astryx UI `--spacing-*` — do not alias them.
 
 `--radius-base` → `radiusBasePx`; Astryx expands semantic radii (`inner`, `element`, `container`, `page`).
 
-Chrome required colors also emit as `--brand-*` in `tokens.generated.css`. Live UI reads Astryx semantic names from the built theme, not the temporary legacy aliases (those were removed).
+**Token layers:** DTCG / `tokens.json` / `brand.json` keep authored role names (`--color-ink`, etc.) for agents and export. `tokens.generated.css` emits interface scales, type, and space — not theme-owned chrome (those hexes go through `brand.generated.ts` → `brand.ts` → Astryx `--color-text-*` / `--color-background-*`). Live UI must use Astryx semantics, not invent `--brand-*` or document `:root --color-ink`.
 
 ### CSS overrides
 

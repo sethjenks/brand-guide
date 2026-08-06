@@ -690,7 +690,15 @@ export default function Home() {
                   Branding Questionnaire
                 </a>
                 , or hand your agent a website, PDF, brand.md, or Figma file —
-                we&apos;ll fold what you have into this guide.
+                we&apos;ll fold what you have into this guide.{" "}
+                <a
+                  href="https://github.com/sethjenks/brand-guide"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Clone the repo on GitHub
+                </a>{" "}
+                to get started.
               </Text>
 
               <Grid
@@ -776,7 +784,7 @@ export default function Home() {
                 gap={0}
                 className="hero-bar"
                 aria-hidden="true"
-                style={{ background: "var(--color-text-primary)" }}
+                style={{ background: "var(--color-accent)" }}
               />
               <Clothesline
                 as="section"

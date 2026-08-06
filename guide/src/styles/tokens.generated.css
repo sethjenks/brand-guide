@@ -2,14 +2,13 @@
  * Source: brand.md Design system section
  * Regenerate: node scripts/compile-design.mjs  (or npm run compile)
  *
- * Semantic chrome colors from brand.md emit as --brand-*.
- * Interface scales (e.g. --color-gray-*) emit under their authored names.
- * Astryx semantic tokens (--color-text-*, --color-background-*) come from the theme.
+ * Theme-owned chrome (--color-ink, paper, accent, …) is omitted here:
+ * those hexes live in brand.generated.ts / tokens.json and map through brand.ts.
+ * Interface scales (e.g. --color-gray-*) and type/space knobs emit under authored names.
+ * Live UI chrome uses Astryx semantics (--color-text-*, --color-background-*).
  */
 
 :root {
-  --brand-border: #d0d0d0;
-  --brand-canvas: #dcdcdc;
   --color-gray-1: #fcfcfc;
   --color-gray-10: #838383;
   --color-gray-11: #646464;
@@ -22,13 +21,6 @@
   --color-gray-7: #cecece;
   --color-gray-8: #bbbbbb;
   --color-gray-9: #8d8d8d;
-  --brand-ink: #111111;
-  --brand-ink-muted: #4a4a4a;
-  --brand-ink-subtle: #6b6b6b;
-  --brand-paper: #ffffff;
-  --brand-rail: #e6e6e6;
-  --brand-surface: #f5f5f5;
-  --brand-surface-deep: #e8e8e8;
   --content-max: 65ch;
   --font-sans: var(--font-geist-sans), "Geist", "IBM Plex Sans", system-ui, sans-serif;
   --font-size-base: 1rem;

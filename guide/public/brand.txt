@@ -411,7 +411,7 @@ This section is the brief. Concrete hex / CSS values live in **Design system** b
 
 Semantic roles (token names only; required in Design system):
 
-- **Primary text** — body, headings, key chrome (`--color-ink`); theme accent derives from ink
+- **Primary text** — body, headings, key chrome (`--color-ink`); theme accent defaults to ink (optional `--color-accent` when CTA must diverge)
 - **Secondary text** — supporting copy, captions (`--color-ink-muted`)
 - **Tertiary text** — meta, timestamps, placeholders (`--color-ink-subtle`)
 - **Border** — rules and dividers (`--color-border`)
@@ -606,7 +606,7 @@ Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`
 
 **Rules**
 
-- No accent hue in the starter kit.
+- No accent hue in the starter kit (omit `--color-accent` so theme accent equals ink). Author `--color-accent` when CTAs must diverge from primary text.
 - Body text on `--color-paper` must meet WCAG AA (≥ 4.5:1). Ink on paper exceeds AAA.
 - Prefer these tokens for marketing and UI; add new semantic tokens here before using one-off hex in CSS.
 

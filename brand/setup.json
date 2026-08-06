@@ -4,7 +4,7 @@
   "year": "2026",
   "support": "A grayscale starter brand guide for humans and agents — filled example copy you customize.",
   "headline": "Start fresh or bring your brand in",
-  "body": "Build from scratch with the Branding Questionnaire, or hand your agent a website, PDF, brand.md, or Figma file — we'll fold what you have into this guide.",
+  "body": "Build from scratch with the Branding Questionnaire, or hand your agent a website, PDF, brand.md, or Figma file — we'll fold what you have into this guide. Clone the repo on GitHub (https://github.com/sethjenks/brand-guide) to get started.",
   "sources": [
     {
       "label": "Branding Questionnaire (recommended)",

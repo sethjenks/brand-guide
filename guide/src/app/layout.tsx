@@ -7,6 +7,12 @@ import "@astryxdesign/core/astryx.css";
 import "@/themes/brand.theme.css";
 import "./globals.css";
 
+/**
+ * Next font loader contract (two owners — do not codegen this from `--font-sans`):
+ * 1. Design system owns the CSS stack (`--font-sans` → `brandThemeInput.fontSans`).
+ * 2. This file owns which webfont CSS variable is injected (`--font-geist-sans`).
+ * 3. Authored `--font-sans` should reference that variable so the loaded face wins.
+ */
 const geistSans = Geist({
   subsets: ["latin"],
   variable: "--font-geist-sans",
