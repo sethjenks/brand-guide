@@ -3,13 +3,13 @@
   "intake": "pending",
   "year": "2026",
   "support": "A grayscale starter brand guide for humans and agents — filled example copy you customize.",
-  "headline": "Start with the Branding Exercise",
-  "body": "If this kit is still a starter, run the Branding Exercise first (agent asks one question at a time, or share the written questionnaire). Prefer a website URL, brand PDF, brand.md, or Figma design URL only when you already have source material — then skip intake and populate from that source. After fill, run npm run compile from guide/ and set status to \"populated\".",
+  "headline": "Start fresh or bring your brand in",
+  "body": "Build from scratch with the Branding Questionnaire, or hand your agent a website, PDF, brand.md, or Figma file — we'll fold what you have into this guide.",
   "sources": [
     {
-      "label": "Branding Exercise (recommended)",
-      "detail": "intake/brand-intake-questionnaire.md — agent asks one-by-one, or send as a written questionnaire.",
-      "prompt": "This brand-guide kit is still a starter (intake pending). Run the Branding Exercise in intake/brand-intake-questionnaire.md: ask one question at a time, save answers to resources/transcripts/, set brand/setup.json intake to \"complete\", then rewrite brand.md (including Design system), examples.md, rules.md, and brand/setup.json from the transcript. Run npm run compile from guide/. When done, set brand/setup.json status to \"populated\". Do not hand-edit brand.json or tokens.json."
+      "label": "Branding Questionnaire (recommended)",
+      "detail": "Agent asks one-by-one, or send as a written questionnaire. Source: intake/brand-intake-questionnaire.md.",
+      "prompt": "This brand-guide kit is still a starter (intake pending). Run the Branding Questionnaire in intake/brand-intake-questionnaire.md: ask one question at a time, save answers to resources/transcripts/, set brand/setup.json intake to \"complete\", then rewrite brand.md (including Design system), examples.md, rules.md, and brand/setup.json from the transcript. Run npm run compile from guide/. When done, set brand/setup.json status to \"populated\". Do not hand-edit brand.json or tokens.json."
     },
     {
       "label": "Website URL",
@@ -32,5 +32,5 @@
       "prompt": "Populate this brand-guide kit from my Figma design file. Set brand/setup.json intake to \"skipped\". Follow intake/populate-from-source.md → Figma MCP protocol: parse fileKey/nodeId, then metadata → variables/styles → frame copy → assets; write into brand.md (never hand-edit brand.json or tokens.json). Update examples.md, rules.md, and brand/setup.json; cite the Figma URL in sources[]. Run npm run compile from guide/. Keep grayscale unless the file specifies a palette. When done, set status to \"populated\".\n\nFigma design URL: "
     }
   ],
-  "prompt": "This brand-guide kit is still a starter (intake pending). Start with the Branding Exercise in intake/brand-intake-questionnaire.md: ask one question at a time, save answers to resources/transcripts/, set brand/setup.json intake to \"complete\", then rewrite brand.md (including Design system), examples.md, rules.md, and setup from the transcript. Run npm run compile from guide/. When done, set status to \"populated\". If I already have a URL / PDF / brand.md / Figma design URL, set intake to \"skipped\" and follow intake/populate-from-source.md instead — or copy the matching prompt from the Accepted sources cards above."
+  "prompt": "This brand-guide kit is still a starter (intake pending). Start with the Branding Questionnaire in intake/brand-intake-questionnaire.md: ask one question at a time, save answers to resources/transcripts/, set brand/setup.json intake to \"complete\", then rewrite brand.md (including Design system), examples.md, rules.md, and setup from the transcript. Run npm run compile from guide/. When done, set status to \"populated\". If I already have a URL / PDF / brand.md / Figma design URL, set intake to \"skipped\" and follow intake/populate-from-source.md instead — or copy the matching prompt from the Accepted sources cards above."
 }

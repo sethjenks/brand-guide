@@ -8,6 +8,8 @@ import { AndYetSection } from "@/components/AndYetSection";
 import { AppShell } from "@/components/AppShell";
 import { ArchetypeExplorer } from "@/components/ArchetypeExplorer";
 import { AudienceSection } from "@/components/AudienceSection";
+import { BrandDocument } from "@/components/BrandDocument";
+import { BrandingQuestionnaire } from "@/components/BrandingQuestionnaire";
 import { ChapterSection } from "@/components/ChapterSection";
 import { Clothesline } from "@/components/Clothesline";
 import { ClotheslineGrid } from "@/components/ClotheslineGrid";
@@ -62,6 +64,7 @@ import {
 } from "@/components/TypeWeightsSection";
 import { VoiceSpectrumSection } from "@/components/VoiceSpectrumSection";
 import { loadBrand, type ColorSwatch } from "@/lib/load-brand";
+import { assessBrandCompleteness } from "@/lib/brand-completeness";
 import { sectionLeafStyle } from "@/lib/section-leaf";
 import { GUIDE_CHAPTERS } from "@/lib/nav";
 import "@/styles/flourish/hero.css";
@@ -634,6 +637,11 @@ function ApplicationSection({
 
 export default function Home() {
   const brand = loadBrand();
+  const completeness = assessBrandCompleteness(brand);
+  const questionnairePrompt =
+    brand.setup.sources.find((s) =>
+      s.label.toLowerCase().includes("questionnaire"),
+    )?.prompt ?? brand.setup.prompt;
   const [
     strategyChapter,
     languageChapter,
@@ -643,6 +651,7 @@ export default function Home() {
     photographyChapter,
     systemChapter,
     applicationsChapter,
+    utilitiesChapter,
   ] = GUIDE_CHAPTERS;
 
   const expressionByChannel = Object.fromEntries(
@@ -676,7 +685,12 @@ export default function Home() {
                 display="block"
                 className="hero-support"
               >
-                {brand.setup.body}
+                Build from scratch with the{" "}
+                <a href="#utilities-branding-questionnaire">
+                  Branding Questionnaire
+                </a>
+                , or hand your agent a website, PDF, brand.md, or Figma file —
+                we&apos;ll fold what you have into this guide.
               </Text>
 
               <Grid
@@ -693,6 +707,11 @@ export default function Home() {
                     label={source.label}
                     detail={source.detail}
                     prompt={source.prompt}
+                    href={
+                      source.label.toLowerCase().includes("questionnaire")
+                        ? "#utilities-branding-questionnaire"
+                        : undefined
+                    }
                   />
                 ))}
               </Grid>
@@ -1639,6 +1658,11 @@ export default function Home() {
               />
             );
           })}
+        </ChapterSection>
+
+        <ChapterSection id={utilitiesChapter.id} title={utilitiesChapter.title}>
+          <BrandingQuestionnaire prompt={questionnairePrompt} />
+          <BrandDocument brand={brand} gaps={completeness} />
         </ChapterSection>
 
         <footer className="footer">

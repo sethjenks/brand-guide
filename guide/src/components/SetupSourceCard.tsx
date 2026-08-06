@@ -13,6 +13,8 @@ type SetupSourceCardProps = {
   label: string;
   detail: string;
   prompt: string;
+  /** Optional in-guide hash link (e.g. Branding Questionnaire). */
+  href?: string;
 };
 
 /**
@@ -22,6 +24,7 @@ export function SetupSourceCard({
   label,
   detail,
   prompt,
+  href,
 }: SetupSourceCardProps) {
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -44,8 +47,24 @@ export function SetupSourceCard({
     timeoutRef.current = setTimeout(() => setCopied(false), 1400);
   }
 
+  const titleNode = href ? (
+    <Text
+      type="label"
+      weight="semibold"
+      color="primary"
+      display="block"
+      className="clothesline-title"
+    >
+      <a href={href} className="setup-source-title-link">
+        {label}
+      </a>
+    </Text>
+  ) : (
+    label
+  );
+
   return (
-    <Clothesline as="article" className="setup-source" title={label}>
+    <Clothesline as="article" className="setup-source" title={titleNode}>
       <VStack gap={3} width="100%" align="start">
         <Text
           color="secondary"
@@ -54,7 +73,15 @@ export function SetupSourceCard({
           display="block"
           className="measure"
         >
-          {detail}
+          {href ? (
+            <>
+              <a href={href}>Open in Utilities</a>
+              {" — "}
+              {detail}
+            </>
+          ) : (
+            detail
+          )}
         </Text>
         <Card
           variant="default"

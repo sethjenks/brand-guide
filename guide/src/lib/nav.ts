@@ -143,6 +143,17 @@ export const GUIDE_NAV = [
       { id: "applications-app", label: "App" },
     ],
   },
+  {
+    id: "utilities",
+    label: "Utilities",
+    items: [
+      {
+        id: "utilities-branding-questionnaire",
+        label: "Branding Questionnaire",
+      },
+      { id: "utilities-brand-document", label: "Brand document" },
+    ],
+  },
 ] as const satisfies readonly NavGroup[];
 
 /** Shell-owned chapter openers — TOC entries derived from GUIDE_NAV. */
