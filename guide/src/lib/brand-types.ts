@@ -80,6 +80,15 @@ export type SetupStatus = "starter" | "populated";
 
 export type IntakeStatus = "pending" | "complete" | "skipped";
 
+/** Per GUIDE_NAV leaf override for hybrid section status. */
+export type BrandSetupSectionStatus =
+  | "ok"
+  | "needs-work"
+  | "empty"
+  | "stub"
+  | "sample"
+  | "assets";
+
 export type BrandSetup = {
   status: SetupStatus;
   /** Branding Exercise gate: pending until questionnaire done or skipped for a source. */
@@ -95,6 +104,11 @@ export type BrandSetup = {
     prompt: string;
   }[];
   prompt: string;
+  /**
+   * Optional per-section status overrides (GUIDE_NAV leaf id → status).
+   * `ok` clears auto flags; `needs-work` forces Missing; other values force that status.
+   */
+  sectionStatus?: Readonly<Record<string, BrandSetupSectionStatus>>;
 };
 
 /** Guide projection stored under brand.json → guide (compiled from brand.md). */

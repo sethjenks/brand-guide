@@ -1,14 +1,13 @@
-import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
-import { VStack } from "@astryxdesign/core/VStack";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 type StatementSectionProps = {
   id: string;
   title: string;
   intro: string;
   statement: string;
+  status?: SectionStatus;
 };
 
 /**
@@ -19,36 +18,19 @@ export function StatementSection({
   title,
   intro,
   statement,
+  status,
 }: StatementSectionProps) {
   if (!intro && !statement) return null;
 
   return (
-    <Clothesline
-      as="section"
+    <ClotheslineLeaf
       id={id}
+      title={title}
+      intro={intro || undefined}
+      status={status}
       className="statement-section"
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
-      title={
-        <Heading level={3} id={`${id}-title`} className="clothesline-title">
-          {title}
-        </Heading>
-      }
-    >
-      <VStack gap={8}>
-        {intro ? (
-          <Text
-            type="large"
-            weight="semibold"
-            color="primary"
-            as="p"
-            display="block"
-            className="measure statement-intro"
-          >
-            {intro}
-          </Text>
-        ) : null}
-        {statement ? (
+      headerContent={
+        statement ? (
           <Text
             type="display-2"
             weight="bold"
@@ -59,8 +41,8 @@ export function StatementSection({
           >
             {statement}
           </Text>
-        ) : null}
-      </VStack>
-    </Clothesline>
+        ) : undefined
+      }
+    />
   );
 }

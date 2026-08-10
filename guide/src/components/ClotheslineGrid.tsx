@@ -2,8 +2,8 @@ import { Grid } from "@astryxdesign/core/Grid";
 import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 export type ClotheslineGridItem = {
   title: string;
@@ -15,6 +15,7 @@ type ClotheslineGridProps = {
   title: string;
   intro: string;
   items: readonly ClotheslineGridItem[];
+  status?: SectionStatus;
 };
 
 /**
@@ -26,37 +27,19 @@ export function ClotheslineGrid({
   title,
   intro,
   items,
+  status,
 }: ClotheslineGridProps) {
   if (!intro && items.length === 0) return null;
 
   return (
-    <Clothesline
-      as="section"
+    <ClotheslineLeaf
       id={id}
+      title={title}
+      intro={intro || undefined}
+      status={status}
       className="clothesline-grid-section"
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
-      title={
-        <Heading level={3} id={`${id}-title`} className="clothesline-title">
-          {title}
-        </Heading>
-      }
-    >
-      <VStack gap={8}>
-        {intro ? (
-          <Text
-            type="large"
-            weight="semibold"
-            color="primary"
-            as="p"
-            display="block"
-            className="measure clothesline-grid-intro"
-          >
-            {intro}
-          </Text>
-        ) : null}
-
-        {items.length > 0 ? (
+      headerContent={
+        items.length > 0 ? (
           <Grid
             columns={2}
             gap={8}
@@ -66,7 +49,11 @@ export function ClotheslineGrid({
             aria-label={`${title} items`}
           >
             {items.map((item) => (
-              <VStack key={item.title} gap={2} className="clothesline-grid-item">
+              <VStack
+                key={item.title}
+                gap={2}
+                className="clothesline-grid-item"
+              >
                 <Heading level={4} className="clothesline-grid-item-title">
                   {item.title}
                 </Heading>
@@ -83,8 +70,8 @@ export function ClotheslineGrid({
               </VStack>
             ))}
           </Grid>
-        ) : null}
-      </VStack>
-    </Clothesline>
+        ) : undefined
+      }
+    />
   );
 }

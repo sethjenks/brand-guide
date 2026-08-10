@@ -4,13 +4,14 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Clothesline } from "@/components/Clothesline";
 import {
-  gapBadgeLabel,
   type BrandCompleteness,
   type CompletenessField,
   type FieldGapStatus,
 } from "@/lib/brand-completeness";
 import type { BrandGuideViewModel } from "@/lib/brand-types";
+import { SectionStatusBadge } from "@/components/SectionStatusBadge";
 import { sectionLeafStyle } from "@/lib/section-leaf";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 type BrandDocumentProps = {
   brand: BrandGuideViewModel;
@@ -18,11 +19,8 @@ type BrandDocumentProps = {
 };
 
 function GapBadge({ status }: { status: FieldGapStatus }) {
-  const label = gapBadgeLabel(status);
-  if (!label) return null;
-  return (
-    <span className={`brand-doc-badge brand-doc-badge-${status}`}>{label}</span>
-  );
+  // FieldGapStatus is a subset of SectionStatus (no "assets")
+  return <SectionStatusBadge status={status as SectionStatus} />;
 }
 
 function FieldRow({ field }: { field: CompletenessField }) {

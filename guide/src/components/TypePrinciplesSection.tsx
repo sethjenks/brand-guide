@@ -1,13 +1,11 @@
-import { AspectRatio } from "@astryxdesign/core/AspectRatio";
 import { Grid } from "@astryxdesign/core/Grid";
-import { Heading } from "@astryxdesign/core/Heading";
 import { HStack } from "@astryxdesign/core/HStack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { ReactNode } from "react";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
-import "@/styles/flourish/dont-grid-strike.css";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import { StruckStage } from "@/components/StruckStage";
+import type { SectionStatus } from "@/lib/section-status-ui";
 import "@/styles/flourish/type-principles.css";
 
 export type TypePrincipleItem = {
@@ -28,6 +26,7 @@ type TypePrinciplesSectionProps = {
   context: string;
   items: readonly TypePrincipleItem[];
   className?: string;
+  status?: SectionStatus;
 };
 
 function PrincipleStage({
@@ -41,31 +40,24 @@ function PrincipleStage({
 }) {
   return (
     <VStack gap={2} width="100%" className="type-principle-pair">
-      <HStack
-        hAlign="center"
-        vAlign="center"
-        width="100%"
+      <StruckStage
+        struck={Boolean(struck)}
+        ratio={4 / 3}
         className={[
           "type-principle-stage",
           struck ? "type-principle-stage-dont" : "type-principle-stage-do",
         ].join(" ")}
-        style={{ border: "1px solid var(--color-border)" }}
       >
-        <AspectRatio ratio={4 / 3} fit="center">
-          <HStack
-            hAlign="start"
-            vAlign="center"
-            width="100%"
-            height="100%"
-            className="type-principle-stage-inner"
-          >
-            {children}
-          </HStack>
-        </AspectRatio>
-        {struck ? (
-          <VStack gap={0} className="dont-grid-strike" aria-hidden="true" />
-        ) : null}
-      </HStack>
+        <HStack
+          hAlign="start"
+          vAlign="center"
+          width="100%"
+          height="100%"
+          className="type-principle-stage-inner"
+        >
+          {children}
+        </HStack>
+      </StruckStage>
       <Text
         weight="semibold"
         color="primary"
@@ -88,38 +80,20 @@ export function TypePrinciplesSection({
   context,
   items,
   className,
+  status,
 }: TypePrinciplesSectionProps) {
   if (items.length === 0) return null;
 
   return (
-    <VStack
-      as="section"
+    <ClotheslineLeaf
       id={id}
-      gap={8}
+      title={title}
+      context={context}
+      status={status}
       className={["type-principles-section", className]
         .filter(Boolean)
         .join(" ")}
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
     >
-      <Clothesline
-        className="type-principles-clothesline"
-        title={
-          <Heading level={3} id={`${id}-title`} className="clothesline-title">
-            {title}
-          </Heading>
-        }
-      >
-        <Text
-          color="primary"
-          as="p"
-          display="block"
-          className="measure type-principles-context"
-        >
-          {context}
-        </Text>
-      </Clothesline>
-
       <VStack
         gap={8}
         width="100%"
@@ -160,6 +134,6 @@ export function TypePrinciplesSection({
           </Grid>
         ))}
       </VStack>
-    </VStack>
+    </ClotheslineLeaf>
   );
 }

@@ -1,9 +1,6 @@
-import { Heading } from "@astryxdesign/core/Heading";
-import { Text } from "@astryxdesign/core/Text";
-import { VStack } from "@astryxdesign/core/VStack";
 import type { ReactNode } from "react";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 type LogoAssetSectionProps = {
   id: string;
@@ -17,6 +14,7 @@ type LogoAssetSectionProps = {
    * or `ImageGrid` (multi-cell specimens). Optional for clothesline-only leaves.
    */
   children?: ReactNode;
+  status?: SectionStatus;
 };
 
 /**
@@ -29,38 +27,19 @@ export function LogoAssetSection({
   context,
   action,
   children,
+  status,
 }: LogoAssetSectionProps) {
   return (
-    <VStack
-      as="section"
+    <ClotheslineLeaf
       id={id}
+      title={title}
+      context={context}
+      action={action}
+      status={status}
       gap={4}
       className="logo-asset-section"
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
     >
-      <Clothesline
-        className="logo-asset-clothesline"
-        action={action}
-        title={
-          <Heading level={3} id={`${id}-title`} className="clothesline-title">
-            {title}
-          </Heading>
-        }
-      >
-        {context ? (
-          <Text
-            color="primary"
-            as="p"
-            display="block"
-            className="measure logo-asset-context"
-          >
-            {context}
-          </Text>
-        ) : null}
-      </Clothesline>
-
-      {children ?? null}
-    </VStack>
+      {children}
+    </ClotheslineLeaf>
   );
 }

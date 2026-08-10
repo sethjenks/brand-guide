@@ -1,9 +1,8 @@
-import { Grid, GridSpan } from "@astryxdesign/core/Grid";
-import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import { ClotheslineRow } from "@/components/ClotheslineRow";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 type StoryLength = {
   label: string;
@@ -16,6 +15,7 @@ type StorySectionProps = {
   long: string;
   medium: string;
   short: string;
+  status?: SectionStatus;
 };
 
 /**
@@ -27,6 +27,7 @@ export function StorySection({
   long,
   medium,
   short,
+  status,
 }: StorySectionProps) {
   const lengths: StoryLength[] = [
     { label: "Long", body: long },
@@ -37,70 +38,44 @@ export function StorySection({
   if (!intro && lengths.length === 0) return null;
 
   return (
-    <VStack
-      as="section"
+    <ClotheslineLeaf
       id={id}
-      gap={8}
+      title="Story"
+      intro={intro || undefined}
+      status={status}
       className="audience-section story-section"
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
     >
-      <Clothesline
-        title={
-          <Heading level={3} id={`${id}-title`} className="clothesline-title">
-            Story
-          </Heading>
-        }
-      >
-        {intro ? (
-          <Text
-            type="large"
-            weight="semibold"
-            color="primary"
-            as="p"
-            display="block"
-            className="measure clothesline-grid-intro"
-          >
-            {intro}
-          </Text>
-        ) : null}
-      </Clothesline>
-
       {lengths.length > 0 ? (
         <VStack gap={8} role="list" aria-label="Story lengths">
           {lengths.map((row) => (
-            <Grid
+            <ClotheslineRow
               key={row.label}
-              columns={3}
-              gap={4}
-              columnGap={6}
-              align="start"
               className="story-row"
               role="listitem"
+              label={
+                <Text
+                  type="label"
+                  weight="semibold"
+                  color="primary"
+                  display="block"
+                  className="clothesline-title"
+                >
+                  {row.label}
+                </Text>
+              }
             >
               <Text
-                type="label"
-                weight="semibold"
                 color="primary"
+                as="p"
                 display="block"
-                className="clothesline-title"
+                className="measure story-body"
               >
-                {row.label}
+                {row.body}
               </Text>
-              <GridSpan columns={2}>
-                <Text
-                  color="primary"
-                  as="p"
-                  display="block"
-                  className="measure story-body"
-                >
-                  {row.body}
-                </Text>
-              </GridSpan>
-            </Grid>
+            </ClotheslineRow>
           ))}
         </VStack>
       ) : null}
-    </VStack>
+    </ClotheslineLeaf>
   );
 }

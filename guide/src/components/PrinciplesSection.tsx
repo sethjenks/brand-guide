@@ -1,11 +1,12 @@
-import { Grid, GridSpan } from "@astryxdesign/core/Grid";
 import { Heading } from "@astryxdesign/core/Heading";
-import { HStack } from "@astryxdesign/core/HStack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { AgentLabel } from "@/components/AgentLabel";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import { ClotheslineRow } from "@/components/ClotheslineRow";
+import { DoDontColumns } from "@/components/DoDontColumns";
+import { LabeledField } from "@/components/LabeledField";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 export type PrincipleItem = {
   title: string;
@@ -18,6 +19,7 @@ type PrinciplesSectionProps = {
   id?: string;
   intro: string;
   items: readonly PrincipleItem[];
+  status?: SectionStatus;
 };
 
 /**
@@ -27,94 +29,62 @@ export function PrinciplesSection({
   id = "language-principles",
   intro,
   items,
+  status,
 }: PrinciplesSectionProps) {
   if (!intro && items.length === 0) return null;
 
   return (
-    <VStack
-      as="section"
+    <ClotheslineLeaf
       id={id}
-      gap={8}
+      title="Principles"
+      intro={intro || undefined}
+      status={status}
+      trailing={<AgentLabel />}
       className="audience-section principles-section"
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
     >
-      <Clothesline
-        title={
-          <HStack gap={2} align="center" wrap="wrap">
-            <Heading level={3} id={`${id}-title`} className="clothesline-title">
-              Principles
-            </Heading>
-            <AgentLabel />
-          </HStack>
-        }
-      >
-        {intro ? (
-          <Text
-            type="large"
-            weight="semibold"
-            color="primary"
-            as="p"
-            display="block"
-            className="measure clothesline-grid-intro"
-          >
-            {intro}
-          </Text>
-        ) : null}
-      </Clothesline>
-
       {items.length > 0 ? (
         <VStack gap={10} role="list" aria-label="Language principles">
           {items.map((item, index) => (
-            <Grid
+            <ClotheslineRow
               key={item.title}
-              columns={3}
               gap={6}
-              columnGap={6}
-              align="start"
               className="principle-row"
               role="listitem"
+              label={
+                <Text
+                  weight="bold"
+                  color="primary"
+                  display="block"
+                  className="principle-index clothesline-grid-item-title"
+                  aria-hidden="true"
+                >
+                  {index + 1}.
+                </Text>
+              }
             >
-              <Text
-                weight="bold"
-                color="primary"
-                display="block"
-                className="principle-index clothesline-grid-item-title"
-                aria-hidden="true"
-              >
-                {index + 1}.
-              </Text>
-              <GridSpan columns={2}>
-                <VStack gap={4} className="principle-content">
-                  <Heading
-                    level={4}
-                    className="clothesline-grid-item-title principle-title"
+              <VStack gap={4} className="principle-content">
+                <Heading
+                  level={4}
+                  className="clothesline-grid-item-title principle-title"
+                >
+                  {item.title}
+                </Heading>
+                {item.body ? (
+                  <Text
+                    color="primary"
+                    as="p"
+                    display="block"
+                    className="measure"
                   >
-                    {item.title}
-                  </Heading>
-                  {item.body ? (
-                    <Text
-                      color="primary"
-                      as="p"
-                      display="block"
-                      className="measure"
-                    >
-                      {item.body}
-                    </Text>
-                  ) : null}
-                  {item.do || item.dont ? (
-                    <Grid
-                      columns={2}
-                      gap={6}
-                      columnGap={8}
-                      align="start"
-                      className="principle-do-dont"
-                    >
-                      {item.do ? (
-                        <VStack gap={2}>
-                          <Text weight="bold" color="primary" display="block">
-                            Do
-                          </Text>
+                    {item.body}
+                  </Text>
+                ) : null}
+                {item.do || item.dont ? (
+                  <DoDontColumns
+                    className="principle-do-dont"
+                    do={
+                      item.do ? (
+                        <LabeledField label="Do">
                           <Text
                             color="primary"
                             as="p"
@@ -123,13 +93,12 @@ export function PrinciplesSection({
                           >
                             {item.do}
                           </Text>
-                        </VStack>
-                      ) : null}
-                      {item.dont ? (
-                        <VStack gap={2}>
-                          <Text weight="bold" color="primary" display="block">
-                            Don’t
-                          </Text>
+                        </LabeledField>
+                      ) : undefined
+                    }
+                    dont={
+                      item.dont ? (
+                        <LabeledField label="Don’t">
                           <Text
                             color="primary"
                             as="p"
@@ -138,16 +107,16 @@ export function PrinciplesSection({
                           >
                             {item.dont}
                           </Text>
-                        </VStack>
-                      ) : null}
-                    </Grid>
-                  ) : null}
-                </VStack>
-              </GridSpan>
-            </Grid>
+                        </LabeledField>
+                      ) : undefined
+                    }
+                  />
+                ) : null}
+              </VStack>
+            </ClotheslineRow>
           ))}
         </VStack>
       ) : null}
-    </VStack>
+    </ClotheslineLeaf>
   );
 }

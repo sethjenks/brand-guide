@@ -150,7 +150,9 @@ section[id] {
 }
 
 .brand-doc-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
   font-size: var(--font-size-sm);
   font-weight: 600;
   line-height: 1.2;
@@ -170,10 +172,84 @@ section[id] {
   color: var(--color-text-secondary);
 }
 
+.brand-doc-badge-assets {
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-accent) 12%, var(--color-background-muted));
+}
+
 .brand-doc-field-empty .brand-doc-field-value,
 .brand-doc-field-stub .brand-doc-field-value,
 .brand-doc-field-sample .brand-doc-field-value {
   font-style: italic;
+}
+
+.section-status-callout {
+  margin: 0;
+}
+
+.status-key-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.status-key-row .section-status-shape {
+  margin-block-start: 0.35em;
+}
+
+.nav-status-end {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.section-status-shape {
+  --status-shape-size: 7px;
+  display: inline-block;
+  width: var(--status-shape-size);
+  height: var(--status-shape-size);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  color: var(--color-text-secondary);
+  background: currentColor;
+}
+
+.section-status-shape-md {
+  --status-shape-size: 9px;
+}
+
+.section-status-shape-sm {
+  --status-shape-size: 7px;
+}
+
+/* Empty / starter — hollow ring */
+.section-status-shape-ring {
+  background: transparent;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+
+/* Stub — filled square */
+.section-status-shape-square {
+  border-radius: 0;
+}
+
+/* Needs assets — triangle pointing up */
+.section-status-shape-triangle {
+  background: transparent;
+  width: 0;
+  height: 0;
+  border-left: calc(var(--status-shape-size) * 0.55) solid transparent;
+  border-right: calc(var(--status-shape-size) * 0.55) solid transparent;
+  border-bottom: var(--status-shape-size) solid currentColor;
+}
+
+.nav-status-count {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  line-height: 1;
 }
 
 .clothesline {
@@ -193,10 +269,6 @@ section[id] {
 
 .clothesline-action-slot {
   flex-shrink: 0;
-}
-
-.logo-asset-context {
-  max-width: var(--content-max, 65ch);
 }
 
 .composition-examples {
@@ -381,10 +453,6 @@ section[id] {
   max-width: none;
 }
 
-.typeface-context {
-  max-width: var(--content-max, 65ch);
-}
-
 .typeface-body {
   width: 100%;
   max-width: none;
@@ -393,10 +461,6 @@ section[id] {
 .typeface-specimen {
   width: 100%;
   max-width: none;
-}
-
-.type-weights-context {
-  max-width: var(--content-max, 65ch);
 }
 
 .type-weights-stack {
@@ -410,10 +474,6 @@ section[id] {
   overflow: hidden;
 }
 
-.type-specimen-context {
-  max-width: var(--content-max, 65ch);
-}
-
 .type-specimen-stack {
   width: 100%;
   max-width: none;
@@ -422,10 +482,6 @@ section[id] {
 .type-specimen-row {
   width: 100%;
   max-width: none;
-}
-
-.type-hierarchy-context {
-  max-width: var(--content-max, 65ch);
 }
 
 .type-hierarchy-stack {
@@ -440,10 +496,6 @@ section[id] {
 
 .type-hierarchy-meta {
   min-width: 0;
-}
-
-.type-principles-context {
-  max-width: var(--content-max, 65ch);
 }
 
 .type-principles-stack {
@@ -499,11 +551,6 @@ section[id] {
   font-size: var(--font-size-base);
   line-height: 1.4;
   color: var(--color-text-primary);
-}
-
-.audience-intro,
-.statement-intro {
-  max-width: min(var(--content-max, 65ch), 100%);
 }
 
 .statement-display {
@@ -683,16 +730,7 @@ section[id] {
   margin: 0;
 }
 
-.color-palette-context {
-  max-width: var(--content-max, 65ch);
-}
-
 /* Photography → Categories (4-up jump grid) */
-.photo-categories-context,
-.photo-category-context {
-  max-width: var(--content-max, 65ch);
-}
-
 .photo-category-tile {
   display: block;
   width: 100%;

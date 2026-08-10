@@ -1,9 +1,6 @@
-import { Heading } from "@astryxdesign/core/Heading";
-import { Text } from "@astryxdesign/core/Text";
-import { VStack } from "@astryxdesign/core/VStack";
 import type { ReactNode } from "react";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 type ColorPaletteSectionProps = {
   id: string;
@@ -15,6 +12,7 @@ type ColorPaletteSectionProps = {
    */
   children: ReactNode;
   className?: string;
+  status?: SectionStatus;
 };
 
 /**
@@ -26,39 +24,18 @@ export function ColorPaletteSection({
   context,
   children,
   className,
+  status,
 }: ColorPaletteSectionProps) {
   return (
-    <VStack
-      as="section"
+    <ClotheslineLeaf
       id={id}
+      title={title}
+      context={context}
+      status={status}
       gap={4}
-      className={["color-palette-section", className]
-        .filter(Boolean)
-        .join(" ")}
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
+      className={["color-palette-section", className].filter(Boolean).join(" ")}
     >
-      <Clothesline
-        className="color-palette-clothesline"
-        title={
-          <Heading level={3} id={`${id}-title`} className="clothesline-title">
-            {title}
-          </Heading>
-        }
-      >
-        {context ? (
-          <Text
-            color="primary"
-            as="p"
-            display="block"
-            className="measure color-palette-context"
-          >
-            {context}
-          </Text>
-        ) : null}
-      </Clothesline>
-
       {children}
-    </VStack>
+    </ClotheslineLeaf>
   );
 }

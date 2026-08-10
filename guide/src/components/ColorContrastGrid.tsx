@@ -1,11 +1,10 @@
-import { AspectRatio } from "@astryxdesign/core/AspectRatio";
 import { Grid } from "@astryxdesign/core/Grid";
 import { HStack } from "@astryxdesign/core/HStack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { CSSProperties } from "react";
 import { Icons } from "@/components/icons";
-import "@/styles/flourish/dont-grid-strike.css";
+import { StruckStage } from "@/components/StruckStage";
 
 export type ColorContrastItem = {
   id: string;
@@ -76,10 +75,9 @@ export function ColorContrastGrid({
             width="100%"
             className="color-contrast-item"
           >
-            <HStack
-              hAlign="center"
-              vAlign="center"
-              width="100%"
+            <StruckStage
+              struck={Boolean(item.struck)}
+              ratio={ratio}
               className={[
                 "color-contrast-stage",
                 item.struck ? "color-contrast-stage-dont" : null,
@@ -88,65 +86,55 @@ export function ColorContrastGrid({
                 .join(" ")}
               style={style}
             >
-              <AspectRatio ratio={ratio}>
-                <VStack
-                  gap={0}
-                  justify="center"
-                  hAlign="center"
-                  width="100%"
-                  height="100%"
-                  className="color-contrast-field"
+              <VStack
+                gap={0}
+                justify="center"
+                hAlign="center"
+                width="100%"
+                height="100%"
+                className="color-contrast-field"
+              >
+                <HStack
+                  gap={1}
+                  vAlign="center"
+                  className={`color-contrast-chip color-contrast-chip-${chipTone}`}
+                  style={
+                    chipTone === "dark"
+                      ? {
+                          background: "var(--color-background-inverted)",
+                          color: "var(--color-background-surface)",
+                          borderRadius: "var(--radius-inner)",
+                        }
+                      : {
+                          background: "var(--color-background-surface)",
+                          color: "var(--color-text-primary)",
+                          borderRadius: "var(--radius-inner)",
+                        }
+                  }
                 >
-                  <HStack
-                    gap={1}
-                    vAlign="center"
-                    className={`color-contrast-chip color-contrast-chip-${chipTone}`}
-                    style={
-                      chipTone === "dark"
-                        ? {
-                            background: "var(--color-background-inverted)",
-                            color: "var(--color-background-surface)",
-                            borderRadius: "var(--radius-inner)",
-                          }
-                        : {
-                            background: "var(--color-background-surface)",
-                            color: "var(--color-text-primary)",
-                            borderRadius: "var(--radius-inner)",
-                          }
-                    }
+                  <Icons.Image size={12} aria-hidden="true" />
+                  <Text
+                    type="label"
+                    weight="medium"
+                    color="inherit"
+                    className="color-contrast-chip-label"
                   >
-                    <Icons.Image size={12} aria-hidden="true" />
-                    <Text
-                      type="label"
-                      weight="medium"
-                      color="inherit"
-                      className="color-contrast-chip-label"
-                    >
-                      {item.chipLabel ?? "Placeholder"}
-                    </Text>
-                  </HStack>
+                    {item.chipLabel ?? "Placeholder"}
+                  </Text>
+                </HStack>
 
-                  <HStack
-                    gap={0}
-                    vAlign="stretch"
-                    width="100%"
-                    className="color-contrast-split"
-                    aria-hidden="true"
-                  >
-                    <VStack gap={0} className="color-contrast-split-left" />
-                    <VStack gap={0} className="color-contrast-split-right" />
-                  </HStack>
-                </VStack>
-              </AspectRatio>
-
-              {item.struck ? (
-                <VStack
+                <HStack
                   gap={0}
-                  className="dont-grid-strike"
+                  vAlign="stretch"
+                  width="100%"
+                  className="color-contrast-split"
                   aria-hidden="true"
-                />
-              ) : null}
-            </HStack>
+                >
+                  <VStack gap={0} className="color-contrast-split-left" />
+                  <VStack gap={0} className="color-contrast-split-right" />
+                </HStack>
+              </VStack>
+            </StruckStage>
 
             <Text
               weight="semibold"

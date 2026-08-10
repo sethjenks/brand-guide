@@ -1,10 +1,9 @@
-import { AspectRatio } from "@astryxdesign/core/AspectRatio";
 import { Grid } from "@astryxdesign/core/Grid";
 import { HStack } from "@astryxdesign/core/HStack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { ReactNode } from "react";
-import "@/styles/flourish/dont-grid-strike.css";
+import { StruckStage } from "@/components/StruckStage";
 
 export type DontGridItem = {
   id: string;
@@ -60,41 +59,29 @@ export function DontGrid({
           width="100%"
           className="dont-grid-item"
         >
-          <HStack
-            hAlign="center"
-            vAlign="center"
-            width="100%"
+          <StruckStage
+            ratio={ratio}
             className="dont-grid-stage"
-            style={{
-              border: "1px solid var(--color-border)",
-              background: "var(--color-background-card)",
-            }}
+            style={{ background: "var(--color-background-card)" }}
           >
-            <AspectRatio ratio={ratio} fit="center">
-              {item.src ? (
-                <img
-                  src={item.src}
-                  alt={item.alt ?? item.caption}
-                  className="dont-grid-media"
-                />
-              ) : (
-                <HStack
-                  hAlign="center"
-                  vAlign="center"
-                  width="100%"
-                  height="100%"
-                  className="dont-grid-placeholder"
-                >
-                  {item.children}
-                </HStack>
-              )}
-            </AspectRatio>
-            <VStack
-              gap={0}
-              className="dont-grid-strike"
-              aria-hidden="true"
-            />
-          </HStack>
+            {item.src ? (
+              <img
+                src={item.src}
+                alt={item.alt ?? item.caption}
+                className="dont-grid-media"
+              />
+            ) : (
+              <HStack
+                hAlign="center"
+                vAlign="center"
+                width="100%"
+                height="100%"
+                className="dont-grid-placeholder"
+              >
+                {item.children}
+              </HStack>
+            )}
+          </StruckStage>
           <Text
             weight="semibold"
             color="primary"
