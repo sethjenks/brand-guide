@@ -1,52 +1,40 @@
-import { Grid } from "@astryxdesign/core/Grid";
-import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import { DoDontColumns } from "@/components/DoDontColumns";
+import { LabeledField } from "@/components/LabeledField";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 type CtaSectionProps = {
   id?: string;
   intro: string;
   doItems: readonly string[];
   dontItems: readonly string[];
+  status?: SectionStatus;
 };
 
-function CtaColumn({
-  label,
+function CtaExamples({
   items,
+  label,
 }: {
-  label: string;
   items: readonly string[];
+  label: string;
 }) {
-  if (items.length === 0) return null;
-
   return (
-    <VStack gap={6} className="cta-column">
-      <Text
-        type="label"
-        weight="semibold"
-        color="primary"
-        display="block"
-        className="clothesline-title"
-      >
-        {label}
-      </Text>
-      <VStack gap={5} role="list" aria-label={label}>
-        {items.map((item) => (
-          <Text
-            key={item}
-            weight="bold"
-            color="primary"
-            as="p"
-            display="block"
-            className="clothesline-grid-item-title cta-example"
-            role="listitem"
-          >
-            {item}
-          </Text>
-        ))}
-      </VStack>
+    <VStack gap={5} role="list" aria-label={label}>
+      {items.map((item) => (
+        <Text
+          key={item}
+          weight="bold"
+          color="primary"
+          as="p"
+          display="block"
+          className="clothesline-grid-item-title cta-example"
+          role="listitem"
+        >
+          {item}
+        </Text>
+      ))}
     </VStack>
   );
 }
@@ -59,49 +47,49 @@ export function CtaSection({
   intro,
   doItems,
   dontItems,
+  status,
 }: CtaSectionProps) {
   if (!intro && doItems.length === 0 && dontItems.length === 0) return null;
 
   return (
-    <Clothesline
-      as="section"
+    <ClotheslineLeaf
       id={id}
+      title="Calls to action"
+      intro={intro || undefined}
+      status={status}
       className="clothesline-grid-section cta-section"
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
-      title={
-        <Heading level={3} id={`${id}-title`} className="clothesline-title">
-          Calls to action
-        </Heading>
-      }
-    >
-      <VStack gap={8}>
-        {intro ? (
-          <Text
-            type="large"
-            weight="semibold"
-            color="primary"
-            as="p"
-            display="block"
-            className="measure clothesline-grid-intro"
-          >
-            {intro}
-          </Text>
-        ) : null}
-
-        {doItems.length > 0 || dontItems.length > 0 ? (
-          <Grid
-            columns={2}
+      headerContent={
+        doItems.length > 0 || dontItems.length > 0 ? (
+          <DoDontColumns
             gap={8}
-            columnGap={8}
-            align="start"
             className="cta-do-dont"
-          >
-            <CtaColumn label="Do" items={doItems} />
-            <CtaColumn label="Don’t" items={dontItems} />
-          </Grid>
-        ) : null}
-      </VStack>
-    </Clothesline>
+            do={
+              doItems.length > 0 ? (
+                <LabeledField
+                  label="Do"
+                  labelType="label"
+                  gap={6}
+                  className="cta-column"
+                >
+                  <CtaExamples items={doItems} label="Do" />
+                </LabeledField>
+              ) : undefined
+            }
+            dont={
+              dontItems.length > 0 ? (
+                <LabeledField
+                  label="Don’t"
+                  labelType="label"
+                  gap={6}
+                  className="cta-column"
+                >
+                  <CtaExamples items={dontItems} label="Don’t" />
+                </LabeledField>
+              ) : undefined
+            }
+          />
+        ) : undefined
+      }
+    />
   );
 }

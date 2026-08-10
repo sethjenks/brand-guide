@@ -35,14 +35,71 @@ import {
 } from "react";
 import { flattenNavSectionIds } from "@/lib/nav";
 import type { NavGroup, NavItem } from "@/lib/brand-types";
+import type {
+  ChapterStatusAggregate,
+  SectionStatus,
+  SectionStatusMap,
+} from "@/lib/section-status-ui";
+import { sectionNeedsWork, worse } from "@/lib/section-status-ui";
+import { SectionStatusShape } from "@/components/SectionStatusShape";
 
 type AppShellProps = {
   brandName: string;
   groups: readonly NavGroup[];
   children: ReactNode;
+  /** Per GUIDE_NAV leaf customization status (ok leaves omit indicator). */
+  sectionStatusById?: SectionStatusMap;
+  /** Chapter rollups for muted need-work counts on group rows. */
+  chapterStatus?: readonly ChapterStatusAggregate[];
 };
 
+function NavStatusEnd({
+  status,
+  count,
+}: {
+  status?: SectionStatus;
+  count?: number;
+}) {
+  const needsWork = sectionNeedsWork(status) || (count != null && count > 0);
+  if (!needsWork) return null;
+  return (
+    <span className="nav-status-end">
+      {count != null && count > 0 ? (
+        <span className="nav-status-count" aria-label={`${count} need work`}>
+          {count}
+        </span>
+      ) : null}
+      <SectionStatusShape
+        status={sectionNeedsWork(status) ? status : "empty"}
+        size="sm"
+      />
+    </span>
+  );
+}
+
+function itemNeedsWorkStatus(
+  item: NavItem,
+  byId: SectionStatusMap | undefined,
+): { status: SectionStatus; count: number } {
+  if (!byId) return { status: "ok", count: 0 };
+  let count = 0;
+  let worst: SectionStatus = byId[item.id] ?? "ok";
+  if (sectionNeedsWork(worst)) count += 1;
+  for (const child of item.children ?? []) {
+    const childStatus = byId[child.id] ?? "ok";
+    if (sectionNeedsWork(childStatus)) {
+      count += 1;
+      worst = worse(worst, childStatus);
+    }
+  }
+  return {
+    status: count > 0 && worst === "ok" ? "empty" : worst,
+    count,
+  };
+}
+
 const STORAGE_KEY = "brand-guide-sidebar-collapsed";
+const WIDTH_STORAGE_KEY = "brand-guide-sidenav-width";
 const SCROLL_OFFSET_PX = 96;
 const DEFAULT_NAV_WIDTH = 248;
 /** Matches Astryx `--spacing-12` collapsed rail. */
@@ -92,8 +149,17 @@ export function AppShell({
   brandName,
   groups,
   children,
+  sectionStatusById,
+  chapterStatus,
 }: AppShellProps) {
   const sectionIds = useMemo(() => flattenNavSectionIds(groups), [groups]);
+  const chapterById = useMemo(() => {
+    const map = new Map<string, ChapterStatusAggregate>();
+    for (const chapter of chapterStatus ?? []) {
+      map.set(chapter.id, chapter);
+    }
+    return map;
+  }, [chapterStatus]);
   const reduceMotion = useReducedMotion();
 
   const [activeId, setActiveId] = useState<string>(sectionIds[0] ?? "");
@@ -106,6 +172,8 @@ export function AppShell({
   const [openGroupIds, setOpenGroupIds] = useState<ReadonlySet<string>>(
     () => new Set(groups[0] ? [groups[0].id] : []),
   );
+  /** False until localStorage prefs are applied post-mount (avoids SSR mismatch). */
+  const [prefsReady, setPrefsReady] = useState(false);
 
   const onCollapsedChange = useCallback(
     (next: boolean) => {
@@ -115,14 +183,33 @@ export function AppShell({
     [reduceMotion],
   );
 
+  // Restore prefs after mount so SSR HTML matches the first client render.
+  // Do not use SideNav autoSaveId — it can rehydrate a collapsed width of 0.
   useEffect(() => {
-    const saved = window.localStorage.getItem(STORAGE_KEY);
-    setCollapsed(saved === "1");
+    const savedCollapsed = window.localStorage.getItem(STORAGE_KEY);
+    const savedWidth = Number(
+      window.localStorage.getItem(WIDTH_STORAGE_KEY),
+    );
+    if (savedCollapsed === "1") setCollapsed(true);
+    if (
+      Number.isFinite(savedWidth) &&
+      savedWidth >= 200 &&
+      savedWidth <= 360
+    ) {
+      setNavWidth(savedWidth);
+    }
+    setPrefsReady(true);
   }, []);
 
   useEffect(() => {
+    if (!prefsReady) return;
     window.localStorage.setItem(STORAGE_KEY, collapsed ? "1" : "0");
-  }, [collapsed]);
+  }, [collapsed, prefsReady]);
+
+  useEffect(() => {
+    if (!prefsReady) return;
+    window.localStorage.setItem(WIDTH_STORAGE_KEY, String(navWidth));
+  }, [navWidth, prefsReady]);
 
   // Keep the chapter accordion open for the active hash / scroll target.
   useEffect(() => {
@@ -200,10 +287,9 @@ export function AppShell({
           hasButton: false,
         }}
         resizable={{
-          defaultWidth: DEFAULT_NAV_WIDTH,
+          defaultWidth: navWidth,
           minWidth: 200,
           maxWidth: 360,
-          autoSaveId: "brand-guide-sidenav-width",
           onWidthChange: (width) => {
             // Collapse reports 0 — keep the last expanded width for reopen.
             // Same width on expand restore: leave the collapse spring alone.
@@ -242,6 +328,7 @@ export function AppShell({
       >
         {groups.map((group, index) => {
           const isOpen = openGroupIds.has(group.id);
+          const chapterAgg = chapterById.get(group.id);
 
           return (
             <motion.div
@@ -269,6 +356,12 @@ export function AppShell({
                 label={group.label.toUpperCase()}
                 href={`#${group.id}`}
                 isSelected={activeId === group.id}
+                endContent={
+                  <NavStatusEnd
+                    status={chapterAgg?.worst}
+                    count={chapterAgg?.needsWorkCount}
+                  />
+                }
                 collapsible={{
                   isCollapsed: !isOpen,
                   onCollapsedChange: (isCollapsed) => {
@@ -294,6 +387,10 @@ export function AppShell({
                     item.children && item.children.length > 0,
                   );
                   const selected = isItemActive(item, activeId);
+                  const itemStatus = itemNeedsWorkStatus(
+                    item,
+                    sectionStatusById,
+                  );
 
                   return (
                     <SideNavItem
@@ -301,6 +398,16 @@ export function AppShell({
                       label={item.label}
                       href={`#${item.id}`}
                       isSelected={selected}
+                      endContent={
+                        <NavStatusEnd
+                          status={itemStatus.status}
+                          count={
+                            hasChildren && itemStatus.count > 1
+                              ? itemStatus.count
+                              : undefined
+                          }
+                        />
+                      }
                       collapsible={
                         hasChildren
                           ? { defaultIsCollapsed: !selected }
@@ -315,6 +422,13 @@ export function AppShell({
                               label={child.label}
                               href={`#${child.id}`}
                               isSelected={child.id === activeId}
+                              endContent={
+                                <NavStatusEnd
+                                  status={
+                                    sectionStatusById?.[child.id] ?? "ok"
+                                  }
+                                />
+                              }
                               onClick={() => onNavigate(child.id)}
                             />
                           ))

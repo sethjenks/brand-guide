@@ -45,6 +45,7 @@ import { LogoUseItem } from "@/components/LogoUseItem";
 import { PrinciplesSection } from "@/components/PrinciplesSection";
 import { ScaleStack, type ScaleStackStep } from "@/components/ScaleStack";
 import { SectionStub } from "@/components/SectionStub";
+import { SectionStatusKey } from "@/components/SectionStatusKey";
 import { SetupSourceCard } from "@/components/SetupSourceCard";
 import { StatementSection } from "@/components/StatementSection";
 import { StorySection } from "@/components/StorySection";
@@ -66,6 +67,8 @@ import { VoiceSpectrumSection } from "@/components/VoiceSpectrumSection";
 import { loadBrand, type ColorSwatch } from "@/lib/load-brand";
 import { assessBrandCompleteness } from "@/lib/brand-completeness";
 import { sectionLeafStyle } from "@/lib/section-leaf";
+import { resolveSectionStatus } from "@/lib/section-status";
+import type { SectionStatus } from "@/lib/section-status-ui";
 import { GUIDE_CHAPTERS } from "@/lib/nav";
 import "@/styles/flourish/hero.css";
 import "@/styles/flourish/logo-collage.css";
@@ -591,6 +594,7 @@ function ApplicationSection({
   context,
   sample,
   images = 1,
+  status,
 }: {
   id: string;
   title: string;
@@ -599,6 +603,7 @@ function ApplicationSection({
   sample?: string;
   /** 1 → AssetStage; 2+ → ImageGrid. */
   images?: number;
+  status?: SectionStatus;
 }) {
   const sampleNode = sample ? (
     <Text
@@ -613,7 +618,7 @@ function ApplicationSection({
   ) : null;
 
   return (
-    <LogoAssetSection id={id} title={title} context={context}>
+    <LogoAssetSection id={id} title={title} context={context} status={status}>
       {/* Prefer application assets: src="/brand/applications/{id}-*.jpg". */}
       {images <= 1 ? (
         <AssetStage aria-label={`${title} application`}>{sampleNode}</AssetStage>
@@ -638,6 +643,8 @@ function ApplicationSection({
 export default function Home() {
   const brand = loadBrand();
   const completeness = assessBrandCompleteness(brand);
+  const { byId: sectionStatusById, chapters: chapterStatus } =
+    resolveSectionStatus(brand, completeness);
   const questionnairePrompt =
     brand.setup.sources.find((s) =>
       s.label.toLowerCase().includes("questionnaire"),
@@ -662,7 +669,12 @@ export default function Home() {
   );
 
   return (
-    <AppShell brandName={brand.name} groups={brand.nav}>
+    <AppShell
+      brandName={brand.name}
+      groups={brand.nav}
+      sectionStatusById={sectionStatusById}
+      chapterStatus={chapterStatus}
+    >
       <GuideColumn>
         <GuideHero setup={brand.setup.status === "starter"}>
           {brand.setup.status === "starter" ? (
@@ -746,17 +758,20 @@ export default function Home() {
                   </Text>
                 }
               >
-                <Text
-                  color="secondary"
-                  type="supporting"
-                  as="p"
-                  display="block"
-                  className="measure setup-footnote"
-                >
-                  Starter preview below uses Sample Brand until you populate.
-                  When finished, set <code>status</code> to{" "}
-                  <code>populated</code> in <code>brand/setup.json</code>.
-                </Text>
+                <VStack gap={4} width="100%">
+                  <Text
+                    color="secondary"
+                    type="supporting"
+                    as="p"
+                    display="block"
+                    className="measure setup-footnote"
+                  >
+                    Starter preview below uses Sample Brand until you populate.
+                    When finished, set <code>status</code> to{" "}
+                    <code>populated</code> in <code>brand/setup.json</code>.
+                  </Text>
+                  <SectionStatusKey />
+                </VStack>
               </Clothesline>
             </>
           ) : (
@@ -866,6 +881,7 @@ export default function Home() {
             id="strategy-audience"
             intro={brand.strategy.audience.intro}
             groups={brand.strategy.audience.groups}
+            status={sectionStatusById["strategy-audience"]}
           />
 
           <StatementSection
@@ -873,6 +889,7 @@ export default function Home() {
             title="Positioning"
             intro={brand.strategy.positioning.intro}
             statement={brand.strategy.positioning.statement}
+            status={sectionStatusById["strategy-positioning"]}
           />
 
           <StatementSection
@@ -880,6 +897,7 @@ export default function Home() {
             title="Vision"
             intro={brand.strategy.vision.intro}
             statement={brand.strategy.vision.statement}
+            status={sectionStatusById["strategy-vision"]}
           />
 
           <StatementSection
@@ -887,6 +905,7 @@ export default function Home() {
             title="Mission"
             intro={brand.strategy.mission.intro}
             statement={brand.strategy.mission.statement}
+            status={sectionStatusById["strategy-mission"]}
           />
 
           <ClotheslineGrid
@@ -894,6 +913,7 @@ export default function Home() {
             title="Values"
             intro={brand.strategy.values.intro}
             items={brand.strategy.values.items}
+            status={sectionStatusById["strategy-values"]}
           />
 
           <ClotheslineGrid
@@ -901,6 +921,7 @@ export default function Home() {
             title="Personality"
             intro={brand.strategy.personality.intro}
             items={brand.strategy.personality.items}
+            status={sectionStatusById["strategy-personality"]}
           />
 
           <ArchetypeExplorer
@@ -917,6 +938,7 @@ export default function Home() {
               title: pillar.name,
               body: pillar.summary,
             }))}
+            status={sectionStatusById["strategy-pillars"]}
           />
 
           <GuardrailsSection
@@ -925,6 +947,7 @@ export default function Home() {
             tone={brand.strategy.guardrails.tone}
             cannotBe={brand.strategy.guardrails.cannotBe}
             litmus={brand.strategy.guardrails.litmus}
+            status={sectionStatusById["strategy-guardrails"]}
           />
         </ChapterSection>
 
@@ -936,6 +959,7 @@ export default function Home() {
           <PrinciplesSection
             intro={brand.voice.principles.intro}
             items={brand.voice.principles.items}
+            status={sectionStatusById["language-principles"]}
           />
 
           <StatementSection
@@ -943,6 +967,7 @@ export default function Home() {
             title="Tagline"
             intro={brand.voice.tagline.intro}
             statement={brand.voice.tagline.statement}
+            status={sectionStatusById["language-tagline"]}
           />
 
           <StorySection
@@ -950,32 +975,38 @@ export default function Home() {
             long={brand.voice.story.long}
             medium={brand.voice.story.medium}
             short={brand.voice.story.short}
+            status={sectionStatusById["language-story"]}
           />
 
           <HeadlinesSection
             intro={brand.voice.headlines.intro}
             items={brand.voice.headlines.items}
+            status={sectionStatusById["language-headlines"]}
           />
 
           <CtaSection
             intro={brand.voice.cta.intro}
             doItems={brand.voice.cta.do}
             dontItems={brand.voice.cta.dont}
+            status={sectionStatusById["language-cta"]}
           />
 
           <VoiceSpectrumSection
             intro={brand.voice.spectrum.intro}
             rows={brand.voice.spectrum.rows}
+            status={sectionStatusById["language-spectrum"]}
           />
 
           <AndYetSection
             intro={brand.voice.andYet.intro}
             pairs={brand.voice.andYet.pairs}
+            status={sectionStatusById["language-and-yet"]}
           />
 
           <ContextSection
             intro={brand.voice.contexts.intro}
             items={brand.voice.contexts.items}
+            status={sectionStatusById["language-context"]}
           />
         </ChapterSection>
 
@@ -988,6 +1019,7 @@ export default function Home() {
             id="logo-background"
             title="Background"
             context="Include a background on the logo history or approach here if applicable. Use an image if you need a visual aid."
+            status={sectionStatusById["logo-background"]}
           >
             <AssetStage aria-label="Logo background collage">
               <Grid
@@ -1065,6 +1097,7 @@ export default function Home() {
             title="Logo"
             context="Our logo is the primary identifier for our brand. It captures our name, mission, and legacy."
             action={<Button label="Download" variant="primary" />}
+            status={sectionStatusById["logo-mark"]}
           >
             <AssetStage aria-label={`${brand.name} logo`}>
               <Text
@@ -1083,6 +1116,7 @@ export default function Home() {
             id="logo-on-color"
             title="On color"
             context="When combining the logo with brand colors, always ensure there is ample contrast in color pairings. The following examples are approved combinations."
+            status={sectionStatusById["logo-on-color"]}
           >
             <ImageGrid
               aria-label="Logo on brand colors"
@@ -1094,6 +1128,7 @@ export default function Home() {
             id="logo-single-color"
             title="Single color"
             context="Always maintain ample contrast between the background and the logo."
+            status={sectionStatusById["logo-single-color"]}
           >
             <ImageGrid
               aria-label="Single-color logo pair"
@@ -1107,6 +1142,7 @@ export default function Home() {
             id="logo-scaling"
             title="Scaling"
             context="The logo has been carefully crafted to read well, even at small sizes. There is no limit at large scale, but be careful at smaller sizes. If legibility is an issue, it’s too small. Recommended minimum size is 20 pixels for screen, and 1/4 inches in print."
+            status={sectionStatusById["logo-scaling"]}
           >
             {/* Shared SVG: src="/brand/logo.svg". Size-specific PNGs: set step.src. */}
             <ScaleStack
@@ -1121,6 +1157,7 @@ export default function Home() {
             id="logo-clearspace"
             title="Clearspace"
             context="Don’t crowd the logo. When placing other elements nearby, ensure minimum clear space for brand consistency. Describe how the clear space is calculated relative to a fixed element from the logo. See example below."
+            status={sectionStatusById["logo-clearspace"]}
           >
             {/* Prefer a diagram asset: <img src="/brand/logo-clearspace.svg" alt="…" /> */}
             <AssetStage aria-label={`${brand.name} logo clearspace`}>
@@ -1169,12 +1206,15 @@ export default function Home() {
             </AssetStage>
           </LogoAssetSection>
 
-          <SectionStub id="logo-supporting" title="Supporting logo" />
+          <SectionStub id="logo-supporting" title="Supporting logo"
+            status={sectionStatusById["logo-supporting"]}
+          />
 
           <LogoAssetSection
             id="logo-use"
             title="Logo use"
             context="Together, the logo, supporting logo, and social icon comprise our logo collection. Though they all represent our brand and should be used, briefly describe how and when each logo should be used."
+            status={sectionStatusById["logo-use"]}
           >
             <VStack gap={8} width="100%" className="logo-use-stack">
               <LogoUseItem title="Logo" detail="Used most often">
@@ -1207,6 +1247,7 @@ export default function Home() {
             id="logo-donts"
             title="Don’ts"
             context="Do not diminish the value of the logo in our brand. Avoid the following treatments."
+            status={sectionStatusById["logo-donts"]}
           >
             <DontGrid
               aria-label="Logo don’ts"
@@ -1225,6 +1266,7 @@ export default function Home() {
             id="typography-background"
             title="Background"
             context="Include a background on the typography history or approach here if applicable. Use an image if you need a visual aid."
+            status={sectionStatusById["typography-background"]}
           >
             {/* Prefer specimen assets: src="/brand/type-background-*.jpg" on ImageGrid items. */}
             <VStack gap={3} width="100%" className="type-background-media">
@@ -1320,6 +1362,7 @@ export default function Home() {
             faceName={brand.visual.typography.family}
             foundry="Vercel"
             downloadHref="/brand/fonts/primary.zip"
+            status={sectionStatusById["typography-primary"]}
           />
 
           <TypefaceSection
@@ -1330,42 +1373,53 @@ export default function Home() {
             foundry="IBM"
             fontFamily={brand.visual.typography.faces.fallback}
             downloadHref="/brand/fonts/supporting.zip"
+            status={sectionStatusById["typography-supporting"]}
           />
 
           <TypeWeightsSection
             id="typography-weights"
             context="Type weight provides hierarchy to distinguish between pieces of information. Use this as a guide for typeface weights employed in our brand."
             items={typeWeightItems(brand.visual.typography.family)}
+            status={sectionStatusById["typography-weights"]}
           />
 
           <TypeSpecimenSection
             id="typography-specimen"
             context="Typefaces transfer the voice of an organization to the reader."
             items={typeWeightItems(brand.visual.typography.family).filter(
-              (item) => item.weight === "semibold" || item.weight === "normal",
+              (item) =>
+                item.weight === "semibold" || item.weight === "normal",
             )}
+            status={sectionStatusById["typography-specimen"]}
           />
 
-          <SectionStub id="typography-setting" title="Setting type" />
+          <SectionStub id="typography-setting" title="Setting type"
+            status={sectionStatusById["typography-setting"]}
+          />
 
           <TypeHierarchySection
             id="typography-hierarchy"
             context="Size, scale and position all play a factor in how information is read. Always ensure there is a purposeful difference between type sizes. Type sizes are for example only."
             levels={typeHierarchyLevels(brand.visual.typography.family)}
+            status={sectionStatusById["typography-hierarchy"]}
           />
 
-          <SectionStub id="typography-testing" title="Testing type" />
+          <SectionStub id="typography-testing" title="Testing type"
+            status={sectionStatusById["typography-testing"]}
+          />
 
           <TypePrinciplesSection
             id="typography-principles"
             context="This is a guide that outlines general typesetting principles. Use them as a reference any time our typefaces are used."
             items={typePrincipleItems()}
+            status={sectionStatusById["typography-principles"]}
           />
 
           <LogoAssetSection
             id="typography-donts"
             title="Don’ts"
             context="Do not diminish the value of typography in our brand. Avoid the following treatments."
+            status={sectionStatusById["typography-donts"]}
           >
             <DontGrid
               aria-label="Typography don’ts"
@@ -1394,6 +1448,7 @@ export default function Home() {
             id="color-primary"
             title="Primary palette"
             context="Signature ink — the primary brand signal for type, wordmark, and key actions."
+            status={sectionStatusById["color-primary"]}
           >
             <ColorTiles
               colors={toColorTiles(brand.visual.colors.brand)}
@@ -1405,6 +1460,7 @@ export default function Home() {
             id="color-secondary"
             title="Secondary palette"
             context="Supporting tones for hierarchy without introducing a second brand hue."
+            status={sectionStatusById["color-secondary"]}
           >
             <ColorTiles
               colors={toColorTiles(brand.visual.colors.secondary)}
@@ -1416,6 +1472,7 @@ export default function Home() {
             id="color-interface"
             title="Interface"
             context="Twelve-step scale for UI surfaces, borders, and text — Radix-style steps, not decorative accents."
+            status={sectionStatusById["color-interface"]}
           >
             <ColorTiles
               colors={toColorTiles(brand.visual.colors.interface)}
@@ -1424,12 +1481,15 @@ export default function Home() {
             />
           </ColorPaletteSection>
 
-          <SectionStub id="color-proportion" title="Proportion" />
+          <SectionStub id="color-proportion" title="Proportion"
+            status={sectionStatusById["color-proportion"]}
+          />
 
           <ColorPaletteSection
             id="color-combinations"
             title="Combinations"
             context="Some colors are not suitable to be used in combination with others. The following diagram demonstrates approved color combinations."
+            status={sectionStatusById["color-combinations"]}
           >
             <ColorCombinations
               items={colorCombinationItems(brand.visual.colors)}
@@ -1440,6 +1500,7 @@ export default function Home() {
             id="color-contrast"
             title="Contrast"
             context="When using our colors in design, keep in mind how contrast may affect legibility. The following diagram demonstrates color contrast relationships. Use this as a starting point when combining colors."
+            status={sectionStatusById["color-contrast"]}
           >
             <ColorContrastGrid
               items={colorContrastItems(brand.visual.colors)}
@@ -1450,6 +1511,7 @@ export default function Home() {
             id="color-donts"
             title="Don’ts"
             context="Do not diminish the value of color in our brand. Avoid the following treatments."
+            status={sectionStatusById["color-donts"]}
           >
             <DontGrid
               aria-label="Color don’ts"
@@ -1468,42 +1530,49 @@ export default function Home() {
             id="photography-categories"
             context="Imagery is broken into the following categories. Briefly describe the rationale behind the categories."
             items={photographyCategoryNav()}
+            status={sectionStatusById["photography-categories"]}
           />
 
           <PhotographyCategorySection
             id="photography-category-subjects"
             title="Subjects"
             context={brand.visual.imagery.subjects}
+            status={sectionStatusById["photography-category-subjects"]}
           />
 
           <PhotographyCategorySection
             id="photography-category-settings"
             title="Settings"
             context={brand.visual.imagery.settings}
+            status={sectionStatusById["photography-category-settings"]}
           />
 
           <PhotographyCategorySection
             id="photography-category-product"
             title="Product"
             context="Product-in-context: tools and surfaces in honest use, never catalog-white isolation."
+            status={sectionStatusById["photography-category-product"]}
           />
 
           <PhotographyCategorySection
             id="photography-category-moments"
             title="Moments"
             context="Quiet candid beats — focused work, natural pause, reflective hope without staging."
+            status={sectionStatusById["photography-category-moments"]}
           />
 
           <LogoAssetSection
             id="photography-principles"
             title="Principles"
             context={brand.visual.imagery.tone}
+            status={sectionStatusById["photography-principles"]}
           />
 
           <LogoAssetSection
             id="photography-donts"
             title="Don’ts"
             context="Do not diminish the value of imagery in our brand. Avoid the following treatments."
+            status={sectionStatusById["photography-donts"]}
           >
             <DontGrid
               aria-label="Photography don’ts"
@@ -1527,11 +1596,14 @@ export default function Home() {
             Layout and composition guidance for the design system — the grid,
             structure, and supporting devices that keep every surface consistent.
           </GraphicStatement>
-          <SectionStub id="system-grid" title="Grid" />
+          <SectionStub id="system-grid" title="Grid"
+            status={sectionStatusById["system-grid"]}
+          />
           <LogoAssetSection
             id="system-composition"
             title="Composition"
             context="Describe any composition principles in how the identity comes to life. Include examples to demonstrate these principles."
+            status={sectionStatusById["system-composition"]}
           >
             {/* Prefer a composition asset: <img src="/brand/composition-*.jpg" alt="…" /> */}
             <VStack gap={2} width="100%" className="composition-examples">
@@ -1599,6 +1671,7 @@ export default function Home() {
             id="system-supporting"
             title="Supporting device"
             context="If applicable, describe a supporting device used in the identity system and its role. Add as much guidance as needed in this section."
+            status={sectionStatusById["system-supporting"]}
           >
             {/* Prefer device assets: src="/brand/device-*.svg" (or jpg) on ImageGrid items. */}
             <ImageGrid
@@ -1663,6 +1736,7 @@ export default function Home() {
                 }
                 sample={expression?.sample}
                 images={multiImage ? 3 : 1}
+                status={sectionStatusById[item.id]}
               />
             );
           })}

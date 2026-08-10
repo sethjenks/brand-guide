@@ -2,15 +2,17 @@ import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Clothesline } from "@/components/Clothesline";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
 import { VoiceSpectrumTable } from "@/components/VoiceSpectrumTable";
 import type { VoiceSpectrumRow } from "@/lib/brand-types";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import type { SectionStatus } from "@/lib/section-status-ui";
 import "@/styles/flourish/voice-spectrum.css";
 
 type VoiceSpectrumSectionProps = {
   id?: string;
   intro: string;
   rows: readonly VoiceSpectrumRow[];
+  status?: SectionStatus;
 };
 
 /**
@@ -20,45 +22,21 @@ export function VoiceSpectrumSection({
   id = "language-spectrum",
   intro,
   rows,
+  status,
 }: VoiceSpectrumSectionProps) {
   if (!intro && rows.length === 0) return null;
 
   const notes = rows.filter((row) => row.notes);
 
   return (
-    <VStack
-      as="section"
+    <ClotheslineLeaf
       id={id}
-      gap={8}
+      title="Voice spectrum"
+      intro={intro || undefined}
+      status={status}
       className="clothesline-grid-section voice-spectrum-section"
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
+      headerContent={<VoiceSpectrumTable rows={rows} />}
     >
-      <Clothesline
-        title={
-          <Heading level={3} id={`${id}-title`} className="clothesline-title">
-            Voice spectrum
-          </Heading>
-        }
-      >
-        <VStack gap={8}>
-          {intro ? (
-            <Text
-              type="large"
-              weight="semibold"
-              color="primary"
-              as="p"
-              display="block"
-              className="measure clothesline-grid-intro"
-            >
-              {intro}
-            </Text>
-          ) : null}
-
-          <VoiceSpectrumTable rows={rows} />
-        </VStack>
-      </Clothesline>
-
       {notes.length > 0 ? (
         <Clothesline
           title={
@@ -92,6 +70,6 @@ export function VoiceSpectrumSection({
           </VStack>
         </Clothesline>
       ) : null}
-    </VStack>
+    </ClotheslineLeaf>
   );
 }

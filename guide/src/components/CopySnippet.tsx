@@ -2,13 +2,13 @@
 
 import { Card } from "@astryxdesign/core/Card";
 import { Divider } from "@astryxdesign/core/Divider";
-import { Grid, GridSpan } from "@astryxdesign/core/Grid";
 import { HStack } from "@astryxdesign/core/HStack";
 import { IconButton } from "@astryxdesign/core/IconButton";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { useMediaQuery } from "@astryxdesign/core/hooks";
 import { useEffect, useRef, useState } from "react";
+import { Clothesline } from "@/components/Clothesline";
 import { Icons } from "@/components/icons";
 
 type CopySnippetProps = {
@@ -20,7 +20,7 @@ type CopySnippetProps = {
 };
 
 /**
- * Clothesline-style snippet: label left, panel on the right half.
+ * Clothesline-style snippet: label left, panel on the right.
  * Stacks to a single column below 720px via useMediaQuery.
  */
 export function CopySnippet({
@@ -100,34 +100,34 @@ export function CopySnippet({
     </Card>
   );
 
-  const body = isNarrow ? (
-    <VStack gap={4} width="100%" align="start">
-      {titleNode}
-      {panel}
-    </VStack>
-  ) : (
-    <Grid columns={12} gap={4} columnGap={6} align="start" width="100%">
-      <GridSpan columns={4}>{titleNode}</GridSpan>
-      {/* Spacers push the panel into columns 7–12 (right half). */}
-      <GridSpan columns={2}>
-        <span aria-hidden="true" />
-      </GridSpan>
-      <GridSpan columns={6}>{panel}</GridSpan>
-    </Grid>
-  );
+  if (isNarrow) {
+    return (
+      <VStack
+        as="section"
+        id={id}
+        gap={4}
+        width="100%"
+        className="clothesline clothesline-grid-section"
+        aria-labelledby={id ? `${id}-title` : undefined}
+        style={{ marginTop: "var(--section-gap)" }}
+      >
+        <Divider variant="strong" />
+        {titleNode}
+        {panel}
+      </VStack>
+    );
+  }
 
   return (
-    <VStack
+    <Clothesline
       as="section"
       id={id}
-      gap={4}
-      width="100%"
       className="clothesline-grid-section"
       aria-labelledby={id ? `${id}-title` : undefined}
       style={{ marginTop: "var(--section-gap)" }}
+      title={titleNode}
     >
-      <Divider variant="strong" />
-      {body}
-    </VStack>
+      {panel}
+    </Clothesline>
   );
 }

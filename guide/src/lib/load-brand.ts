@@ -238,6 +238,15 @@ const guideSchema = z.object({
   }),
 });
 
+const setupSectionStatusEnum = z.enum([
+  "ok",
+  "needs-work",
+  "empty",
+  "stub",
+  "sample",
+  "assets",
+]);
+
 const setupSchema = z.object({
   status: z.enum(["starter", "populated"]),
   intake: z.enum(["pending", "complete", "skipped"]),
@@ -253,6 +262,7 @@ const setupSchema = z.object({
     }),
   ),
   prompt: z.string(),
+  sectionStatus: z.record(z.string(), setupSectionStatusEnum).optional(),
 });
 
 const brandJsonSchema = z

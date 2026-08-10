@@ -1,10 +1,9 @@
 import { Grid } from "@astryxdesign/core/Grid";
-import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { AssetStage } from "@/components/AssetStage";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 export type PhotographyCategoryNavItem = {
   id: string;
@@ -20,6 +19,7 @@ type PhotographyCategoriesSectionProps = {
   context: string;
   items: readonly PhotographyCategoryNavItem[];
   className?: string;
+  status?: SectionStatus;
 };
 
 /**
@@ -32,38 +32,21 @@ export function PhotographyCategoriesSection({
   context,
   items,
   className,
+  status,
 }: PhotographyCategoriesSectionProps) {
   if (items.length === 0) return null;
 
   return (
-    <VStack
-      as="section"
+    <ClotheslineLeaf
       id={id}
+      title={title}
+      context={context}
+      status={status}
       gap={4}
       className={["photo-categories-section", className]
         .filter(Boolean)
         .join(" ")}
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
     >
-      <Clothesline
-        className="photo-categories-clothesline"
-        title={
-          <Heading level={3} id={`${id}-title`} className="clothesline-title">
-            {title}
-          </Heading>
-        }
-      >
-        <Text
-          color="primary"
-          as="p"
-          display="block"
-          className="measure photo-categories-context"
-        >
-          {context}
-        </Text>
-      </Clothesline>
-
       <Grid
         columns={{ minWidth: 280, max: 2 }}
         gap={6}
@@ -102,6 +85,6 @@ export function PhotographyCategoriesSection({
           </a>
         ))}
       </Grid>
-    </VStack>
+    </ClotheslineLeaf>
   );
 }

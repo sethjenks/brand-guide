@@ -1,18 +1,15 @@
 "use client";
 
-import { Divider } from "@astryxdesign/core/Divider";
-import { Heading } from "@astryxdesign/core/Heading";
-import { VStack } from "@astryxdesign/core/VStack";
 import { useMemo, useState } from "react";
 import { ArchetypeProfileCard } from "@/components/ArchetypeProfileCard";
 import { ArchetypeWheel } from "@/components/ArchetypeWheel";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
 import { mergeBrandOverCatalog } from "@/lib/archetype-catalog";
 import {
   resolveArchetypeIds,
   type ArchetypeId,
 } from "@/lib/archetype-wheel";
 import type { ArchetypeProfile } from "@/lib/brand-types";
-import { sectionLeafStyle } from "@/lib/section-leaf";
 
 type ArchetypeExplorerProps = {
   brandProfiles: readonly ArchetypeProfile[];
@@ -43,19 +40,12 @@ export function ArchetypeExplorer({
   const preview = mergeBrandOverCatalog(activeId, brandProfiles);
 
   return (
-    <VStack
-      as="section"
+    <ClotheslineLeaf
       id={id}
+      title="Archetype"
       gap={4}
-      className="clothesline clothesline-grid-section archetype-explorer"
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
+      className="clothesline-grid-section archetype-explorer"
     >
-      <Divider variant="strong" />
-      <Heading level={3} id={`${id}-title`} className="clothesline-title">
-        Archetype
-      </Heading>
-
       {/* Wheel occupies left ~2/3 (aligned with clothesline cols 1–2); profile on the right */}
       <div className="archetype-layout">
         <ArchetypeWheel
@@ -72,6 +62,6 @@ export function ArchetypeExplorer({
           />
         </div>
       </div>
-    </VStack>
+    </ClotheslineLeaf>
   );
 }

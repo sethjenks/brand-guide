@@ -1,10 +1,9 @@
-import { Grid, GridSpan } from "@astryxdesign/core/Grid";
-import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { CSSProperties } from "react";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import { ClotheslineRow } from "@/components/ClotheslineRow";
+import type { SectionStatus } from "@/lib/section-status-ui";
 import "@/styles/flourish/type-specimens.css";
 
 export type TypeHierarchyLevel = {
@@ -33,6 +32,7 @@ type TypeHierarchySectionProps = {
   context: string;
   levels: readonly TypeHierarchyLevel[];
   className?: string;
+  status?: SectionStatus;
 };
 
 /**
@@ -45,38 +45,20 @@ export function TypeHierarchySection({
   context,
   levels,
   className,
+  status,
 }: TypeHierarchySectionProps) {
   if (levels.length === 0) return null;
 
   return (
-    <VStack
-      as="section"
+    <ClotheslineLeaf
       id={id}
-      gap={8}
+      title={title}
+      context={context}
+      status={status}
       className={["type-hierarchy-section", className]
         .filter(Boolean)
         .join(" ")}
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
     >
-      <Clothesline
-        className="type-hierarchy-clothesline"
-        title={
-          <Heading level={3} id={`${id}-title`} className="clothesline-title">
-            {title}
-          </Heading>
-        }
-      >
-        <Text
-          color="primary"
-          as="p"
-          display="block"
-          className="measure type-hierarchy-context"
-        >
-          {context}
-        </Text>
-      </Clothesline>
-
       <VStack gap={10} width="100%" className="type-hierarchy-stack">
         {levels.map((level) => {
           const specimenStyle = {
@@ -93,49 +75,43 @@ export function TypeHierarchySection({
               aria-label={level.role}
               className="type-hierarchy-row"
             >
-              <Grid
-                columns={3}
-                gap={4}
-                columnGap={6}
-                align="start"
-                width="100%"
+              <ClotheslineRow
+                label={
+                  <VStack gap={1} className="type-hierarchy-meta">
+                    <Text
+                      weight="semibold"
+                      color="primary"
+                      display="block"
+                      className="clothesline-title"
+                    >
+                      {level.role}
+                    </Text>
+                    <Text type="supporting" color="secondary" display="block">
+                      {level.face}
+                    </Text>
+                    <Text type="supporting" color="secondary" display="block">
+                      {level.size}
+                    </Text>
+                    <Text type="supporting" color="secondary" display="block">
+                      {level.casing}
+                    </Text>
+                  </VStack>
+                }
               >
-                <VStack gap={1} className="type-hierarchy-meta">
-                  <Text
-                    weight="semibold"
-                    color="primary"
-                    display="block"
-                    className="clothesline-title"
-                  >
-                    {level.role}
-                  </Text>
-                  <Text type="supporting" color="secondary" display="block">
-                    {level.face}
-                  </Text>
-                  <Text type="supporting" color="secondary" display="block">
-                    {level.size}
-                  </Text>
-                  <Text type="supporting" color="secondary" display="block">
-                    {level.casing}
-                  </Text>
-                </VStack>
-
-                <GridSpan columns={2}>
-                  <Text
-                    weight={level.weight}
-                    color="primary"
-                    display="block"
-                    className={`type-hierarchy-sample type-weight-specimen-${level.weight}`}
-                    style={specimenStyle}
-                  >
-                    {level.sample}
-                  </Text>
-                </GridSpan>
-              </Grid>
+                <Text
+                  weight={level.weight}
+                  color="primary"
+                  display="block"
+                  className={`type-hierarchy-sample type-weight-specimen-${level.weight}`}
+                  style={specimenStyle}
+                >
+                  {level.sample}
+                </Text>
+              </ClotheslineRow>
             </VStack>
           );
         })}
       </VStack>
-    </VStack>
+    </ClotheslineLeaf>
   );
 }

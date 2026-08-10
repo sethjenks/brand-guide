@@ -1,35 +1,25 @@
-import { Heading } from "@astryxdesign/core/Heading";
 import { Text } from "@astryxdesign/core/Text";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 type SectionStubProps = {
   id: string;
   title: string;
+  status?: SectionStatus;
 };
 
 /** Placeholder leaf when brand.md has no compiled content yet. */
-export function SectionStub({ id, title }: SectionStubProps) {
+export function SectionStub({ id, title, status = "stub" }: SectionStubProps) {
   return (
-    <Clothesline
-      as="section"
+    <ClotheslineLeaf
       id={id}
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
-      title={
-        <Heading level={3} id={`${id}-title`} className="clothesline-title">
-          {title}
-        </Heading>
+      title={title}
+      status={status}
+      headerContent={
+        <Text color="secondary" as="p" display="block" className="measure">
+          Coming from <code>brand.md</code>.
+        </Text>
       }
-    >
-      <Text
-        color="secondary"
-        as="p"
-        display="block"
-        className="measure"
-      >
-        Coming from <code>brand.md</code>.
-      </Text>
-    </Clothesline>
+    />
   );
 }

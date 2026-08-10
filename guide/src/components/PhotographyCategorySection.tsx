@@ -1,10 +1,8 @@
-import { Heading } from "@astryxdesign/core/Heading";
-import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { AssetStage } from "@/components/AssetStage";
-import { Clothesline } from "@/components/Clothesline";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
 import { ImageGrid, type ImageGridItem } from "@/components/ImageGrid";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 type PhotographyCategorySectionProps = {
   id: string;
@@ -19,6 +17,7 @@ type PhotographyCategorySectionProps = {
   /** Placeholder gallery count when `gallery` is omitted. */
   galleryCount?: number;
   className?: string;
+  status?: SectionStatus;
 };
 
 function placeholderGallery(
@@ -44,63 +43,48 @@ export function PhotographyCategorySection({
   gallery,
   galleryCount = 3,
   className,
+  status,
 }: PhotographyCategorySectionProps) {
   const galleryItems = gallery ?? placeholderGallery(id, galleryCount);
 
   return (
-    <VStack
-      as="section"
+    <ClotheslineLeaf
       id={id}
+      title={title}
+      context={context}
+      status={status}
       gap={4}
       className={["photo-category-section", className]
         .filter(Boolean)
         .join(" ")}
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
     >
-      <Clothesline
-        className="photo-category-clothesline"
-        title={
-          <Heading level={3} id={`${id}-title`} className="clothesline-title">
-            {title}
-          </Heading>
-        }
-      >
-        <Text
-          color="primary"
-          as="p"
-          display="block"
-          className="measure photo-category-context"
+      <VStack gap={4} width="100%">
+        <AssetStage
+          aria-label={heroAlt ?? `${title} hero`}
+          minHeight={420}
+          className="photo-category-hero"
         >
-          {context}
-        </Text>
-      </Clothesline>
+          {heroSrc ? (
+            <img
+              src={heroSrc}
+              alt={heroAlt ?? title}
+              className="photo-category-hero-media"
+            />
+          ) : null}
+        </AssetStage>
 
-      <AssetStage
-        aria-label={heroAlt ?? `${title} hero`}
-        minHeight={420}
-        className="photo-category-hero"
-      >
-        {heroSrc ? (
-          <img
-            src={heroSrc}
-            alt={heroAlt ?? title}
-            className="photo-category-hero-media"
+        {galleryItems.length > 0 ? (
+          <ImageGrid
+            aria-label={`${title} gallery`}
+            columns={galleryItems.length >= 3 ? 3 : 2}
+            gap={3}
+            ratio={4 / 3}
+            items={galleryItems}
+            cellBorder
+            className="photo-category-gallery"
           />
         ) : null}
-      </AssetStage>
-
-      {galleryItems.length > 0 ? (
-        <ImageGrid
-          aria-label={`${title} gallery`}
-          columns={galleryItems.length >= 3 ? 3 : 2}
-          gap={3}
-          ratio={4 / 3}
-          items={galleryItems}
-          cellBorder
-          className="photo-category-gallery"
-        />
-      ) : null}
-    </VStack>
+      </VStack>
+    </ClotheslineLeaf>
   );
 }

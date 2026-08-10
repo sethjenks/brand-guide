@@ -1,11 +1,9 @@
-import { Grid, GridSpan } from "@astryxdesign/core/Grid";
-import { Heading } from "@astryxdesign/core/Heading";
-import { HStack } from "@astryxdesign/core/HStack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { AgentLabel } from "@/components/AgentLabel";
-import { Clothesline } from "@/components/Clothesline";
-import { sectionLeafStyle } from "@/lib/section-leaf";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import { ClotheslineRow } from "@/components/ClotheslineRow";
+import type { SectionStatus } from "@/lib/section-status-ui";
 
 export type ContextItem = {
   context: string;
@@ -17,6 +15,7 @@ type ContextSectionProps = {
   id?: string;
   intro: string;
   items: readonly ContextItem[];
+  status?: SectionStatus;
 };
 
 /**
@@ -26,91 +25,64 @@ export function ContextSection({
   id = "language-context",
   intro,
   items,
+  status,
 }: ContextSectionProps) {
   if (!intro && items.length === 0) return null;
 
   return (
-    <VStack
-      as="section"
+    <ClotheslineLeaf
       id={id}
-      gap={8}
+      title="By context"
+      intro={intro || undefined}
+      status={status}
+      trailing={<AgentLabel />}
       className="audience-section context-section"
-      style={sectionLeafStyle}
-      aria-labelledby={`${id}-title`}
     >
-      <Clothesline
-        title={
-          <HStack gap={2} align="center" wrap="wrap">
-            <Heading level={3} id={`${id}-title`} className="clothesline-title">
-              By context
-            </Heading>
-            <AgentLabel />
-          </HStack>
-        }
-      >
-        {intro ? (
-          <Text
-            type="large"
-            weight="semibold"
-            color="primary"
-            as="p"
-            display="block"
-            className="measure clothesline-grid-intro"
-          >
-            {intro}
-          </Text>
-        ) : null}
-      </Clothesline>
-
       {items.length > 0 ? (
         <VStack gap={8} role="list" aria-label="Tone by context">
           {items.map((item) => (
-            <Grid
+            <ClotheslineRow
               key={item.context}
-              columns={3}
-              gap={4}
-              columnGap={6}
-              align="start"
               className="context-row"
               role="listitem"
+              label={
+                <Text
+                  type="label"
+                  weight="semibold"
+                  color="primary"
+                  display="block"
+                  className="clothesline-title"
+                >
+                  {item.context}
+                </Text>
+              }
             >
-              <Text
-                type="label"
-                weight="semibold"
-                color="primary"
-                display="block"
-                className="clothesline-title"
-              >
-                {item.context}
-              </Text>
-              <GridSpan columns={2}>
-                <VStack gap={2} className="context-content">
-                  {item.guidance ? (
-                    <Text
-                      color="primary"
-                      as="p"
-                      display="block"
-                      className="measure"
-                    >
-                      {item.guidance}
-                    </Text>
-                  ) : null}
-                  {item.example ? (
-                    <Text
-                      color="secondary"
-                      as="p"
-                      display="block"
-                      className="measure context-example"
-                    >
-                      “{item.example}”
-                    </Text>
-                  ) : null}
-                </VStack>
-              </GridSpan>
-            </Grid>
+              <VStack gap={2} className="context-content">
+                {item.guidance ? (
+                  <Text
+                    color="primary"
+                    as="p"
+                    display="block"
+                    className="measure"
+                  >
+                    {item.guidance}
+                  </Text>
+                ) : null}
+                {item.example ? (
+                  <Text
+                    color="secondary"
+                    as="p"
+                    display="block"
+                    className="measure context-example"
+                  >
+                    “{item.example}”
+                  </Text>
+                ) : null}
+              </VStack>
+            </ClotheslineRow>
           ))}
         </VStack>
       ) : null}
-    </VStack>
+    </ClotheslineLeaf>
   );
 }
