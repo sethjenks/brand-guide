@@ -127,6 +127,18 @@ export const GUIDE_NAV = [
     ],
   },
   {
+    id: "animation",
+    label: "Animation",
+    items: [
+      { id: "animation-introduction", label: "Introduction" },
+      { id: "animation-principles", label: "Principles" },
+      { id: "animation-personality", label: "Personality" },
+      { id: "animation-archetypes", label: "Archetypes" },
+      { id: "animation-interactions", label: "Interactions" },
+      { id: "animation-donts", label: "Don’ts" },
+    ],
+  },
+  {
     id: "applications",
     label: "Applications",
     items: [

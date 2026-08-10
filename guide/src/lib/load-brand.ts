@@ -3,6 +3,7 @@ import path from "node:path";
 import { z } from "zod";
 import { GUIDE_NAV } from "@/lib/nav";
 import type { BrandGuideViewModel, BrandSetup } from "@/lib/brand-types";
+import { setupSchema } from "@/lib/setup-schema";
 
 const colorSwatchSchema = z.object({
   name: z.string(),
@@ -236,33 +237,6 @@ const guideSchema = z.object({
       }),
     ),
   }),
-});
-
-const setupSectionStatusEnum = z.enum([
-  "ok",
-  "needs-work",
-  "empty",
-  "stub",
-  "sample",
-  "assets",
-]);
-
-const setupSchema = z.object({
-  status: z.enum(["starter", "populated"]),
-  intake: z.enum(["pending", "complete", "skipped"]),
-  year: z.string(),
-  support: z.string(),
-  headline: z.string(),
-  body: z.string(),
-  sources: z.array(
-    z.object({
-      label: z.string(),
-      detail: z.string(),
-      prompt: z.string().min(1),
-    }),
-  ),
-  prompt: z.string(),
-  sectionStatus: z.record(z.string(), setupSectionStatusEnum).optional(),
 });
 
 const brandJsonSchema = z

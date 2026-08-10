@@ -46,9 +46,17 @@ These roles must appear as color tokens in `brand.md` → Design system. `compil
 
 **Optional** (grayscale defaults / existing fallbacks if omitted): `--color-gray-*`, `--color-rail`, `--radius-base`, `--type-base` / `--type-ratio` (default `16` / `1.2`), `--space-unit` (default `0.25rem`).
 
-**Required face stack:** `--font-sans` (CSS `font-family` list). Compile fails if missing. Emitted as `brandThemeInput.fontSans` for [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts) (drives Astryx `typography.body/heading` and `--font-family-body/heading`).
+**Required face stack:** `--font-sans` (CSS `font-family` list). Compile fails if missing. Emitted as `brandThemeInput.fontSans` for [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts) (drives Astryx `typography.body` and `--font-family-body`).
 
-**Next font loader contract (two owners):** Design system owns the CSS stack; [`guide/src/app/layout.tsx`](guide/src/app/layout.tsx) owns which webfont CSS variable `next/font` injects (e.g. `--font-geist-sans`). Author `--font-sans` so it references that variable. Compile does **not** codegen `next/font` from the stack — swapping Google/local faces is a hand edit in `layout.tsx` (optional registry later).
+**Optional heading face:** `--font-serif`. When present, emitted as `brandThemeInput.fontSerif` and DTCG `font.serif`; [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts) uses it for `typography.heading` / `--font-family-heading`. When omitted, heading equals sans (Sample Brand default).
+
+**Next font loader contract (two owners):** Design system owns the CSS stacks; [`guide/src/app/layout.tsx`](guide/src/app/layout.tsx) owns which webfont CSS variables `next/font` injects (e.g. `--font-geist-sans`). Author stacks so they reference those variables. Compile does **not** codegen `next/font` — adding Literata (or any second face) is a hand edit in `layout.tsx`.
+
+**Design dump import:** Stitch/MD3-style `DESIGN.md` YAML → Design system fence via `npm run import:design` ([`scripts/import-design-dump.mjs`](scripts/import-design-dump.mjs)). Maps named keys (`obsidian-ink`, `clay-earth`, …) and MD3 roles onto required semantic tokens; `--splice --yes` backs up `brand.md.bak` first. Does not rewrite Strategy/Voice.
+
+**Setup validation:** Every `npm run compile` validates [`brand/setup.json`](brand/setup.json) (`intake` | `citation` sources). See [`scripts/lib/setup-schema.mjs`](scripts/lib/setup-schema.mjs) (keep in sync with [`guide/src/lib/setup-schema.ts`](guide/src/lib/setup-schema.ts)).
+
+**Coverage (populated only):** Optional [`brand/coverage.json`](brand/coverage.json) with `filled` | `inferred` | `placeholder` section statuses. Missing when `status` is `populated` → warn in `compile:check` / `post-populate-check`, not a hard fail.
 
 **Derived scales (compile):** `--type-base` + `--type-ratio` → `--font-size-sm|base|lg|xl` (Astryx geometric formula) and `brandThemeInput.typeScale` for [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts). `--space-unit` → `--space-1`…`7` as `unit × [1, 2, 4, 6, 10, 16, 24]` (document rhythm). Keep fluid `--font-size-display` / `--font-size-h0` authored. Document `--space-*` is separate from Astryx UI `--spacing-*` — do not alias them.
 

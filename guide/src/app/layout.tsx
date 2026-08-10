@@ -8,10 +8,11 @@ import "@/themes/brand.theme.css";
 import "./globals.css";
 
 /**
- * Next font loader contract (two owners — do not codegen this from `--font-sans`):
- * 1. Design system owns the CSS stack (`--font-sans` → `brandThemeInput.fontSans`).
- * 2. This file owns which webfont CSS variable is injected (`--font-geist-sans`).
- * 3. Authored `--font-sans` should reference that variable so the loaded face wins.
+ * Next font loader contract (two owners — do not codegen from Design system stacks):
+ * 1. Design system owns CSS stacks (`--font-sans` required; optional `--font-serif` for headings).
+ * 2. This file owns which webfont CSS variables `next/font` injects (today `--font-geist-sans`).
+ * 3. Authored stacks should reference those variables so loaded faces win.
+ * 4. Adding a display/serif face (e.g. Literata) means a hand edit here + `--font-serif` in brand.md.
  */
 const geistSans = Geist({
   subsets: ["latin"],

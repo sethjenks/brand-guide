@@ -4,6 +4,8 @@
  * 1) Required keys smoke check
  * 2) Golden fixture parity (stable fields) against Sample Brand sources
  * 3) DTCG smoke + golden fixture for tokens.json
+ * 4) brand/setup.json + setup fixtures
+ * 5) brand/coverage.json shape when present (warn if populated + missing)
  *
  * Regenerate fixtures after intentional Sample Brand changes:
  *   UPDATE_GOLDEN=1 npm run compile:check
@@ -12,11 +14,15 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { parseCoverage } from "./lib/coverage-schema.mjs";
+import { parseSetup } from "./lib/setup-schema.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const brandPath = path.join(root, "brand.json");
 const brandMarkdownPath = path.join(root, "brand.md");
 const publicBrandPath = path.join(root, "guide/public/brand.txt");
+const setupPath = path.join(root, "brand/setup.json");
+const coveragePath = path.join(root, "brand/coverage.json");
 const fixturePath = path.join(
   root,
   "scripts/fixtures/brand.sample.expected.json",
@@ -27,6 +33,14 @@ const dtcgFixturePath = path.join(
   root,
   "scripts/fixtures/tokens.sample.expected.json",
 );
+const setupFixtures = {
+  valid: [
+    "scripts/fixtures/setup.starter.valid.json",
+    "scripts/fixtures/setup.citation.valid.json",
+  ],
+  invalid: ["scripts/fixtures/setup.citation.invalid.json"],
+};
+const coverageFixture = "scripts/fixtures/coverage.populated.sample.json";
 
 if (!fs.existsSync(brandPath)) {
   console.error("Missing brand.json — run compile first");
@@ -248,6 +262,76 @@ if (!fs.existsSync(dtcgPath)) {
   }
 }
 
+// —— brand/setup.json + fixtures ——
+if (!fs.existsSync(setupPath)) {
+  console.error("FAIL missing brand/setup.json");
+  failed += 1;
+} else {
+  const liveSetup = parseSetup(JSON.parse(fs.readFileSync(setupPath, "utf8")));
+  if (!liveSetup.success) {
+    console.error(`FAIL brand/setup.json:\n${liveSetup.error.message}`);
+    failed += 1;
+  } else {
+    console.log("OK brand/setup.json");
+  }
+}
+
+for (const rel of setupFixtures.valid) {
+  const full = path.join(root, rel);
+  const parsed = parseSetup(JSON.parse(fs.readFileSync(full, "utf8")));
+  if (!parsed.success) {
+    console.error(`FAIL setup fixture should pass: ${rel}\n${parsed.error.message}`);
+    failed += 1;
+  } else {
+    console.log(`OK setup fixture ${rel}`);
+  }
+}
+for (const rel of setupFixtures.invalid) {
+  const full = path.join(root, rel);
+  const parsed = parseSetup(JSON.parse(fs.readFileSync(full, "utf8")));
+  if (parsed.success) {
+    console.error(`FAIL setup fixture should fail: ${rel}`);
+    failed += 1;
+  } else {
+    console.log(`OK setup fixture rejects ${rel}`);
+  }
+}
+
+// —— coverage (populated only; warn if missing) ——
+const coverageFixtureParsed = parseCoverage(
+  JSON.parse(fs.readFileSync(path.join(root, coverageFixture), "utf8")),
+);
+if (!coverageFixtureParsed.success) {
+  console.error(
+    `FAIL coverage fixture ${coverageFixture}:\n${coverageFixtureParsed.error.message}`,
+  );
+  failed += 1;
+} else {
+  console.log(`OK coverage fixture ${coverageFixture}`);
+}
+
+let setupStatus = "starter";
+if (fs.existsSync(setupPath)) {
+  try {
+    setupStatus = JSON.parse(fs.readFileSync(setupPath, "utf8")).status;
+  } catch {
+    /* already counted above */
+  }
+}
+if (fs.existsSync(coveragePath)) {
+  const cov = parseCoverage(JSON.parse(fs.readFileSync(coveragePath, "utf8")));
+  if (!cov.success) {
+    console.error(`FAIL brand/coverage.json:\n${cov.error.message}`);
+    failed += 1;
+  } else {
+    console.log("OK brand/coverage.json");
+  }
+} else if (setupStatus === "populated") {
+  console.warn(
+    "WARN brand/coverage.json missing while setup.status is populated (honesty report recommended)",
+  );
+}
+
 if (failed > 0) {
   process.exit(1);
 }
@@ -256,3 +340,4 @@ console.log(
   `OK brand.json checks (${required.length} keys, spec ${brand._spec_version})`,
 );
 console.log("OK tokens.json DTCG checks");
+console.log("OK setup + coverage checks");

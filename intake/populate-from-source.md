@@ -13,19 +13,22 @@ Use this path when the user already has brand materials. If they do **not**, pre
 - **Website URL** — scrape or fetch marketing / product / about pages
 - **Brand guide PDF** — extract strategy, voice, and visual rules
 - **`brand.md`** — portable brand constitution + Design system (any compatible layout)
+- **Design dump / `DESIGN.md`** — Stitch/MD3-style YAML frontmatter (`colors`, `typography`, `rounded`, `spacing`); use `npm run import:design`
 - **Figma design URL** — brand book and/or variables library via the **official Figma MCP** (see below)
 
 ## Steps
 
 1. If `brand/setup.json` → `intake` is still `"pending"`, set it to `"skipped"` (you are using a source instead of the questionnaire).
-2. Read the source(s) the user attached or linked. For Figma, follow **Figma MCP protocol** below.
+2. Read the source(s) the user attached or linked. For Figma, follow **Figma MCP protocol** below. For a design dump, run `npm run import:design -- --print <path>` from `guide/` (or `--splice --yes` after review — writes `brand.md.bak`).
 3. Update, in order:
    - [`brand.md`](../brand.md) — Strategy / Voice / Visual / Expressions / Agent labels **and** the fenced Design system (tokens)
    - [`examples.md`](../examples.md), [`rules.md`](../rules.md), [`templates.md`](../templates.md) as needed
-   - [`brand/setup.json`](../brand/setup.json) — hero/setup copy if needed; cite each source in `sources[]`
-4. From `guide/`, run `npm run compile` so `brand.json`, CSS, and `tokens.json` regenerate.
-5. Preserve the guide’s section structure (Strategy / Language / Logo / Typography / Color / Photography / System / Applications — authored in brand.md as Strategy / Voice / Visual / Expressions / Design system). Replace Sample Brand copy with the real brand; keep grayscale unless the source specifies a palette.
-6. Set in `brand/setup.json`:
+   - [`brand/setup.json`](../brand/setup.json) — hero/setup copy if needed; cite each source in `sources[]` with `"kind": "citation"` (no `prompt`). Leave starter intake cards alone, or keep them for re-populate.
+   - [`brand/coverage.json`](../brand/coverage.json) — required for populated brands; section statuses `filled` | `inferred` | `placeholder` (see **Honesty rules**)
+4. From `guide/`, run `npm run compile` so `brand.json`, CSS, and `tokens.json` regenerate (also validates `setup.json`).
+5. Preserve the guide’s section structure (Strategy / Language / Logo / Typography / Color / Photography / System / Applications — authored in brand.md as Strategy / Voice / Visual / Expressions / Design system). Replace Sample Brand copy with the real brand where the source has signal; keep grayscale unless the source specifies a palette.
+6. Run **Post-populate checklist** below (required). Prefer `npm run post-populate-check` from `guide/`.
+7. Set in `brand/setup.json`:
 
 ```json
 {
@@ -34,8 +37,23 @@ Use this path when the user already has brand materials. If they do **not**, pre
 }
 ```
 
-7. Do **not** hand-edit `brand.json`, `tokens.json`, or `guide/src` UI files for content/theme.
-8. Summarize for the user what changed and what still needs human review.
+8. Do **not** hand-edit `brand.json`, `tokens.json`, or `guide/src` UI files for content/theme.
+9. Summarize for the user: checklist results, inferred fields from coverage, and what still needs human review.
+
+## Post-populate checklist (required)
+
+Run from `guide/` after compile. Do not skip.
+
+- [ ] **Setup validates** — `npm run compile` / `compile:check` passes; citations use `"kind": "citation"` (no fake `prompt`).
+- [ ] **Required color roles** — Design system has ink, ink-muted, ink-subtle, canvas, paper, surface, surface-deep, border (+ accent if the source has a CTA color).
+- [ ] **Type contract** — `--font-sans` present; if the source has a display/serif face, author `--font-serif` and note a `layout.tsx` `next/font` loader for humans (compile does not load faces).
+- [ ] **Logo assets** — If the source had no mark: note `brand/assets/` gap. If present: file under `brand/assets/` and recompile.
+- [ ] **Source coverage** — `brand/coverage.json` written for populated brands; every `inferred` Strategy/Voice field listed for human review; `placeholder` sections stay Sample Brand (or explicit stubs), not invented.
+- [ ] **Honesty** — No pillars/values invented from token names alone.
+- [ ] **Status** — `intake: "skipped"`, `status: "populated"` only after this checklist.
+- [ ] **User summary** — Paste checklist results + inferred-field list (not only a narrative).
+
+Machine assist: `npm run post-populate-check` (hard fails exit non-zero; missing coverage / logos warn only).
 
 ## Figma MCP protocol
 
@@ -72,16 +90,36 @@ Import only: pull brand strategy, voice, values, and visual tokens **from** Figm
 | Logo / mark exports | `brand/assets/` + Visual → Logo notes |
 | Channel examples if present | `examples.md` / Expressions as needed |
 
-Then continue with the shared Steps (compile, setup status, summary). Cite the Figma URL in `brand/setup.json` → `sources[]` (e.g. label `"Figma"`, detail = file URL + what was used).
+Then continue with the shared Steps (compile, checklist, setup status, summary). Cite the Figma URL in `brand/setup.json` → `sources[]` as `"kind": "citation"` (label `"Figma"`, detail = file URL + what was used).
+
+## Design dump import
+
+From `guide/`:
+
+```bash
+npm run import:design -- --print ../path/to/DESIGN.md
+npm run import:design -- --splice --yes ../path/to/DESIGN.md   # writes brand.md.bak
+```
+
+Maps YAML `colors` / `typography` / `rounded` / `spacing` into the Design system fence and required semantic roles. Does **not** invent Strategy/Voice. Finish prose + `brand/coverage.json` per honesty rules. Mapping details: [`UPSTREAM.md`](../UPSTREAM.md).
 
 ### Honesty rules
 
-- If the file is **tokens-only**, fill Visual + Design system fully; leave Strategy / Voice as Sample Brand placeholders only where the source has no signal, and say so in the summary.
+- If the file is **tokens-only**, fill Visual + Design system fully; leave Strategy / Voice as Sample Brand placeholders only where the source has no signal; mark those sections `placeholder` in `brand/coverage.json`.
+- Statuses: `filled` (direct extract), `inferred` (extrapolation with evidence — human review), `placeholder` (Sample Brand residue left on purpose).
 - Do **not** invent message pillars or values from color or token names.
 - Prefer Strategy / Guardrails / Voice over conflicting Visual intent unless the user says the design system wins — then update Visual to match (same conflict rule as `brand.md` For agents).
+- Starter / Sample Brand kits do **not** ship `coverage.json`; write it when setting `status` to `"populated"`.
+
+### Citation vs intake in `sources[]`
+
+| kind | Purpose | `prompt` |
+| --- | --- | --- |
+| `intake` (default when `prompt` present) | Starter UI copy-target cards | Required |
+| `citation` | Provenance after populate | Omit |
 
 ## Prompt you can paste
 
 ```
-Using this brand-guide repo and my source (URL / PDF / brand.md / Figma design URL), populate the guide: set brand/setup.json intake to "skipped", update brand.md (including Design system), examples.md, rules.md, and brand/setup.json so every section reflects my brand. For a Figma URL, use the official Figma MCP per intake/populate-from-source.md (metadata → variables/styles → frame copy → assets); write into brand.md — never hand-edit brand.json or tokens.json. Keep the grayscale structure unless my source specifies a palette. Run npm run compile from guide/. When done, set brand/setup.json status to "populated".
+Using this brand-guide repo and my source (URL / PDF / brand.md / DESIGN.md / Figma design URL), populate the guide: set brand/setup.json intake to "skipped", update brand.md (including Design system), examples.md, rules.md, brand/coverage.json, and brand/setup.json so every section reflects my brand. Cite sources with kind "citation". For DESIGN.md dumps, use npm run import:design. For a Figma URL, use the official Figma MCP per intake/populate-from-source.md (metadata → variables/styles → frame copy → assets); write into brand.md — never hand-edit brand.json or tokens.json. Keep the grayscale structure unless my source specifies a palette. Run npm run compile and npm run post-populate-check from guide/. Complete the Post-populate checklist in intake/populate-from-source.md. When done, set brand/setup.json status to "populated".
 ```

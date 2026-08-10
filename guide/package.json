@@ -6,6 +6,8 @@
     "compile": "node ../scripts/compile-all.mjs",
     "compile:check": "npm run compile && node ../scripts/validate-brand.mjs",
     "compile:golden": "node ../scripts/update-golden.mjs",
+    "import:design": "node ../scripts/import-design-dump.mjs",
+    "post-populate-check": "node ../scripts/post-populate-check.mjs",
     "theme:build": "npx astryx theme build ./src/themes/brand.ts -o ./src/themes/brand.theme.css",
     "tokens": "npm run compile",
     "tokens:reset": "node ../scripts/reset-design-system.mjs",
@@ -24,6 +26,7 @@
     "next": "15.5.21",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "yaml": "^2.9.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

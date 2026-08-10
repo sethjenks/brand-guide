@@ -1,0 +1,42 @@
+{
+  "_spec_version": "1.0.0",
+  "source": {
+    "label": "DESIGN.md",
+    "kind": "design-dump",
+    "path": "scripts/fixtures/design-dump.warm-horizon.md"
+  },
+  "sections": {
+    "strategy": {
+      "status": "inferred",
+      "notes": "Personality / Golden Hour prose only — no full product brief."
+    },
+    "voice": {
+      "status": "inferred",
+      "notes": "Tone adjectives from Brand & Style; story expanded for compile need()."
+    },
+    "visual": {
+      "status": "filled",
+      "notes": null
+    },
+    "expressions": {
+      "status": "placeholder",
+      "notes": "No channel examples in source."
+    },
+    "designSystem": {
+      "status": "filled",
+      "notes": null
+    }
+  },
+  "fields": [
+    {
+      "path": "strategy.pillars",
+      "status": "inferred",
+      "evidence": "Warmth / Clarity / Transition from Golden Hour language"
+    },
+    {
+      "path": "visual.colors",
+      "status": "filled",
+      "evidence": "YAML colors + Colors section"
+    }
+  ]
+}

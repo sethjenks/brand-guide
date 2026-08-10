@@ -1,0 +1,23 @@
+{
+  "status": "populated",
+  "intake": "skipped",
+  "year": "2026",
+  "support": "Test support",
+  "headline": "Test brand",
+  "body": "Populated from a design dump.",
+  "sources": [
+    {
+      "kind": "citation",
+      "label": "DESIGN.md",
+      "detail": "Source design dump used for Visual + Design system.",
+      "path": "scripts/fixtures/design-dump.warm-horizon.md"
+    },
+    {
+      "kind": "intake",
+      "label": "brand.md",
+      "detail": "Kept for re-populate.",
+      "prompt": "Populate from brand.md."
+    }
+  ],
+  "prompt": "Brand is populated."
+}

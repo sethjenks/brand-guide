@@ -65,6 +65,7 @@ import {
 } from "@/components/TypeWeightsSection";
 import { VoiceSpectrumSection } from "@/components/VoiceSpectrumSection";
 import { loadBrand, type ColorSwatch } from "@/lib/load-brand";
+import type { SetupIntakeSource } from "@/lib/brand-types";
 import { assessBrandCompleteness } from "@/lib/brand-completeness";
 import { sectionLeafStyle } from "@/lib/section-leaf";
 import { resolveSectionStatus } from "@/lib/section-status";
@@ -646,8 +647,9 @@ export default function Home() {
   const { byId: sectionStatusById, chapters: chapterStatus } =
     resolveSectionStatus(brand, completeness);
   const questionnairePrompt =
-    brand.setup.sources.find((s) =>
-      s.label.toLowerCase().includes("questionnaire"),
+    brand.setup.sources.find(
+      (s): s is SetupIntakeSource =>
+        s.kind === "intake" && s.label.toLowerCase().includes("questionnaire"),
     )?.prompt ?? brand.setup.prompt;
   const [
     strategyChapter,
@@ -657,6 +659,7 @@ export default function Home() {
     colorChapter,
     photographyChapter,
     systemChapter,
+    animationChapter,
     applicationsChapter,
     utilitiesChapter,
   ] = GUIDE_CHAPTERS;
@@ -721,7 +724,12 @@ export default function Home() {
                 width="100%"
                 aria-label="Accepted sources"
               >
-                {brand.setup.sources.map((source) => (
+                {brand.setup.sources
+                  .filter(
+                    (source): source is SetupIntakeSource =>
+                      source.kind === "intake",
+                  )
+                  .map((source) => (
                   <SetupSourceCard
                     key={source.label}
                     label={source.label}
@@ -1713,6 +1721,15 @@ export default function Home() {
               ]}
             />
           </LogoAssetSection>
+        </ChapterSection>
+
+        <ChapterSection id={animationChapter.id} title={animationChapter.title}>
+          <SectionStub id="animation-introduction" title="Introduction" />
+          <SectionStub id="animation-principles" title="Principles" />
+          <SectionStub id="animation-personality" title="Personality" />
+          <SectionStub id="animation-archetypes" title="Archetypes" />
+          <SectionStub id="animation-interactions" title="Interactions" />
+          <SectionStub id="animation-donts" title="Don’ts" />
         </ChapterSection>
 
         <ChapterSection id={applicationsChapter.id} title={applicationsChapter.title}>

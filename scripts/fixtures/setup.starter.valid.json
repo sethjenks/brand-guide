@@ -1,0 +1,22 @@
+{
+  "status": "starter",
+  "intake": "pending",
+  "year": "2026",
+  "support": "Test support",
+  "headline": "Test headline",
+  "body": "Test body",
+  "sources": [
+    {
+      "kind": "intake",
+      "label": "Branding Questionnaire",
+      "detail": "Ask one-by-one.",
+      "prompt": "Run the Branding Questionnaire."
+    },
+    {
+      "label": "Website URL",
+      "detail": "Legacy shape without kind — still valid intake via prompt.",
+      "prompt": "Populate from my website."
+    }
+  ],
+  "prompt": "Default prompt"
+}

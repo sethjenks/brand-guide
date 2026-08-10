@@ -1,0 +1,15 @@
+{
+  "status": "populated",
+  "intake": "skipped",
+  "year": "2026",
+  "support": "Test support",
+  "headline": "Test brand",
+  "body": "Missing kind and prompt on a source.",
+  "sources": [
+    {
+      "label": "Orphan source",
+      "detail": "Neither citation kind nor prompt — must fail."
+    }
+  ],
+  "prompt": "Brand is populated."
+}

@@ -59,6 +59,18 @@ function splitFontStack(stack: string): { family: string; fallbacks?: string } {
 }
 
 const fontSans = splitFontStack(brandThemeInput.fontSans);
+const fontSerifStack =
+  "fontSerif" in brandThemeInput &&
+  typeof brandThemeInput.fontSerif === "string" &&
+  brandThemeInput.fontSerif.trim()
+    ? splitFontStack(brandThemeInput.fontSerif)
+    : fontSans;
+const fontSerifCss =
+  "fontSerif" in brandThemeInput &&
+  typeof brandThemeInput.fontSerif === "string" &&
+  brandThemeInput.fontSerif.trim()
+    ? brandThemeInput.fontSerif
+    : brandThemeInput.fontSans;
 
 /**
  * Brand Guide Astryx theme.
@@ -74,10 +86,10 @@ export const brandTheme = defineTheme({
   },
   typography: {
     scale: brandThemeInput.typeScale ?? { base: 16, ratio: 1.2 },
-    // Face stack from Design system `--font-sans` (via brandThemeInput.fontSans).
-    // Next injects the webfont CSS variable in layout.tsx — keep that var in the stack.
+    // Body: `--font-sans`. Heading: optional `--font-serif`, else sans.
+    // Next injects webfont CSS variables in layout.tsx — keep those vars in the stacks.
     body: fontSans,
-    heading: fontSans,
+    heading: fontSerifStack,
   },
   radius: {
     base: brandThemeInput.radiusBasePx,
@@ -162,9 +174,9 @@ export const brandTheme = defineTheme({
       brandThemeInput.colors.paper,
       brandThemeInput.colors.paper,
     ],
-    // Same stack as typography.body/heading — string so light-dark() is not applied.
+    // Same stacks as typography.body/heading — string so light-dark() is not applied.
     "--font-family-body": brandThemeInput.fontSans,
-    "--font-family-heading": brandThemeInput.fontSans,
+    "--font-family-heading": fontSerifCss,
   },
 });
 

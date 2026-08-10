@@ -28,6 +28,10 @@ Thumbs.db
 # Scrape / local research cache
 .firecrawl/
 
+# Design-dump splice backup
+brand.md.bak
+
+
 # Logs
 npm-debug.log*
 yarn-debug.log*

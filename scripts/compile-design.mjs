@@ -421,6 +421,7 @@ function renderThemeInput(tokens) {
       "renderThemeInput: missing required token --font-sans (author in brand.md Design system)",
     );
   }
+  const fontSerif = tokens.get("--font-serif")?.value?.trim() || undefined;
 
   const ink = requiredColor("--color-ink");
   const input = {
@@ -429,6 +430,7 @@ function renderThemeInput(tokens) {
     radiusBasePx,
     typeScale: { base: typeBase, ratio: typeRatio },
     fontSans,
+    ...(fontSerif ? { fontSerif } : {}),
     colors: {
       ink,
       inkMuted: requiredColor("--color-ink-muted"),
@@ -577,6 +579,18 @@ function renderTokensDtcg(tokens) {
     if (name === "--font-sans") {
       const group = ensureGroup(doc, ["font"]);
       group.sans = dtcgToken(name, def, "fontFamily", parseFontFamilyValue(value));
+      leafCount += 1;
+      continue;
+    }
+
+    if (name === "--font-serif") {
+      const group = ensureGroup(doc, ["font"]);
+      group.serif = dtcgToken(
+        name,
+        def,
+        "fontFamily",
+        parseFontFamilyValue(value),
+      );
       leafCount += 1;
       continue;
     }

@@ -89,6 +89,28 @@ export type BrandSetupSectionStatus =
   | "sample"
   | "assets";
 
+/** Starter UI copy-target — requires a non-empty agentic prompt. */
+export type SetupIntakeSource = {
+  kind: "intake";
+  label: string;
+  detail: string;
+  /** Agentic prompt tailored to this source path (copyable in the setup UI). */
+  prompt: string;
+  url?: string;
+  path?: string;
+};
+
+/** Provenance-only entry — no prompt; not shown as an Agent prompt card. */
+export type SetupCitationSource = {
+  kind: "citation";
+  label: string;
+  detail: string;
+  url?: string;
+  path?: string;
+};
+
+export type SetupSource = SetupIntakeSource | SetupCitationSource;
+
 export type BrandSetup = {
   status: SetupStatus;
   /** Branding Exercise gate: pending until questionnaire done or skipped for a source. */
@@ -97,12 +119,7 @@ export type BrandSetup = {
   support: string;
   headline: string;
   body: string;
-  sources: readonly {
-    label: string;
-    detail: string;
-    /** Agentic prompt tailored to this source path (copyable in the setup UI). */
-    prompt: string;
-  }[];
+  sources: readonly SetupSource[];
   prompt: string;
   /**
    * Optional per-section status overrides (GUIDE_NAV leaf id → status).

@@ -42,7 +42,7 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 | **Agent** | System prompt base, agent labels | Building prompts / agent config | Human-facing marketing | `brand.json` → agent |
 | **Design system** | Ship layer: token tables, `:root`, spacing, components | UI, CSS, Figma/DTCG, theme edits | Copy-only or strategy-only tasks | `tokens.generated.css`, `tokens.json`, `brand.json` colors → guide **System** (partial) |
 
-The human-facing guide is organized as eight brand-book chapters (Strategy, Language, Logo, Typography, Color, Photography, System, Applications). Authoring headings in this file stay Strategy / Voice / Visual / Expressions / Design system; the shell maps compiled fields into those chapters.
+The human-facing guide is organized as nine brand-book chapters (Strategy, Language, Logo, Typography, Color, Photography, System, Animation, Applications). Authoring headings in this file stay Strategy / Voice / Visual / Expressions / Design system; the shell maps compiled fields into those chapters.
 
 ### Task slices
 
