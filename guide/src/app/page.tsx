@@ -64,6 +64,19 @@ import {
   type TypeWeightItem,
 } from "@/components/TypeWeightsSection";
 import { VoiceSpectrumSection } from "@/components/VoiceSpectrumSection";
+import {
+  ANIMATION_ARCHETYPES,
+  ANIMATION_ARCHETYPES_INTRO,
+  ANIMATION_DONTS,
+  ANIMATION_DONTS_CONTEXT,
+  ANIMATION_INTERACTIONS,
+  ANIMATION_INTERACTIONS_INTRO,
+  ANIMATION_INTRODUCTION,
+  ANIMATION_PERSONALITY,
+  ANIMATION_PERSONALITY_INTRO,
+  ANIMATION_PRINCIPLES,
+  ANIMATION_PRINCIPLES_INTRO,
+} from "@/lib/animation-content";
 import { loadBrand, type ColorSwatch } from "@/lib/load-brand";
 import type { SetupIntakeSource } from "@/lib/brand-types";
 import { assessBrandCompleteness } from "@/lib/brand-completeness";
@@ -1724,12 +1737,53 @@ export default function Home() {
         </ChapterSection>
 
         <ChapterSection id={animationChapter.id} title={animationChapter.title}>
-          <SectionStub id="animation-introduction" title="Introduction" />
-          <SectionStub id="animation-principles" title="Principles" />
-          <SectionStub id="animation-personality" title="Personality" />
-          <SectionStub id="animation-archetypes" title="Archetypes" />
-          <SectionStub id="animation-interactions" title="Interactions" />
-          <SectionStub id="animation-donts" title="Don’ts" />
+          <GraphicStatement id="animation-introduction">
+            {ANIMATION_INTRODUCTION}
+          </GraphicStatement>
+
+          <PrinciplesSection
+            id="animation-principles"
+            intro={ANIMATION_PRINCIPLES_INTRO}
+            items={ANIMATION_PRINCIPLES}
+            status={sectionStatusById["animation-principles"]}
+          />
+
+          <ClotheslineGrid
+            id="animation-personality"
+            title="Personality"
+            intro={ANIMATION_PERSONALITY_INTRO}
+            items={ANIMATION_PERSONALITY}
+            status={sectionStatusById["animation-personality"]}
+          />
+
+          <ClotheslineGrid
+            id="animation-archetypes"
+            title="Archetypes"
+            intro={ANIMATION_ARCHETYPES_INTRO}
+            items={ANIMATION_ARCHETYPES}
+            status={sectionStatusById["animation-archetypes"]}
+          />
+
+          <ClotheslineGrid
+            id="animation-interactions"
+            title="Interactions"
+            intro={ANIMATION_INTERACTIONS_INTRO}
+            items={ANIMATION_INTERACTIONS}
+            status={sectionStatusById["animation-interactions"]}
+          />
+
+          <LogoAssetSection
+            id="animation-donts"
+            title="Don’ts"
+            context={ANIMATION_DONTS_CONTEXT}
+            status={sectionStatusById["animation-donts"]}
+          >
+            <DontGrid
+              aria-label="Animation don’ts"
+              columns={3}
+              items={ANIMATION_DONTS}
+            />
+          </LogoAssetSection>
         </ChapterSection>
 
         <ChapterSection id={applicationsChapter.id} title={applicationsChapter.title}>

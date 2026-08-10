@@ -59,6 +59,7 @@ const ASSET_PLACEHOLDER_IDS = new Set([
   "logo-donts",
   "logo-background",
   "logo-use",
+  "animation-donts",
 ]);
 
 /** Hardcoded starter photography contexts in page.tsx until brand.md drives them. */
