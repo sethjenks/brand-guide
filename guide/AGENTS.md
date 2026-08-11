@@ -35,6 +35,8 @@ MORE CLI:
 
 ## Brand Guide notes
 
+- Chapter content edits follow [`skills/<chapter>/SKILL.md`](../skills/README.md) and the matching op (`populate` / `audit` / `improve`). Do not fork skills per brand.
+
 - Shell chrome is Astryx (`AppShell` + `SideNav` in `src/components/AppShell.tsx`). Do not reintroduce custom `.app-shell` CSS.
 - **Separate with shape and color, not lines:** prefer tonal contrast and spacing over hairline dividers (e.g. AppShell `elevated` — darker wash nav, lighter content — instead of `section` borders).
 - Brand theme: edit `src/themes/brand.ts` (maps compile output from `brand.generated.ts`). Rebuild with `npm run theme:build` (also runs in `predev` / `prebuild`).

@@ -455,6 +455,13 @@ function parseRules(rulesMd) {
   const delta = color.match(/ΔE[^:]*:\s*`?([\d.]+)`?/i);
   const contrast = color.match(/contrast[^:]*:\s*`?([\d.]+)`?/i);
 
+  const ruleBullets = (heading) =>
+    sectionAfter(rulesMd, heading)
+      .split("\n")
+      .filter((l) => /^-\s+/.test(l))
+      .map((l) => l.replace(/^-\s+/, "").trim())
+      .filter(Boolean);
+
   return {
     vocabulary: {
       blocklist,
@@ -464,6 +471,12 @@ function parseRules(rulesMd) {
       compliance_delta_e_threshold: delta ? Number(delta[1]) : 5,
       min_contrast_body_text: contrast ? Number(contrast[1]) : 4.5,
       palette: "grayscale_only",
+    },
+    photography_rules: {
+      constraints: ruleBullets("## Photography"),
+    },
+    logo_rules: {
+      constraints: ruleBullets("## Logo"),
     },
     conflict_resolution: {
       precedence: [
@@ -707,6 +720,9 @@ function main() {
   );
   const imageryExamples = parseSimpleYamlList(
     yamlFenceAfterHeading(examplesRaw, "## Imagery examples"),
+  );
+  const logoExamples = parseSimpleYamlList(
+    yamlFenceAfterHeading(examplesRaw, "## Logo examples"),
   );
 
   const rules = parseRules(rulesRaw);
@@ -1212,6 +1228,12 @@ function main() {
         reason: e.reason,
       })),
       imagery: imageryExamples.map((e) => ({
+        id: e.id,
+        label: e.label,
+        input: e.input,
+        reason: e.reason,
+      })),
+      logo: logoExamples.map((e) => ({
         id: e.id,
         label: e.label,
         input: e.input,

@@ -84,6 +84,7 @@ agent.md          Roles, prompts, permissions, load recipe
 templates.md      Slot-based output templates
 scripts/          compile-brand, compile-design, reset-design-system, compile-all
 intake/           Populate-from-source + questionnaire
+skills/           Shell-owned chapter skills (populate / audit / improve)
 optional/         Deeper scaffolds when you outgrow the single page
 guide/            Next.js visual brand guide (shell — upstream-owned)
 UPSTREAM.md       Ownership map + upgrade recipe

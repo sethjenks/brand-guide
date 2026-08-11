@@ -2,6 +2,8 @@
 
 Use these when the single-page [`brand.md`](../brand.md) is no longer enough. Promote a file to the repo root (or a `brands/<slug>/` package) when a section needs its own version history or variants.
 
+Until then, tune chapter quality via shell-owned [`skills/`](../skills/README.md) (still writing into `brand.md` / `rules.md` / `examples.md`). Do not wire these optional files into compile unless a section truly outgrows the constitution.
+
 ## When to promote
 
 | Need | Start from |

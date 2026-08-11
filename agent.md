@@ -12,6 +12,7 @@ summary: >
   Shell-owned agent load recipe, roles, and permissions for the brand-guide kit.
   Brand tone lives in brand.md (System prompt base); do not fork this file per brand.
   Intake (Branding Exercise) is the first gate when setup is starter and intake is pending.
+  Chapter skills: skills/ (skills_spec_version 1.0.0).
 cache_ttl: 30d
 ---
 
@@ -31,6 +32,7 @@ cache_ttl: 30d
 9. `examples.md` — labeled few-shots for creative review
 10. `rules.md` — hard constraints
 11. `templates.md` — slot-based outputs
+12. [`skills/`](skills/README.md) — chapter routers (`skills_spec_version` **1.0.0**). Load after intake when the task is one guide chapter.
 
 ## Layer slices (quick recipe)
 
@@ -41,6 +43,25 @@ cache_ttl: 30d
 | Pitch deck | Strategy + Voice |
 | CSS / UI kit | Visual + Design system + `brand.json` color/typography (+ `tokens.json` for DTCG export) |
 | Creative review | `examples.md` + Guardrails |
+| One guide chapter | [`skills/<id>/SKILL.md`](skills/README.md) + op (`populate` / `audit` / `improve`) |
+
+## Chapter skills
+
+Shell-owned recipes in [`skills/`](skills/README.md) (catalog + `skills_spec_version`). Do not fork per brand. Brand tone stays in `brand.md` → Agent → **System prompt base.**
+
+Always open the chapter **router** (`skills/<id>/SKILL.md`). It picks the op: `populate` (first fill), `audit` (report gaps), `improve` (surgical). Default: audit if content exists, populate if mostly placeholders. Chapter `populate` only after intake is `complete` or `skipped`.
+
+| Task | Skill | Op |
+| --- | --- | --- |
+| Build photography chapter | [`skills/photography/SKILL.md`](skills/photography/SKILL.md) | `populate` |
+| Is Photography done? | photography | `audit` |
+| Tighten imagery prompts / categories | photography | `improve` |
+| Build Logo / ingest assets | [`skills/logo/SKILL.md`](skills/logo/SKILL.md) | `populate` |
+| Is Logo ready? | logo | `audit` |
+| Tighten clearspace / don’ts | logo | `improve` |
+| Other chapters (scaffold) | `skills/<strategy\|language\|typography\|color\|system\|animation\|applications>/SKILL.md` | matching op |
+
+Deep chapters: Photography, Logo. Others are inline-op scaffolds. Skills write `brand.md` / `rules.md` / `examples.md` (Animation: `guide/src/lib/animation-content.ts` until promoted). Then `npm run compile` from `guide/`. Never hand-edit `brand.json`.
 
 ## Roles
 
@@ -74,7 +95,7 @@ See [`UPSTREAM.md`](UPSTREAM.md).
 | Path | Owner |
 | --- | --- |
 | `brand.md`, `examples.md`, `rules.md`, `templates.md`, `brand/*` | Brand |
-| `agent.md`, `guide/src/*`, `scripts/*`, intake templates | Upstream (shell) |
+| `agent.md`, `skills/**`, `guide/src/*`, `scripts/*`, intake templates | Upstream (shell) |
 
 Brand system prompt: edit `brand.md` → Agent → **System prompt base.** (compiled). Do not customize roles/permissions by editing this file in a brand clone — those are shell defaults in the compiler.
 

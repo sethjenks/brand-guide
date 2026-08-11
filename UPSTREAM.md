@@ -9,7 +9,7 @@ This kit is a **clone-per-brand** template. Brands customize theme and content; 
 | Brand content + theme | `brand.md` (includes Design system), `examples.md`, `rules.md`, `templates.md` | Brand |
 | Overrides | `brand/setup.json`, `brand/overrides.css`, `brand/assets/**` | Brand |
 | Generated | `brand.json`, `tokens.json`, `guide/public/brand.txt`, `guide/public/tokens.json`, `guide/src/styles/tokens.generated.css`, `guide/src/styles/brand.overrides.css`, `guide/public/brand/**` | Compiler only (commit the outputs) |
-| Shell | `guide/src/app/**`, `guide/src/components/**`, `guide/src/lib/**`, `scripts/**`, `agent.md`, intake templates | Upstream |
+| Shell | `guide/src/app/**`, `guide/src/components/**`, `guide/src/lib/**`, `scripts/**`, `agent.md`, `skills/**`, intake templates | Upstream |
 
 **Do not hand-edit** `brand.json`, `tokens.json`, `guide/public/brand.txt`, `guide/public/tokens.json`, `tokens.generated.css`, or `guide/src/styles/brand.overrides.css`. Edit sources and run `npm run compile` from `guide/`.
 

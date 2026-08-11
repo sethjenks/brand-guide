@@ -9,7 +9,7 @@ compliance: true
 compliance_weight: high
 visibility: public
 summary: >
-  Executable brand rules — vocabulary, color, conflict precedence.
+  Executable brand rules — vocabulary, color, photography, logo, conflict precedence.
 cache_ttl: 30d
 ---
 
@@ -36,6 +36,21 @@ Machine-oriented constraints. Narrative guardrails also live in `brand.md` → S
 - Compliance ΔE threshold vs approved tokens: `5.0`
 - Min contrast body text on paper: `4.5`
 - Off-palette accents require human approval and a `brand.md` Design system update.
+
+## Photography
+
+- Prefer editorial, natural light, product-in-context. No oversaturated stock, fake handshakes, neon gradients, or purple AI clichés.
+- People and places must be real or honestly candid — no stock theater.
+- Image-gen prompts live in `brand.md` Visual → **Imagery prompt product.** / **Imagery prompt lifestyle.**; bans in **Imagery negative.**
+- Do not treat hardcoded Photography category specimens in the guide as brand-authored until `brand.md` drives them.
+- Alt text: describe the scene and product; do not invent emotion the photo does not show.
+
+## Logo
+
+- Default lockup: ink wordmark on paper. Inverse: paper wordmark on ink.
+- Do not stretch, outline, add drop shadows, or place the mark on busy photography without a paper panel.
+- Preferred files in `brand/assets/`: `logo.svg` (or `logo.png`), `wordmark.svg`, `mark.svg`. Compile copies files to `guide/public/brand/` — do not hand-edit the public copy.
+- Clearspace must be measurable (e.g. cap-height), not “generous.”
 
 ## Conflict resolution
 

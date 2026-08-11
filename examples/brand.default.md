@@ -48,12 +48,14 @@ The human-facing guide is organized as nine brand-book chapters (Strategy, Langu
 
 | Task | Read in this file | Also read |
 | --- | --- | --- |
-| Blog / email / social | Voice (+ Expressions if present) | `examples.md` |
-| Pitch / positioning | Strategy + Voice | — |
+| Blog / email / social | Voice (+ Expressions if present) | `examples.md`; chapter work: [`skills/language/SKILL.md`](../skills/language/SKILL.md) |
+| Pitch / positioning | Strategy + Voice | [`skills/strategy/SKILL.md`](../skills/strategy/SKILL.md) |
 | Landing / marketing UI | Voice + Visual + Design system | `rules.md` for contrast / don’ts |
-| App chrome / CSS tokens | Design system (Color / Type / Spacing) | Prefer `tokens.json` or `brand.json` colors after compile |
-| Logo / wordmark | Visual → Logo + Design system → Logo (implementation) | `brand/assets/` |
-| First fill / intake | Entire file in order | `intake/brand-intake-questionnaire.md` (or `populate-from-source.md` if skipping), then `examples.md`, `rules.md`, `brand/setup.json` |
+| App chrome / CSS tokens | Design system (Color / Type / Spacing) | Prefer `tokens.json` or `brand.json` colors after compile; [`skills/color/SKILL.md`](../skills/color/SKILL.md) / [`skills/typography/SKILL.md`](../skills/typography/SKILL.md) |
+| Logo / wordmark | Visual → Logo + Design system → Logo (implementation) | `brand/assets/`; [`skills/logo/SKILL.md`](../skills/logo/SKILL.md) |
+| Photography / imagery | Visual → Photography / Imagery | [`skills/photography/SKILL.md`](../skills/photography/SKILL.md) |
+| One guide chapter | Matching section | [`skills/`](../skills/README.md) (`skills/<id>/SKILL.md` + op) |
+| First fill / intake | Entire file in order | `intake/brand-intake-questionnaire.md` (or `populate-from-source.md` if skipping), then `examples.md`, `rules.md`, `brand/setup.json` — chapter skills after intake |
 | Runtime structured read | Prefer compiled artifacts over re-parsing this file | `brand.json`, `tokens.json` |
 
 ---

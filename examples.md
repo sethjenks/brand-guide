@@ -104,3 +104,27 @@ Few-shot pairs for creative review. Compiled into `brand.json` → `examples` vi
   input: "Black wordmark on white paper with generous margins, photographed flat"
   reason: "Matches logo and style direction."
 ```
+
+## Logo examples
+
+```yaml
+- id: logo-001
+  label: off-brand
+  input: "Wordmark stretched to fill a banner, drop shadow, placed on a busy photo"
+  reason: "Stretch, shadow, and busy photography without a paper panel violate Logo donts."
+
+- id: logo-002
+  label: on-brand
+  input: "Ink wordmark on paper with clearspace equal to the cap-height of S"
+  reason: "Default colorway and measurable clearspace."
+
+- id: logo-003
+  label: off-brand
+  input: "Outlined wordmark in #7C3AED on a neon gradient"
+  reason: "Outline plus off-palette accent; starter lockup is ink/paper only."
+
+- id: logo-004
+  label: on-brand
+  input: "Paper wordmark reversed on ink, SVG, transparent background"
+  reason: "Approved inverse; SVG preferred per Design system Logo implementation."
+```

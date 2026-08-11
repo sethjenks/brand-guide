@@ -1,8 +1,8 @@
 {
-  "_hash": "sha256:f76c61d0cd86cd2c9b29c84022e46727f02188d41ee1893d8e75ab5aad9bce31",
+  "_hash": "sha256:0ade7ba11b463e1759c7c7980405ec4e6d2132b51f6232b367a1f8429a592efb",
   "_spec_version": "1.1.0",
-  "_compiled": "2026-08-10T22:47:17.904Z",
-  "_last_material_change": "2026-08-10",
+  "_compiled": "2026-08-11T05:14:09.157Z",
+  "_last_material_change": "2026-08-11",
   "_sanitized": true,
   "meta": {
     "name": "Sample Brand",
@@ -591,6 +591,23 @@
       "min_contrast_body_text": 4.5,
       "palette": "grayscale_only"
     },
+    "photography_rules": {
+      "constraints": [
+        "Prefer editorial, natural light, product-in-context. No oversaturated stock, fake handshakes, neon gradients, or purple AI clichés.",
+        "People and places must be real or honestly candid — no stock theater.",
+        "Image-gen prompts live in `brand.md` Visual → **Imagery prompt product.** / **Imagery prompt lifestyle.**; bans in **Imagery negative.**",
+        "Do not treat hardcoded Photography category specimens in the guide as brand-authored until `brand.md` drives them.",
+        "Alt text: describe the scene and product; do not invent emotion the photo does not show."
+      ]
+    },
+    "logo_rules": {
+      "constraints": [
+        "Default lockup: ink wordmark on paper. Inverse: paper wordmark on ink.",
+        "Do not stretch, outline, add drop shadows, or place the mark on busy photography without a paper panel.",
+        "Preferred files in `brand/assets/`: `logo.svg` (or `logo.png`), `wordmark.svg`, `mark.svg`. Compile copies files to `guide/public/brand/` — do not hand-edit the public copy.",
+        "Clearspace must be measurable (e.g. cap-height), not “generous.”"
+      ]
+    },
     "conflict_resolution": {
       "precedence": [
         "rules.md",
@@ -696,6 +713,32 @@
         "label": "on-brand",
         "input": "Black wordmark on white paper with generous margins, photographed flat",
         "reason": "Matches logo and style direction."
+      }
+    ],
+    "logo": [
+      {
+        "id": "logo-001",
+        "label": "off-brand",
+        "input": "Wordmark stretched to fill a banner, drop shadow, placed on a busy photo",
+        "reason": "Stretch, shadow, and busy photography without a paper panel violate Logo donts."
+      },
+      {
+        "id": "logo-002",
+        "label": "on-brand",
+        "input": "Ink wordmark on paper with clearspace equal to the cap-height of S",
+        "reason": "Default colorway and measurable clearspace."
+      },
+      {
+        "id": "logo-003",
+        "label": "off-brand",
+        "input": "Outlined wordmark in #7C3AED on a neon gradient",
+        "reason": "Outline plus off-palette accent; starter lockup is ink/paper only."
+      },
+      {
+        "id": "logo-004",
+        "label": "on-brand",
+        "input": "Paper wordmark reversed on ink, SVG, transparent background",
+        "reason": "Approved inverse; SVG preferred per Design system Logo implementation."
       }
     ]
   },
