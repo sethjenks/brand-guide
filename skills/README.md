@@ -27,7 +27,7 @@ Skills are **not** compiled into `brand.json`. They tell agents which constituti
 
 **Router:** always start at `skills/<id>/SKILL.md`. Ask if the op is unclear. Default: `audit` if content exists, `populate` if mostly placeholders.
 
-**Intake gate:** whole-brand [`intake/`](../intake/) still wins when `brand/setup.json` has `status: "starter"` and `intake: "pending"`. Do not run chapter `populate` first.
+**Intake gate:** whole-brand first fill lives under [`intake/skills/`](../intake/skills/README.md) (`intake_skills_spec_version` **1.0.0**). Load that routing table when `status` is `starter` and `intake` is `pending`, or when the user provides a URL / PDF / `brand.md` / DESIGN.md / Figma file. Do not run chapter `populate` first. After intake is `complete` or `skipped`, chapter skills deepen one guide chapter.
 
 ## Catalog
 
@@ -71,6 +71,7 @@ Op sibling files inherit the chapter `version`. Changing an op file bumps the ch
 
 | Date | skill_id | version | Why |
 | --- | --- | --- | --- |
+| 2026-08-11 | (catalog) | — | Note: whole-brand intake path skills live under `intake/skills/` (`intake_skills_spec_version` 1.0.0) |
 | 2026-08-10 | (catalog) | spec 1.0.0 | Initial skills tree, ops vocabulary, Photography + Logo deep |
 | 2026-08-10 | photography | 1.0.0 | Deep router + populate/audit/improve |
 | 2026-08-10 | logo | 1.0.0 | Deep router + populate/audit/improve |

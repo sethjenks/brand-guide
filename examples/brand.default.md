@@ -18,7 +18,7 @@ Edit root `brand.md` (and `examples.md`, `rules.md`, `templates.md`, `brand/setu
 
 ## For agents (LLM)
 
-**First fill (recommended):** If `brand/setup.json` → `intake` is `"pending"`, start with the Branding Exercise in [`intake/brand-intake-questionnaire.md`](../intake/brand-intake-questionnaire.md) — ask one question at a time by default. If the user already has a website URL, brand-guide PDF, a `brand.md`, or a Figma design URL, set `intake` to `"skipped"` and follow [`intake/populate-from-source.md`](../intake/populate-from-source.md). After fill: update root `brand.md`, `examples.md`, `rules.md`, and `brand/setup.json`; run compile; set `intake` to `"complete"` (or leave `"skipped"`) and `status` to `"populated"` so the cover callout demotes.
+**First fill (recommended):** If `brand/setup.json` → `intake` is `"pending"`, load [`intake/skills/README.md`](../intake/skills/README.md) and run [`intake/skills/questionnaire/SKILL.md`](../intake/skills/questionnaire/SKILL.md) (question bank: [`intake/brand-intake-questionnaire.md`](../intake/brand-intake-questionnaire.md)) — ask one question at a time by default. If the user already has a website URL, brand-guide PDF, a `brand.md`, DESIGN.md, or a Figma design URL, set `intake` to `"skipped"` and follow the routing table in [`intake/skills/README.md`](../intake/skills/README.md) (slim entry: [`intake/populate-from-source.md`](../intake/populate-from-source.md)). After fill: update root `brand.md`, `examples.md`, `rules.md`, and `brand/setup.json`; run compile; set `intake` to `"complete"` (or leave `"skipped"`) and `status` to `"populated"` so the cover callout demotes.
 
 When the root file is empty or partially filled and no external source is provided, do **one** of the following:
 
@@ -55,7 +55,7 @@ The human-facing guide is organized as nine brand-book chapters (Strategy, Langu
 | Logo / wordmark | Visual → Logo + Design system → Logo (implementation) | `brand/assets/`; [`skills/logo/SKILL.md`](../skills/logo/SKILL.md) |
 | Photography / imagery | Visual → Photography / Imagery | [`skills/photography/SKILL.md`](../skills/photography/SKILL.md) |
 | One guide chapter | Matching section | [`skills/`](../skills/README.md) (`skills/<id>/SKILL.md` + op) |
-| First fill / intake | Entire file in order | `intake/brand-intake-questionnaire.md` (or `populate-from-source.md` if skipping), then `examples.md`, `rules.md`, `brand/setup.json` — chapter skills after intake |
+| First fill / intake | Entire file in order | [`intake/skills/README.md`](../intake/skills/README.md) (questionnaire or matching path skill), then `examples.md`, `rules.md`, `brand/setup.json` — chapter skills after intake |
 | Runtime structured read | Prefer compiled artifacts over re-parsing this file | `brand.json`, `tokens.json` |
 
 ---

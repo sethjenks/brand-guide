@@ -1,7 +1,7 @@
 ---
 file: agent
 spec_version: 1.0.0
-version: 0.3.0
+version: 0.4.0
 status: draft
 priority: 1
 retrieval_tags: [brand, agent, loading, permissions]
@@ -12,6 +12,7 @@ summary: >
   Shell-owned agent load recipe, roles, and permissions for the brand-guide kit.
   Brand tone lives in brand.md (System prompt base); do not fork this file per brand.
   Intake (Branding Exercise) is the first gate when setup is starter and intake is pending.
+  Intake path skills: intake/skills/ (intake_skills_spec_version 1.0.0).
   Chapter skills: skills/ (skills_spec_version 1.0.0).
 cache_ttl: 30d
 ---
@@ -20,8 +21,8 @@ cache_ttl: 30d
 
 ## Loading priorities
 
-0. **Intake gate (first)** — If `brand/setup.json` has `status: "starter"` and `intake` is `"pending"`, run [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) **before** anything else. Default: ask the Branding Exercise **one question at a time**. User may take the full written questionnaire, or skip to a source (set `intake` to `"skipped"` and follow populate-from-source). When finished, set `intake` to `"complete"`, rewrite brand markdown + setup from the transcript, compile, then set `status` to `"populated"`.
-1. **Populate from source** — If `intake` is `"skipped"` (or the user already provided a URL, PDF, `brand.md`, DESIGN.md dump, or Figma design URL), follow [`intake/populate-from-source.md`](intake/populate-from-source.md). Sync brand markdown + setup + `brand/coverage.json`, run `npm run compile` and `npm run post-populate-check` from `guide/`, complete the post-populate checklist, then set `status` to `"populated"`. Cite sources with `"kind": "citation"`.
+0. **Intake gate (first)** — If `brand/setup.json` has `status: "starter"` and `intake` is `"pending"`, load [`intake/skills/README.md`](intake/skills/README.md) and run [`intake/skills/questionnaire/SKILL.md`](intake/skills/questionnaire/SKILL.md) **before** anything else (question bank: [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md)). Default: one question at a time. User may take the full written questionnaire, or skip to a source (set `intake` to `"skipped"` and use the routing table). When finished: `intake` `"complete"`, rewrite from the transcript, compile, `status` `"populated"`.
+1. **Populate from source** — If `intake` is `"skipped"` (or the user already provided a URL, PDF, `brand.md`, DESIGN.md dump, or Figma design URL), load [`intake/skills/README.md`](intake/skills/README.md), pick the matching path skill, and follow [`intake/skills/_shared.md`](intake/skills/_shared.md). Slim entry: [`intake/populate-from-source.md`](intake/populate-from-source.md). Sync brand markdown + setup + `brand/coverage.json`, run `npm run compile` and `npm run post-populate-check` from `guide/`, then set `status` to `"populated"`. Cite sources with `"kind": "citation"`.
 2. `brand.md` frontmatter — name, tagline, version, language
 3. `brand.md` **For agents** — section map and task slices
 4. `brand.md` Strategy — for any strategic or positioning decision
@@ -43,13 +44,14 @@ cache_ttl: 30d
 | Pitch deck | Strategy + Voice |
 | CSS / UI kit | Visual + Design system + `brand.json` color/typography (+ `tokens.json` for DTCG export) |
 | Creative review | `examples.md` + Guardrails |
+| First fill / intake | [`intake/skills/README.md`](intake/skills/README.md) → matching path skill + [`_shared.md`](intake/skills/_shared.md) |
 | One guide chapter | [`skills/<id>/SKILL.md`](skills/README.md) + op (`populate` / `audit` / `improve`) |
 
 ## Chapter skills
 
 Shell-owned recipes in [`skills/`](skills/README.md) (catalog + `skills_spec_version`). Do not fork per brand. Brand tone stays in `brand.md` → Agent → **System prompt base.**
 
-Always open the chapter **router** (`skills/<id>/SKILL.md`). It picks the op: `populate` (first fill), `audit` (report gaps), `improve` (surgical). Default: audit if content exists, populate if mostly placeholders. Chapter `populate` only after intake is `complete` or `skipped`.
+Whole-brand first fill is **not** a chapter skill — use [`intake/skills/`](intake/skills/README.md). Always open the chapter **router** (`skills/<id>/SKILL.md`). It picks the op: `populate` (first fill), `audit` (report gaps), `improve` (surgical). Default: audit if content exists, populate if mostly placeholders. Chapter `populate` only after intake is `complete` or `skipped`.
 
 | Task | Skill | Op |
 | --- | --- | --- |
@@ -101,7 +103,7 @@ See [`UPSTREAM.md`](UPSTREAM.md).
 | Path | Owner |
 | --- | --- |
 | `brand.md`, `examples.md`, `rules.md`, `templates.md`, `brand/*` | Brand |
-| `agent.md`, `skills/**`, `guide/src/*`, `scripts/*`, intake templates | Upstream (shell) |
+| `agent.md`, `skills/**`, `guide/src/*`, `scripts/*`, `intake/**` | Upstream (shell) |
 
 Brand system prompt: edit `brand.md` → Agent → **System prompt base.** (compiled). Do not customize roles/permissions by editing this file in a brand clone — those are shell defaults in the compiler.
 
