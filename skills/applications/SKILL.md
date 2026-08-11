@@ -2,9 +2,9 @@
 file: applications
 skill_id: applications
 skills_spec_version: 1.0.0
-version: 0.1.0
-depth: scaffold
-status: draft
+version: 1.0.0
+depth: deep
+status: stable
 priority: 2
 retrieval_tags: [applications, expressions, skill]
 summary: >
@@ -12,6 +12,8 @@ summary: >
 ops: [populate, audit, improve]
 writes:
   - brand.md#Expressions
+  - rules.md#Applications
+  - examples.md#Application examples
 ---
 
 # Applications
@@ -22,43 +24,53 @@ Guide **Applications** is authored as `brand.md` → **Expressions** (`**Act lab
 
 | Op | Use when |
 | --- | --- |
-| `populate` | Expression table empty, or user asks to fill channels |
-| `audit` | Compare nav application leaves vs table rows |
-| `improve` | Deepen one channel |
+| [`populate`](populate.md) | Expression table empty, or user asks to fill channels from a source |
+| [`audit`](audit.md) | Compare nav leaves vs table rows |
+| [`improve`](improve.md) | Deepen **one** channel (`channel` extended op — stay in improve) |
 
-Defer to intake when starter + pending. Prefer one channel at a time (`improve` / later `channel` op) over rewriting every leaf.
+If unclear, ask. Default: **audit** when the Expressions table has rows, **populate** otherwise. Intake still wins when starter + pending. Prefer one channel at a time over rewriting every leaf.
 
 ## Read order
 
-1. `brand.md` → **Expressions** (channel table + `**Channel web.**` etc.)
-2. `brand.md` → Voice + Visual (samples must match)
-3. GUIDE_NAV Applications items (`applications-web`, `applications-social`, …)
-4. `section-status.ts` — unmatched nav channels stay `empty`
+1. This file (channel map)
+2. `brand.md` → `## Expressions`
+3. Voice + Visual (samples must match)
+4. [`rules.md`](../../rules.md) → `## Applications` + Vocabulary
+5. [`examples.md`](../../examples.md) → `## Application examples`
+6. [`guide/src/lib/section-status.ts`](../../guide/src/lib/section-status.ts) `expressionChannelToAppId`
 
 ## Write targets
 
-Expressions markdown table columns: Channel, Title, Copy, Sample. Labeled `**Channel <name>.**` lines. Channel names should map to nav ids (Web → `applications-web`, etc.).
+Expressions **markdown table** columns: `Channel | Title | Copy | Sample` (compiler keeps rows with a Channel cell). Optional labeled lines `**Channel web.**` etc. for humans — table is the compile source.
+
+Channel labels → GUIDE_NAV ids:
+
+| Channel cell (normalized) | Nav id |
+| --- | --- |
+| Web | `applications-web` |
+| Social | `applications-social` |
+| Print | `applications-print` |
+| Business cards | `applications-business-cards` |
+| Merchandise / Swag | `applications-merchandise` |
+| Packaging | `applications-packaging` |
+| Signage | `applications-signage` |
+| Presentation | `applications-presentation` |
+| Out of home / OOH | `applications-ooh` |
+| Digital ads | `applications-digital-ads` |
+| App | `applications-app` |
+
+Unmapped channels (e.g. Awareness) compile into `guide.expressions.items` but do **not** clear a nav leaf. Unmatched nav ids stay `empty` in section-status — that is expected, not a populate failure.
+
+Also: `rules.md` → `## Applications`; `examples.md` → `## Application examples`.
 
 ## Conflict rules
 
-Channel copy follows Voice + `rules.md` Vocabulary. Do not invent a channel the brand does not use — leave the nav leaf empty rather than fabricating.
-
-## Populate
-
-Fill channels you have evidence for. Keep Sample Brand’s web/social/print if this is still the starter. Compile.
-
-## Audit
-
-List nav leaves with no matching expression row. Flag empty title/copy. Report-only unless asked to fix.
-
-## Improve
-
-One channel’s title/copy/sample. Do not batch-rewrite all applications.
-
-## Later ops
-
-`channel`
+Channel copy follows Voice + Vocabulary blocklist. Do not invent a channel the brand does not use. Never hand-edit compiled outputs.
 
 ## Done gate
 
-Sources → `cd guide && npm run compile` → spot-check Applications. Never hand-edit compiled outputs.
+After populate/improve: `cd guide && npm run compile`, spot-check Applications. Audit may stop at a report.
+
+## Changelog
+
+- 2026-08-10 — 1.0.0 — Deep router + populate/audit/improve; channel map; application examples.

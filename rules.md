@@ -9,7 +9,8 @@ compliance: true
 compliance_weight: high
 visibility: public
 summary: >
-  Executable brand rules — vocabulary, color, photography, logo, conflict precedence.
+  Executable brand rules — vocabulary, strategy, applications, color,
+  photography, logo, conflict precedence.
 cache_ttl: 30d
 ---
 
@@ -29,6 +30,19 @@ Machine-oriented constraints. Narrative guardrails also live in `brand.md` → S
 - One primary claim per block; proof before adjectives.
 - Social: max one idea; prefer an ownable phrase from `brand.md`.
 - Fail the litmus test → rewrite (if any brand name could replace ours, it is off-brand).
+
+## Strategy
+
+- Do not invent competitors, market share, awards, or proof the source does not support.
+- Positioning **Only we.** must fail the litmus test if another brand name could replace ours.
+- Changing Guardrails (`Tone summary`, litmus, cannot-be) requires human approval.
+- Archetype **Wheel.** must be a known catalog id; do not invent a three-ring wheel without source.
+
+## Applications
+
+- Only author Expression channels the brand actually uses. Leave unmatched Applications nav leaves empty rather than filling with generic copy.
+- Channel cell labels must map (`Web`, `Social`, `Print`, `App`, …) — see `skills/applications/SKILL.md`.
+- Samples are shippable Voice lines; they must pass Vocabulary blocklist and the litmus test.
 
 ## Color
 

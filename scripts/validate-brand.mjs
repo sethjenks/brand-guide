@@ -37,8 +37,12 @@ const setupFixtures = {
   valid: [
     "scripts/fixtures/setup.starter.valid.json",
     "scripts/fixtures/setup.citation.valid.json",
+    "scripts/fixtures/setup.chapters.valid.json",
   ],
-  invalid: ["scripts/fixtures/setup.citation.invalid.json"],
+  invalid: [
+    "scripts/fixtures/setup.citation.invalid.json",
+    "scripts/fixtures/setup.chapters.invalid.json",
+  ],
 };
 const coverageFixture = "scripts/fixtures/coverage.populated.sample.json";
 

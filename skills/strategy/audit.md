@@ -1,0 +1,28 @@
+# Strategy — audit
+
+## Preconditions
+
+- Read [`SKILL.md`](SKILL.md) and current `## Strategy`.
+- Markdown wins over stale `brand.json` — recommend compile if they disagree.
+
+## Steps
+
+1. Score compile-required labels (Overview, Promise, Personality, Pillars, Guardrails) as present / thin / missing.
+2. Positioning: is **Only we.** unique, or could any kit claim it? Flag litmus failures.
+3. Audience table: empty Wants/Needs; segments that duplicate Positioning **Audience.** without adding thought.
+4. Archetype: Primary block complete? **Wheel.** match a catalog id? Commented Secondary/Tertiary is OK — do not treat as missing unless the user asked for a three-ring wheel.
+5. Guardrails vs Voice: cannot-be list should overlap `rules.md` Vocabulary never-say / brand.md We Never Say.
+6. Overlay Strategy GUIDE_NAV leaves vs `section-status` (completeness-driven). Report empty/stub by leaf id.
+7. Deliver a gap list with suggested op (`improve` scoped to positioning / archetype / guardrails, or full `populate`). Do not invent replacement copy unless asked to fix.
+
+## Rubric
+
+- Overview Problem/Solution could not be swapped onto another product without rewriting
+- Pillars are choices, not slogans that all brands share
+- Litmus test is stated and used in examples
+- Archetype narrative matches **We are** / **We are not**
+
+## Stop conditions
+
+- Report-only by default.
+- Do not silently rewrite Sample Brand starter copy during audit.

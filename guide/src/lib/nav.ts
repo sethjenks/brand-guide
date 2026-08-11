@@ -1,4 +1,15 @@
-import type { NavGroup, NavItem } from "@/lib/brand-types";
+import {
+  EXTENDED_CHAPTER_IDS,
+  type BrandSetupChapters,
+  type ExtendedChapterId,
+  type NavGroup,
+  type NavItem,
+} from "@/lib/brand-types";
+
+export {
+  CORE_CHAPTER_IDS,
+  EXTENDED_CHAPTER_IDS,
+} from "@/lib/brand-types";
 
 export type ChapterTocItem = {
   id: string;
@@ -171,6 +182,29 @@ export const GUIDE_NAV = [
 /** Shell-owned chapter openers — TOC entries derived from GUIDE_NAV. */
 export const GUIDE_CHAPTERS: readonly ChapterTocEntry[] =
   GUIDE_NAV.map(chapterFromGroup);
+
+export function isExtendedChapterId(id: string): id is ExtendedChapterId {
+  return (EXTENDED_CHAPTER_IDS as readonly string[]).includes(id);
+}
+
+/** Extended chapters default to on when omitted from setup.chapters. */
+export function isExtendedChapterEnabled(
+  chapters: BrandSetupChapters | undefined,
+  id: ExtendedChapterId,
+): boolean {
+  return chapters?.[id] !== "off";
+}
+
+/** Drop Extended chapters set to `off` in brand/setup.json. Core always remains. */
+export function filterNavForSetup(
+  nav: readonly NavGroup[],
+  chapters: BrandSetupChapters | undefined,
+): NavGroup[] {
+  return nav.filter((group) => {
+    if (!isExtendedChapterId(group.id)) return true;
+    return isExtendedChapterEnabled(chapters, group.id);
+  });
+}
 
 export function flattenNavSectionIds(groups: readonly NavGroup[]): string[] {
   const ids: string[] = [];

@@ -1,0 +1,20 @@
+{
+  "status": "populated",
+  "intake": "skipped",
+  "year": "2026",
+  "support": "Test support",
+  "headline": "Test brand",
+  "body": "Core chapters cannot be toggled off.",
+  "sources": [
+    {
+      "kind": "citation",
+      "label": "brand.md",
+      "detail": "Constitution only.",
+      "path": "brand.md"
+    }
+  ],
+  "prompt": "Brand is populated.",
+  "chapters": {
+    "color": "off"
+  }
+}

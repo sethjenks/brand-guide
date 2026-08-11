@@ -89,6 +89,31 @@ export type BrandSetupSectionStatus =
   | "sample"
   | "assets";
 
+/** Guide chapters that always ship (theme + meaning spine + kit utilities). */
+export const CORE_CHAPTER_IDS = [
+  "strategy",
+  "language",
+  "typography",
+  "color",
+  "system",
+  "utilities",
+] as const;
+
+/** Guide chapters that can be hidden via brand/setup.json → chapters. */
+export const EXTENDED_CHAPTER_IDS = [
+  "logo",
+  "photography",
+  "animation",
+  "applications",
+] as const;
+
+export type CoreChapterId = (typeof CORE_CHAPTER_IDS)[number];
+export type ExtendedChapterId = (typeof EXTENDED_CHAPTER_IDS)[number];
+export type ChapterToggle = "on" | "off";
+export type BrandSetupChapters = Partial<
+  Record<ExtendedChapterId, ChapterToggle>
+>;
+
 /** Starter UI copy-target — requires a non-empty agentic prompt. */
 export type SetupIntakeSource = {
   kind: "intake";
@@ -126,6 +151,12 @@ export type BrandSetup = {
    * `ok` clears auto flags; `needs-work` forces Missing; other values force that status.
    */
   sectionStatus?: Readonly<Record<string, BrandSetupSectionStatus>>;
+  /**
+   * Optional Extended chapter visibility. Omitted keys default to `on`.
+   * Core chapters (Strategy, Language, Typography, Color, System, Utilities)
+   * cannot be turned off — they still feed theme and kit chrome.
+   */
+  chapters?: BrandSetupChapters;
 };
 
 /** Guide projection stored under brand.json → guide (compiled from brand.md). */

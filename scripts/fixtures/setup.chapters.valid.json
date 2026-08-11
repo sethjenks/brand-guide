@@ -1,0 +1,23 @@
+{
+  "status": "populated",
+  "intake": "skipped",
+  "year": "2026",
+  "support": "Test support",
+  "headline": "Test brand",
+  "body": "Extended chapters can be turned off.",
+  "sources": [
+    {
+      "kind": "citation",
+      "label": "brand.md",
+      "detail": "Constitution only.",
+      "path": "brand.md"
+    }
+  ],
+  "prompt": "Brand is populated.",
+  "chapters": {
+    "logo": "on",
+    "photography": "off",
+    "animation": "off",
+    "applications": "on"
+  }
+}

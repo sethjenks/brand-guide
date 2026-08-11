@@ -220,7 +220,8 @@ export function resolveSectionStatus(
   options?: { brandRoot?: string },
 ): ResolvedSectionStatus {
   const byId: Record<string, SectionStatus> = {};
-  const leafIds = collectLeafIds(GUIDE_NAV);
+  const nav = brand.nav.length > 0 ? brand.nav : GUIDE_NAV;
+  const leafIds = collectLeafIds(nav);
   for (const id of leafIds) {
     byId[id] = "ok";
   }
@@ -281,7 +282,7 @@ export function resolveSectionStatus(
       }
     }
   }
-  for (const appId of appIdsFromNav(GUIDE_NAV)) {
+  for (const appId of appIdsFromNav(nav)) {
     if (!matchedAppIds.has(appId)) {
       bump(appId, "empty");
     }
@@ -307,7 +308,7 @@ export function resolveSectionStatus(
   }
 
   // Chapter aggregates
-  const chapters: ChapterStatusAggregate[] = GUIDE_NAV.map((group) => {
+  const chapters: ChapterStatusAggregate[] = nav.map((group) => {
     let needsWorkCount = 0;
     let worst: SectionStatus = "ok";
     for (const raw of group.items) {

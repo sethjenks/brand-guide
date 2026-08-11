@@ -33,15 +33,15 @@ Skills are **not** compiled into `brand.json`. They tell agents which constituti
 
 | skill_id | version | depth | status | ops layout | path |
 | --- | --- | --- | --- | --- | --- |
-| strategy | 0.1.0 | scaffold | draft | inline | [strategy/SKILL.md](strategy/SKILL.md) |
-| language | 0.1.0 | scaffold | draft | inline | [language/SKILL.md](language/SKILL.md) |
+| strategy | 1.0.0 | deep | stable | files | [strategy/SKILL.md](strategy/SKILL.md) |
+| language | 1.0.0 | deep | stable | files | [language/SKILL.md](language/SKILL.md) |
 | logo | 1.0.0 | deep | stable | files | [logo/SKILL.md](logo/SKILL.md) |
 | typography | 0.1.0 | scaffold | draft | inline | [typography/SKILL.md](typography/SKILL.md) |
 | color | 0.1.0 | scaffold | draft | inline | [color/SKILL.md](color/SKILL.md) |
 | photography | 1.0.0 | deep | stable | files | [photography/SKILL.md](photography/SKILL.md) |
 | system | 0.1.0 | scaffold | draft | inline | [system/SKILL.md](system/SKILL.md) |
 | animation | 0.1.0 | scaffold | draft | inline | [animation/SKILL.md](animation/SKILL.md) |
-| applications | 0.1.0 | scaffold | draft | inline | [applications/SKILL.md](applications/SKILL.md) |
+| applications | 1.0.0 | deep | stable | files | [applications/SKILL.md](applications/SKILL.md) |
 
 ## Versioning
 
@@ -59,10 +59,13 @@ Op sibling files inherit the chapter `version`. Changing an op file bumps the ch
 ## Non-goals
 
 - No `compile-photography.mjs` / chapter packages
-- No `chapters.enabled` in `brand/setup.json`
 - No promoting [`optional/`](../optional/) into compile — promote a file only when a section outgrows `brand.md`; skills remain the tuning surface until then
-- No Core/Extended toggle UX
 - No skill versions in `brand.json`; no per-brand `extends:`
+- No compile-skip when an Extended chapter is `off` (runtime hide only)
+
+## Extended chapter toggles
+
+`brand/setup.json` → `chapters` can hide Logo, Photography, Animation, or Applications from the guide. Core chapters cannot be turned off. If a chapter is `off`, do not `populate` it unless the user asks to set it back to `on`. See [`UPSTREAM.md`](../UPSTREAM.md).
 
 ## Changelog
 
@@ -71,3 +74,6 @@ Op sibling files inherit the chapter `version`. Changing an op file bumps the ch
 | 2026-08-10 | (catalog) | spec 1.0.0 | Initial skills tree, ops vocabulary, Photography + Logo deep |
 | 2026-08-10 | photography | 1.0.0 | Deep router + populate/audit/improve |
 | 2026-08-10 | logo | 1.0.0 | Deep router + populate/audit/improve |
+| 2026-08-10 | strategy | 1.0.0 | Deep router + populate/audit/improve |
+| 2026-08-10 | language | 1.0.0 | Deep router + populate/audit/improve |
+| 2026-08-10 | applications | 1.0.0 | Deep router + populate/audit/improve |

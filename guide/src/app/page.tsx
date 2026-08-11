@@ -676,6 +676,7 @@ export default function Home() {
     applicationsChapter,
     utilitiesChapter,
   ] = GUIDE_CHAPTERS;
+  const enabledChapterIds = new Set(brand.nav.map((group) => group.id));
 
   const expressionByChannel = Object.fromEntries(
     brand.expressions.items.map((item) => [
@@ -1031,6 +1032,7 @@ export default function Home() {
           />
         </ChapterSection>
 
+        {enabledChapterIds.has("logo") ? (
         <ChapterSection id={logoChapter.id} title={logoChapter.title}>
           <GraphicStatement id="logo-introduction">
             {brand.visual.logo.description}
@@ -1277,6 +1279,7 @@ export default function Home() {
             />
           </LogoAssetSection>
         </ChapterSection>
+        ) : null}
 
         <ChapterSection id={typographyChapter.id} title={typographyChapter.title}>
           <GraphicStatement id="typography-introduction">
@@ -1542,6 +1545,7 @@ export default function Home() {
           </ColorPaletteSection>
         </ChapterSection>
 
+        {enabledChapterIds.has("photography") ? (
         <ChapterSection id={photographyChapter.id} title={photographyChapter.title}>
           <GraphicStatement id="photography-introduction">
             {brand.visual.imagery.tone}
@@ -1602,6 +1606,7 @@ export default function Home() {
             />
           </LogoAssetSection>
         </ChapterSection>
+        ) : null}
 
         <ChapterSection id={systemChapter.id} title={systemChapter.title}>
           <GraphicStatement
@@ -1736,6 +1741,7 @@ export default function Home() {
           </LogoAssetSection>
         </ChapterSection>
 
+        {enabledChapterIds.has("animation") ? (
         <ChapterSection id={animationChapter.id} title={animationChapter.title}>
           <GraphicStatement id="animation-introduction">
             {ANIMATION_INTRODUCTION}
@@ -1785,7 +1791,9 @@ export default function Home() {
             />
           </LogoAssetSection>
         </ChapterSection>
+        ) : null}
 
+        {enabledChapterIds.has("applications") ? (
         <ChapterSection id={applicationsChapter.id} title={applicationsChapter.title}>
           {applicationsChapter.items.map((item) => {
             const channelKey = item.label.trim().toLowerCase();
@@ -1812,6 +1820,7 @@ export default function Home() {
             );
           })}
         </ChapterSection>
+        ) : null}
 
         <ChapterSection id={utilitiesChapter.id} title={utilitiesChapter.title}>
           <BrandingQuestionnaire prompt={questionnairePrompt} />

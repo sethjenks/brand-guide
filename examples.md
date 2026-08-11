@@ -57,6 +57,62 @@ Few-shot pairs for creative review. Compiled into `brand.json` → `examples` vi
   reason: "Specific change and why it matters."
 ```
 
+## Strategy examples
+
+```yaml
+- id: strategy-001
+  type: positioning
+  label: off-brand
+  input: "The world's leading synergistic brand platform for every team."
+  reason: "Unfalsifiable superlative + blocklisted 'synergistic'; fails Only-we / litmus."
+
+- id: strategy-002
+  type: positioning
+  label: on-brand
+  input: "A starter that ships a filled Sample Brand, a visual guide, and a compiled brand.json in one repo."
+  reason: "Concrete, exclusive, matches Only we."
+
+- id: strategy-003
+  type: promise
+  label: off-brand
+  input: "We unlock your potential with world-class brand vibes."
+  reason: "Blocklist + empty inspiration; contradicts Guardrails."
+
+- id: strategy-004
+  type: promise
+  label: on-brand
+  input: "Hold brand meaning in the repo so humans and agents share one source of truth."
+  reason: "Matches Mission; specific job to be done."
+```
+
+## Application examples
+
+```yaml
+- id: app-001
+  type: web
+  label: off-brand
+  input: "Unlock your potential — start your brand journey today with our seamless hero."
+  reason: "Blocklist, fake urgency, not the Web pattern (one headline, one supporting line)."
+
+- id: app-002
+  type: web
+  label: on-brand
+  input: "Open the guide"
+  reason: "Concrete CTA; matches Sample Brand Web sample."
+
+- id: app-003
+  type: social
+  label: off-brand
+  input: "Three ideas, a product dump, and a purple gradient wordmark."
+  reason: "Social is one idea; off-palette; not an ownable phrase."
+
+- id: app-004
+  type: social
+  label: on-brand
+  input: "Clear work, plainly said."
+  reason: "One ownable Voice phrase; high-contrast lockup implied."
+```
+
 ## Color examples
 
 ```yaml

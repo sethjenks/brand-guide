@@ -2,9 +2,9 @@
 file: strategy
 skill_id: strategy
 skills_spec_version: 1.0.0
-version: 0.1.0
-depth: scaffold
-status: draft
+version: 1.0.0
+depth: deep
+status: stable
 priority: 2
 retrieval_tags: [strategy, skill]
 summary: >
@@ -12,6 +12,8 @@ summary: >
 ops: [populate, audit, improve]
 writes:
   - brand.md#Strategy
+  - rules.md#Strategy
+  - examples.md#Strategy examples
 ---
 
 # Strategy
@@ -20,43 +22,56 @@ writes:
 
 | Op | Use when |
 | --- | --- |
-| `populate` | Strategy headings are empty/placeholder, or the user asks to build Strategy |
-| `audit` | Content exists; “is positioning / archetype / guardrails done?” |
-| `improve` | Tighten one leaf without rewriting the chapter |
+| [`populate`](populate.md) | Strategy headings empty/placeholder, or user asks to build Strategy |
+| [`audit`](audit.md) | Content exists; “is positioning / archetype / guardrails done?” |
+| [`improve`](improve.md) | Tighten one leaf (positioning, archetype, or guardrails) |
 
-Defer to [`intake/`](../../intake/) when `brand/setup.json` is `starter` + `intake: pending`. Default: `audit` if fields exist, `populate` if mostly placeholders.
+If unclear, ask. Default: **audit** when **What.** and **Mission.** exist, **populate** otherwise. Whole-brand [`intake/`](../../intake/) still wins when `brand/setup.json` is `starter` and `intake` is `pending`.
+
+Changing **Guardrails** is `requires_approval` per [`agent.md`](../../agent.md).
 
 ## Read order
 
-1. `brand.md` → **Strategy** (Overview, Positioning, Audience, Personality, Promise, Pillars, Guardrails)
-2. `brand.md` → Voice (personality must not contradict tone)
-3. `rules.md` → Conflict resolution
-4. Guide leaves: Strategy group in `guide/src/lib/nav.ts`
+1. This file (field map)
+2. `brand.md` → `## Strategy`
+3. `brand.md` → Voice (personality must not contradict tone)
+4. [`rules.md`](../../rules.md) → `## Strategy` + Conflict resolution
+5. [`examples.md`](../../examples.md) → `## Strategy examples`
+6. Strategy leaves in [`guide/src/lib/nav.ts`](../../guide/src/lib/nav.ts)
 
 ## Write targets
 
-`brand.md` → `## Strategy`. Keep `**Label.**` lines the compiler already reads (Overview **What.** / **Vision intro.**, Positioning **Category.** **Audience.**, Personality **Archetype.**, Guardrails, etc.). Do not rename labels.
+Keep `**Label.**` names — `compile-brand.mjs` keys off them. Required for compile:
+
+| Heading | Required labels / structures |
+| --- | --- |
+| `### Overview` | **What.** **Problem.** **Current.** **Opportunity.** **Solution.** (also Origin, Vision intro, Long-term ambition) |
+| `### Positioning` | **Category.** **Audience.** **Differentiation.** / **Only we.** |
+| `### Audience` | **Audience intro.** + Segments / Wants / Needs table |
+| `### Personality` | **Archetype.** **Attributes.** **We are.** **We are not.** + `#### Primary archetype` field block |
+| `### Promise` | **Mission.** **Purpose.** **Position.** **Promise.** |
+| `### Message Pillars` | At least one pillar table row |
+| `### Guardrails` | **Tone summary.** **Litmus test.** **The brand cannot be.** |
+
+Archetype H4 blocks use **Name.** **Wheel.** **Motivations.** **Personality narrative.** **Quote.** **Drive.** **Fears.** **Strategy.** **Voice.** **Seeks.** **Motto.** **Audience feels.** **Brands.** **At best.** **At worst.** **Characters.** **Types.** **Types highlighted.** Keep **Wheel.** aligned with a classic archetype id.
+
+Also: `rules.md` → `## Strategy`; `examples.md` → `## Strategy examples`.
+
+**Later ops** (not separate files yet): `positioning`, `archetype`, `guardrails` — use **improve** scoped to that leaf.
 
 ## Conflict rules
 
-[`rules.md`](../../rules.md) wins over compiled `brand.json`. Guardrails are brand-owned; changing them is `requires_approval` per [`agent.md`](../../agent.md).
+1. [`rules.md`](../../rules.md)
+2. Guardrails + Voice
+3. Compiled `brand.json`
+4. Personality / archetype color alone
 
-## Populate
-
-Fill Strategy from the intake transcript or cited source. Complete Overview, Positioning, Audience, Personality (including archetype H4 blocks), Promise, Pillars, Guardrails. Do not invent competitive claims. Compile from `guide/`.
-
-## Audit
-
-Walk GUIDE_NAV Strategy leaves vs `section-status`. Report empty/stub fields by `**Label.**` name. Do not invent copy unless asked to fix.
-
-## Improve
-
-Edit one leaf (e.g. positioning statement or guardrails). Preserve surrounding Strategy.
-
-## Later ops
-
-`positioning`, `archetype`, `guardrails`
+Do not invent competitive claims. Do not rename labels. Never hand-edit `brand.json` / `tokens.json` / generated CSS.
 
 ## Done gate
 
-Sources → `cd guide && npm run compile` → spot-check Strategy. Never hand-edit `brand.json` / `tokens.json` / generated CSS.
+After populate/improve: `cd guide && npm run compile`, spot-check Strategy. Audit may stop at a report.
+
+## Changelog
+
+- 2026-08-10 — 1.0.0 — Deep router + populate/audit/improve; strategy rules + examples.

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
-import { GUIDE_NAV } from "@/lib/nav";
+import { GUIDE_NAV, filterNavForSetup } from "@/lib/nav";
 import type { BrandGuideViewModel, BrandSetup } from "@/lib/brand-types";
 import { setupSchema } from "@/lib/setup-schema";
 
@@ -311,7 +311,7 @@ export function loadBrand(): BrandGuideViewModel {
     year: setup.year,
     support: setup.support,
     setup,
-    nav: GUIDE_NAV,
+    nav: filterNavForSetup(GUIDE_NAV, setup.chapters),
   };
 }
 

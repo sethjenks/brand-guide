@@ -56,6 +56,15 @@ const setupSectionStatusEnum = z.enum([
   "assets",
 ]);
 
+const setupChaptersSchema = z
+  .object({
+    logo: z.enum(["on", "off"]).optional(),
+    photography: z.enum(["on", "off"]).optional(),
+    animation: z.enum(["on", "off"]).optional(),
+    applications: z.enum(["on", "off"]).optional(),
+  })
+  .strict();
+
 export const setupSchema = z.object({
   status: z.enum(["starter", "populated"]),
   intake: z.enum(["pending", "complete", "skipped"]),
@@ -66,6 +75,7 @@ export const setupSchema = z.object({
   sources: z.array(setupSourceSchema),
   prompt: z.string(),
   sectionStatus: z.record(z.string(), setupSectionStatusEnum).optional(),
+  chapters: setupChaptersSchema.optional(),
 });
 
 /**

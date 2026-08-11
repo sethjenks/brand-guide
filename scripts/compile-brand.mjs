@@ -472,6 +472,12 @@ function parseRules(rulesMd) {
       min_contrast_body_text: contrast ? Number(contrast[1]) : 4.5,
       palette: "grayscale_only",
     },
+    strategy_rules: {
+      constraints: ruleBullets("## Strategy"),
+    },
+    applications_rules: {
+      constraints: ruleBullets("## Applications"),
+    },
     photography_rules: {
       constraints: ruleBullets("## Photography"),
     },
@@ -714,6 +720,12 @@ function main() {
 
   const copyExamples = parseSimpleYamlList(
     yamlFenceAfterHeading(examplesRaw, "## Copy examples"),
+  );
+  const strategyExamples = parseSimpleYamlList(
+    yamlFenceAfterHeading(examplesRaw, "## Strategy examples"),
+  );
+  const applicationExamples = parseSimpleYamlList(
+    yamlFenceAfterHeading(examplesRaw, "## Application examples"),
   );
   const colorExamples = parseSimpleYamlList(
     yamlFenceAfterHeading(examplesRaw, "## Color examples"),
@@ -1215,6 +1227,20 @@ function main() {
     rules,
     examples: {
       copy: copyExamples.map((e) => ({
+        id: e.id,
+        type: e.type,
+        label: e.label,
+        input: e.input,
+        reason: e.reason,
+      })),
+      strategy: strategyExamples.map((e) => ({
+        id: e.id,
+        type: e.type,
+        label: e.label,
+        input: e.input,
+        reason: e.reason,
+      })),
+      applications: applicationExamples.map((e) => ({
         id: e.id,
         type: e.type,
         label: e.label,

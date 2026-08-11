@@ -363,11 +363,24 @@ export function assessBrandCompleteness(
     ),
   ];
 
+  const chapterToggles = brand.setup.chapters;
+  const logoOn = chapterToggles?.logo !== "off";
+  const photographyOn = chapterToggles?.photography !== "off";
+  const applicationsOn = chapterToggles?.applications !== "off";
+
+  const visualFields = visual.filter((f) => {
+    if (f.path.startsWith("visual.logo") && !logoOn) return false;
+    if (f.path.startsWith("visual.imagery") && !photographyOn) return false;
+    return true;
+  });
+
   const sections: CompletenessSection[] = [
     { id: "strategy", title: "Strategy", fields: strategy },
     { id: "voice", title: "Voice", fields: voice },
-    { id: "visual", title: "Visual", fields: visual },
-    { id: "expressions", title: "Expressions", fields: expressions },
+    { id: "visual", title: "Visual", fields: visualFields },
+    ...(applicationsOn
+      ? [{ id: "expressions", title: "Expressions", fields: expressions }]
+      : []),
     {
       id: "design-system",
       title: "Design system",

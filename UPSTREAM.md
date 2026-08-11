@@ -56,6 +56,24 @@ These roles must appear as color tokens in `brand.md` → Design system. `compil
 
 **Setup validation:** Every `npm run compile` validates [`brand/setup.json`](brand/setup.json) (`intake` | `citation` sources). See [`scripts/lib/setup-schema.mjs`](scripts/lib/setup-schema.mjs) (keep in sync with [`guide/src/lib/setup-schema.ts`](guide/src/lib/setup-schema.ts)).
 
+**Extended chapters (runtime hide):** Optional `chapters` map on [`brand/setup.json`](brand/setup.json) turns **Extended** guide chapters off without skipping compile or theme. Omitted keys default to `on`. Restart `next dev` (or reload) after edits — setup is read at request time.
+
+| Tier | Chapters | Toggle? |
+| --- | --- | --- |
+| **Core** | Strategy, Language, Typography, Color, System, Utilities | No — always in nav. Color/Type still feed the Astryx theme even if you later hide a Color *page* (not supported). |
+| **Extended** | Logo, Photography, Animation, Applications | Yes — `"on"` \| `"off"` |
+
+```json
+"chapters": {
+  "logo": "on",
+  "photography": "off",
+  "animation": "off",
+  "applications": "on"
+}
+```
+
+Unknown keys (e.g. `"color": "off"`) fail setup validation. Off chapters disappear from SideNav and `page.tsx`; `brand.md` / `brand.json` slices still compile. Chapter skills should not `populate` an off chapter unless the user asks to turn it back on.
+
 **Coverage (populated only):** Optional [`brand/coverage.json`](brand/coverage.json) with `filled` | `inferred` | `placeholder` section statuses. Missing when `status` is `populated` → warn in `compile:check` / `post-populate-check`, not a hard fail.
 
 **Derived scales (compile):** `--type-base` + `--type-ratio` → `--font-size-sm|base|lg|xl` (Astryx geometric formula) and `brandThemeInput.typeScale` for [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts). `--space-unit` → `--space-1`…`7` as `unit × [1, 2, 4, 6, 10, 16, 24]` (document rhythm). Keep fluid `--font-size-display` / `--font-size-h0` authored. Document `--space-*` is separate from Astryx UI `--spacing-*` — do not alias them.

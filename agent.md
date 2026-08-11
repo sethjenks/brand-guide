@@ -53,15 +53,21 @@ Always open the chapter **router** (`skills/<id>/SKILL.md`). It picks the op: `p
 
 | Task | Skill | Op |
 | --- | --- | --- |
-| Build photography chapter | [`skills/photography/SKILL.md`](skills/photography/SKILL.md) | `populate` |
+| Build Strategy / positioning | [`skills/strategy/SKILL.md`](skills/strategy/SKILL.md) | `populate` |
+| Is positioning / archetype / guardrails done? | strategy | `audit` |
+| Tighten one Strategy leaf | strategy | `improve` |
+| Build Language / Voice | [`skills/language/SKILL.md`](skills/language/SKILL.md) | `populate` |
+| Review copy / spectrum / phrases | language | `audit` or `improve` |
+| Build Photography | [`skills/photography/SKILL.md`](skills/photography/SKILL.md) | `populate` |
 | Is Photography done? | photography | `audit` |
-| Tighten imagery prompts / categories | photography | `improve` |
 | Build Logo / ingest assets | [`skills/logo/SKILL.md`](skills/logo/SKILL.md) | `populate` |
-| Is Logo ready? | logo | `audit` |
 | Tighten clearspace / don’ts | logo | `improve` |
-| Other chapters (scaffold) | `skills/<strategy\|language\|typography\|color\|system\|animation\|applications>/SKILL.md` | matching op |
+| Fill or deepen one channel | [`skills/applications/SKILL.md`](skills/applications/SKILL.md) | `populate` / `improve` |
+| Other chapters (scaffold) | `skills/<typography\|color\|system\|animation>/SKILL.md` | matching op |
 
-Deep chapters: Photography, Logo. Others are inline-op scaffolds. Skills write `brand.md` / `rules.md` / `examples.md` (Animation: `guide/src/lib/animation-content.ts` until promoted). Then `npm run compile` from `guide/`. Never hand-edit `brand.json`.
+Deep chapters: Strategy, Language, Logo, Photography, Applications. Scaffolds: Typography, Color, System, Animation. Skills write `brand.md` / `rules.md` / `examples.md` (Animation: `guide/src/lib/animation-content.ts` until promoted). Then `npm run compile` from `guide/`. Never hand-edit `brand.json`.
+
+**Extended chapter toggles:** `brand/setup.json` → `chapters` (`logo` | `photography` | `animation` | `applications` → `"on"` \| `"off"`). Core chapters cannot be turned off. If a chapter is `off`, skip its skill `populate` unless the user asks to turn it on.
 
 ## Roles
 

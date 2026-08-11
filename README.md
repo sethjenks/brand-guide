@@ -98,6 +98,7 @@ UPSTREAM.md       Ownership map + upgrade recipe
 4. Keep strategy/voice copy in the upper sections of `brand.md`; compile updates `brand.json`.
 5. Light tweaks: `brand/overrides.css`, logos in `brand/assets/`.
 6. Set `brand/setup.json` `status` to `"populated"` when the starter callout should demote.
+7. Hide Extended guide chapters (Logo, Photography, Animation, Applications) with `brand/setup.json` → `chapters` (`"on"` / `"off"`). Core chapters cannot be turned off — see [`UPSTREAM.md`](UPSTREAM.md).
 
 ## Upgrades
 

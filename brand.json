@@ -1,7 +1,7 @@
 {
-  "_hash": "sha256:0ade7ba11b463e1759c7c7980405ec4e6d2132b51f6232b367a1f8429a592efb",
+  "_hash": "sha256:349e0628f2b29cc368bf62e6446e80c54a3e5bfcb746efb338d0acdbf209778d",
   "_spec_version": "1.1.0",
-  "_compiled": "2026-08-11T05:14:09.157Z",
+  "_compiled": "2026-08-11T05:30:39.735Z",
   "_last_material_change": "2026-08-11",
   "_sanitized": true,
   "meta": {
@@ -591,6 +591,21 @@
       "min_contrast_body_text": 4.5,
       "palette": "grayscale_only"
     },
+    "strategy_rules": {
+      "constraints": [
+        "Do not invent competitors, market share, awards, or proof the source does not support.",
+        "Positioning **Only we.** must fail the litmus test if another brand name could replace ours.",
+        "Changing Guardrails (`Tone summary`, litmus, cannot-be) requires human approval.",
+        "Archetype **Wheel.** must be a known catalog id; do not invent a three-ring wheel without source."
+      ]
+    },
+    "applications_rules": {
+      "constraints": [
+        "Only author Expression channels the brand actually uses. Leave unmatched Applications nav leaves empty rather than filling with generic copy.",
+        "Channel cell labels must map (`Web`, `Social`, `Print`, `App`, …) — see `skills/applications/SKILL.md`.",
+        "Samples are shippable Voice lines; they must pass Vocabulary blocklist and the litmus test."
+      ]
+    },
     "photography_rules": {
       "constraints": [
         "Prefer editorial, natural light, product-in-context. No oversaturated stock, fake handshakes, neon gradients, or purple AI clichés.",
@@ -661,6 +676,66 @@
         "label": "on-brand",
         "input": "We added grayscale token names to brand.md Design system so agents and CSS stay aligned.",
         "reason": "Specific change and why it matters."
+      }
+    ],
+    "strategy": [
+      {
+        "id": "strategy-001",
+        "type": "positioning",
+        "label": "off-brand",
+        "input": "The world's leading synergistic brand platform for every team.",
+        "reason": "Unfalsifiable superlative + blocklisted 'synergistic'; fails Only-we / litmus."
+      },
+      {
+        "id": "strategy-002",
+        "type": "positioning",
+        "label": "on-brand",
+        "input": "A starter that ships a filled Sample Brand, a visual guide, and a compiled brand.json in one repo.",
+        "reason": "Concrete, exclusive, matches Only we."
+      },
+      {
+        "id": "strategy-003",
+        "type": "promise",
+        "label": "off-brand",
+        "input": "We unlock your potential with world-class brand vibes.",
+        "reason": "Blocklist + empty inspiration; contradicts Guardrails."
+      },
+      {
+        "id": "strategy-004",
+        "type": "promise",
+        "label": "on-brand",
+        "input": "Hold brand meaning in the repo so humans and agents share one source of truth.",
+        "reason": "Matches Mission; specific job to be done."
+      }
+    ],
+    "applications": [
+      {
+        "id": "app-001",
+        "type": "web",
+        "label": "off-brand",
+        "input": "Unlock your potential — start your brand journey today with our seamless hero.",
+        "reason": "Blocklist, fake urgency, not the Web pattern (one headline, one supporting line)."
+      },
+      {
+        "id": "app-002",
+        "type": "web",
+        "label": "on-brand",
+        "input": "Open the guide",
+        "reason": "Concrete CTA; matches Sample Brand Web sample."
+      },
+      {
+        "id": "app-003",
+        "type": "social",
+        "label": "off-brand",
+        "input": "Three ideas, a product dump, and a purple gradient wordmark.",
+        "reason": "Social is one idea; off-palette; not an ownable phrase."
+      },
+      {
+        "id": "app-004",
+        "type": "social",
+        "label": "on-brand",
+        "input": "Clear work, plainly said.",
+        "reason": "One ownable Voice phrase; high-contrast lockup implied."
       }
     ],
     "color": [
