@@ -17,6 +17,7 @@
     "prebuild": "npm run compile && npm run theme:build",
     "build": "next build --turbopack",
     "start": "next start",
+    "smoke": "npm run build && node ../scripts/smoke-guide.mjs",
     "lint": "eslint"
   },
   "dependencies": {
