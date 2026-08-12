@@ -25,6 +25,7 @@ Use this path when the user already has brand materials. If they do **not**, pre
    - [`examples.md`](../examples.md), [`rules.md`](../rules.md), [`templates.md`](../templates.md) as needed
    - [`brand/setup.json`](../brand/setup.json) — hero/setup copy if needed; cite each source in `sources[]` with `"kind": "citation"` (no `prompt`). Leave starter intake cards alone, or keep them for re-populate.
    - [`brand/coverage.json`](../brand/coverage.json) — required for populated brands; section statuses `filled` | `inferred` | `placeholder` (see **Honesty rules**)
+   - Copy [`populate-worklog.md`](populate-worklog.md) → `resources/transcripts/` and fill sources, coverage honesty, rejected inventions, and verification (Tier 3)
 4. From `guide/`, run `npm run compile` so `brand.json`, CSS, and `tokens.json` regenerate (also validates `setup.json`).
 5. Preserve the guide’s section structure (Strategy / Language / Logo / Typography / Color / Photography / System / Applications — authored in brand.md as Strategy / Voice / Visual / Expressions / Design system). Replace Sample Brand copy with the real brand where the source has signal; keep grayscale unless the source specifies a palette.
 6. Run **Post-populate checklist** below (required). Prefer `npm run post-populate-check` from `guide/`.
@@ -38,7 +39,7 @@ Use this path when the user already has brand materials. If they do **not**, pre
 ```
 
 8. Do **not** hand-edit `brand.json`, `tokens.json`, or `guide/src` UI files for content/theme.
-9. Summarize for the user: checklist results, inferred fields from coverage, and what still needs human review.
+9. Summarize for the user: checklist results, inferred fields from coverage, worklog path, and what still needs human review.
 
 ## Post-populate checklist (required)
 
@@ -52,6 +53,7 @@ Run from `guide/` after compile. Do not skip.
 - [ ] **Honesty** — No pillars/values invented from token names alone.
 - [ ] **Status** — `intake: "skipped"`, `status: "populated"` only after this checklist.
 - [ ] **User summary** — Paste checklist results + inferred-field list (not only a narrative).
+- [ ] **Populate worklog** — Filled copy under `resources/transcripts/` from [`populate-worklog.md`](populate-worklog.md) (Tier 3).
 
 Machine assist: `npm run post-populate-check` (hard fails exit non-zero; missing coverage / logos warn only).
 

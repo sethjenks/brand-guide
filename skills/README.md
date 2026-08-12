@@ -13,9 +13,11 @@ summary: >
 
 Shell-owned agent recipes. **Do not fork this tree in a brand clone** — merge upstream ([`UPSTREAM.md`](../UPSTREAM.md)). Brand tone stays in `brand.md` → Agent → System prompt base.
 
-Current **`skills_spec_version`: `1.0.0`**. Every `SKILL.md` frontmatter must match. Mismatch means the skill is stale vs this catalog (no CI gate yet).
+Current **`skills_spec_version`: `1.0.0`**. Every `SKILL.md` frontmatter must match. Mismatch means the skill is stale vs this catalog — enforced by `npm run skills:check` (also via `compile:check`).
 
 Skills are **not** compiled into `brand.json`. They tell agents which constitution slices to edit; `npm run compile` remains the ship path.
+
+Shell agent contracts (task routing, rule IDs, verification tiers): [`docs/agent/`](../docs/agent/workflow.md).
 
 ## Ops vocabulary
 
@@ -25,9 +27,21 @@ Skills are **not** compiled into `brand.json`. They tell agents which constituti
 | `audit` | Report gaps vs field map / section-status; minimal edits | Content exists; “is this chapter done?” |
 | `improve` | Surgical deepen; preserve what works | User asks to tighten one area |
 
-**Router:** always start at `skills/<id>/SKILL.md`. Ask if the op is unclear. Default: `audit` if content exists, `populate` if mostly placeholders.
+**Router:** always start at `skills/<id>/SKILL.md`. Ask if the op is unclear. Default: `audit` if content exists, `populate` if mostly placeholders. Whole-kit task routing: [`docs/agent/workflow.md`](../docs/agent/workflow.md).
 
 **Intake gate:** whole-brand [`intake/`](../intake/) still wins when `brand/setup.json` has `status: "starter"` and `intake: "pending"`. Do not run chapter `populate` first.
+
+## Verification tiers
+
+Name the tier in the Done gate. Full table: [`docs/agent/verification-tiers.md`](../docs/agent/verification-tiers.md).
+
+| Tier | Chapter default | Gate |
+| --- | --- | --- |
+| 0 | `audit` report-only | none / targeted read |
+| 1 | `populate` / `improve` | `cd guide && npm run compile` + spot-check chapter |
+| 2 | Design system / theme | compile + `theme:build` + Color/Type spot-check |
+| 3 | Whole-brand populate | compile + `post-populate-check` + checklist |
+| 4 | Skills / shell / validators | `npm run compile:check` |
 
 ## Catalog
 

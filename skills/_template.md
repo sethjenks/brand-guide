@@ -24,10 +24,10 @@ writes:
 
 1. **Op picker** — `populate` / `audit` / `improve`; when to defer to whole-brand intake
 2. **Read order** — `brand.md` slices, related `rules.md` / `examples.md`, assets
-3. **Write targets** — exact headings / `**Label.**` fields
+3. **Write targets** — exact headings / `**Label.**` fields. If the chapter has a `GraphicStatement` intro, cite the catalog **Chapter introductions** bound (12–28 words, statement-only) next to that label.
 4. **Conflict rules** — [`rules.md`](../rules.md) precedence; Color/Type must not break Design system required roles
 5. **Ops** — inline sections (scaffold) or links to sibling files (deep)
-6. **Done gate** — edit sources → `npm run compile` from `guide/` → spot-check the guide chapter (`audit` may stop at report-only)
+6. **Done gate** — name verification tier (see [`docs/agent/verification-tiers.md`](../docs/agent/verification-tiers.md)); edit sources → `npm run compile` from `guide/` → spot-check the guide chapter (`audit` may stop at report-only / Tier 0)
 7. **Never** — hand-edit `brand.json`, `tokens.json`, or generated CSS
 
 ## Ops layout
