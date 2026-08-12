@@ -8,7 +8,7 @@
 
 ## Steps
 
-1. Preserve labels that already work. Change only the slice in scope (e.g. negatives, product prompt, subjects).
+1. Preserve labels that already work. Change only the slice in scope (e.g. negatives, product prompt, subjects). If tightening the chapter intro, land **Imagery introduction.** in 12–28 words, statement-only — do not expand **Imagery tone.** into that role.
 2. If adding **category** guidance, keep it in the existing labels (`subjects` / `settings` / product + lifestyle **prompts**) rather than new heading names the compiler does not parse.
 3. If adding **prompts**, update **Imagery prompt product.** / **Imagery prompt lifestyle.** and **Imagery negative.** together so they cannot contradict.
 4. Add or replace few-shots in `examples.md` → `## Imagery examples` when the improvement is a new do/don’t. Keep `id` unique (`imagery-00n`).

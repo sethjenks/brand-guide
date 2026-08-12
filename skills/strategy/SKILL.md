@@ -2,7 +2,7 @@
 file: strategy
 skill_id: strategy
 skills_spec_version: 1.0.0
-version: 1.0.0
+version: 1.0.1
 depth: deep
 status: stable
 priority: 2
@@ -45,7 +45,7 @@ Keep `**Label.**` names — `compile-brand.mjs` keys off them. Required for comp
 
 | Heading | Required labels / structures |
 | --- | --- |
-| `### Overview` | **What.** **Problem.** **Current.** **Opportunity.** **Solution.** (also Origin, Vision intro, Long-term ambition) |
+| `### Overview` | **What.** (chapter intro: 12–28 words, one sentence preferred, no Design system pointer) **Problem.** **Current.** **Opportunity.** **Solution.** (also Origin, Vision intro, Long-term ambition) |
 | `### Positioning` | **Category.** **Audience.** **Differentiation.** / **Only we.** |
 | `### Audience` | **Audience intro.** + Segments / Wants / Needs table |
 | `### Personality` | **Archetype.** **Attributes.** **We are.** **We are not.** + `#### Primary archetype` field block |
@@ -74,4 +74,5 @@ After populate/improve: `cd guide && npm run compile`, spot-check Strategy. Audi
 
 ## Changelog
 
+- 2026-08-11 — 1.0.1 — Chapter intro bound on **What.** (12–28 words, statement-only).
 - 2026-08-10 — 1.0.0 — Deep router + populate/audit/improve; strategy rules + examples.

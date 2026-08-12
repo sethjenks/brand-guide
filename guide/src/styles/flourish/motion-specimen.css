@@ -1,0 +1,110 @@
+/* Animation chapter live demos (shell-owned choreography). */
+
+.motion-specimen-wrap {
+  width: 100%;
+}
+
+.motion-specimen {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 7.5rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-background-muted);
+}
+
+.motion-specimen-stage {
+  position: relative;
+  width: 100%;
+  min-height: 7.5rem;
+}
+
+.motion-specimen-tile {
+  width: 1.75rem;
+  height: 1.75rem;
+  background: var(--color-text-primary);
+}
+
+.motion-specimen-chip {
+  padding-inline: var(--spacing-3, 0.75rem);
+  padding-block: var(--spacing-1, 0.25rem);
+  background: var(--color-text-primary);
+  color: var(--color-background-surface);
+}
+
+.motion-specimen-panel {
+  position: absolute;
+  inset: 0.75rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-background-surface);
+}
+
+.motion-specimen-panel-rear {
+  background: var(--color-background-card);
+}
+
+.motion-specimen-strip {
+  width: 160%;
+  min-height: 7.5rem;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-background-muted) 0,
+    var(--color-background-muted) 2.5rem,
+    var(--color-background-card) 2.5rem,
+    var(--color-background-card) 5rem
+  );
+}
+
+.motion-demo-card.is-default {
+  outline: 1px solid var(--color-border);
+  outline-offset: var(--spacing-2, 0.5rem);
+}
+
+.motion-toggle-track {
+  width: 2.75rem;
+  height: 1.5rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-background-card);
+}
+
+.motion-toggle-track.is-on {
+  background: var(--color-text-primary);
+}
+
+.motion-toggle-knob {
+  width: 1rem;
+  height: 1rem;
+  margin: 0.2rem;
+  background: var(--color-text-primary);
+}
+
+.motion-toggle-track.is-on .motion-toggle-knob {
+  background: var(--color-background-surface);
+}
+
+.motion-interaction-hit {
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.motion-accordion-item,
+.motion-tab-panel {
+  width: 100%;
+}
+
+.motion-toast {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  padding-inline: var(--spacing-3, 0.75rem);
+  padding-block: var(--spacing-2, 0.5rem);
+  background: var(--color-text-primary);
+  color: var(--color-background-surface);
+}

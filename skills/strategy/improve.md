@@ -8,7 +8,7 @@
 
 ## Steps
 
-1. Preserve unrelated Strategy headings. Edit only the named leaf.
+1. Preserve unrelated Strategy headings. Edit only the named leaf. If tightening the chapter intro, land **What.** in 12–28 words, statement-only.
 2. **Positioning:** Category / Not / Only we / Differentiation together so they cannot contradict Promise **Position.**
 3. **Archetype:** Update the H4 block and the flat **Archetype.** / drive / seeks / at-best / at-worst labels together.
 4. **Guardrails:** Tone summary, cannot-be, litmus; mirror hard bans in `rules.md` → `## Strategy` and check Voice We Never Say.

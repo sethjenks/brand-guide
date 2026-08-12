@@ -59,7 +59,6 @@ const ASSET_PLACEHOLDER_IDS = new Set([
   "logo-donts",
   "logo-background",
   "logo-use",
-  "animation-donts",
 ]);
 
 /** Hardcoded starter photography contexts in page.tsx until brand.md drives them. */
@@ -121,6 +120,13 @@ const FIELD_PATH_TO_LEAVES: readonly { prefix: string; leaves: readonly string[]
       leaves: ["color-introduction", "color-primary"],
     },
     { prefix: "visual.actLabel", leaves: ["logo-introduction"] },
+
+    { prefix: "animation.introduction", leaves: ["animation-introduction"] },
+    { prefix: "animation.principles", leaves: ["animation-principles"] },
+    { prefix: "animation.personality", leaves: ["animation-personality"] },
+    { prefix: "animation.archetypes", leaves: ["animation-archetypes"] },
+    { prefix: "animation.interactions", leaves: ["animation-interactions"] },
+    { prefix: "animation.donts", leaves: ["animation-donts"] },
   ];
 
 function fieldStatusToSection(status: FieldGapStatus): SectionStatus {

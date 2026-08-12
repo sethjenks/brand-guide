@@ -220,10 +220,60 @@ const guideSchema = z.object({
       donts: z.array(z.string()),
     }),
     imagery: z.object({
+      introduction: z.string(),
       tone: z.string(),
       subjects: z.string(),
       settings: z.string(),
       avoid: z.string(),
+    }),
+  }),
+  animation: z.object({
+    introduction: z.string(),
+    principles: z.object({
+      intro: z.string(),
+      items: z.array(
+        z.object({
+          title: z.string(),
+          body: z.string(),
+          do: z.string(),
+          dont: z.string(),
+        }),
+      ),
+    }),
+    personality: z.object({
+      intro: z.string(),
+      default: z.string(),
+      items: z.array(
+        z.object({
+          id: z.string(),
+          title: z.string(),
+          body: z.string(),
+        }),
+      ),
+    }),
+    archetypes: z.object({
+      intro: z.string(),
+      items: z.array(
+        z.object({
+          id: z.string(),
+          title: z.string(),
+          body: z.string(),
+        }),
+      ),
+    }),
+    interactions: z.object({
+      intro: z.string(),
+      items: z.array(
+        z.object({
+          id: z.string(),
+          title: z.string(),
+          body: z.string(),
+        }),
+      ),
+    }),
+    donts: z.object({
+      context: z.string(),
+      items: z.array(z.string()),
     }),
   }),
   expressions: z.object({

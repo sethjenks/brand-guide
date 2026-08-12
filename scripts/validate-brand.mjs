@@ -58,6 +58,8 @@ const required = [
   "guide.strategy.overview.what",
   "guide.voice.phrases",
   "guide.visual.colors.brand",
+  "guide.visual.imagery.introduction",
+  "guide.animation.introduction",
   "guide.expressions.items",
   "examples.copy",
   "rules.vocabulary",

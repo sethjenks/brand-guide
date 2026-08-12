@@ -9,7 +9,7 @@
 ## Steps
 
 1. Read Visual → Photography / Imagery. If Sample Brand starter copy is still present and the brand is not Sample Brand, replace it — do not leave grayscale-kit clichés as if they were the new brand.
-2. Write all nine `**Imagery …**` labels (style, mood, tone, subjects, settings, avoid, prompt product, prompt lifestyle, negative).
+2. Write all ten `**Imagery …**` labels. **Imagery introduction.** is the chapter intro (12–28 words, statement-only). Keep **Imagery tone.** a short mood phrase — do not stretch it into the GraphicStatement. Then style, mood, subjects, settings, avoid, prompt product, prompt lifestyle, negative.
 3. Align **Imagery avoid.** / **Imagery negative.** with [`rules.md`](../../rules.md) → `## Photography`. Add or tighten bullets there if the brand has extra hard constraints (stock bans, people policy, alt-text).
 4. Ensure `examples.md` → `## Imagery examples` has at least two pairs (on/off). Add category-flavored inputs (subjects, settings, product-in-context, candid moment) when the source supports them.
 5. **Prompts:** keep product and lifestyle prompts concrete (light, crop, palette, what is in frame). Put banned motifs in **Imagery negative.** as a ·-separated list.
@@ -19,7 +19,8 @@
 
 ## Checklist
 
-- [ ] Style, mood, tone filled
+- [ ] **Imagery introduction.** is 12–28 words, statement-only
+- [ ] Style, mood, tone filled (tone stays a short mood phrase)
 - [ ] Subjects, settings, avoid filled
 - [ ] Product + lifestyle prompts filled
 - [ ] Negatives ·-separated

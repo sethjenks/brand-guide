@@ -20,7 +20,7 @@ const RULES_MD = path.join(root, "rules.md");
 const TEMPLATES_MD = path.join(root, "templates.md");
 const BRAND_JSON = path.join(root, "brand.json");
 const PUBLIC_BRAND_TXT = path.join(root, "guide/public/brand.txt");
-const SPEC_VERSION = "1.1.0";
+const SPEC_VERSION = "1.2.0";
 
 /** @param {string} s */
 function stripQuotes(s) {
@@ -301,6 +301,88 @@ function parseVoiceSpectrum(identityText) {
   };
 }
 
+/** @param {string} title */
+function slugFromTitle(title) {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/**
+ * @param {string} text
+ * @param {RegExp} titleRe
+ */
+function h4Body(text, titleRe) {
+  const block = h4Blocks(text).find((b) => titleRe.test(b.title));
+  return block?.body || "";
+}
+
+/**
+ * Id | Title | Body tables for Animation personality / archetypes / interactions.
+ * @param {string} text
+ * @returns {{ id: string, title: string, body: string }[]}
+ */
+function parseTitleBodyGrid(text) {
+  return parseTables(text)
+    .filter((r) => r.title || r.id)
+    .map((r) => {
+      const title = (r.title || "").trim();
+      return {
+        id: ((r.id || "").trim().toLowerCase() || slugFromTitle(title)),
+        title,
+        body: (r.body || r.description || "").trim(),
+      };
+    })
+    .filter((r) => r.title);
+}
+
+/**
+ * Visual → Animation / Motion. Missing subsection compiles to empty fields
+ * (Extended chapter may be off).
+ * @param {string} visual
+ */
+function parseAnimation(visual) {
+  const animSec =
+    subsection(visual, "### Animation / Motion") ||
+    subsection(visual, "### Animation");
+  const labeled = extractLabeled(animSec);
+  const principlesBody = h4Body(animSec, /^principles$/i);
+  const principleRows = parseTables(principlesBody).filter(
+    (r) => r.principle || r.title,
+  );
+
+  return {
+    introduction: labeled.get("animation introduction") || "",
+    principles: {
+      intro: labeled.get("animation principles intro") || "",
+      items: principleRows.map((r) => ({
+        title: (r.principle || r.title || "").trim(),
+        body: (r.description || r.body || "").trim(),
+        do: (r.do || "").trim(),
+        dont: (r.dont || r["don't"] || r["don’t"] || "").trim(),
+      })),
+    },
+    personality: {
+      intro: labeled.get("animation personality intro") || "",
+      default: labeled.get("animation personality default") || "",
+      items: parseTitleBodyGrid(h4Body(animSec, /^personality$/i)),
+    },
+    archetypes: {
+      intro: labeled.get("animation archetypes intro") || "",
+      items: parseTitleBodyGrid(h4Body(animSec, /^archetypes$/i)),
+    },
+    interactions: {
+      intro: labeled.get("animation interactions intro") || "",
+      items: parseTitleBodyGrid(h4Body(animSec, /^interactions$/i)),
+    },
+    donts: {
+      context: labeled.get("animation donts context") || "",
+      items: splitList(labeled.get("animation donts") || ""),
+    },
+  };
+}
+
 /** Split "A · B · C" or "A. B. C." into parts */
 /** @param {string} s */
 function splitList(s) {
@@ -484,6 +566,9 @@ function parseRules(rulesMd) {
     logo_rules: {
       constraints: ruleBullets("## Logo"),
     },
+    animation_rules: {
+      constraints: ruleBullets("## Animation"),
+    },
     conflict_resolution: {
       precedence: [
         "rules.md",
@@ -623,6 +708,7 @@ function main() {
       subsection(visual, "### Imagery"),
   );
   const visLogo = L(subsection(visual, "### Logo / Wordmark"));
+  const animation = parseAnimation(visual);
   const exprL = L(expressions);
   const agentL = L(agentSec);
   const strategyL = L(strategy);
@@ -735,6 +821,9 @@ function main() {
   );
   const logoExamples = parseSimpleYamlList(
     yamlFenceAfterHeading(examplesRaw, "## Logo examples"),
+  );
+  const animationExamples = parseSimpleYamlList(
+    yamlFenceAfterHeading(examplesRaw, "## Animation examples"),
   );
 
   const rules = parseRules(rulesRaw);
@@ -976,12 +1065,14 @@ function main() {
         donts: logoDonts,
       },
       imagery: {
+        introduction: visImg.get("imagery introduction") || "",
         tone: visImg.get("imagery tone") || "",
         subjects: visImg.get("imagery subjects") || "",
         settings: visImg.get("imagery settings") || "",
         avoid: visImg.get("imagery avoid") || "",
       },
     },
+    animation,
     expressions: {
       actLabel: actExpressions,
       items: expressionRows.map((r) => ({
@@ -1265,6 +1356,12 @@ function main() {
         input: e.input,
         reason: e.reason,
       })),
+      animation: animationExamples.map((e) => ({
+        id: e.id,
+        label: e.label,
+        input: e.input,
+        reason: e.reason,
+      })),
     },
     templates,
     guide,
@@ -1332,6 +1429,11 @@ function main() {
   need(!!visType.get("type note"), "Visual › Typography › **Type note.**", "Labeled type field");
   need(!!visLogo.get("logo description"), "Visual › Logo › **Logo description.**", "Labeled logo field");
   need(logoDonts.length > 0, "Visual › Logo › **Logo donts.**", "·-separated list");
+  need(
+    !!visImg.get("imagery introduction"),
+    "Visual › Photography › **Imagery introduction.**",
+    "Labeled imagery field",
+  );
   need(expressionRows.length > 0, "Expressions table", "Channel | Title | Copy | Sample");
   need(!!strategyL.get("act label"), "Strategy › **Act label.**", "Guide section label");
   need(!!voiceTopL.get("act label"), "Voice › **Act label.**", "Guide section label");
