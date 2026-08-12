@@ -104,6 +104,15 @@ UPSTREAM.md       Ownership map + upgrade recipe
 
 See [`UPSTREAM.md`](UPSTREAM.md). Short version: `git fetch upstream && git merge upstream/main`, then `cd guide && npm install && npm run build`, deploy to the brand subdomain.
 
+## CI
+
+Pull requests and pushes to `main` run [`.github/workflows/compile-check.yml`](.github/workflows/compile-check.yml):
+
+1. **check** — `npm run compile:check` from `guide/` (compile + validate-brand + skills integrity)
+2. **smoke** — `npm run smoke` (production build + HTTP assert that core chapter intro ids render on `/`)
+
+Locally: `cd guide && npm run smoke`.
+
 ## Spec version
 
 `brand.json` → `_spec_version` (`1.2.0`+). Additive fields are backward compatible; breaking changes bump the version and are noted in release notes.
