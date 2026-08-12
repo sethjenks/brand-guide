@@ -42,6 +42,9 @@ import {
 import { PhotographyCategorySection } from "@/components/PhotographyCategorySection";
 import { LogoAssetSection } from "@/components/LogoAssetSection";
 import { LogoUseItem } from "@/components/LogoUseItem";
+import { AnimationArchetypesSection } from "@/components/AnimationArchetypesSection";
+import { AnimationInteractionsSection } from "@/components/AnimationInteractionsSection";
+import { AnimationPersonalitySection } from "@/components/AnimationPersonalitySection";
 import { PrinciplesSection } from "@/components/PrinciplesSection";
 import { ScaleStack, type ScaleStackStep } from "@/components/ScaleStack";
 import { SectionStub } from "@/components/SectionStub";
@@ -64,19 +67,6 @@ import {
   type TypeWeightItem,
 } from "@/components/TypeWeightsSection";
 import { VoiceSpectrumSection } from "@/components/VoiceSpectrumSection";
-import {
-  ANIMATION_ARCHETYPES,
-  ANIMATION_ARCHETYPES_INTRO,
-  ANIMATION_DONTS,
-  ANIMATION_DONTS_CONTEXT,
-  ANIMATION_INTERACTIONS,
-  ANIMATION_INTERACTIONS_INTRO,
-  ANIMATION_INTRODUCTION,
-  ANIMATION_PERSONALITY,
-  ANIMATION_PERSONALITY_INTRO,
-  ANIMATION_PRINCIPLES,
-  ANIMATION_PRINCIPLES_INTRO,
-} from "@/lib/animation-content";
 import { loadBrand, type ColorSwatch } from "@/lib/load-brand";
 import type { SetupIntakeSource } from "@/lib/brand-types";
 import { assessBrandCompleteness } from "@/lib/brand-completeness";
@@ -501,6 +491,21 @@ function photographyDontItems(avoid: string): DontGridItem[] {
 
   return captions.map((caption, index) => ({
     id: `photo-dont-${index}`,
+    caption,
+  }));
+}
+
+function slugId(value: string, fallback: string): string {
+  const slug = value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return slug || fallback;
+}
+
+function animationDontItems(captions: readonly string[]): DontGridItem[] {
+  return captions.map((caption, index) => ({
+    id: slugId(caption, `animation-dont-${index}`),
     caption,
   }));
 }
@@ -1548,7 +1553,7 @@ export default function Home() {
         {enabledChapterIds.has("photography") ? (
         <ChapterSection id={photographyChapter.id} title={photographyChapter.title}>
           <GraphicStatement id="photography-introduction">
-            {brand.visual.imagery.tone}
+            {brand.visual.imagery.introduction}
           </GraphicStatement>
 
           <PhotographyCategoriesSection
@@ -1744,50 +1749,48 @@ export default function Home() {
         {enabledChapterIds.has("animation") ? (
         <ChapterSection id={animationChapter.id} title={animationChapter.title}>
           <GraphicStatement id="animation-introduction">
-            {ANIMATION_INTRODUCTION}
+            {brand.animation.introduction}
           </GraphicStatement>
 
           <PrinciplesSection
             id="animation-principles"
-            intro={ANIMATION_PRINCIPLES_INTRO}
-            items={ANIMATION_PRINCIPLES}
+            intro={brand.animation.principles.intro}
+            items={brand.animation.principles.items}
             status={sectionStatusById["animation-principles"]}
           />
 
-          <ClotheslineGrid
+          <AnimationPersonalitySection
             id="animation-personality"
-            title="Personality"
-            intro={ANIMATION_PERSONALITY_INTRO}
-            items={ANIMATION_PERSONALITY}
+            intro={brand.animation.personality.intro}
+            defaultName={brand.animation.personality.default}
+            items={brand.animation.personality.items}
             status={sectionStatusById["animation-personality"]}
           />
 
-          <ClotheslineGrid
+          <AnimationArchetypesSection
             id="animation-archetypes"
-            title="Archetypes"
-            intro={ANIMATION_ARCHETYPES_INTRO}
-            items={ANIMATION_ARCHETYPES}
+            intro={brand.animation.archetypes.intro}
+            items={brand.animation.archetypes.items}
             status={sectionStatusById["animation-archetypes"]}
           />
 
-          <ClotheslineGrid
+          <AnimationInteractionsSection
             id="animation-interactions"
-            title="Interactions"
-            intro={ANIMATION_INTERACTIONS_INTRO}
-            items={ANIMATION_INTERACTIONS}
+            intro={brand.animation.interactions.intro}
+            items={brand.animation.interactions.items}
             status={sectionStatusById["animation-interactions"]}
           />
 
           <LogoAssetSection
             id="animation-donts"
             title="Don’ts"
-            context={ANIMATION_DONTS_CONTEXT}
+            context={brand.animation.donts.context}
             status={sectionStatusById["animation-donts"]}
           >
             <DontGrid
               aria-label="Animation don’ts"
               columns={3}
-              items={ANIMATION_DONTS}
+              items={animationDontItems(brand.animation.donts.items)}
             />
           </LogoAssetSection>
         </ChapterSection>

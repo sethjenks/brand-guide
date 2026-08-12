@@ -9,7 +9,7 @@
 ## Steps
 
 1. Write Visual → Logo / Wordmark:
-   - `**Logo description.**` — construction, colorways (ink on paper / reverse), what it is (wordmark vs mark).
+   - `**Logo description.**` — chapter intro (12–28 words, statement-only): what it is (wordmark vs mark) and the colorway in voice. Construction, clearspace, and Design system pointers stay on their own labels.
    - `**Logo clearspace.**` — measurable (e.g. cap-height of a letter), not “plenty of space”.
    - `**Logo donts.**` — ·-separated list (stretch, outline, shadows, busy photo without a panel, …).
 2. Align Design system → **Logo (implementation)** (default/inverse, min clearspace, SVG preferred).
@@ -22,6 +22,7 @@
 ## Checklist
 
 - [ ] Description, clearspace, donts present
+- [ ] **Logo description.** is 12–28 words, statement-only
 - [ ] Design system Logo (implementation) agrees
 - [ ] `rules.md` Logo bullets
 - [ ] Logo few-shots on + off

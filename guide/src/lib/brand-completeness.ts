@@ -338,9 +338,54 @@ export function assessBrandCompleteness(
       treatSample,
     ),
     field(
+      "visual.imagery.introduction",
+      "Imagery introduction",
+      brand.visual.imagery.introduction,
+      treatSample,
+    ),
+    field(
       "visual.imagery.tone",
       "Imagery tone",
       brand.visual.imagery.tone,
+      treatSample,
+    ),
+  ];
+
+  const animation: CompletenessField[] = [
+    field(
+      "animation.introduction",
+      "Introduction",
+      brand.animation.introduction,
+      treatSample,
+    ),
+    field(
+      "animation.principles",
+      "Principles",
+      listValue(brand.animation.principles.items.map((item) => item.title)),
+      treatSample,
+    ),
+    field(
+      "animation.personality",
+      "Personality",
+      listValue(brand.animation.personality.items.map((item) => item.title)),
+      treatSample,
+    ),
+    field(
+      "animation.archetypes",
+      "Archetypes",
+      listValue(brand.animation.archetypes.items.map((item) => item.title)),
+      treatSample,
+    ),
+    field(
+      "animation.interactions",
+      "Interactions",
+      listValue(brand.animation.interactions.items.map((item) => item.title)),
+      treatSample,
+    ),
+    field(
+      "animation.donts",
+      "Donts",
+      listValue(brand.animation.donts.items),
       treatSample,
     ),
   ];
@@ -366,6 +411,7 @@ export function assessBrandCompleteness(
   const chapterToggles = brand.setup.chapters;
   const logoOn = chapterToggles?.logo !== "off";
   const photographyOn = chapterToggles?.photography !== "off";
+  const animationOn = chapterToggles?.animation !== "off";
   const applicationsOn = chapterToggles?.applications !== "off";
 
   const visualFields = visual.filter((f) => {
@@ -378,6 +424,9 @@ export function assessBrandCompleteness(
     { id: "strategy", title: "Strategy", fields: strategy },
     { id: "voice", title: "Voice", fields: voice },
     { id: "visual", title: "Visual", fields: visualFields },
+    ...(animationOn
+      ? [{ id: "animation", title: "Animation", fields: animation }]
+      : []),
     ...(applicationsOn
       ? [{ id: "expressions", title: "Expressions", fields: expressions }]
       : []),

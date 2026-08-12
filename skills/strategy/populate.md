@@ -8,7 +8,7 @@
 
 ## Steps
 
-1. Fill **Overview** (required What / Problem / Current / Opportunity / Solution, plus Origin, Vision intro, Long-term ambition).
+1. Fill **Overview** (required **What.** as the chapter intro: 12–28 words, one sentence preferred, statement-only; plus Problem / Current / Opportunity / Solution, Origin, Vision intro, Long-term ambition).
 2. Fill **Positioning** (category, not, audience primary/secondary, differentiation, only-we, territory). Claims must be falsifiable from the source.
 3. Fill **Audience** intro + Segments / Wants / Needs table (one row per real audience).
 4. Fill **Personality**: attributes, we are / are not, trait scores; then a complete `#### Primary archetype` block. Uncomment Secondary/Tertiary only if the source names them — do not invent a three-ring wheel.
@@ -22,6 +22,7 @@
 ## Checklist
 
 - [ ] All compile-required labels present
+- [ ] **What.** is 12–28 words, statement-only
 - [ ] Primary archetype block complete; Wheel is a known id
 - [ ] Pillars table has ≥ 1 row
 - [ ] Guardrails include litmus test

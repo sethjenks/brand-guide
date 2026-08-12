@@ -7,7 +7,7 @@
 
 ## Steps
 
-1. Score each write-target label: present / thin / missing / contradicts Voice or `rules.md` Photography.
+1. Score each write-target label: present / thin / missing / contradicts Voice or `rules.md` Photography. Score **Imagery introduction.** word length: short (<12) / ok (12–28) / long (>28). Do not treat **Imagery tone.** length as the GraphicStatement gate.
 2. Check `examples.md` → `## Imagery examples`: at least one `on-brand` and one `off-brand`; reasons cite the actual rule broken.
 3. Check `rules.md` → `## Photography` exists and does not contradict **Imagery avoid.**
 4. Overlay **section-status** (do not treat stubs as finished content):
@@ -29,7 +29,8 @@
 
 ## Rubric
 
-- Style/mood/tone specific enough that two photographers would shoot similarly
+- **Imagery introduction.** is 12–28 words and reads as a brand statement
+- Style/mood/tone specific enough that two photographers would shoot similarly; tone is a short mood phrase, not the intro
 - Avoid/negatives are concrete motifs, not “bad photos”
 - Prompts include light, crop, and subject; not generic “lifestyle shot”
 - Few-shots would fail/pass the same way a human reviewer would

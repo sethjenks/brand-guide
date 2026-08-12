@@ -7,7 +7,7 @@
 
 ## Steps
 
-1. Score **Logo description.** / **Logo clearspace.** / **Logo donts.**: present / thin / missing. Compiler requires description + non-empty donts.
+1. Score **Logo description.** / **Logo clearspace.** / **Logo donts.**: present / thin / missing. Compiler requires description + non-empty donts. Score **Logo description.** word length: short (<12) / ok (12–28) / long (>28); flag Design system pointers in that field.
 2. Compare Design system Logo (implementation) to those labels (clearspace units, ink/paper colorways).
 3. Check `rules.md` → `## Logo` and `examples.md` → `## Logo examples`.
 4. Assets:
@@ -26,7 +26,8 @@
 
 ## Rubric
 
-- Description would let a designer redraw the lockup without a meeting
+- **Logo description.** is 12–28 words and reads as a brand statement (construction lives on clearspace / implementation)
+- Description plus clearspace would let a designer redraw the lockup without a meeting
 - Clearspace is measurable
 - Donts are testable (stretch, recolor, effects)
 - Filenames match the convention or are explicitly absent

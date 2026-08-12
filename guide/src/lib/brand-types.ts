@@ -4,7 +4,7 @@
  * See UPSTREAM.md.
  */
 
-export const BRAND_SPEC_VERSION = "1.1.0";
+export const BRAND_SPEC_VERSION = "1.2.0";
 
 export type NavLeaf = {
   id: string;
@@ -311,10 +311,52 @@ export type GuidePayload = {
       donts: readonly string[];
     };
     imagery: {
+      introduction: string;
       tone: string;
       subjects: string;
       settings: string;
       avoid: string;
+    };
+  };
+  animation: {
+    introduction: string;
+    principles: {
+      intro: string;
+      items: readonly {
+        title: string;
+        body: string;
+        do: string;
+        dont: string;
+      }[];
+    };
+    personality: {
+      intro: string;
+      default: string;
+      items: readonly {
+        id: string;
+        title: string;
+        body: string;
+      }[];
+    };
+    archetypes: {
+      intro: string;
+      items: readonly {
+        id: string;
+        title: string;
+        body: string;
+      }[];
+    };
+    interactions: {
+      intro: string;
+      items: readonly {
+        id: string;
+        title: string;
+        body: string;
+      }[];
+    };
+    donts: {
+      context: string;
+      items: readonly string[];
     };
   };
   expressions: {

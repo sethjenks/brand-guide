@@ -2,7 +2,7 @@
 file: photography
 skill_id: photography
 skills_spec_version: 1.0.0
-version: 1.0.0
+version: 1.0.1
 depth: deep
 status: stable
 priority: 2
@@ -45,9 +45,10 @@ Keep `**Label.**` names — `compile-brand.mjs` keys off them.
 
 | Label | Compiles to |
 | --- | --- |
+| `**Imagery introduction.**` | `guide.visual.imagery.introduction` (chapter intro: 12–28 words, one sentence preferred, statement-only) |
 | `**Imagery style.**` | `imagery.style` |
 | `**Imagery mood.**` | `imagery.mood` |
-| `**Imagery tone.**` | `guide.visual.imagery.tone` |
+| `**Imagery tone.**` | `guide.visual.imagery.tone` (short mood phrase — not the GraphicStatement) |
 | `**Imagery subjects.**` | `guide.visual.imagery.subjects` |
 | `**Imagery settings.**` | `guide.visual.imagery.settings` |
 | `**Imagery avoid.**` | `guide.visual.imagery.avoid` |
@@ -74,4 +75,5 @@ After populate/improve: `cd guide && npm run compile`, then spot-check the Photo
 
 ## Changelog
 
+- 2026-08-11 — 1.0.1 — **Imagery introduction.** is the chapter intro (12–28 words); tone stays a mood phrase.
 - 2026-08-10 — 1.0.0 — Deep router + populate/audit/improve; rules + imagery examples.

@@ -7,7 +7,7 @@
 
 ## Steps
 
-1. Score compile-required Voice structures (identity, principles, story, headlines, CTAs, phrases, and/yet, we-say, context).
+1. Score compile-required Voice structures (identity, principles, story, headlines, CTAs, phrases, and/yet, we-say, context). Score **Identity.** word length: short (<12) / ok (12–28) / long (>28).
 2. Spectrum: missing dimensions; From/To labels that would not match the shell; Notes that describe the opposite pole from the marks.
 3. Phrases vs We Never Say vs blocklist — any leak of banned vocabulary.
 4. CTAs: Don’t column should include generic “Learn more” / “Get started” if those are off-voice; Do column uses verbs.
@@ -17,6 +17,7 @@
 
 ## Rubric
 
+- **Identity.** is 12–28 words and reads as a brand statement, not a Design system pointer
 - On-brand lines fail the “any brand name” litmus
 - Principles’ Don’t column names real failure modes
 - And/yet pairs prevent a single-trait voice

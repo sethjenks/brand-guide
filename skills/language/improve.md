@@ -7,7 +7,7 @@
 
 ## Steps
 
-1. Preserve unrelated Voice headings.
+1. Preserve unrelated Voice headings. If tightening the chapter intro, land **Identity.** in 12–28 words, statement-only.
 2. **Spectrum:** edit the table + **Spectrum intro.** together; keep From/To labels shell-legal.
 3. **Phrases:** add/replace bullets; if a phrase is a tagline, keep Tagline & Slogans in sync.
 4. **Review-copy:** take the user’s lines, mark on/off against blocklist + litmus, propose rewrites in the matching heading (headlines, CTA, context example) — do not dump a parallel style guide.

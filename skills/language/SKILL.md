@@ -2,7 +2,7 @@
 file: language
 skill_id: language
 skills_spec_version: 1.0.0
-version: 1.0.0
+version: 1.0.1
 depth: deep
 status: stable
 priority: 2
@@ -46,7 +46,7 @@ Keep headings and `**Label.**` names the compiler already reads.
 
 | Heading | Required / compiled |
 | --- | --- |
-| `### Identity` | **Identity.** **Essence.** |
+| `### Identity` | **Identity.** (chapter intro: 12–28 words, one sentence preferred, no Design system pointer) **Essence.** |
 | `#### Voice spectrum` | **Spectrum intro.** + Dimension / From / To / Notes table (From/To labels must match shell spectrum steps) |
 | `### Principles` | **Principles intro.** + Principle / Description / Do / Don't table (≥ 1 row) |
 | `### Tagline & Slogans` | **Tagline intro.** + primary / alternatives |
@@ -71,4 +71,5 @@ After populate/improve: `cd guide && npm run compile`, spot-check Language. Audi
 
 ## Changelog
 
+- 2026-08-11 — 1.0.1 — Chapter intro bound on **Identity.** (12–28 words, statement-only).
 - 2026-08-10 — 1.0.0 — Deep router + populate/audit/improve.

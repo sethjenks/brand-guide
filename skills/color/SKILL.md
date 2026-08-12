@@ -2,7 +2,7 @@
 file: color
 skill_id: color
 skills_spec_version: 1.0.0
-version: 0.1.0
+version: 0.1.1
 depth: scaffold
 status: draft
 priority: 2
@@ -41,7 +41,7 @@ Defer to intake when starter + pending. Default: `audit` if Design system color 
 
 ## Write targets
 
-Visual color intent + Design system token table (Token / Value / Usage / Guide) and `:root`. Keep required roles: `--color-ink`, `--color-ink-muted`, `--color-ink-subtle`, `--color-canvas`, `--color-paper`, `--color-surface`, `--color-surface-deep`, `--color-border`. Optional `--color-accent` (else accent = ink).
+Visual color intent + Design system token table (Token / Value / Usage / Guide) and `:root`. **Colors intro.** is the chapter intro (12–28 words, one sentence preferred, statement-only — no “Values: Design system → …” pointer). Keep required roles: `--color-ink`, `--color-ink-muted`, `--color-ink-subtle`, `--color-canvas`, `--color-paper`, `--color-surface`, `--color-surface-deep`, `--color-border`. Optional `--color-accent` (else accent = ink).
 
 ## Conflict rules
 
@@ -49,15 +49,15 @@ Compile fails if required roles are missing. Theme-owned hexes go through `brand
 
 ## Populate
 
-Author roles and hexes together. Update Visual contract if roles change. Add on/off color examples. Compile + `theme:build`.
+Author roles and hexes together. Write **Colors intro.** as the chapter intro (12–28 words, statement-only). Update Visual contract if roles change. Add on/off color examples. Compile + `theme:build`.
 
 ## Audit
 
-Checklist: required tokens present; body contrast ≥ 4.5 on paper; Guide column values valid; no orphan `:root --brand-*`. Report-only unless asked to fix.
+Checklist: required tokens present; body contrast ≥ 4.5 on paper; Guide column values valid; no orphan `:root --brand-*`. Score **Colors intro.** word length: short (<12) / ok (12–28) / long (>28); flag Design system pointers in that field. Report-only unless asked to fix.
 
 ## Improve
 
-Additive swatches or examples. Do not silently drop required roles.
+Additive swatches or examples. If tightening the chapter intro, land **Colors intro.** in 12–28 words, statement-only. Do not silently drop required roles.
 
 ## Later ops
 

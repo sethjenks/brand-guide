@@ -184,3 +184,27 @@ Few-shot pairs for creative review. Compiled into `brand.json` → `examples` vi
   input: "Paper wordmark reversed on ink, SVG, transparent background"
   reason: "Approved inverse; SVG preferred per Design system Logo implementation."
 ```
+
+## Animation examples
+
+```yaml
+- id: animation-001
+  label: off-brand
+  input: "Bounce and sparkle on every hover; ignore prefers-reduced-motion; delay the close until the exit flourish finishes."
+  reason: "Decorates instead of orients; blocks the next action; no reduced-motion path."
+
+- id: animation-002
+  label: on-brand
+  input: "Fade and settle the panel so the eye can track what opened; honor prefers-reduced-motion with an instant swap."
+  reason: "Motion clarifies a state change and keeps a reduced-motion path."
+
+- id: animation-003
+  label: off-brand
+  input: "Playful overshoot on a destructive confirm, mixed Punch and Elastic eases on the same screen."
+  reason: "Easing does not match the action; conflicting personalities."
+
+- id: animation-004
+  label: on-brand
+  input: "Editorial ease as the default curve; animate the modal in, dismiss it immediately."
+  reason: "One primary personality; entrance over exit."
+```
