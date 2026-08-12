@@ -8,8 +8,8 @@ Brands customize **theme + content**; the Next.js shell is upstream-owned. See [
 
 The cover asks you to complete intake before the Sample Brand preview demotes:
 
-1. **Branding Exercise** (recommended when you have no existing guide) — [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md). An agent can ask the questions **one by one**, or you can fill the written questionnaire.
-2. **Or populate from a source** — Website **URL**, brand guide **PDF**, **`brand.md`**, or a **Figma** design URL (via Figma MCP). Follow [`intake/populate-from-source.md`](intake/populate-from-source.md) and set `intake` to `"skipped"`.
+1. **Branding Exercise** (recommended when you have no existing guide) — [`intake/skills/questionnaire/SKILL.md`](intake/skills/questionnaire/SKILL.md) (questions: [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md)). An agent can ask **one by one**, or you can fill the written questionnaire.
+2. **Or populate from a source** — Website **URL**, brand guide **PDF**, **`brand.md`**, **DESIGN.md**, or a **Figma** design URL. Load [`intake/skills/README.md`](intake/skills/README.md), then the matching path skill (slim entry: [`intake/populate-from-source.md`](intake/populate-from-source.md)). Set `intake` to `"skipped"`.
 
 When finished, set `status` to `"populated"` in [`brand/setup.json`](brand/setup.json) — the setup callout then drops to a small tertiary note. Until then, Sample Brand content remains as a structural preview. See the filled default at [`examples/brand.default.md`](examples/brand.default.md).
 
@@ -48,7 +48,7 @@ App chrome sizes (sidebar width, top bar height) stay in `globals.css` and are n
 
 ## Agent load order
 
-0. If `brand/setup.json` is `starter` with `intake: "pending"`, run the Branding Exercise in [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) first (one question at a time by default). See [`agent.md`](agent.md).
+0. If `brand/setup.json` is `starter` with `intake: "pending"`, load [`intake/skills/README.md`](intake/skills/README.md) and run the questionnaire skill (one question at a time by default). See [`agent.md`](agent.md).
 1. Read `brand.md` frontmatter (`name`, `tagline`, `version`, `language`) and the **For agents** section map.
 2. Prefer `brand.json` for tokens, rules, examples, templates, and `guide` (visual guide payload).
 3. For portable design tokens (Figma, Style Dictionary, external tools), use generated [`tokens.json`](tokens.json) (DTCG). Do not hand-edit it.
@@ -83,7 +83,7 @@ rules.md          Blocklists, contrast, conflict resolution
 agent.md          Roles, prompts, permissions, load recipe
 templates.md      Slot-based output templates
 scripts/          compile-brand, compile-design, reset-design-system, compile-all
-intake/           Populate-from-source + questionnaire
+intake/           Questionnaire + populate-from-source routing table; path skills in intake/skills/
 skills/           Shell-owned chapter skills (populate / audit / improve)
 optional/         Deeper scaffolds when you outgrow the single page
 guide/            Next.js visual brand guide (shell — upstream-owned)
@@ -92,8 +92,8 @@ UPSTREAM.md       Ownership map + upgrade recipe
 
 ## Customize
 
-1. Prefer [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) when starting from scratch (agent one-by-one or written). Save under `resources/transcripts/`, set `intake` to `"complete"`, then update brand markdown + `brand/setup.json` and `npm run compile` (never hand-edit `brand.json`).
-2. Or skip intake with [`intake/populate-from-source.md`](intake/populate-from-source.md) when you have a URL, PDF, `brand.md`, or Figma design URL (set `intake` to `"skipped"`).
+1. Prefer [`intake/skills/questionnaire/SKILL.md`](intake/skills/questionnaire/SKILL.md) when starting from scratch (agent one-by-one or written). Save under `resources/transcripts/`, set `intake` to `"complete"`, then update brand markdown + `brand/setup.json` and `npm run compile` (never hand-edit `brand.json`).
+2. Or skip the questionnaire via [`intake/skills/README.md`](intake/skills/README.md) when you have a URL, PDF, `brand.md`, DESIGN.md, or Figma design URL (set `intake` to `"skipped"`).
 3. Theme the guide by editing `brand.md` → Design system (including new `--color-*` rows and optional Guide column) and running `npm run compile` in `guide/`.
 4. Keep strategy/voice copy in the upper sections of `brand.md`; compile updates `brand.json`.
 5. Light tweaks: `brand/overrides.css`, logos in `brand/assets/`.

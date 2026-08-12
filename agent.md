@@ -1,7 +1,7 @@
 ---
 file: agent
 spec_version: 1.0.0
-version: 0.3.0
+version: 0.4.0
 status: draft
 priority: 1
 retrieval_tags: [brand, agent, loading, permissions]
@@ -12,6 +12,7 @@ summary: >
   Shell-owned agent load recipe, roles, and permissions for the brand-guide kit.
   Brand tone lives in brand.md (System prompt base); do not fork this file per brand.
   Intake (Branding Exercise) is the first gate when setup is starter and intake is pending.
+  Intake path skills: intake/skills/ (intake_skills_spec_version 1.0.0).
   Chapter skills: skills/ (skills_spec_version 1.0.0).
 cache_ttl: 30d
 ---
@@ -48,13 +49,14 @@ Shell process invariants and defaults live in [`docs/agent/decision-contract.md`
 | Pitch deck | Strategy + Voice |
 | CSS / UI kit | Visual + Design system + `brand.json` color/typography (+ `tokens.json` for DTCG export) |
 | Creative review | `examples.md` + Guardrails |
+| First fill / intake | [`intake/skills/README.md`](intake/skills/README.md) → matching path skill + [`_shared.md`](intake/skills/_shared.md) |
 | One guide chapter | [`skills/<id>/SKILL.md`](skills/README.md) + op (`populate` / `audit` / `improve`) |
 
 ## Chapter skills
 
 Shell-owned recipes in [`skills/`](skills/README.md) (catalog + `skills_spec_version`). Do not fork per brand. Brand tone stays in `brand.md` → Agent → **System prompt base.**
 
-Always open the chapter **router** (`skills/<id>/SKILL.md`). It picks the op: `populate` (first fill), `audit` (report gaps), `improve` (surgical). Default: audit if content exists, populate if mostly placeholders. Chapter `populate` only after intake is `complete` or `skipped`.
+Whole-brand first fill is **not** a chapter skill — use [`intake/skills/`](intake/skills/README.md). Always open the chapter **router** (`skills/<id>/SKILL.md`). It picks the op: `populate` (first fill), `audit` (report gaps), `improve` (surgical). Default: audit if content exists, populate if mostly placeholders. Chapter `populate` only after intake is `complete` or `skipped`.
 
 | Task | Skill | Op |
 | --- | --- | --- |

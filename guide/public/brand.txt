@@ -16,11 +16,11 @@ This is the out-of-box grayscale starter. Canonical copy also lives at [`example
 
 ## For agents (LLM)
 
-**First fill (recommended):** If `brand/setup.json` → `intake` is `"pending"`, start with the Branding Exercise in [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) — ask one question at a time by default. If the user already has a website URL, brand-guide PDF, this `brand.md`, or a Figma design URL, set `intake` to `"skipped"` and follow [`intake/populate-from-source.md`](intake/populate-from-source.md). After fill: update this file, `examples.md`, `rules.md`, and `brand/setup.json`; run compile; set `intake` to `"complete"` (or leave `"skipped"`) and `status` to `"populated"` so the cover callout demotes.
+**First fill (recommended):** If `brand/setup.json` → `intake` is `"pending"`, load [`intake/skills/README.md`](intake/skills/README.md) and run [`intake/skills/questionnaire/SKILL.md`](intake/skills/questionnaire/SKILL.md) (question bank: [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md)) — ask one question at a time by default. If the user already has a website URL, brand-guide PDF, this `brand.md`, DESIGN.md, or a Figma design URL, set `intake` to `"skipped"` and follow the routing table in [`intake/skills/README.md`](intake/skills/README.md) (slim entry: [`intake/populate-from-source.md`](intake/populate-from-source.md)). After fill: update this file, `examples.md`, `rules.md`, and `brand/setup.json`; run compile; set `intake` to `"complete"` (or leave `"skipped"`) and `status` to `"populated"` so the cover callout demotes.
 
 When this file is empty or partially filled and no external source is provided, do **one** of the following:
 
-1. **Branding Exercise** — Run [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) one question at a time. Save the transcript, then write complete sections.
+1. **Branding Exercise** — Run [`intake/skills/questionnaire/SKILL.md`](intake/skills/questionnaire/SKILL.md) one question at a time. Save the transcript, then write complete sections.
 2. **Populate from context** — Infer from the repo (`README.md`, tokens, marketing copy). Cite sources. Replace placeholders.
 3. **Short interview** — If they decline the full exercise, ask a short ordered set (mission, audience, differentiation, voice do/don’t, one visual anchor). Then write complete sections.
 
@@ -55,7 +55,7 @@ The human-facing guide is organized as nine brand-book chapters (Strategy, Langu
 | Photography / imagery | Visual → Photography / Imagery | [`skills/photography/SKILL.md`](skills/photography/SKILL.md) |
 | Animation / motion | Visual → Animation / Motion | [`skills/animation/SKILL.md`](skills/animation/SKILL.md) |
 | One guide chapter | Matching section | [`skills/`](skills/README.md) (`skills/<id>/SKILL.md` + op) |
-| First fill / intake | Entire file in order | `intake/brand-intake-questionnaire.md` (or `populate-from-source.md` if skipping), then `examples.md`, `rules.md`, `brand/setup.json` — chapter skills after intake |
+| First fill / intake | Entire file in order | [`intake/skills/README.md`](intake/skills/README.md) (questionnaire or matching path skill), then `examples.md`, `rules.md`, `brand/setup.json` — chapter skills after intake |
 | Runtime structured read | Prefer compiled artifacts over re-parsing this file | `brand.json`, `tokens.json` |
 
 ---

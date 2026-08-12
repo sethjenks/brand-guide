@@ -6,17 +6,14 @@ Use this when bootstrapping the visual guide from an existing brand artifact.
 
 Fill **every** section of this kit from a source the user provides, then demote the out-of-box setup callout.
 
-Use this path when the user already has brand materials. If they do **not**, prefer the Branding Exercise first: [`brand-intake-questionnaire.md`](brand-intake-questionnaire.md) (agent one-by-one by default).
+Use this path when the user already has brand materials. If they do **not**, prefer the Branding Exercise first: [`skills/questionnaire/SKILL.md`](skills/questionnaire/SKILL.md) (question bank: [`brand-intake-questionnaire.md`](brand-intake-questionnaire.md); agent one-by-one by default).
 
-## Accepted sources (one or more)
+**Agents:** load the routing table, then the matching path skill. Do not improvise a path that is not in the table.
 
-- **Website URL** — scrape or fetch marketing / product / about pages
-- **Brand guide PDF** — extract strategy, voice, and visual rules
-- **`brand.md`** — portable brand constitution + Design system (any compatible layout)
-- **Design dump / `DESIGN.md`** — Stitch/MD3-style YAML frontmatter (`colors`, `typography`, `rounded`, `spacing`); use `npm run import:design`
-- **Figma design URL** — brand book and/or variables library via the **official Figma MCP** (see below)
+Canonical catalog (how to extend, versioning): [`skills/README.md`](skills/README.md).  
+Shared contract (inventory → write → compile → checklist): [`skills/_shared.md`](skills/_shared.md).
 
-## Steps
+## Routing table
 
 1. If `brand/setup.json` → `intake` is still `"pending"`, set it to `"skipped"` (you are using a source instead of the questionnaire).
 2. Read the source(s) the user attached or linked. For Figma, follow **Figma MCP protocol** below. For a design dump, run `npm run import:design -- --print <path>` from `guide/` (or `--splice --yes` after review — writes `brand.md.bak`).
@@ -113,15 +110,12 @@ Maps YAML `colors` / `typography` / `rounded` / `spacing` into the Design system
 - Prefer Strategy / Guardrails / Voice over conflicting Visual intent unless the user says the design system wins — then update Visual to match (same conflict rule as `brand.md` For agents).
 - Starter / Sample Brand kits do **not** ship `coverage.json`; write it when setting `status` to `"populated"`.
 
-### Citation vs intake in `sources[]`
+Ambiguous source → ask once. Multiple sources → run the primary path skill, then merge extra citations (`kind: "citation"`). New source kinds → add a skill per [`skills/README.md`](skills/README.md) **Adding a path**.
 
-| kind | Purpose | `prompt` |
-| --- | --- | --- |
-| `intake` (default when `prompt` present) | Starter UI copy-target cards | Required |
-| `citation` | Provenance after populate | Omit |
+Path-specific protocols (scrape, PDF extract, `import:design`, Figma MCP) live in those `SKILL.md` files — not here.
 
 ## Prompt you can paste
 
 ```
-Using this brand-guide repo and my source (URL / PDF / brand.md / DESIGN.md / Figma design URL), populate the guide: set brand/setup.json intake to "skipped", update brand.md (including Design system), examples.md, rules.md, brand/coverage.json, and brand/setup.json so every section reflects my brand. Cite sources with kind "citation". For DESIGN.md dumps, use npm run import:design. For a Figma URL, use the official Figma MCP per intake/populate-from-source.md (metadata → variables/styles → frame copy → assets); write into brand.md — never hand-edit brand.json or tokens.json. Keep the grayscale structure unless my source specifies a palette. Run npm run compile and npm run post-populate-check from guide/. Complete the Post-populate checklist in intake/populate-from-source.md. When done, set brand/setup.json status to "populated".
+Using this brand-guide repo and my source (URL / PDF / brand.md / DESIGN.md / Figma design URL), populate the guide: load intake/skills/README.md, pick the matching path skill, and follow intake/skills/_shared.md. Set brand/setup.json intake to "skipped" (or "complete" for the questionnaire). Update brand.md (including Design system), examples.md, rules.md, brand/coverage.json, and brand/setup.json. Cite sources with kind "citation". Never hand-edit brand.json or tokens.json. Keep grayscale unless the source specifies a palette. Run npm run compile and npm run post-populate-check from guide/. When done, set brand/setup.json status to "populated".
 ```
