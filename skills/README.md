@@ -13,9 +13,11 @@ summary: >
 
 Shell-owned agent recipes. **Do not fork this tree in a brand clone** — merge upstream ([`UPSTREAM.md`](../UPSTREAM.md)). Brand tone stays in `brand.md` → Agent → System prompt base.
 
-Current **`skills_spec_version`: `1.0.0`**. Every `SKILL.md` frontmatter must match. Mismatch means the skill is stale vs this catalog (no CI gate yet).
+Current **`skills_spec_version`: `1.0.0`**. Every `SKILL.md` frontmatter must match. Mismatch means the skill is stale vs this catalog — enforced by `npm run skills:check` (also via `compile:check`).
 
 Skills are **not** compiled into `brand.json`. They tell agents which constitution slices to edit; `npm run compile` remains the ship path.
+
+Shell agent contracts (task routing, rule IDs, verification tiers): [`docs/agent/`](../docs/agent/workflow.md).
 
 ## Ops vocabulary
 
@@ -25,22 +27,50 @@ Skills are **not** compiled into `brand.json`. They tell agents which constituti
 | `audit` | Report gaps vs field map / section-status; minimal edits | Content exists; “is this chapter done?” |
 | `improve` | Surgical deepen; preserve what works | User asks to tighten one area |
 
-**Router:** always start at `skills/<id>/SKILL.md`. Ask if the op is unclear. Default: `audit` if content exists, `populate` if mostly placeholders.
+**Router:** always start at `skills/<id>/SKILL.md`. Ask if the op is unclear. Default: `audit` if content exists, `populate` if mostly placeholders. Whole-kit task routing: [`docs/agent/workflow.md`](../docs/agent/workflow.md).
 
 **Intake gate:** whole-brand first fill lives under [`intake/skills/`](../intake/skills/README.md) (`intake_skills_spec_version` **1.0.0**). Load that routing table when `status` is `starter` and `intake` is `pending`, or when the user provides a URL / PDF / `brand.md` / DESIGN.md / Figma file. Do not run chapter `populate` first. After intake is `complete` or `skipped`, chapter skills deepen one guide chapter.
+
+## Verification tiers
+
+Name the tier in the Done gate. Full table: [`docs/agent/verification-tiers.md`](../docs/agent/verification-tiers.md).
+
+| Tier | Chapter default | Gate |
+| --- | --- | --- |
+| 0 | `audit` report-only | none / targeted read |
+| 1 | `populate` / `improve` | `cd guide && npm run compile` + spot-check chapter |
+| 2 | Design system / theme | compile + `theme:build` + Color/Type spot-check |
+| 3 | Whole-brand populate | compile + `post-populate-check` + checklist |
+| 4 | Skills / shell / validators | `npm run compile:check` |
+
+## Chapter introductions
+
+`GraphicStatement` chapter intros (display-2) are authored as a labeled field per chapter. Soft bounds for populate / audit / improve:
+
+| Bound | Primary | Layout hint |
+| --- | --- | --- |
+| Min | **12 words** | ~80 characters |
+| Max | **28 words** | ~160 characters |
+| Form | Prefer **one sentence** | Two only if both stay under max |
+
+Count plain words (no markdown). The intro is a **brand statement**, not a Design system pointer — do not append “Values: Design system → …” or similar meta. Implementation notes stay on their own labels.
+
+Cite this range next to the intro label in each chapter’s Write targets. Audit flags under min / over max; improve lands in range. Not a compile fail.
+
+System’s intro is still hardcoded in the guide shell — skip until it has a `brand.md` label.
 
 ## Catalog
 
 | skill_id | version | depth | status | ops layout | path |
 | --- | --- | --- | --- | --- | --- |
-| strategy | 1.0.0 | deep | stable | files | [strategy/SKILL.md](strategy/SKILL.md) |
-| language | 1.0.0 | deep | stable | files | [language/SKILL.md](language/SKILL.md) |
-| logo | 1.0.0 | deep | stable | files | [logo/SKILL.md](logo/SKILL.md) |
-| typography | 0.1.0 | scaffold | draft | inline | [typography/SKILL.md](typography/SKILL.md) |
-| color | 0.1.0 | scaffold | draft | inline | [color/SKILL.md](color/SKILL.md) |
-| photography | 1.0.0 | deep | stable | files | [photography/SKILL.md](photography/SKILL.md) |
+| strategy | 1.0.1 | deep | stable | files | [strategy/SKILL.md](strategy/SKILL.md) |
+| language | 1.0.1 | deep | stable | files | [language/SKILL.md](language/SKILL.md) |
+| logo | 1.0.1 | deep | stable | files | [logo/SKILL.md](logo/SKILL.md) |
+| typography | 0.1.1 | scaffold | draft | inline | [typography/SKILL.md](typography/SKILL.md) |
+| color | 0.1.1 | scaffold | draft | inline | [color/SKILL.md](color/SKILL.md) |
+| photography | 1.0.1 | deep | stable | files | [photography/SKILL.md](photography/SKILL.md) |
 | system | 0.1.0 | scaffold | draft | inline | [system/SKILL.md](system/SKILL.md) |
-| animation | 0.1.0 | scaffold | draft | inline | [animation/SKILL.md](animation/SKILL.md) |
+| animation | 1.0.1 | deep | stable | files | [animation/SKILL.md](animation/SKILL.md) |
 | applications | 1.0.0 | deep | stable | files | [applications/SKILL.md](applications/SKILL.md) |
 
 ## Versioning
@@ -78,3 +108,12 @@ Op sibling files inherit the chapter `version`. Changing an op file bumps the ch
 | 2026-08-10 | strategy | 1.0.0 | Deep router + populate/audit/improve |
 | 2026-08-10 | language | 1.0.0 | Deep router + populate/audit/improve |
 | 2026-08-10 | applications | 1.0.0 | Deep router + populate/audit/improve |
+| 2026-08-11 | animation | 1.0.0 | Promote into brand.md + compile; populate/audit/improve; live demos |
+| 2026-08-11 | (catalog) | spec 1.0.0 | Chapter introductions: 12–28 words, statement-only |
+| 2026-08-11 | strategy | 1.0.1 | Chapter intro bound on **What.** |
+| 2026-08-11 | language | 1.0.1 | Chapter intro bound on **Identity.** |
+| 2026-08-11 | logo | 1.0.1 | Chapter intro bound on **Logo description.** |
+| 2026-08-11 | photography | 1.0.1 | **Imagery introduction.** chapter intro; tone stays mood phrase |
+| 2026-08-11 | animation | 1.0.1 | Chapter intro bound on **Animation introduction.** |
+| 2026-08-11 | typography | 0.1.1 | Chapter intro bound on **Type note.** |
+| 2026-08-11 | color | 0.1.1 | Chapter intro bound on **Colors intro.** |

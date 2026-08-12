@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "compile": "node ../scripts/compile-all.mjs",
-    "compile:check": "npm run compile && node ../scripts/validate-brand.mjs",
+    "compile:check": "npm run compile && node ../scripts/validate-brand.mjs && node ../scripts/check-skills-integrity.mjs",
+    "skills:check": "node ../scripts/check-skills-integrity.mjs",
     "compile:golden": "node ../scripts/update-golden.mjs",
     "import:design": "node ../scripts/import-design-dump.mjs",
     "post-populate-check": "node ../scripts/post-populate-check.mjs",

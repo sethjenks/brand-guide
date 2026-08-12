@@ -2,7 +2,7 @@
 file: logo
 skill_id: logo
 skills_spec_version: 1.0.0
-version: 1.0.0
+version: 1.0.1
 depth: deep
 status: stable
 priority: 2
@@ -44,7 +44,7 @@ If unclear, ask. Default: **audit** when **Logo description.** exists, **populat
 
 | Source | Compiler / consumer |
 | --- | --- |
-| `**Logo description.**` | `guide.visual.logo.description` (required) |
+| `**Logo description.**` | `guide.visual.logo.description` (required; chapter intro: 12–28 words, one sentence preferred, statement-only — no Design system pointer; clearspace/donts stay on their labels) |
 | `**Logo clearspace.**` | `logo.clearspace` |
 | `**Logo donts.**` | `guide.visual.logo.donts` + `logo.donts` (·-separated; required non-empty) |
 | Design system → Logo (implementation) | Human/agent implementation notes (not a JSON logo blob) |
@@ -80,4 +80,5 @@ After populate/improve: `cd guide && npm run compile`, confirm assets copied if 
 
 ## Changelog
 
+- 2026-08-11 — 1.0.1 — Chapter intro bound on **Logo description.** (12–28 words, statement-only).
 - 2026-08-10 — 1.0.0 — Deep router + populate/audit/improve; rules, examples, asset conventions.

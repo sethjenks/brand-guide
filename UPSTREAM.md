@@ -9,11 +9,22 @@ This kit is a **clone-per-brand** template. Brands customize theme and content; 
 | Brand content + theme | `brand.md` (includes Design system), `examples.md`, `rules.md`, `templates.md` | Brand |
 | Overrides | `brand/setup.json`, `brand/overrides.css`, `brand/assets/**` | Brand |
 | Generated | `brand.json`, `tokens.json`, `guide/public/brand.txt`, `guide/public/tokens.json`, `guide/src/styles/tokens.generated.css`, `guide/src/styles/brand.overrides.css`, `guide/public/brand/**` | Compiler only (commit the outputs) |
-| Shell | `guide/src/app/**`, `guide/src/components/**`, `guide/src/lib/**`, `scripts/**`, `agent.md`, `skills/**`, intake templates | Upstream |
+| Shell | `guide/src/app/**`, `guide/src/components/**`, `guide/src/lib/**`, `scripts/**`, `agent.md`, `docs/agent/**`, `skills/**`, intake templates | Upstream |
 
 **Do not hand-edit** `brand.json`, `tokens.json`, `guide/public/brand.txt`, `guide/public/tokens.json`, `tokens.generated.css`, or `guide/src/styles/brand.overrides.css`. Edit sources and run `npm run compile` from `guide/`.
 
 **Do not edit** shell UI to theme the guide — use `brand.md` → Design system and optional `brand/overrides.css`.
+
+### Extension points
+
+Named surfaces agents may extend. Prefer these over inventing parallel chrome (`primitive-before-custom-ui` in [`docs/agent/decision-contract.md`](docs/agent/decision-contract.md)).
+
+| Extension | Edit here | Not here |
+| --- | --- | --- |
+| Content | `brand.md` / `rules.md` / `examples.md` / `templates.md` | `brand.json` |
+| Theme | Design system fence / `brand/overrides.css` | Hand-edit generated CSS; invent `--brand-*` on `:root` |
+| Guide leaf UI | Shared primitives listed in [`guide/AGENTS.md`](guide/AGENTS.md) | New layout shells / one-off section chrome |
+| Flourish | `guide/src/styles/flourish/` (upstream) | `globals.css`, brand overrides |
 
 ### `agent.md` (shell-owned)
 

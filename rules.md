@@ -10,7 +10,7 @@ compliance_weight: high
 visibility: public
 summary: >
   Executable brand rules — vocabulary, strategy, applications, color,
-  photography, logo, conflict precedence.
+  photography, logo, animation, conflict precedence.
 cache_ttl: 30d
 ---
 
@@ -65,6 +65,14 @@ Machine-oriented constraints. Narrative guardrails also live in `brand.md` → S
 - Do not stretch, outline, add drop shadows, or place the mark on busy photography without a paper panel.
 - Preferred files in `brand/assets/`: `logo.svg` (or `logo.png`), `wordmark.svg`, `mark.svg`. Compile copies files to `guide/public/brand/` — do not hand-edit the public copy.
 - Clearspace must be measurable (e.g. cap-height), not “generous.”
+
+## Animation
+
+- Motion must clarify a change of state or space. Do not animate every micro-interaction or loop decorative motion in the main task path.
+- Honor `prefers-reduced-motion` with instant show/hide. No parallax or looping motion without a reduced-motion path.
+- Do not block clicks waiting for motion to finish, mix conflicting easing personalities on one screen, or delay exits the user has already left behind.
+- Personality, archetype, and interaction **Id** cells must match shell demo keys (`drift`, `enter`, `modal`, …). Unknown ids compile as copy-only — do not invent choreography.
+- Guide demos are shell-owned. Brands author titles and bodies in `brand.md`; do not hand-edit `animation-presets.ts` in a brand clone.
 
 ## Conflict resolution
 

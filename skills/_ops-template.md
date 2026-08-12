@@ -26,7 +26,8 @@ Use for `populate.md` / `audit.md` / `improve.md` under a deep chapter. Ops do *
 
 ## Done
 
+- Verification tier: N — <gate summary> (see docs/agent/verification-tiers.md).
 - Sources updated (or report-only for audit).
-- `cd guide && npm run compile` after writes.
+- `cd guide && npm run compile` after writes (Tier 1+).
 - Spot-check the matching guide chapter.
 ```

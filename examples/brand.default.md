@@ -36,7 +36,7 @@ Prefer `brand.json` for structured tokens, rules, and labeled examples when pres
 | **For agents** | Load order, conflict rules, this map | Always first | — | — |
 | **Strategy** | Positioning, promise, pillars, guardrails | Pitch, about, “what is this brand?” | Pure UI token tweaks | `brand.json` strategy / guide copy → guide **Strategy** |
 | **Voice** | Tone, phrases, do/don’t, tone-by-context | Blog, email, social, UI microcopy, support | Theme-only CSS edits | `brand.json` → voice → guide **Language** |
-| **Visual** | Aesthetic *intent*: roles, mood, type faces, imagery, logo principles | Design brief, art direction, on-brand feel | You only need hex/CSS values | `brand.json` → visual → guide **Logo / Typography / Color / Photography** |
+| **Visual** | Aesthetic *intent*: roles, mood, type faces, imagery, logo principles, motion | Design brief, art direction, on-brand feel | You only need hex/CSS values | `brand.json` → visual → guide **Logo / Typography / Color / Photography**; `guide.animation` → **Animation** |
 | **Color ↔ Brand contract** | Brand ideas → semantic roles → token *names* | Renaming roles, explaining why a color exists | Shipping CSS values | Docs + validation aid |
 | **Expressions** | Channel patterns | Channel-specific copy | Token or strategy work | `brand.json` (+ `examples.md` for few-shots) → guide **Applications** |
 | **Agent** | System prompt base, agent labels | Building prompts / agent config | Human-facing marketing | `brand.json` → agent |
@@ -54,6 +54,7 @@ The human-facing guide is organized as nine brand-book chapters (Strategy, Langu
 | App chrome / CSS tokens | Design system (Color / Type / Spacing) | Prefer `tokens.json` or `brand.json` colors after compile; [`skills/color/SKILL.md`](../skills/color/SKILL.md) / [`skills/typography/SKILL.md`](../skills/typography/SKILL.md) |
 | Logo / wordmark | Visual → Logo + Design system → Logo (implementation) | `brand/assets/`; [`skills/logo/SKILL.md`](../skills/logo/SKILL.md) |
 | Photography / imagery | Visual → Photography / Imagery | [`skills/photography/SKILL.md`](../skills/photography/SKILL.md) |
+| Animation / motion | Visual → Animation / Motion | [`skills/animation/SKILL.md`](../skills/animation/SKILL.md) |
 | One guide chapter | Matching section | [`skills/`](../skills/README.md) (`skills/<id>/SKILL.md` + op) |
 | First fill / intake | Entire file in order | [`intake/skills/README.md`](../intake/skills/README.md) (questionnaire or matching path skill), then `examples.md`, `rules.md`, `brand/setup.json` — chapter skills after intake |
 | Runtime structured read | Prefer compiled artifacts over re-parsing this file | `brand.json`, `tokens.json` |
@@ -243,7 +244,7 @@ Copy a `#### Primary|Secondary|Tertiary archetype` block below for each wheel se
 
 ### Identity
 
-**Identity.** We speak like a careful editor: short sentences, concrete nouns, no theater. We are Sample Brand — the quiet template that shows how a brand should live in a repository.
+**Identity.** We speak like a careful editor: short sentences, concrete nouns, no theater — Sample Brand, the quiet template a brand lives in the repo.
 
 **Essence.** Say the useful thing, then stop.
 
@@ -381,7 +382,7 @@ This section is the brief. Concrete hex / CSS values live in **Design system** b
 
 ### Colors
 
-**Colors intro.** Grayscale only in the starter. Values: Design system → Color tokens. Customize each layer when you adopt the kit.
+**Colors intro.** A grayscale starter with a twelve-step interface scale — swap the palette when you adopt the kit.
 
 Semantic roles (token names only):
 
@@ -396,7 +397,7 @@ Accessibility expectation: primary and secondary body text ≥ 4.5:1 on paper; t
 
 ### Typography
 
-**Type note.** One grotesque for display and body. Hierarchy through size and weight — not a second decorative face. Scale tokens: Design system → Type tokens.
+**Type note.** One grotesque for display and body. Hierarchy through size and weight — not a second decorative face.
 
 **Type primary.** Geist — display and body
 
@@ -413,6 +414,8 @@ Accessibility expectation: primary and secondary body text ≥ 4.5:1 on paper; t
 **Type specimen body.** Brand context that lives in the repo and travels with the work.
 
 ### Photography / Imagery
+
+**Imagery introduction.** Photography should feel like real work in real rooms — candid crops, natural light, product in context.
 
 **Imagery style.** Editorial, natural light, product-in-context.
 
@@ -434,11 +437,70 @@ Accessibility expectation: primary and secondary body text ≥ 4.5:1 on paper; t
 
 ### Logo / Wordmark
 
-**Logo description.** Wordmark in ink on paper (or reversed on ink). Clearspace ≈ height of the capital S. Implementation: Design system → Logo (implementation).
+**Logo description.** A wordmark in ink on paper — or reversed on ink — that reads as type, not decoration.
 
 **Logo clearspace.** Approximately the height of the capital S
 
 **Logo donts.** Don’t stretch or outline · Don’t add drop shadows · Don’t place on busy photography without a paper panel
+
+### Animation / Motion
+
+**Animation introduction.** Motion orients. It helps people see what changed, where to look next, and how the brand feels under the hand — never decoration for its own sake.
+
+**Animation principles intro.** How the brand moves and why. Keep motion purposeful, consistent, and quiet enough that it never stands between someone and their next action.
+
+**Animation personality intro.** Motion personality is the easing curve that drives demos, transitions, and every ease this chapter documents. Pick one primary feel; use the others sparingly for contrast.
+
+**Animation personality default.** Editorial
+
+**Animation archetypes intro.** Movement archetypes are the basic patterns demos and components reuse. Turn them all off in a build and the principles and curve still hold.
+
+**Animation interactions intro.** Familiar interactions running on the brand curve. Same personality, different jobs.
+
+**Animation donts context.** Do not diminish motion by overusing it. Avoid the following treatments.
+
+**Animation donts.** Don’t animate every micro-interaction · Don’t block clicks waiting for motion to finish · Don’t mix conflicting easing personalities on one screen · Don’t ignore prefers-reduced-motion · Don’t loop decorative motion in the main task path · Don’t delay exits the user has already left behind
+
+#### Principles
+
+| Principle | Description | Do | Don't |
+| --- | --- | --- | --- |
+| Orient, don’t decorate | Animate when it clarifies a change of state or space. Skip motion when it only adds spectacle. | Fade and settle a panel so the eye can track what opened. | Add bounce or sparkle to every hover and click. |
+| Match the action | Direction and weight should feel like the thing that just happened — forward to go deeper, back to return, soft to settle, firm to confirm. | Slide a drill-in view from the same edge the control implies. | Use a playful overshoot for a destructive or irreversible action. |
+| Prefer entrance over exit | People need help arriving. Once attention has moved on, most exits can be instant. | Animate a modal in; dismiss tooltips and menus immediately. | Make users wait on exit choreography before they can act again. |
+| Respect reduced motion | Some people experience motion sensitivity. Honor system preferences with instant state changes. | Swap timed transitions for immediate show/hide when prefers-reduced-motion is on. | Ship large parallax or looping motion with no reduced-motion path. |
+
+#### Personality
+
+| Id | Title | Body |
+| --- | --- | --- |
+| drift | Drift | Calm and considered. Elements settle into place like paper coming to rest. |
+| punch | Punch | Decisive and athletic. Motion starts hard and brakes late, like a sprinter into the line. |
+| elastic | Elastic | Playful and physical. Elements overshoot their mark and spring back, full of energy. |
+| editorial | Editorial | Slow and stately. Motion at the pace of turning a page in a well-made book. Our default. |
+
+#### Archetypes
+
+| Id | Title | Body |
+| --- | --- | --- |
+| enter | Enter | New content arrives into view — fade, rise, or scale from a quiet rest state. |
+| move | Move | An element relocates within the same surface without leaving the layout. |
+| glide | Glide | Continuous, low-friction travel — carousels, peeks, and lateral browsing. |
+| push | Push | One surface displaces another, implying depth or a stack change. |
+| pan | Pan | The viewport or frame shifts across a larger field — maps, canvases, wide media. |
+
+#### Interactions
+
+| Id | Title | Body |
+| --- | --- | --- |
+| exchange | Exchange | Swap one piece of content for another in place — crossfade or short push. |
+| carousel | Carousel | Glide between peers. Keep momentum readable; never snap without a cue. |
+| toggle | Toggle | Binary state change. Fast, firm, and obvious which side is on. |
+| reveal | Reveal | Progressive disclosure — expand to show more without losing place. |
+| accordion | Accordion | One section opens as another settles. Height change should feel measured, not elastic. |
+| tabs | Tabs | Sibling views exchange. Prefer a short crossfade or indicator move over a full page slide. |
+| modal | Modal | Focus shifts to a layer. Enter with a clear settle; exit quickly once dismissed. |
+| toast | Toast | Brief notice. Arrive enough to be seen; leave without drama. |
 
 ### Style
 

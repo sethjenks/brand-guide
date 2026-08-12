@@ -8,7 +8,7 @@
 
 ## Steps
 
-1. Preserve description/donts that already work. Edit only the requested slice.
+1. Preserve description/donts that already work. Edit only the requested slice. If tightening the chapter intro, land **Logo description.** in 12–28 words, statement-only.
 2. If tightening **clearspace**, update Visual **Logo clearspace.** and Design system Logo (implementation) together.
 3. If tightening **donts**, keep ·-separated lists; mirror hard bans in `rules.md` → `## Logo`.
 4. If ingesting **assets**, rename to `logo.svg` / `wordmark.svg` / `mark.svg` under `brand/assets/`, then compile (copies to `guide/public/brand/`). Do not edit the public tree.

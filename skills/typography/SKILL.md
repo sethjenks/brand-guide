@@ -2,7 +2,7 @@
 file: typography
 skill_id: typography
 skills_spec_version: 1.0.0
-version: 0.1.0
+version: 0.1.1
 depth: scaffold
 status: draft
 priority: 2
@@ -36,7 +36,7 @@ Defer to intake when starter + pending. Default: `audit` if `--font-sans` exists
 
 ## Write targets
 
-Visual type labels + Design system Type table and `:root` knobs. Authored stacks must include the `next/font` variable. Do **not** codegen `next/font` from the stack string — adding a face is a hand edit in `layout.tsx`.
+Visual type labels + Design system Type table and `:root` knobs. **Type note.** is the chapter intro (12–28 words, one sentence preferred, statement-only — no “Scale tokens: Design system → …” pointer). Authored stacks must include the `next/font` variable. Do **not** codegen `next/font` from the stack string — adding a face is a hand edit in `layout.tsx`.
 
 ## Conflict rules
 
@@ -44,15 +44,15 @@ Theme-owned type still ships through the Design system fence → `brand.generate
 
 ## Populate
 
-Set faces and knobs from the source. Keep `--font-sans` required. Optional `--font-serif` for headings. Compile + `theme:build` (via `predev`/`prebuild` or `npm run theme:build`).
+Set faces and knobs from the source. Write **Type note.** as the chapter intro (12–28 words, statement-only). Keep `--font-sans` required. Optional `--font-serif` for headings. Compile + `theme:build` (via `predev`/`prebuild` or `npm run theme:build`).
 
 ## Audit
 
-Confirm required `--font-sans`, stack contains the layout variable, specimens match Visual labels. Note stub leaves (`typography-setting`, `typography-testing` in `section-status.ts`). Report-only unless asked to fix.
+Confirm required `--font-sans`, stack contains the layout variable, specimens match Visual labels. Score **Type note.** word length: short (<12) / ok (12–28) / long (>28); flag Design system pointers in that field. Note stub leaves (`typography-setting`, `typography-testing` in `section-status.ts`). Report-only unless asked to fix.
 
 ## Improve
 
-Adjust `--type-base` / `--type-ratio`, specimens, or Visual type note. Do not put theme-owned colors on document `:root`.
+Adjust `--type-base` / `--type-ratio`, specimens, or Visual type note. If tightening the chapter intro, land **Type note.** in 12–28 words, statement-only. Do not put theme-owned colors on document `:root`.
 
 ## Later ops
 

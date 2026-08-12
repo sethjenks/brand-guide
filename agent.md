@@ -21,8 +21,9 @@ cache_ttl: 30d
 
 ## Loading priorities
 
-0. **Intake gate (first)** — If `brand/setup.json` has `status: "starter"` and `intake` is `"pending"`, load [`intake/skills/README.md`](intake/skills/README.md) and run [`intake/skills/questionnaire/SKILL.md`](intake/skills/questionnaire/SKILL.md) **before** anything else (question bank: [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md)). Default: one question at a time. User may take the full written questionnaire, or skip to a source (set `intake` to `"skipped"` and use the routing table). When finished: `intake` `"complete"`, rewrite from the transcript, compile, `status` `"populated"`.
-1. **Populate from source** — If `intake` is `"skipped"` (or the user already provided a URL, PDF, `brand.md`, DESIGN.md dump, or Figma design URL), load [`intake/skills/README.md`](intake/skills/README.md), pick the matching path skill, and follow [`intake/skills/_shared.md`](intake/skills/_shared.md). Slim entry: [`intake/populate-from-source.md`](intake/populate-from-source.md). Sync brand markdown + setup + `brand/coverage.json`, run `npm run compile` and `npm run post-populate-check` from `guide/`, then set `status` to `"populated"`. Cite sources with `"kind": "citation"`.
+0. **Intake gate (first)** — If `brand/setup.json` has `status: "starter"` and `intake` is `"pending"`, run [`intake/brand-intake-questionnaire.md`](intake/brand-intake-questionnaire.md) **before** anything else. Default: ask the Branding Exercise **one question at a time**. User may take the full written questionnaire, or skip to a source (set `intake` to `"skipped"` and follow populate-from-source). When finished, set `intake` to `"complete"`, rewrite brand markdown + setup from the transcript, compile, then set `status` to `"populated"`.
+0.5. **Workflow preflight** — After the intake gate check, classify the task and read [`docs/agent/workflow.md`](docs/agent/workflow.md) before planning or editing. Pick a [verification tier](docs/agent/verification-tiers.md). Shell process rules: [`docs/agent/decision-contract.md`](docs/agent/decision-contract.md).
+1. **Populate from source** — If `intake` is `"skipped"` (or the user already provided a URL, PDF, `brand.md`, DESIGN.md dump, or Figma design URL), follow [`intake/populate-from-source.md`](intake/populate-from-source.md). Sync brand markdown + setup + `brand/coverage.json`, fill a [populate worklog](intake/populate-worklog.md) under `resources/transcripts/`, run `npm run compile` and `npm run post-populate-check` from `guide/`, complete the post-populate checklist, then set `status` to `"populated"`. Cite sources with `"kind": "citation"`.
 2. `brand.md` frontmatter — name, tagline, version, language
 3. `brand.md` **For agents** — section map and task slices
 4. `brand.md` Strategy — for any strategic or positioning decision
@@ -34,6 +35,10 @@ cache_ttl: 30d
 10. `rules.md` — hard constraints
 11. `templates.md` — slot-based outputs
 12. [`skills/`](skills/README.md) — chapter routers (`skills_spec_version` **1.0.0**). Load after intake when the task is one guide chapter.
+
+## Decision contract
+
+Shell process invariants and defaults live in [`docs/agent/decision-contract.md`](docs/agent/decision-contract.md) (rule IDs such as `compile-sources-only`, `intake-gate-first`, `skills-router-required`). Brand tone and vocabulary stay in [`rules.md`](rules.md) / `brand.md` — do not fork this file for tone.
 
 ## Layer slices (quick recipe)
 
@@ -65,9 +70,12 @@ Whole-brand first fill is **not** a chapter skill — use [`intake/skills/`](int
 | Build Logo / ingest assets | [`skills/logo/SKILL.md`](skills/logo/SKILL.md) | `populate` |
 | Tighten clearspace / don’ts | logo | `improve` |
 | Fill or deepen one channel | [`skills/applications/SKILL.md`](skills/applications/SKILL.md) | `populate` / `improve` |
-| Other chapters (scaffold) | `skills/<typography\|color\|system\|animation>/SKILL.md` | matching op |
+| Build Animation | [`skills/animation/SKILL.md`](skills/animation/SKILL.md) | `populate` |
+| Is Animation done? | animation | `audit` |
+| Tighten one motion principle or curve | animation | `improve` |
+| Other chapters (scaffold) | `skills/<typography\|color\|system>/SKILL.md` | matching op |
 
-Deep chapters: Strategy, Language, Logo, Photography, Applications. Scaffolds: Typography, Color, System, Animation. Skills write `brand.md` / `rules.md` / `examples.md` (Animation: `guide/src/lib/animation-content.ts` until promoted). Then `npm run compile` from `guide/`. Never hand-edit `brand.json`.
+Deep chapters: Strategy, Language, Logo, Photography, Animation, Applications. Scaffolds: Typography, Color, System. Skills write `brand.md` / `rules.md` / `examples.md`. Then `npm run compile` from `guide/`. Never hand-edit `brand.json`.
 
 **Extended chapter toggles:** `brand/setup.json` → `chapters` (`logo` | `photography` | `animation` | `applications` → `"on"` \| `"off"`). Core chapters cannot be turned off. If a chapter is `off`, skip its skill `populate` unless the user asks to turn it on.
 
@@ -98,12 +106,12 @@ Deep chapters: Strategy, Language, Logo, Photography, Applications. Scaffolds: T
 
 ## Ownership
 
-See [`UPSTREAM.md`](UPSTREAM.md).
+See [`UPSTREAM.md`](UPSTREAM.md) (ownership zones + **extension points**). Guide UI: prefer shared primitives; see [`guide/AGENTS.md`](guide/AGENTS.md) primitive fit check.
 
 | Path | Owner |
 | --- | --- |
 | `brand.md`, `examples.md`, `rules.md`, `templates.md`, `brand/*` | Brand |
-| `agent.md`, `skills/**`, `guide/src/*`, `scripts/*`, `intake/**` | Upstream (shell) |
+| `agent.md`, `docs/agent/**`, `skills/**`, `guide/src/*`, `scripts/*`, intake templates | Upstream (shell) |
 
 Brand system prompt: edit `brand.md` → Agent → **System prompt base.** (compiled). Do not customize roles/permissions by editing this file in a brand clone — those are shell defaults in the compiler.
 

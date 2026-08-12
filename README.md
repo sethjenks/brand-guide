@@ -106,7 +106,7 @@ See [`UPSTREAM.md`](UPSTREAM.md). Short version: `git fetch upstream && git merg
 
 ## Spec version
 
-`brand.json` → `_spec_version` (`1.1.0`+). Additive fields are backward compatible; breaking changes bump the version and are noted in release notes.
+`brand.json` → `_spec_version` (`1.2.0`+). Additive fields are backward compatible; breaking changes bump the version and are noted in release notes.
 
 ## License
 
