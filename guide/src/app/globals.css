@@ -168,7 +168,8 @@ section[id] {
 }
 
 .brand-doc-badge-stub,
-.brand-doc-badge-sample {
+.brand-doc-badge-sample,
+.brand-doc-badge-partial {
   color: var(--color-text-secondary);
 }
 
@@ -223,16 +224,30 @@ section[id] {
   --status-shape-size: 7px;
 }
 
-/* Empty / starter — hollow ring */
+/* Empty / stub / starter — hollow ring */
 .section-status-shape-ring {
   background: transparent;
   border: 1.5px solid currentColor;
   border-radius: 50%;
 }
 
-/* Stub — filled square */
-.section-status-shape-square {
-  border-radius: 0;
+/* Partial — half-filled from the bottom */
+.section-status-shape-half {
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+
+.section-status-shape-half::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50%;
+  background: currentColor;
 }
 
 /* Needs assets — triangle pointing up */

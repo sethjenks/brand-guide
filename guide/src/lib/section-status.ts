@@ -237,16 +237,35 @@ export function resolveSectionStatus(
     byId[id] = worse(byId[id], status);
   };
 
-  // 1) Completeness field rollup
+  // 1) Completeness field rollup — mixed ok/sample + empty/stub → partial
+  const leafMix = new Map<string, { progress: boolean; gap: boolean }>();
+  const noteMix = (id: string, kind: "progress" | "gap") => {
+    const cur = leafMix.get(id) ?? { progress: false, gap: false };
+    if (kind === "progress") cur.progress = true;
+    else cur.gap = true;
+    leafMix.set(id, cur);
+  };
+
   for (const section of completeness.sections) {
     for (const field of section.fields) {
-      if (field.status === "ok") continue;
       if (field.path.startsWith("expressions")) continue;
       const leaves = leavesForFieldPath(field.path);
-      const mapped = fieldStatusToSection(field.status);
+      if (leaves.length === 0) continue;
+      const isProgress = field.status === "ok" || field.status === "sample";
       for (const leaf of leaves) {
-        bump(leaf, mapped);
+        if (isProgress) {
+          noteMix(leaf, "progress");
+          if (field.status === "sample") bump(leaf, "sample");
+        } else {
+          noteMix(leaf, "gap");
+          bump(leaf, fieldStatusToSection(field.status));
+        }
       }
+    }
+  }
+  for (const [id, flags] of leafMix) {
+    if (flags.progress && flags.gap && id in byId) {
+      byId[id] = "partial";
     }
   }
 
@@ -282,9 +301,12 @@ export function resolveSectionStatus(
     const appId = expressionChannelToAppId(item.channel);
     if (appId) {
       matchedAppIds.add(appId);
-      // Expression present — leave completeness-driven status unless empty sample
-      if (!item.title.trim() || !item.copy.trim()) {
+      const hasTitle = Boolean(item.title.trim());
+      const hasCopy = Boolean(item.copy.trim());
+      if (!hasTitle && !hasCopy) {
         bump(appId, "empty");
+      } else if (!hasTitle || !hasCopy) {
+        bump(appId, "partial");
       }
     }
   }
@@ -295,7 +317,7 @@ export function resolveSectionStatus(
   }
 
   // 6) Starter kit baseline: default download still needs customization everywhere
-  // (except Utilities tools). Specific stub/empty/assets signals stay worse.
+  // (except Utilities tools). Specific stub/empty/partial/assets signals stay worse.
   const isStarter =
     brand.setup.status === "starter" ||
     brand.name.trim().toLowerCase() === "sample brand";

@@ -19,7 +19,7 @@ type BrandDocumentProps = {
 };
 
 function GapBadge({ status }: { status: FieldGapStatus }) {
-  // FieldGapStatus is a subset of SectionStatus (no "assets")
+  // FieldGapStatus is a subset of SectionStatus (no "assets" / "partial")
   return <SectionStatusBadge status={status as SectionStatus} />;
 }
 

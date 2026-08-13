@@ -87,6 +87,7 @@ export type BrandSetupSectionStatus =
   | "empty"
   | "stub"
   | "sample"
+  | "partial"
   | "assets";
 
 /** Guide chapters that always ship (theme + meaning spine + kit utilities). */

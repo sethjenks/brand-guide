@@ -8,7 +8,7 @@ type SectionStatusBadgeProps = {
 };
 
 /**
- * Compact customization status chip (Missing / Stub / Starter / Needs assets).
+ * Compact customization status chip (Missing / Stub / Starter / Partial / Needs assets).
  * Shared by Brand document, section headers, and nav tooling.
  */
 export function SectionStatusBadge({

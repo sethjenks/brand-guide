@@ -2,7 +2,13 @@
  * Client-safe section status types and display helpers (no Node APIs).
  */
 
-export type SectionStatus = "ok" | "empty" | "stub" | "sample" | "assets";
+export type SectionStatus =
+  | "ok"
+  | "empty"
+  | "stub"
+  | "sample"
+  | "partial"
+  | "assets";
 
 export type SectionStatusMap = Readonly<Record<string, SectionStatus>>;
 
@@ -20,9 +26,10 @@ export type ResolvedSectionStatus = {
 const SEVERITY: Record<SectionStatus, number> = {
   ok: 0,
   assets: 1,
-  stub: 2,
-  empty: 3,
-  sample: 4,
+  sample: 2,
+  partial: 3,
+  stub: 4,
+  empty: 5,
 };
 
 export function worse(a: SectionStatus, b: SectionStatus): SectionStatus {
@@ -46,6 +53,8 @@ export function sectionStatusBadgeLabel(
       return "Stub";
     case "sample":
       return "Starter";
+    case "partial":
+      return "Partial";
     case "assets":
       return "Needs assets";
     default: {

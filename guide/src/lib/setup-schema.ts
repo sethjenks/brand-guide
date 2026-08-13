@@ -45,6 +45,7 @@ const setupSectionStatusEnum = z.enum([
   "empty",
   "stub",
   "sample",
+  "partial",
   "assets",
 ]);
 

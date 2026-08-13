@@ -10,14 +10,15 @@ const KEY_ROWS: readonly {
 }[] = [
   {
     status: "empty",
-    label: "Missing or starter",
+    label: "Needs attention",
     detail:
-      "Empty circle — missing copy, unmatched channels, or Sample Brand residue.",
+      "Empty circle — missing copy, stubs still waiting on brand.md, unmatched channels, or Sample Brand residue.",
   },
   {
-    status: "stub",
-    label: "Stub",
-    detail: "Filled square — structural placeholder still waiting on brand.md.",
+    status: "partial",
+    label: "Partial",
+    detail:
+      "Half-filled circle — some content is in place, but the section is not finished.",
   },
   {
     status: "assets",
