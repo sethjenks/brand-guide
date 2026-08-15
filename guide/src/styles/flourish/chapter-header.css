@@ -33,3 +33,14 @@
     padding-block: var(--space-5);
   }
 }
+
+/* Starter kit: shorter openers so placeholder-dense books scroll less. */
+[data-setup="starter"] .chapter-header {
+  min-height: min(36vh, 18rem);
+}
+
+@media (max-width: 720px) {
+  [data-setup="starter"] .chapter-header {
+    min-height: min(28vh, 14rem);
+  }
+}

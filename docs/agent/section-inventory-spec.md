@@ -1,12 +1,20 @@
-# Section inventory spec (future)
+# Section inventory spec
 
-**Status: do not implement yet.** This captures the Toolcraft-style composition bet so a follow-up plan can start clean. Do not rewrite [`guide/src/app/page.tsx`](../../guide/src/app/page.tsx) from inventory until that plan ships.
+**Status: in progress.** Skills write targets, compile field paths, nav ids, and `page.tsx` leaves share `leafId`s. Runtime nav = catalog ∩ authored data ∩ extended-on (`filterNavForAuthoredLeaves`). Do **not** rewrite all of `page.tsx` as a generic inventory renderer in this pass — stop hardcoding cardinality and hide empty leaves.
 
 Task router note: [`workflow.md`](workflow.md).
 
 ## Goal
 
-Declare guide leaves as an inventory (entity, grouping reason, brand labels, primitive) so skills write targets and UI composition share one map. Today field maps live in chapter skills and `page.tsx` wires chapters imperatively — those can drift.
+Declare guide leaves as an inventory (entity, grouping reason, brand labels, primitive) so skills write targets and UI composition share one map.
+
+## Hide-empty invariant
+
+A guide leaf is **shown if and only if** the brand authored the data for it (or it is a true always-on core: chapter intro, utilities, primary typeface).
+
+- Drop a leaf when its backing field/list is empty.
+- Prefer hiding over Sample Brand stubs (“Include a background here…”, placeholder channels, `system-ui` as a fake second face).
+- Extended chapters still respect `brand/setup.json` → `chapters` on/off.
 
 ## Row shape
 
@@ -23,22 +31,39 @@ Each inventory row:
 | `statusKey` | string | Key used by section-status / coverage |
 | `extendedToggle` | optional | `logo` \| `photography` \| `animation` \| `applications` when the leaf lives under an Extended chapter |
 
-## Invariants (when implemented)
+## Leaf map (this pass)
+
+| leafId | brandLabels / source |
+| --- | --- |
+| `typography-display` | **Type display.** + foundry; `--font-serif` |
+| `typography-primary` | **Type primary.** + foundry; `--font-sans` |
+| `typography-mono` | **Type mono.** + foundry; `--font-mono` |
+| `language-phrases` | ### Phrases bullets → `voice.phrases` |
+| `language-we-say` | We Say / We Never Say table → `voice.weSay` |
+| `language-spectrum` | #### Voice spectrum (From/To must match shell steps) |
+| `applications-*` | Expressions table Channel column (+ merged **Channel X.** labels) |
+| `photography-category-subjects` | **Imagery subjects.** |
+| `photography-category-settings` | **Imagery settings.** |
+| `photography-category-product` | **Imagery product.** / **Imagery prompt product.** |
+| `photography-category-moments` | **Imagery moments.** / lifestyle |
+| `photography-donts` | **Imagery avoid.** (split `·` / `,`) |
+| `color-proportion` | **Colors proportion.** |
+| `color-donts` | **Colors donts.** (split) |
+| `logo-clearspace` | **Logo clearspace.** on `visual.logo` |
+| `logo-supporting` | **Supporting logo.** / supporting asset |
+| `strategy-positioning` | Positioning labels (Category, Not, Differentiation, …) |
+| `strategy-pillars` | Message pillars + emotional/functional/trust |
+| `system-introduction` | `guide.system.intro` from Design system notes |
+| `system-grid` / `composition` / `supporting` | authored system fields only |
+
+## Invariants
 
 - Skills write targets and inventory rows **share `leafId`s**.
-- Extended-chapter leaves respect `brand/setup.json` → `chapters` toggles (`extended-chapter-toggle`).
+- Extended-chapter leaves respect `brand/setup.json` → `chapters` toggles.
 - Prefer named primitives (`primitive-before-custom-ui`); new components need a fit-check line.
 
-## Future MVP acceptance
+## Non-goals (this pass)
 
-- One chapter (recommend **Animation** or **Logo**) can render leaves from inventory metadata.
-- Other chapters may remain imperative in `page.tsx`.
-- Skills for that chapter still compile through existing `brand.md` → `npm run compile` path.
-- No requirement that inventory itself is compiled into `brand.json`.
-
-## Non-goals
-
-- Full `page.tsx` rewrite in the first MVP
+- Full `page.tsx` rewrite from inventory metadata
 - Per-chapter compile packages
 - Promoting [`optional/`](../../optional/) into compile
-- Toolcraft runtime / canvas / performance suites

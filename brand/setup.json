@@ -43,5 +43,11 @@
       "prompt": "Populate this brand-guide kit from my Figma design file. Set brand/setup.json intake to \"skipped\". Load intake/skills/README.md, then intake/skills/figma/SKILL.md (shared contract: intake/skills/_shared.md): parse fileKey/nodeId, then metadata → variables/styles → frame copy → assets; write into brand.md (never hand-edit brand.json or tokens.json). Update examples.md, rules.md, and brand/setup.json; cite the Figma URL in sources[] with kind \"citation\". Run npm run compile from guide/. Keep grayscale unless the file specifies a palette. When done, set status to \"populated\".\n\nFigma design URL: "
     }
   ],
-  "prompt": "This brand-guide kit is still a starter (intake pending). Load intake/skills/README.md and run intake/skills/questionnaire/SKILL.md: ask one question at a time, save answers to resources/transcripts/, set brand/setup.json intake to \"complete\", then rewrite brand.md (including Design system), examples.md, rules.md, and setup from the transcript. Follow intake/skills/_shared.md. Run npm run compile from guide/. When done, set status to \"populated\". If I already have a URL / PDF / brand.md / DESIGN.md / Figma design URL, set intake to \"skipped\" and load the matching path skill from intake/skills/README.md instead — or copy the matching prompt from the Accepted sources cards above."
+  "prompt": "This brand-guide kit is still a starter (intake pending). Load intake/skills/README.md and run intake/skills/questionnaire/SKILL.md: ask one question at a time, save answers to resources/transcripts/, set brand/setup.json intake to \"complete\", then rewrite brand.md (including Design system), examples.md, rules.md, and setup from the transcript. Follow intake/skills/_shared.md. Run npm run compile from guide/. When done, set status to \"populated\". If I already have a URL / PDF / brand.md / DESIGN.md / Figma design URL, set intake to \"skipped\" and load the matching path skill from intake/skills/README.md instead — or copy the matching prompt from the Accepted sources cards above.",
+  "chapters": {
+    "logo": "off",
+    "photography": "off",
+    "animation": "off",
+    "applications": "off"
+  }
 }

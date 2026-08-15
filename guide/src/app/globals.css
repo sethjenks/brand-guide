@@ -146,7 +146,10 @@ section[id] {
 }
 
 .questionnaire-response-line {
-  opacity: 0.7;
+  min-height: 1.25rem;
+  width: 100%;
+  border-bottom: 1px solid var(--color-border);
+  opacity: 0.85;
 }
 
 .brand-doc-badge {
@@ -206,7 +209,7 @@ section[id] {
 }
 
 .section-status-shape {
-  --status-shape-size: 7px;
+  --status-shape-size: 9px;
   display: inline-block;
   width: var(--status-shape-size);
   height: var(--status-shape-size);
@@ -217,18 +220,24 @@ section[id] {
 }
 
 .section-status-shape-md {
-  --status-shape-size: 9px;
+  --status-shape-size: 11px;
 }
 
 .section-status-shape-sm {
-  --status-shape-size: 7px;
+  --status-shape-size: 9px;
 }
 
-/* Empty / stub / starter — hollow ring */
+/* Empty / starter / missing — hollow ring */
 .section-status-shape-ring {
   background: transparent;
   border: 1.5px solid currentColor;
   border-radius: 50%;
+}
+
+/* Stub — filled square */
+.section-status-shape-square {
+  background: currentColor;
+  border-radius: 1px;
 }
 
 /* Partial — half-filled from the bottom */
@@ -330,6 +339,21 @@ section[id] {
 
 .asset-stage-inner {
   width: 100%;
+}
+
+.empty-media {
+  width: 100%;
+  height: 100%;
+  min-height: 4rem;
+  box-sizing: border-box;
+  padding: var(--space-4);
+  border: 1px dashed var(--color-border);
+  background: var(--color-background-muted);
+}
+
+.empty-media-label {
+  text-align: center;
+  max-width: 18ch;
 }
 
 .logo-stage-wordmark {
@@ -584,6 +608,15 @@ section[id] {
 .cta-example {
   margin: 0;
   max-width: 20ch;
+}
+
+/* Brand Guide heading: selected wash when the hero / setup is in view */
+.brand-guide-sidenav-heading {
+  width: 100%;
+}
+
+.brand-guide-sidenav-heading.is-current {
+  background: var(--color-background-muted);
 }
 
 /* SideNav items: square corners; hover/selected bleed to rail edges */

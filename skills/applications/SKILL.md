@@ -2,13 +2,14 @@
 file: applications
 skill_id: applications
 skills_spec_version: 1.0.0
-version: 1.0.0
+version: 1.1.0
 depth: deep
 status: stable
 priority: 2
 retrieval_tags: [applications, expressions, skill]
 summary: >
   Chapter skill router for Applications / Expressions (ops: populate, audit, improve).
+  Adaptive nav: one leaf per Expressions row; unknown → applications-<slug>.
 ops: [populate, audit, improve]
 writes:
   - brand.md#Expressions
@@ -37,15 +38,15 @@ If unclear, ask. Default: **audit** when the Expressions table has rows, **popul
 3. Voice + Visual (samples must match)
 4. [`rules.md`](../../rules.md) → `## Applications` + Vocabulary
 5. [`examples.md`](../../examples.md) → `## Application examples`
-6. [`guide/src/lib/section-status.ts`](../../guide/src/lib/section-status.ts) `expressionChannelToAppId`
+6. [`guide/src/lib/application-channels.ts`](../../guide/src/lib/application-channels.ts) + `withApplicationsFromExpressions`
 
 ## Write targets
 
-Expressions **markdown table** columns: `Channel | Title | Copy | Sample` (compiler keeps rows with a Channel cell). Optional labeled lines `**Channel web.**` etc. for humans — table is the compile source.
+Expressions **markdown table** columns: `Channel | Title | Copy | Sample` (compiler keeps rows with a Channel cell). Optional `**Channel <name>.**` labels merge into the same row — table is still the compile source.
 
-Channel labels → GUIDE_NAV ids:
+**One table row per real surface.** Nav = authored rows only (empty catalog leaves are gone). Known Channel labels → ids; unknown → `applications-<slug>`.
 
-| Channel cell (normalized) | Nav id |
+| Channel cell (normalized) | leafId |
 | --- | --- |
 | Web | `applications-web` |
 | Social | `applications-social` |
@@ -58,10 +59,14 @@ Channel labels → GUIDE_NAV ids:
 | Out of home / OOH | `applications-ooh` |
 | Digital ads | `applications-digital-ads` |
 | App | `applications-app` |
-
-Unmapped channels (e.g. Awareness) compile into `guide.expressions.items` but do **not** clear a nav leaf. Unmatched nav ids stay `empty` in section-status — that is expected, not a populate failure.
+| Email | `applications-email` |
+| *(any other)* | `applications-<slug>` |
 
 Also: `rules.md` → `## Applications`; `examples.md` → `## Application examples`.
+
+### Allowed `guide/src` edits
+
+Add an Applications leaf (+ page section) when the Expressions table has a channel the shell does not yet render (known map or `applications-<slug>`). Nav is rebuilt from the table — do not leave orphan catalog leaves for unauthored channels.
 
 ## Conflict rules
 
@@ -69,8 +74,9 @@ Channel copy follows Voice + Vocabulary blocklist. Do not invent a channel the b
 
 ## Done gate
 
-After populate/improve: `cd guide && npm run compile`, spot-check Applications. Audit may stop at a report.
+After populate/improve: `cd guide && npm run compile`, spot-check Applications (only authored surfaces). Audit may stop at a report.
 
 ## Changelog
 
+- 2026-08-14 — 1.1.0 — Adaptive leaves: one row → one nav leaf; unknown → `applications-<slug>`; empty leaves gone.
 - 2026-08-10 — 1.0.0 — Deep router + populate/audit/improve; channel map; application examples.

@@ -27,6 +27,7 @@ export function SetupSourceCard({
   href,
 }: SetupSourceCardProps) {
   const [copied, setCopied] = useState(false);
+  const [copyFailed, setCopyFailed] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const promptId = useId();
 
@@ -39,12 +40,14 @@ export function SetupSourceCard({
   async function handleCopy() {
     try {
       await navigator.clipboard.writeText(prompt);
+      setCopied(true);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setCopied(false), 1400);
     } catch {
-      return;
+      setCopyFailed(true);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => setCopyFailed(false), 1400);
     }
-    setCopied(true);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => setCopied(false), 1400);
   }
 
   const titleNode = href ? (
@@ -110,9 +113,17 @@ export function SetupSourceCard({
               variant="ghost"
               size="sm"
               label={`Copy prompt for ${label}`}
-              tooltip={copied ? "Copied" : "Copy prompt"}
+              tooltip={
+                copied ? "Copied" : copyFailed ? "Copy failed" : "Copy prompt"
+              }
               icon={
-                copied ? <Icons.Check size={14} /> : <Icons.Copy size={14} />
+                copied ? (
+                  <Icons.Check size={14} />
+                ) : copyFailed ? (
+                  <Icons.AlertCircle size={14} />
+                ) : (
+                  <Icons.Copy size={14} />
+                )
               }
               onClick={() => {
                 void handleCopy();

@@ -42,6 +42,8 @@ type SectionStatusCalloutProps = {
 /** Short supporting line under section context when status ≠ ok. */
 export function SectionStatusCallout({ status }: SectionStatusCalloutProps) {
   if (!sectionNeedsWork(status)) return null;
+  // Stub leaves already explain themselves — skip the redundant callout.
+  if (status === "stub") return null;
   return (
     <Text
       type="supporting"

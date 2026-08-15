@@ -1,7 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
-import { GUIDE_NAV, filterNavForSetup } from "@/lib/nav";
+import {
+  GUIDE_NAV,
+  filterNavForAuthoredLeaves,
+  filterNavForSetup,
+  filterNavForTypeFaces,
+  withApplicationsFromExpressions,
+} from "@/lib/nav";
 import type { BrandGuideViewModel, BrandSetup } from "@/lib/brand-types";
 import { setupSchema } from "@/lib/setup-schema";
 
@@ -43,6 +49,9 @@ const guideSchema = z.object({
     positioning: z.object({
       intro: z.string(),
       statement: z.string(),
+      fields: z
+        .array(z.object({ label: z.string(), value: z.string() }))
+        .optional(),
     }),
     vision: z.object({
       intro: z.string(),
@@ -199,6 +208,9 @@ const guideSchema = z.object({
     actLabel: z.string(),
     colors: z.object({
       intro: z.string(),
+      proportion: z.string().optional(),
+      donts: z.array(z.string()).optional(),
+      pairings: z.array(colorSwatchSchema).optional(),
       brand: z.array(colorSwatchSchema),
       secondary: z.array(colorSwatchSchema),
       interface: z.array(colorSwatchSchema),
@@ -206,7 +218,15 @@ const guideSchema = z.object({
     typography: z.object({
       family: z.string(),
       note: z.string(),
-      faces: z.object({ primary: z.string(), fallback: z.string() }),
+      faces: z.object({
+        primary: z.string(),
+        fallback: z.string(),
+        display: z.string().optional(),
+        mono: z.string().optional(),
+        displayFoundry: z.string().optional(),
+        primaryFoundry: z.string().optional(),
+        monoFoundry: z.string().optional(),
+      }),
       specimens: z.array(
         z.object({
           label: z.string(),
@@ -217,6 +237,8 @@ const guideSchema = z.object({
     }),
     logo: z.object({
       description: z.string(),
+      clearspace: z.string().optional(),
+      supporting: z.string().optional(),
       donts: z.array(z.string()),
     }),
     imagery: z.object({
@@ -224,9 +246,25 @@ const guideSchema = z.object({
       tone: z.string(),
       subjects: z.string(),
       settings: z.string(),
-      avoid: z.string(),
+      product: z.string().optional(),
+      moments: z.string().optional(),
+      style: z.string().optional(),
+      mood: z.string().optional(),
+      crop: z.string().optional(),
+      avoid: z.array(z.string()),
     }),
   }),
+  system: z
+    .object({
+      intro: z.string(),
+      grid: z.string(),
+      composition: z.string(),
+      supporting: z.string(),
+      components: z.array(
+        z.object({ name: z.string(), usage: z.string() }),
+      ),
+    })
+    .optional(),
   animation: z.object({
     introduction: z.string(),
     principles: z.object({
@@ -361,7 +399,16 @@ export function loadBrand(): BrandGuideViewModel {
     year: setup.year,
     support: setup.support,
     setup,
-    nav: filterNavForSetup(GUIDE_NAV, setup.chapters),
+    nav: filterNavForAuthoredLeaves(
+      filterNavForTypeFaces(
+        withApplicationsFromExpressions(
+          filterNavForSetup(GUIDE_NAV, setup.chapters),
+          guide.expressions,
+        ),
+        guide.visual.typography.faces,
+      ),
+      guide,
+    ),
   };
 }
 

@@ -13,19 +13,19 @@
 3. Fill **Principles** table (Principle, Description, Do, Don't) — at least one row.
 4. Tagline & slogans: one primary; optional alternatives.
 5. Story long + short (medium if you have it).
-6. Headlines bullets; CTA Do/Don't table; Phrases bullets (ownable lines, not paragraphs).
-7. Tonal Rules: pillars, do/don’t, vocabulary use/never (keep never-say in sync with `rules.md` **Blocklist:**), And/yet table, numbered rules, We Say / We Never Say.
+6. Headlines bullets; CTA Do/Don't table; Phrases bullets on `### Phrases` only (ownable lines — do **not** roll into **Identity.**). Empty phrases → leaf `language-phrases` hides.
+7. Tonal Rules: pillars, do/don’t, vocabulary use/never (keep never-say in sync with `rules.md` **Blocklist:**), And/yet table, numbered rules, We Say / We Never Say (`language-we-say` hides when empty).
 8. Tone by context: Product UI, Email, Social, Support (Incident if relevant).
 9. Sync `rules.md` → **Blocklist:** / **Prefer:** and Copy structure with Voice never-say / phrases.
 10. Ensure `examples.md` → `## Copy examples` has on/off pairs for headline + cta at minimum (`copy-00n`).
-11. `cd guide && npm run compile`. Spot-check Language.
+11. `cd guide && npm run compile`. Spot-check Language. If the source has more slices than the shell, add a leaf in `guide/src` (see SKILL.md).
 
 ## Checklist
 
 - [ ] Identity, essence, principles, story long/short
 - [ ] **Identity.** is 12–28 words, statement-only
 - [ ] Headlines, CTAs, phrases, and/yet, we-say, context tables
-- [ ] Spectrum From/To labels are shell-legal
+- [ ] Spectrum From/To **exact-match** shell steps (else compile WARN + unmarked)
 - [ ] Blocklist matches Voice never-say
 - [ ] Compile run
 

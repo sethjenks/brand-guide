@@ -10,6 +10,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { splitList } from "./lib/split-list.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
@@ -241,15 +242,12 @@ const VOICE_SPECTRUM_DIMENSIONS = [
 /**
  * @param {string[]} steps
  * @param {string} label
+ * @returns {number} exact index or -1 (no fuzzy coerce)
  */
 function findSpectrumStepIndex(steps, label) {
   const key = (label || "").trim().toLowerCase();
   if (!key) return -1;
-  const exact = steps.findIndex((s) => s.toLowerCase() === key);
-  if (exact >= 0) return exact;
-  return steps.findIndex(
-    (s) => s.toLowerCase().includes(key) || key.includes(s.toLowerCase()),
-  );
+  return steps.findIndex((s) => s.toLowerCase() === key);
 }
 
 /**
@@ -274,17 +272,24 @@ function parseVoiceSpectrum(identityText) {
             .trim()
             .toLowerCase() === dim.label.toLowerCase(),
       );
-      let start = findSpectrumStepIndex(dim.steps, row?.from || "");
-      let end = findSpectrumStepIndex(dim.steps, row?.to || "");
-      if (start < 0 && end < 0) {
-        start = 0;
-        end = -1; // no highlight
-      } else if (start < 0) {
-        start = end;
-      } else if (end < 0) {
-        end = start;
+      const fromRaw = (row?.from || "").trim();
+      const toRaw = (row?.to || "").trim();
+      let start = findSpectrumStepIndex(dim.steps, fromRaw);
+      let end = findSpectrumStepIndex(dim.steps, toRaw);
+      if (fromRaw && start < 0) {
+        console.warn(
+          `WARN voice spectrum ${dim.label}: From "${fromRaw}" is not a shell step — range unmarked`,
+        );
       }
-      if (end < start) {
+      if (toRaw && end < 0) {
+        console.warn(
+          `WARN voice spectrum ${dim.label}: To "${toRaw}" is not a shell step — range unmarked`,
+        );
+      }
+      if (start < 0 || end < 0) {
+        start = 0;
+        end = -1; // no highlight — do not coerce unknown labels to a point
+      } else if (end < start) {
         const tmp = start;
         start = end;
         end = tmp;
@@ -383,21 +388,8 @@ function parseAnimation(visual) {
   };
 }
 
-/** Split "A · B · C" or "A. B. C." into parts */
-/** @param {string} s */
-function splitList(s) {
-  if (!s) return [];
-  if (s.includes(" · ")) {
-    return s.split(/\s*·\s*/).map((x) => x.trim()).filter(Boolean);
-  }
-  if (s.includes(". ") && !s.includes(":")) {
-    return s
-      .split(/\.\s+/)
-      .map((x) => x.replace(/\.$/, "").trim())
-      .filter(Boolean);
-  }
-  return [s.trim()].filter(Boolean);
-}
+/** Split "A · B · C" or "A. B. C." into parts — see scripts/lib/split-list.mjs */
+
 
 /**
  * Parse markdown table into array of row objects keyed by header.
@@ -768,6 +760,43 @@ function main() {
   };
   const expressionRows = parseTables(expressions).filter((r) => r.channel);
 
+  /** Capitalize the first letter of each word. */
+  const titleCase = (s) =>
+    String(s || "")
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+
+  /** Expressions table rows + labeled **Channel X.** fields not already present. */
+  const expressionItems = expressionRows.map((r) => ({
+    channel: r.channel || "",
+    title: r.title || "",
+    copy: r.copy || "",
+    sample: r.sample || "",
+  }));
+  for (const [key, value] of exprL.entries()) {
+    const m = key.match(/^channel\s+(.+)$/);
+    if (!m) continue;
+    const name = (m[1] || "").trim();
+    if (!name) continue;
+    const channel = titleCase(name);
+    const existing = expressionItems.find(
+      (it) => it.channel.toLowerCase() === channel.toLowerCase(),
+    );
+    if (!existing) {
+      expressionItems.push({
+        channel,
+        title: "",
+        copy: value || "",
+        sample: "",
+      });
+    } else if (!existing.copy && value) {
+      existing.copy = value;
+    }
+  }
+
   const headlinesSec = subsection(voiceSec, "### Headlines");
   const headlinesL = L(headlinesSec);
   const headlineItems = headlinesSec
@@ -901,6 +930,21 @@ function main() {
       positioning: {
         intro: p.get("positioning intro") || "",
         statement: pr.get("position") || p.get("category") || "",
+        fields: [
+          ["Category", p.get("category")],
+          ["Not", p.get("not")],
+          ["Differentiation", p.get("differentiation")],
+          ["Only we", p.get("only we")],
+          ["Territory", p.get("territory")],
+          ["Audience primary", p.get("audience primary")],
+          ["Audience secondary", p.get("audience secondary")],
+          ["Position", pr.get("position")],
+        ]
+          .map(([label, value]) => {
+            const v = (value || "").trim();
+            return v ? { label, value: v } : null;
+          })
+          .filter(Boolean),
       },
       vision: {
         intro: o.get("vision intro") || "",
@@ -1023,16 +1067,26 @@ function main() {
       colors: {
         // Swatches rebuilt from brand.md Design system by compile-design.mjs
         intro: visColors.get("colors intro") || "",
+        proportion: visColors.get("colors proportion") || "",
+        donts: splitList(
+          visColors.get("colors donts") || visColors.get("color donts") || "",
+        ),
         brand: [],
         secondary: [],
         interface: [],
+        pairings: [], // filled later by compile-design if needed
       },
       typography: {
         family: visType.get("type family") || "Geist",
         note: visType.get("type note") || "",
         faces: {
+          display: visType.get("type display") || "",
           primary: visType.get("type primary") || "",
+          mono: visType.get("type mono") || "",
           fallback: visType.get("type fallback") || "",
+          displayFoundry: visType.get("type display foundry") || "",
+          primaryFoundry: visType.get("type primary foundry") || "",
+          monoFoundry: visType.get("type mono foundry") || "",
         },
         specimens: [
           {
@@ -1062,6 +1116,8 @@ function main() {
       },
       logo: {
         description: visLogo.get("logo description") || "",
+        clearspace: visLogo.get("logo clearspace") || "",
+        supporting: visLogo.get("supporting logo") || "",
         donts: logoDonts,
       },
       imagery: {
@@ -1069,18 +1125,55 @@ function main() {
         tone: visImg.get("imagery tone") || "",
         subjects: visImg.get("imagery subjects") || "",
         settings: visImg.get("imagery settings") || "",
-        avoid: visImg.get("imagery avoid") || "",
+        product: visImg.get("imagery product") || "",
+        moments:
+          visImg.get("imagery moments") ||
+          visImg.get("imagery lifestyle") ||
+          "",
+        style: visImg.get("imagery style") || "",
+        mood: visImg.get("imagery mood") || "",
+        crop: visImg.get("concealed crop") || "",
+        avoid: splitList(visImg.get("imagery avoid") || ""),
       },
     },
+    system: (() => {
+      const designSystem = sectionAfter(body, "## Design system");
+      const designSystemL = L(designSystem);
+      const spacingSec =
+        subsection(designSystem, "### Spacing & layout") ||
+        subsection(designSystem, "### Spacing");
+      const componentsSec = subsection(designSystem, "### Components");
+      let documentLike = "";
+      for (const line of spacingSec.split("\n")) {
+        const t = line.trim();
+        if (!t) continue;
+        if (/^#{1,3}\s/.test(t)) continue;
+        if (/^\|/.test(t)) continue;
+        if (/^\*\*/.test(t)) continue;
+        if (/^[-*]\s/.test(t)) continue;
+        if (/^Document-like/i.test(t)) {
+          documentLike = t;
+          break;
+        }
+      }
+      return {
+        intro: designSystemL.get("system intro") || documentLike || "",
+        grid: documentLike || "",
+        composition: "",
+        supporting: "",
+        components: parseTables(componentsSec)
+          .filter((r) => r.component || r.name)
+          .map((r) => ({
+            name: (r.component || r.name || "").trim(),
+            usage: (r.guidance || r.usage || "").trim(),
+          }))
+          .filter((r) => r.name),
+      };
+    })(),
     animation,
     expressions: {
       actLabel: actExpressions,
-      items: expressionRows.map((r) => ({
-        channel: r.channel || "",
-        title: r.title || "",
-        copy: r.copy || "",
-        sample: r.sample || "",
-      })),
+      items: expressionItems,
     },
   };
 

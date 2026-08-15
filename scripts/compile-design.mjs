@@ -422,6 +422,7 @@ function renderThemeInput(tokens) {
     );
   }
   const fontSerif = tokens.get("--font-serif")?.value?.trim() || undefined;
+  const fontMono = tokens.get("--font-mono")?.value?.trim() || undefined;
 
   const ink = requiredColor("--color-ink");
   const input = {
@@ -431,6 +432,7 @@ function renderThemeInput(tokens) {
     typeScale: { base: typeBase, ratio: typeRatio },
     fontSans,
     ...(fontSerif ? { fontSerif } : {}),
+    ...(fontMono ? { fontMono } : {}),
     colors: {
       ink,
       inkMuted: requiredColor("--color-ink-muted"),
@@ -586,6 +588,18 @@ function renderTokensDtcg(tokens) {
     if (name === "--font-serif") {
       const group = ensureGroup(doc, ["font"]);
       group.serif = dtcgToken(
+        name,
+        def,
+        "fontFamily",
+        parseFontFamilyValue(value),
+      );
+      leafCount += 1;
+      continue;
+    }
+
+    if (name === "--font-mono") {
+      const group = ensureGroup(doc, ["font"]);
+      group.mono = dtcgToken(
         name,
         def,
         "fontFamily",
@@ -939,12 +953,27 @@ function rebuildColorsFromDesign(json, tokens) {
   if (!json.guide?.visual?.colors) {
     if (!json.guide) json.guide = {};
     if (!json.guide.visual) json.guide.visual = {};
-    json.guide.visual.colors = { intro: "", brand: [], secondary: [], interface: [] };
+    json.guide.visual.colors = {
+      intro: "",
+      proportion: "",
+      donts: [],
+      pairings: [],
+      brand: [],
+      secondary: [],
+      interface: [],
+    };
   }
 
-  const intro = json.guide.visual.colors.intro || "";
+  const prevColors = json.guide.visual.colors;
+  const intro = prevColors.intro || "";
+  const proportion = prevColors.proportion || "";
+  const donts = Array.isArray(prevColors.donts) ? prevColors.donts : [];
+  const pairings = Array.isArray(prevColors.pairings) ? prevColors.pairings : [];
   json.guide.visual.colors = {
     intro,
+    proportion,
+    donts,
+    pairings,
     brand,
     secondary,
     interface: interfaceColors,

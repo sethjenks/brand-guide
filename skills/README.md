@@ -57,21 +57,21 @@ Count plain words (no markdown). The intro is a **brand statement**, not a Desig
 
 Cite this range next to the intro label in each chapter’s Write targets. Audit flags under min / over max; improve lands in range. Not a compile fail.
 
-System’s intro is still hardcoded in the guide shell — skip until it has a `brand.md` label.
+System’s intro comes from **System intro.** / `guide.system.intro` — see [`skills/system/SKILL.md`](system/SKILL.md). Unauthored grid / composition / supporting leaves hide.
 
 ## Catalog
 
 | skill_id | version | depth | status | ops layout | path |
 | --- | --- | --- | --- | --- | --- |
-| strategy | 1.0.1 | deep | stable | files | [strategy/SKILL.md](strategy/SKILL.md) |
-| language | 1.0.1 | deep | stable | files | [language/SKILL.md](language/SKILL.md) |
-| logo | 1.0.1 | deep | stable | files | [logo/SKILL.md](logo/SKILL.md) |
-| typography | 0.1.1 | scaffold | draft | inline | [typography/SKILL.md](typography/SKILL.md) |
-| color | 0.1.1 | scaffold | draft | inline | [color/SKILL.md](color/SKILL.md) |
-| photography | 1.0.1 | deep | stable | files | [photography/SKILL.md](photography/SKILL.md) |
-| system | 0.1.0 | scaffold | draft | inline | [system/SKILL.md](system/SKILL.md) |
+| strategy | 1.1.0 | deep | stable | files | [strategy/SKILL.md](strategy/SKILL.md) |
+| language | 1.1.0 | deep | stable | files | [language/SKILL.md](language/SKILL.md) |
+| logo | 1.1.0 | deep | stable | files | [logo/SKILL.md](logo/SKILL.md) |
+| typography | 0.2.0 | scaffold | draft | inline | [typography/SKILL.md](typography/SKILL.md) |
+| color | 0.2.0 | scaffold | draft | inline | [color/SKILL.md](color/SKILL.md) |
+| photography | 1.1.0 | deep | stable | files | [photography/SKILL.md](photography/SKILL.md) |
+| system | 0.2.0 | scaffold | draft | inline | [system/SKILL.md](system/SKILL.md) |
 | animation | 1.0.1 | deep | stable | files | [animation/SKILL.md](animation/SKILL.md) |
-| applications | 1.0.0 | deep | stable | files | [applications/SKILL.md](applications/SKILL.md) |
+| applications | 1.1.0 | deep | stable | files | [applications/SKILL.md](applications/SKILL.md) |
 
 ## Versioning
 
@@ -101,6 +101,15 @@ Op sibling files inherit the chapter `version`. Changing an op file bumps the ch
 
 | Date | skill_id | version | Why |
 | --- | --- | --- | --- |
+| 2026-08-14 | language | 1.1.0 | Adaptive leaves: `language-phrases` / `language-we-say` hide-empty; spectrum exact-match |
+| 2026-08-14 | applications | 1.1.0 | Adaptive leaves: one Expressions row → one nav leaf; unknown → `applications-<slug>` |
+| 2026-08-14 | photography | 1.1.0 | Adaptive leaves: compile crop/style/mood/product/moments; hide empty product/moments |
+| 2026-08-14 | color | 0.2.0 | Adaptive leaves: proportion / donts; combinations from authored swatches not Gray 1 |
+| 2026-08-14 | logo | 1.1.0 | Adaptive leaves: clearspace on `guide.visual.logo`; load SVG; hide supporting if none |
+| 2026-08-14 | strategy | 1.1.0 | Adaptive leaves: positioning fields render; pillar emotional/functional/trust show |
+| 2026-08-14 | system | 0.2.0 | Adaptive leaves: intro + components from `guide.system`; hide unauthored grid/composition/supporting |
+| 2026-08-14 | typography | 0.2.0 | N-face contract: display / primary / mono + required layout.tsx loaders |
+| 2026-08-14 | system | 0.1.1 | Defer display/mono loaders to typography skill |
 | 2026-08-11 | (catalog) | — | Note: whole-brand intake path skills live under `intake/skills/` (`intake_skills_spec_version` 1.0.0) |
 | 2026-08-10 | (catalog) | spec 1.0.0 | Initial skills tree, ops vocabulary, Photography + Logo deep |
 | 2026-08-10 | photography | 1.0.0 | Deep router + populate/audit/improve |

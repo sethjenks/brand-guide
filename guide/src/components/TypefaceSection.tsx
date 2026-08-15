@@ -31,6 +31,12 @@ type TypefaceSectionProps = {
   downloadHref: string;
   /** Optional CSS font-family stack for the live specimen. */
   fontFamily?: string;
+  /** Optional CSS font-style for the live specimen (e.g. italic). */
+  fontStyle?: string;
+  /** Optional CSS font-weight for the live specimen. */
+  specimenWeight?: string | number;
+  /** Optional CSS font-style applied via style (alias of fontStyle for clarity). */
+  specimenStyle?: string;
   className?: string;
   status?: SectionStatus;
 };
@@ -57,12 +63,27 @@ export function TypefaceSection({
   foundry,
   downloadHref,
   fontFamily,
+  fontStyle,
+  specimenWeight,
+  specimenStyle,
   className,
   status,
 }: TypefaceSectionProps) {
-  const specimenStyle = fontFamily
-    ? ({ "--typeface-specimen-font": fontFamily } as CSSProperties)
-    : undefined;
+  const resolvedStyle = specimenStyle ?? fontStyle;
+  const specimenStyleProps =
+    fontFamily || resolvedStyle || specimenWeight
+      ? ({
+          ...(fontFamily
+            ? { "--typeface-specimen-font": fontFamily }
+            : undefined),
+          ...(resolvedStyle
+            ? { "--typeface-specimen-style": resolvedStyle }
+            : undefined),
+          ...(specimenWeight != null
+            ? { "--typeface-specimen-weight": String(specimenWeight) }
+            : undefined),
+        } as CSSProperties)
+      : undefined;
 
   return (
     <ClotheslineLeaf
@@ -92,9 +113,11 @@ export function TypefaceSection({
             >
               {faceName}
             </Text>
-            <Text type="supporting" color="secondary" display="block">
-              {foundry}
-            </Text>
+            {foundry ? (
+              <Text type="supporting" color="secondary" display="block">
+                {foundry}
+              </Text>
+            ) : null}
           </VStack>
         }
       >
@@ -102,7 +125,7 @@ export function TypefaceSection({
           gap={1}
           width="100%"
           className="typeface-specimen"
-          style={specimenStyle}
+          style={specimenStyleProps}
           aria-label={`${faceName} character set`}
         >
           <Text

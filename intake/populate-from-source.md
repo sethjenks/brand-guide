@@ -35,7 +35,7 @@ Shared contract (inventory → write → compile → checklist): [`skills/_share
 }
 ```
 
-8. Do **not** hand-edit `brand.json`, `tokens.json`, or `guide/src` UI files for content/theme.
+8. Do **not** hand-edit `brand.json`, `tokens.json`, or `guide/src` UI files for content/theme — **except**: (1) `guide/src/app/layout.tsx` webfont loaders for every stack `var(--font-*)`; (2) **any** missing TypefaceSection / nav leaf / list row when the source has more items than the shell. Follow the chapter skill. Do not cram extras into a chapter intro.
 9. Summarize for the user: checklist results, inferred fields from coverage, worklog path, and what still needs human review.
 
 ## Post-populate checklist (required)
@@ -44,7 +44,7 @@ Run from `guide/` after compile. Do not skip.
 
 - [ ] **Setup validates** — `npm run compile` / `compile:check` passes; citations use `"kind": "citation"` (no fake `prompt`).
 - [ ] **Required color roles** — Design system has ink, ink-muted, ink-subtle, canvas, paper, surface, surface-deep, border (+ accent if the source has a CTA color).
-- [ ] **Type contract** — `--font-sans` present; if the source has a display/serif face, author `--font-serif` and note a `layout.tsx` `next/font` loader for humans (compile does not load faces).
+- [ ] **Type contract** — Inventory display / body / label faces. `--font-sans` required. Author `--font-serif` + **Type display.** when a display face exists; `--font-mono` + **Type mono.** when a label face exists. Edit `layout.tsx` so every `var(--font-*)` is loaded. One TypefaceSection per authored face (do not cram faces into **Type note.** or the primary leaf; do not treat `system-ui` as a second typeface).
 - [ ] **Logo assets** — If the source had no mark: note `brand/assets/` gap. If present: file under `brand/assets/` and recompile.
 - [ ] **Source coverage** — `brand/coverage.json` written for populated brands; every `inferred` Strategy/Voice field listed for human review; `placeholder` sections stay Sample Brand (or explicit stubs), not invented.
 - [ ] **Honesty** — No pillars/values invented from token names alone.

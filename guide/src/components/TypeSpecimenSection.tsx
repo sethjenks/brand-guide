@@ -3,6 +3,7 @@ import { Grid } from "@astryxdesign/core/Grid";
 import { HStack } from "@astryxdesign/core/HStack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
+import type { CSSProperties } from "react";
 import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
 import { ClotheslineRow } from "@/components/ClotheslineRow";
 import type { TypeWeightItem } from "@/components/TypeWeightsSection";
@@ -47,66 +48,81 @@ export function TypeSpecimenSection({
         .join(" ")}
     >
       <VStack gap={8} width="100%" className="type-specimen-stack">
-        {items.map((item) => (
-          <VStack
-            key={item.id}
-            as="article"
-            gap={0}
-            width="100%"
-            aria-label={item.label}
-            className="type-specimen-row"
-          >
-            <ClotheslineRow
-              label={
-                <Text
-                  weight="semibold"
-                  color="primary"
-                  display="block"
-                  className="clothesline-title type-specimen-label"
-                >
-                  {item.label}
-                </Text>
-              }
+        {items.map((item) => {
+          const glyphStyle =
+            item.fontFamily || item.fontStyle
+              ? ({
+                  ...(item.fontFamily
+                    ? { "--type-glyph-font": item.fontFamily }
+                    : undefined),
+                  ...(item.fontStyle
+                    ? { "--type-glyph-style": item.fontStyle }
+                    : undefined),
+                } as CSSProperties)
+              : undefined;
+
+          return (
+            <VStack
+              key={item.id}
+              as="article"
+              gap={0}
+              width="100%"
+              aria-label={item.label}
+              className="type-specimen-row"
             >
-              <Grid
-                columns={9}
-                gap={0}
-                width="100%"
-                aria-label={`${item.label} character set`}
-                className="type-glyph-grid"
-              >
-                {GLYPHS.map((glyph) => (
-                  <HStack
-                    key={`${item.id}-${glyph}`}
-                    hAlign="center"
-                    vAlign="center"
-                    width="100%"
-                    className={`type-glyph-cell type-weight-specimen-${item.weight}`}
+              <ClotheslineRow
+                label={
+                  <Text
+                    weight="semibold"
+                    color="primary"
+                    display="block"
+                    className="clothesline-title type-specimen-label"
                   >
-                    <AspectRatio ratio={1} fit="center">
-                      <HStack
-                        hAlign="center"
-                        vAlign="center"
-                        width="100%"
-                        height="100%"
-                        className="type-glyph-inner"
-                      >
-                        <Text
-                          weight={item.weight}
-                          color="primary"
-                          display="block"
-                          className={`type-glyph type-weight-specimen-${item.weight}`}
+                    {item.label}
+                  </Text>
+                }
+              >
+                <Grid
+                  columns={9}
+                  gap={0}
+                  width="100%"
+                  aria-label={`${item.label} character set`}
+                  className="type-glyph-grid"
+                >
+                  {GLYPHS.map((glyph) => (
+                    <HStack
+                      key={`${item.id}-${glyph}`}
+                      hAlign="center"
+                      vAlign="center"
+                      width="100%"
+                      className={`type-glyph-cell type-weight-specimen-${item.weight}`}
+                    >
+                      <AspectRatio ratio={1} fit="center">
+                        <HStack
+                          hAlign="center"
+                          vAlign="center"
+                          width="100%"
+                          height="100%"
+                          className="type-glyph-inner"
                         >
-                          {glyph}
-                        </Text>
-                      </HStack>
-                    </AspectRatio>
-                  </HStack>
-                ))}
-              </Grid>
-            </ClotheslineRow>
-          </VStack>
-        ))}
+                          <Text
+                            weight={item.weight}
+                            color="primary"
+                            display="block"
+                            className={`type-glyph type-weight-specimen-${item.weight}`}
+                            style={glyphStyle}
+                          >
+                            {glyph}
+                          </Text>
+                        </HStack>
+                      </AspectRatio>
+                    </HStack>
+                  ))}
+                </Grid>
+              </ClotheslineRow>
+            </VStack>
+          );
+        })}
       </VStack>
     </ClotheslineLeaf>
   );

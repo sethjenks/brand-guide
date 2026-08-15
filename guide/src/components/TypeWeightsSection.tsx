@@ -1,5 +1,6 @@
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
+import type { CSSProperties } from "react";
 import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
 import { ClotheslineRow } from "@/components/ClotheslineRow";
 import type { SectionStatus } from "@/lib/section-status-ui";
@@ -13,6 +14,10 @@ export type TypeWeightItem = {
   weight: "normal" | "medium" | "semibold" | "bold";
   /** Optional specimen text; defaults to `label`. */
   sample?: string;
+  /** Optional CSS font-family stack for this row. */
+  fontFamily?: string;
+  /** Optional CSS font-style for this row (e.g. italic). */
+  fontStyle?: string;
 };
 
 type TypeWeightsSectionProps = {
@@ -49,6 +54,17 @@ export function TypeWeightsSection({
       <VStack gap={8} width="100%" className="type-weights-stack">
         {items.map((item) => {
           const sample = item.sample ?? item.label;
+          const specimenStyle =
+            item.fontFamily || item.fontStyle
+              ? ({
+                  ...(item.fontFamily
+                    ? { "--type-weight-specimen-font": item.fontFamily }
+                    : undefined),
+                  ...(item.fontStyle
+                    ? { "--type-weight-specimen-style": item.fontStyle }
+                    : undefined),
+                } as CSSProperties)
+              : undefined;
 
           return (
             <VStack
@@ -76,6 +92,7 @@ export function TypeWeightsSection({
                   color="primary"
                   display="block"
                   className={`type-weight-specimen type-weight-specimen-${item.weight}`}
+                  style={specimenStyle}
                   aria-label={`${item.label} specimen`}
                 >
                   {sample}

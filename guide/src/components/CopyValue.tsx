@@ -11,8 +11,10 @@ type CopyValueProps = {
   absoluteUrl?: boolean;
 };
 
+type CopyFeedback = "idle" | "copied" | "failed";
+
 export function CopyValue({ value, label, absoluteUrl = false }: CopyValueProps) {
-  const [copied, setCopied] = useState(false);
+  const [feedback, setFeedback] = useState<CopyFeedback>("idle");
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -21,24 +23,34 @@ export function CopyValue({ value, label, absoluteUrl = false }: CopyValueProps)
     };
   }, []);
 
+  function flash(next: CopyFeedback) {
+    setFeedback(next);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setFeedback("idle"), 1400);
+  }
+
   async function handleCopy() {
     try {
       const copyValue = absoluteUrl
         ? new URL(value, window.location.origin).toString()
         : value;
       await navigator.clipboard.writeText(copyValue);
+      flash("copied");
     } catch {
-      return;
+      flash("failed");
     }
-
-    setCopied(true);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => setCopied(false), 1400);
   }
 
   const accessibleLabel = label
     ? `Copy ${label} value ${value}`
     : `Copy ${value}`;
+
+  const tooltip =
+    feedback === "copied"
+      ? "Copied"
+      : feedback === "failed"
+        ? "Copy failed"
+        : "Copy value";
 
   return (
     <Button
@@ -46,8 +58,14 @@ export function CopyValue({ value, label, absoluteUrl = false }: CopyValueProps)
       variant="ghost"
       size="sm"
       label={accessibleLabel}
-      tooltip={copied ? "Copied" : "Copy value"}
-      className={`copy-value${copied ? " is-copied" : ""}`}
+      tooltip={tooltip}
+      className={[
+        "copy-value",
+        feedback === "copied" ? "is-copied" : "",
+        feedback === "failed" ? "is-failed" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
       onClick={() => {
         void handleCopy();
       }}
@@ -55,7 +73,13 @@ export function CopyValue({ value, label, absoluteUrl = false }: CopyValueProps)
       <HStack gap={1} vAlign="center" className="copy-value-inner">
         <code>{value}</code>
         <span className="copy-value-icon" aria-hidden="true">
-          {copied ? <Icons.Check size={12} /> : <Icons.Copy size={12} />}
+          {feedback === "copied" ? (
+            <Icons.Check size={12} />
+          ) : feedback === "failed" ? (
+            <Icons.AlertCircle size={12} />
+          ) : (
+            <Icons.Copy size={12} />
+          )}
         </span>
       </HStack>
     </Button>

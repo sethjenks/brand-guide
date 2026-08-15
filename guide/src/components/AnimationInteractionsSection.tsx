@@ -6,7 +6,10 @@ import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState, type ReactNode } from "react";
-import { AnimationDemoCard } from "@/components/MotionSpecimen";
+import {
+  AnimationDemoCard,
+  MotionDemoUnavailable,
+} from "@/components/MotionSpecimen";
 import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
 import {
   isInteractionPresetId,
@@ -79,20 +82,22 @@ function CarouselDemo({ playKey, reduceMotion }: MotionDemoContext) {
         onClick={() => setIndex((i) => (i + 1) % PEERS.length)}
         aria-label="Advance carousel"
       >
-        <HStack width="100%" hAlign="center">
+        <HStack
+          width="100%"
+          hAlign="center"
+          style={{ overflow: "hidden", minWidth: "6rem" }}
+        >
           <motion.div
+            key={index}
             className="motion-specimen-chip"
-            animate={{ x: reduceMotion ? 0 : 0 }}
-            initial={false}
+            initial={reduceMotion ? false : { x: 28, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{
+              duration: duration(reduceMotion, 0.4),
+              ease: [0.4, 0, 0.2, 1],
+            }}
           >
-            <motion.div
-              key={index}
-              initial={reduceMotion ? false : { x: 24, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: duration(reduceMotion, 0.4), ease: [0.4, 0, 0.2, 1] }}
-            >
-              <Text weight="semibold">{PEERS[index]}</Text>
-            </motion.div>
+            <Text weight="semibold">{PEERS[index]}</Text>
           </motion.div>
         </HStack>
       </button>
@@ -393,11 +398,14 @@ export function AnimationInteractionsSection({
               key={item.id || item.title}
               title={item.title}
               body={item.body}
+              interactive={isInteractionPresetId(item.id)}
             >
               {(ctx) =>
                 isInteractionPresetId(item.id) ? (
                   <InteractionDemo id={item.id} ctx={ctx} />
-                ) : null
+                ) : (
+                  <MotionDemoUnavailable />
+                )
               }
             </AnimationDemoCard>
           ))}

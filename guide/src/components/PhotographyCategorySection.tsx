@@ -1,6 +1,7 @@
 import { VStack } from "@astryxdesign/core/VStack";
 import { AssetStage } from "@/components/AssetStage";
 import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import { EmptyMedia } from "@/components/EmptyMedia";
 import { ImageGrid, type ImageGridItem } from "@/components/ImageGrid";
 import type { SectionStatus } from "@/lib/section-status-ui";
 
@@ -14,7 +15,7 @@ type PhotographyCategorySectionProps = {
   heroAlt?: string;
   /** Smaller gallery cells below the hero. Defaults to three placeholders. */
   gallery?: readonly ImageGridItem[];
-  /** Placeholder gallery count when `gallery` is omitted. */
+  /** Placeholder gallery count when `gallery` is omitted. Defaults to 2. */
   galleryCount?: number;
   className?: string;
   status?: SectionStatus;
@@ -41,7 +42,7 @@ export function PhotographyCategorySection({
   heroSrc,
   heroAlt,
   gallery,
-  galleryCount = 3,
+  galleryCount = 2,
   className,
   status,
 }: PhotographyCategorySectionProps) {
@@ -61,7 +62,7 @@ export function PhotographyCategorySection({
       <VStack gap={4} width="100%">
         <AssetStage
           aria-label={heroAlt ?? `${title} hero`}
-          minHeight={420}
+          minHeight={320}
           className="photo-category-hero"
         >
           {heroSrc ? (
@@ -70,7 +71,9 @@ export function PhotographyCategorySection({
               alt={heroAlt ?? title}
               className="photo-category-hero-media"
             />
-          ) : null}
+          ) : (
+            <EmptyMedia label="Add category hero" />
+          )}
         </AssetStage>
 
         {galleryItems.length > 0 ? (

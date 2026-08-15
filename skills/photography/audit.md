@@ -10,20 +10,15 @@
 1. Score each write-target label: present / thin / missing / contradicts Voice or `rules.md` Photography. Score **Imagery introduction.** word length: short (<12) / ok (12–28) / long (>28). Do not treat **Imagery tone.** length as the GraphicStatement gate.
 2. Check `examples.md` → `## Imagery examples`: at least one `on-brand` and one `off-brand`; reasons cite the actual rule broken.
 3. Check `rules.md` → `## Photography` exists and does not contradict **Imagery avoid.**
-4. Overlay **section-status** (do not treat stubs as finished content):
+4. Overlay **section-status** (do not treat specimen placeholders as finished visuals):
 
-   From [`guide/src/lib/section-status.ts`](../../guide/src/lib/section-status.ts):
+   | Leaf id | Meaning |
+   | --- | --- |
+   | `photography-category-subjects` / `settings` | Hide when subjects/settings empty |
+   | `photography-category-product` / `moments` | Hide when product/moments empty — do not fabricate |
+   | `photography-donts` | Hide when **Imagery avoid.** empty |
 
-   | Leaf id | Status source | Meaning |
-   | --- | --- | --- |
-   | `photography-donts` | `ASSET_PLACEHOLDER_IDS` | Don’t specimens not customized |
-   | `photography-categories` | `ASSET_PLACEHOLDER_IDS` | Category overview still placeholder visuals |
-   | `photography-category-subjects` | `ASSET_PLACEHOLDER_IDS` | Subject stage placeholder |
-   | `photography-category-settings` | `ASSET_PLACEHOLDER_IDS` | Settings stage placeholder |
-   | `photography-category-product` | `HARDCODED_PHOTO_IDS` | Starter product context hardcoded in `page.tsx` |
-   | `photography-category-moments` | `HARDCODED_PHOTO_IDS` | Starter moments context hardcoded in `page.tsx` |
-
-   Copy on `visual.imagery` can be `ok` while those leaves still show **assets** / **empty**. Report both.
+   Copy on `visual.imagery` can be `ok` while gallery cells still show **assets**. Report both. Do **not** call leftover badges expected for categories you invented.
 
 5. Deliver a gap list: label, what’s wrong, suggested op (`improve` vs full `populate`). Do not invent replacement copy unless the user asks to fix.
 
@@ -39,4 +34,5 @@
 
 - Report-only by default.
 - Do not silently rewrite Sample Brand starter copy during audit.
-- Do not claim category leaves are done while they remain hardcoded or placeholder.
+- Do not claim category leaves are done while gallery specimens are still placeholders.
+- Do not treat missing product/moments as a fail when the source has none (leaves should hide).

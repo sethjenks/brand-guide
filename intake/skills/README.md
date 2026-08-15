@@ -44,7 +44,7 @@ If the source kind is not in this table, stop and ask — do not improvise a new
 | skill_id | version | status | source_kinds | path |
 | --- | --- | --- | --- | --- |
 | questionnaire | 1.0.0 | stable | interview, transcript | [questionnaire/SKILL.md](questionnaire/SKILL.md) |
-| website | 1.0.0 | stable | url, website | [website/SKILL.md](website/SKILL.md) |
+| website | 1.0.2 | stable | url, website | [website/SKILL.md](website/SKILL.md) |
 | pdf | 1.0.0 | stable | pdf, deck | [pdf/SKILL.md](pdf/SKILL.md) |
 | brand-md | 1.0.0 | stable | brand.md, constitution | [brand-md/SKILL.md](brand-md/SKILL.md) |
 | design-dump | 1.0.0 | stable | DESIGN.md, design-dump | [design-dump/SKILL.md](design-dump/SKILL.md) |

@@ -8,8 +8,8 @@
 ## Steps
 
 1. Score compile-required Voice structures (identity, principles, story, headlines, CTAs, phrases, and/yet, we-say, context). Score **Identity.** word length: short (<12) / ok (12–28) / long (>28).
-2. Spectrum: missing dimensions; From/To labels that would not match the shell; Notes that describe the opposite pole from the marks.
-3. Phrases vs We Never Say vs blocklist — any leak of banned vocabulary.
+2. Spectrum: missing dimensions; From/To that are not **exact** shell steps (compile WARN + unmarked); Notes that describe the opposite pole from the marks.
+3. Phrases (`language-phrases`) vs We Say (`language-we-say`) vs blocklist — any leak of banned vocabulary; phrases must not live only in Identity.
 4. CTAs: Don’t column should include generic “Learn more” / “Get started” if those are off-voice; Do column uses verbs.
 5. Context table: empty Example cells; channels that contradict Story length rules (social one idea, support patient).
 6. Overlay Language GUIDE_NAV leaves vs `section-status`.

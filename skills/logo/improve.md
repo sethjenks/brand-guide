@@ -14,7 +14,7 @@
 4. If ingesting **assets**, rename to `logo.svg` / `wordmark.svg` / `mark.svg` under `brand/assets/`, then compile (copies to `guide/public/brand/`). Do not edit the public tree.
 5. Add few-shots under `examples.md` → `## Logo examples` when the change is a new do/don’t (`logo-00n`).
 6. `cd guide && npm run compile`.
-7. Spot-check Logo. Placeholder leaves may still show **assets** — improving prose does not by itself replace specimen UI.
+7. Spot-check Logo. Prefer SVG specimens when `logo.svg` exists; `logo-supporting` only when authored.
 
 ## Checklist
 

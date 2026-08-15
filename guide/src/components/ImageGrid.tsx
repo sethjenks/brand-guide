@@ -3,6 +3,7 @@ import { Grid } from "@astryxdesign/core/Grid";
 import { HStack } from "@astryxdesign/core/HStack";
 import { MediaTheme } from "@astryxdesign/core/theme";
 import type { CSSProperties, ReactNode } from "react";
+import { EmptyMedia } from "@/components/EmptyMedia";
 
 export type ImageGridItem = {
   id: string;
@@ -90,7 +91,7 @@ export function ImageGrid({
                     height="100%"
                     className="image-grid-placeholder"
                   >
-                    {item.children}
+                    {item.children ?? <EmptyMedia />}
                   </HStack>
                 )}
               </AspectRatio>

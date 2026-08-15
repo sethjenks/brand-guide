@@ -1,8 +1,8 @@
 {
-  "_hash": "sha256:fa2ba0eeac9594fa281305ef391266eac3b352369e6d8baf7eac4229b5b66f1d",
+  "_hash": "sha256:29ce0d5014216fb8837b911c36a60541385fb3e11755071e5d0284afae120df8",
   "_spec_version": "1.2.0",
-  "_compiled": "2026-08-12T21:28:52.078Z",
-  "_last_material_change": "2026-08-12",
+  "_compiled": "2026-08-15T00:15:29.288Z",
+  "_last_material_change": "2026-08-15",
   "_sanitized": true,
   "meta": {
     "name": "Sample Brand",
@@ -943,7 +943,41 @@
       },
       "positioning": {
         "intro": "A succinct expression of our core business activity and what sets us apart. This statement helps align marketing efforts with our brand and value proposition.",
-        "statement": "Repo-native brand constitution for product and creative teams. Not a plugin. Not an agency. Not a vibes deck."
+        "statement": "Repo-native brand constitution for product and creative teams. Not a plugin. Not an agency. Not a vibes deck.",
+        "fields": [
+          {
+            "label": "Category",
+            "value": "Repo-native brand constitution for product and creative teams."
+          },
+          {
+            "label": "Not",
+            "value": "Not a design-tool plugin. Not a marketing agency. Not a vibes deck."
+          },
+          {
+            "label": "Differentiation",
+            "value": "File-based, grayscale-first, dual audience (human guide + agent API)."
+          },
+          {
+            "label": "Only we",
+            "value": "A starter that ships a filled Sample Brand, a visual guide, and a compiled `brand.json` in one repo."
+          },
+          {
+            "label": "Territory",
+            "value": "Clarity over ornament. Plain language over hype."
+          },
+          {
+            "label": "Audience primary",
+            "value": "Founders and product teams shipping with AI tools"
+          },
+          {
+            "label": "Audience secondary",
+            "value": "Designers maintaining a design system alongside brand meaning"
+          },
+          {
+            "label": "Position",
+            "value": "Repo-native brand constitution for product and creative teams. Not a plugin. Not an agency. Not a vibes deck."
+          }
+        ]
       },
       "vision": {
         "intro": "Where we are headed — the long-term ambition that keeps strategy, product, and creative pointed at the same horizon.",
@@ -1369,6 +1403,9 @@
       "actLabel": "Visual",
       "colors": {
         "intro": "A grayscale starter with a twelve-step interface scale — swap the palette when you adopt the kit.",
+        "proportion": "",
+        "donts": [],
+        "pairings": [],
         "brand": [
           {
             "name": "Ink",
@@ -1470,8 +1507,13 @@
         "family": "Geist",
         "note": "One grotesque for display and body. Hierarchy through size and weight — not a second decorative face.",
         "faces": {
+          "display": "",
           "primary": "Geist — display and body",
-          "fallback": "IBM Plex Sans, system-ui, sans-serif"
+          "mono": "",
+          "fallback": "IBM Plex Sans, system-ui, sans-serif",
+          "displayFoundry": "",
+          "primaryFoundry": "",
+          "monoFoundry": ""
         },
         "specimens": [
           {
@@ -1498,6 +1540,8 @@
       },
       "logo": {
         "description": "A wordmark in ink on paper — or reversed on ink — that reads as type, not decoration.",
+        "clearspace": "Approximately the height of the capital S",
+        "supporting": "",
         "donts": [
           "Don’t stretch or outline",
           "Don’t add drop shadows",
@@ -1509,8 +1553,49 @@
         "tone": "Human, authentic, reflective, hopeful",
         "subjects": "Real workspaces, candid crops, product-in-context",
         "settings": "Natural light, quiet interiors, honest materials",
-        "avoid": "Oversaturated stock, fake handshakes, neon gradients"
+        "product": "",
+        "moments": "",
+        "style": "Editorial, natural light, product-in-context.",
+        "mood": "Focused, calm, confident.",
+        "crop": "",
+        "avoid": [
+          "Oversaturated stock",
+          "fake handshakes",
+          "neon gradients"
+        ]
       }
+    },
+    "system": {
+      "intro": "Document-like layout: single column for prose. Constrain readable copy to `--content-max` (≈ 65 characters) so lines stay in the 65–75 character comfort range; grids, swatches, and specimens may span wider. Generous vertical rhythm between sections (`--space-6`).",
+      "grid": "Document-like layout: single column for prose. Constrain readable copy to `--content-max` (≈ 65 characters) so lines stay in the 65–75 character comfort range; grids, swatches, and specimens may span wider. Generous vertical rhythm between sections (`--space-6`).",
+      "composition": "",
+      "supporting": "",
+      "components": [
+        {
+          "name": "Primary button",
+          "usage": "Ink fill, paper text; no rounded-full pills"
+        },
+        {
+          "name": "Secondary button",
+          "usage": "Paper fill, ink text, `1px` border"
+        },
+        {
+          "name": "Links",
+          "usage": "Ink, underline on hover; no accent color"
+        },
+        {
+          "name": "Cards",
+          "usage": "Prefer none. Use only when the container is interactive"
+        },
+        {
+          "name": "Dividers",
+          "usage": "`--color-border` hairlines"
+        },
+        {
+          "name": "Code / tokens",
+          "usage": "Surface background, mono optional"
+        }
+      ]
     },
     "animation": {
       "introduction": "Motion orients. It helps people see what changed, where to look next, and how the brand feels under the hand — never decoration for its own sake.",
@@ -1676,6 +1761,12 @@
           "title": "Decks & handouts",
           "copy": "Same type hierarchy. Generous margins. Hairline rules only when they aid reading — never as decoration.",
           "sample": "Brand Guide · 2026"
+        },
+        {
+          "channel": "Email",
+          "title": "",
+          "copy": "One purpose; clear next step",
+          "sample": ""
         }
       ]
     }

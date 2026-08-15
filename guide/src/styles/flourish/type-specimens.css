@@ -3,10 +3,17 @@
 .astryx-text.typeface-specimen-line {
   font-family: var(--typeface-specimen-font, var(--font-family-heading));
   font-size: clamp(1.75rem, 4.5vw, 3.25rem);
-  font-weight: 700;
+  font-style: var(--typeface-specimen-style, normal);
+  font-weight: var(--typeface-specimen-weight, 700);
   letter-spacing: -0.04em;
   line-height: 1.05;
   white-space: nowrap;
+}
+
+.typeface-section-mono .typeface-specimen-line,
+.typeface-section-mono .astryx-text.typeface-specimen-line {
+  font-size: clamp(1.25rem, 3.2vw, 2.25rem);
+  letter-spacing: 0.02em;
 }
 
 .typeface-specimen-name,
@@ -16,7 +23,11 @@
 
 .type-weight-specimen,
 .astryx-text.type-weight-specimen {
-  font-family: var(--font-family-heading);
+  font-family: var(
+    --type-weight-specimen-font,
+    var(--font-family-heading)
+  );
+  font-style: var(--type-weight-specimen-style, normal);
   font-size: clamp(2.5rem, 8vw, 5.5rem);
   letter-spacing: -0.05em;
   line-height: 1;
@@ -66,7 +77,8 @@
 
 .type-glyph,
 .astryx-text.type-glyph {
-  font-family: var(--font-family-heading);
+  font-family: var(--type-glyph-font, var(--font-family-heading));
+  font-style: var(--type-glyph-style, normal);
   font-size: clamp(1rem, 2.8vw, 1.75rem);
   letter-spacing: -0.02em;
   line-height: 1;
@@ -74,7 +86,8 @@
 
 .type-hierarchy-sample,
 .astryx-text.type-hierarchy-sample {
-  font-family: var(--font-family-heading);
+  font-family: var(--type-hierarchy-font, var(--font-family-heading));
+  font-style: var(--type-hierarchy-style, normal);
   font-size: var(--type-hierarchy-size);
   letter-spacing: -0.03em;
   line-height: var(--type-hierarchy-leading);

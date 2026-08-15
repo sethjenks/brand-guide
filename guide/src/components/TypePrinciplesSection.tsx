@@ -104,7 +104,7 @@ export function TypePrinciplesSection({
         {items.map((item) => (
           <Grid
             key={item.id}
-            columns={3}
+            columns={{ minWidth: 220, max: 3 }}
             gap={4}
             columnGap={6}
             align="start"

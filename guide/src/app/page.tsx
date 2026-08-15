@@ -1,8 +1,10 @@
-import { Button } from "@astryxdesign/core/Button";
 import { Grid } from "@astryxdesign/core/Grid";
 import { HStack } from "@astryxdesign/core/HStack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
+import type { CSSProperties, ReactNode } from "react";
+import fs from "node:fs";
+import path from "node:path";
 import { AgentLabel } from "@/components/AgentLabel";
 import { AndYetSection } from "@/components/AndYetSection";
 import { AppShell } from "@/components/AppShell";
@@ -13,6 +15,7 @@ import { BrandingQuestionnaire } from "@/components/BrandingQuestionnaire";
 import { ChapterSection } from "@/components/ChapterSection";
 import { Clothesline } from "@/components/Clothesline";
 import { ClotheslineGrid } from "@/components/ClotheslineGrid";
+import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
 import {
   ColorCombinations,
   type ColorCombinationItem,
@@ -27,6 +30,7 @@ import { ContextSection } from "@/components/ContextSection";
 import { CopySnippet } from "@/components/CopySnippet";
 import { CopyValue } from "@/components/CopyValue";
 import { CtaSection } from "@/components/CtaSection";
+import { DoDontColumns } from "@/components/DoDontColumns";
 import { GraphicStatement } from "@/components/GraphicStatement";
 import { GuideColumn } from "@/components/GuideColumn";
 import { GuideHero } from "@/components/GuideHero";
@@ -34,7 +38,9 @@ import { GuardrailsSection } from "@/components/GuardrailsSection";
 import { HeadlinesSection } from "@/components/HeadlinesSection";
 import { AssetStage } from "@/components/AssetStage";
 import { DontGrid, type DontGridItem } from "@/components/DontGrid";
+import { EmptyMedia } from "@/components/EmptyMedia";
 import { ImageGrid, type ImageGridItem } from "@/components/ImageGrid";
+import { LabeledField } from "@/components/LabeledField";
 import {
   PhotographyCategoriesSection,
   type PhotographyCategoryNavItem,
@@ -50,6 +56,7 @@ import { ScaleStack, type ScaleStackStep } from "@/components/ScaleStack";
 import { SectionStub } from "@/components/SectionStub";
 import { SectionStatusKey } from "@/components/SectionStatusKey";
 import { SetupSourceCard } from "@/components/SetupSourceCard";
+import { SetupHeroBody } from "@/components/SetupHeroBody";
 import { StatementSection } from "@/components/StatementSection";
 import { StorySection } from "@/components/StorySection";
 import { TypefaceSection } from "@/components/TypefaceSection";
@@ -67,17 +74,59 @@ import {
   type TypeWeightItem,
 } from "@/components/TypeWeightsSection";
 import { VoiceSpectrumSection } from "@/components/VoiceSpectrumSection";
+import { applicationChannelToLeafId } from "@/lib/application-channels";
 import { loadBrand, type ColorSwatch } from "@/lib/load-brand";
 import type { SetupIntakeSource } from "@/lib/brand-types";
 import { assessBrandCompleteness } from "@/lib/brand-completeness";
 import { sectionLeafStyle } from "@/lib/section-leaf";
 import { resolveSectionStatus } from "@/lib/section-status";
 import type { SectionStatus } from "@/lib/section-status-ui";
-import { GUIDE_CHAPTERS } from "@/lib/nav";
+import { flattenNavSectionIds, GUIDE_CHAPTERS } from "@/lib/nav";
+import { splitList } from "@/lib/split-list";
+import { brandThemeInput } from "@/themes/brand.generated";
 import "@/styles/flourish/hero.css";
 import "@/styles/flourish/logo-collage.css";
 import "@/styles/flourish/type-principles.css";
 import "@/styles/flourish/type-treatment.css";
+
+/** Suggested stacks when compiled theme input omits optional faces. */
+const DISPLAY_STACK = "var(--font-serif), Georgia, serif";
+const PRIMARY_STACK = "var(--font-sans), system-ui, sans-serif";
+const MONO_STACK = "var(--font-mono), ui-monospace, monospace";
+
+/** Strip a trailing " — role" suffix from Visual face labels. */
+function shortFaceName(raw: string | undefined): string {
+  const trimmed = raw?.trim() ?? "";
+  if (!trimmed) return "";
+  const dash = trimmed.indexOf(" — ");
+  return dash === -1 ? trimmed : trimmed.slice(0, dash).trim();
+}
+
+function compiledFontSans(): string {
+  return brandThemeInput.fontSans || PRIMARY_STACK;
+}
+
+function compiledFontSerif(): string {
+  if (
+    "fontSerif" in brandThemeInput &&
+    typeof brandThemeInput.fontSerif === "string" &&
+    brandThemeInput.fontSerif.trim()
+  ) {
+    return brandThemeInput.fontSerif;
+  }
+  return DISPLAY_STACK;
+}
+
+function compiledFontMono(): string {
+  if (
+    "fontMono" in brandThemeInput &&
+    typeof brandThemeInput.fontMono === "string" &&
+    brandThemeInput.fontMono.trim()
+  ) {
+    return brandThemeInput.fontMono;
+  }
+  return MONO_STACK;
+}
 
 function toColorTiles(colors: readonly ColorSwatch[]): ColorTileItem[] {
   return colors.map((color) => ({
@@ -87,28 +136,121 @@ function toColorTiles(colors: readonly ColorSwatch[]): ColorTileItem[] {
   }));
 }
 
+function colorValue(
+  colors: readonly ColorSwatch[],
+  name: string,
+  fallback: string,
+): string {
+  return colors.find((c) => c.name === name)?.value ?? fallback;
+}
+
+/** Prefer exact name, then token suffix, then name/token heuristics. */
+function resolveSwatchValue(
+  pools: readonly (readonly ColorSwatch[])[],
+  opts: {
+    names?: readonly string[];
+    tokenEndsWith?: readonly string[];
+    nameIncludes?: readonly string[];
+    fallback: string;
+  },
+): string {
+  const flat = pools.flat();
+  for (const name of opts.names ?? []) {
+    const hit = flat.find(
+      (c) => c.name.toLowerCase() === name.toLowerCase(),
+    );
+    if (hit) return hit.value;
+  }
+  for (const suffix of opts.tokenEndsWith ?? []) {
+    const needle = suffix.toLowerCase();
+    const hit = flat.find((c) => c.token.toLowerCase().endsWith(needle));
+    if (hit) return hit.value;
+  }
+  for (const part of opts.nameIncludes ?? []) {
+    const needle = part.toLowerCase();
+    const hit = flat.find(
+      (c) =>
+        c.name.toLowerCase().includes(needle) ||
+        c.token.toLowerCase().includes(needle),
+    );
+    if (hit) return hit.value;
+  }
+  return opts.fallback;
+}
+
+function resolvePaper(
+  brand: readonly ColorSwatch[],
+  iface: readonly ColorSwatch[],
+): string {
+  return resolveSwatchValue([brand, iface], {
+    names: ["Paper"],
+    tokenEndsWith: ["paper"],
+    nameIncludes: ["paper"],
+    fallback: "var(--color-background-surface)",
+  });
+}
+
+function resolveInk(
+  brand: readonly ColorSwatch[],
+  secondary: readonly ColorSwatch[] = [],
+): string {
+  return resolveSwatchValue([brand, secondary], {
+    names: ["Ink"],
+    tokenEndsWith: ["ink"],
+    nameIncludes: ["ink"],
+    fallback: "var(--color-text-primary)",
+  });
+}
+
+function resolveSurface(iface: readonly ColorSwatch[]): string {
+  return resolveSwatchValue([iface], {
+    names: ["Surface"],
+    tokenEndsWith: ["surface"],
+    nameIncludes: ["surface", "mist", "muted"],
+    fallback: "var(--color-background-card)",
+  });
+}
+
+function resolveMuted(
+  secondary: readonly ColorSwatch[],
+  iface: readonly ColorSwatch[],
+): string {
+  return resolveSwatchValue([secondary, iface], {
+    names: ["Ink Muted", "Muted"],
+    tokenEndsWith: ["muted", "secondary"],
+    nameIncludes: ["muted", "mist"],
+    fallback: "var(--color-text-secondary)",
+  });
+}
+
+function resolveMidContrast(iface: readonly ColorSwatch[]): string {
+  return resolveSwatchValue([iface], {
+    names: ["Border"],
+    tokenEndsWith: ["border"],
+    nameIncludes: ["border", "mid", "gray"],
+    fallback: "var(--color-border)",
+  });
+}
+
+function resolveFieldWash(iface: readonly ColorSwatch[]): string {
+  return resolveSwatchValue([iface], {
+    names: ["Mist", "Surface"],
+    tokenEndsWith: ["mist", "muted"],
+    nameIncludes: ["mist", "muted", "surface", "wash"],
+    fallback: "var(--color-background-muted)",
+  });
+}
+
 /** Approved pairs for the Combinations diagram (outer field + inset). */
 function colorCombinationItems(colors: {
   brand: readonly ColorSwatch[];
   secondary: readonly ColorSwatch[];
   interface: readonly ColorSwatch[];
 }): ColorCombinationItem[] {
-  const ink = colorValue(colors.brand, "Ink", "var(--color-text-primary)");
-  const paper = colorValue(
-    colors.interface,
-    "Gray 1",
-    "var(--color-background-surface)",
-  );
-  const surface = colorValue(
-    colors.interface,
-    "Gray 3",
-    "var(--color-background-card)",
-  );
-  const muted = colorValue(
-    colors.secondary,
-    "Ink Muted",
-    "var(--color-text-secondary)",
-  );
+  const ink = resolveInk(colors.brand, colors.secondary);
+  const paper = resolvePaper(colors.brand, colors.interface);
+  const surface = resolveSurface(colors.interface);
+  const muted = resolveMuted(colors.secondary, colors.interface);
 
   return [
     { id: "paper-ink", outer: paper, inner: ink },
@@ -121,87 +263,85 @@ function colorCombinationItems(colors: {
 /** Do / don’t contrast specimens (field + split bar). */
 function colorContrastItems(colors: {
   brand: readonly ColorSwatch[];
+  secondary: readonly ColorSwatch[];
   interface: readonly ColorSwatch[];
 }): ColorContrastItem[] {
-  const ink = colorValue(colors.brand, "Ink", "var(--color-text-primary)");
-  const gray1 = colorValue(colors.interface, "Gray 1", "#fcfcfc");
-  const gray2 = colorValue(colors.interface, "Gray 2", "#f9f9f9");
-  const gray3 = colorValue(colors.interface, "Gray 3", "#f0f0f0");
-  const gray7 = colorValue(colors.interface, "Gray 7", "#cecece");
-  const gray9 = colorValue(colors.interface, "Gray 9", "#8d8d8d");
-  const gray10 = colorValue(colors.interface, "Gray 10", "#838383");
-  const paper = "var(--color-background-surface)";
+  const ink = resolveInk(colors.brand, colors.secondary);
+  const paper = resolvePaper(colors.brand, colors.interface);
+  const surface = resolveSurface(colors.interface);
+  const field = resolveFieldWash(colors.interface);
+  const mid = resolveMidContrast(colors.interface);
+  const muted = resolveMuted(colors.secondary, colors.interface);
 
   return [
     {
       id: "contrast-light-do",
-      background: gray2,
+      background: field,
       left: ink,
-      right: gray7,
+      right: mid,
       caption: "Always do this",
       chipTone: "dark",
+      chipLabel: "UI",
     },
     {
       id: "contrast-light-dont",
-      background: gray2,
-      left: gray1,
-      right: gray3,
+      background: field,
+      left: paper,
+      right: surface,
       caption: "Don’t do this",
       struck: true,
       chipTone: "dark",
+      chipLabel: "UI",
     },
     {
       id: "contrast-dark-do",
       background: ink,
       left: paper,
-      right: gray7,
+      right: mid,
       caption: "Always do this",
       chipTone: "light",
+      chipLabel: "UI",
     },
     {
       id: "contrast-dark-dont",
       background: ink,
-      left: gray10,
-      right: gray9,
+      left: muted,
+      right: mid,
       caption: "Don’t do this",
       struck: true,
       chipTone: "light",
+      chipLabel: "UI",
     },
   ];
 }
 
-function colorValue(
-  colors: readonly ColorSwatch[],
-  name: string,
-  fallback: string,
-): string {
-  return colors.find((c) => c.name === name)?.value ?? fallback;
-}
-
-/** First named face from a CSS font-family stack. */
-function faceNameFromStack(stack: string): string {
-  return stack.split(",")[0]?.trim() || stack;
-}
-
-/** Designated brand weights from Design system → Type tokens. */
-function typeWeightItems(family: string): TypeWeightItem[] {
-  return [
-    {
-      id: "weight-semibold",
-      label: `${family} Semibold`,
-      weight: "semibold",
-    },
-    {
-      id: "weight-medium",
-      label: `${family} Medium`,
-      weight: "medium",
-    },
-    {
-      id: "weight-regular",
-      label: `${family} Regular`,
-      weight: "normal",
-    },
+/** Designated brand weights — one row set per authored face role. */
+function typeWeightItems(
+  roles: readonly {
+    id: string;
+    family: string;
+    fontFamily: string;
+    fontStyle?: string;
+  }[],
+): TypeWeightItem[] {
+  const cuts: {
+    suffix: string;
+    weight: TypeWeightItem["weight"];
+  }[] = [
+    { suffix: "Semibold", weight: "semibold" },
+    { suffix: "Medium", weight: "medium" },
+    { suffix: "Regular", weight: "normal" },
   ];
+
+  return roles.flatMap((role) =>
+    cuts.map((cut) => ({
+      id: `weight-${role.id}-${cut.weight}`,
+      label: `${role.family} ${cut.suffix}`,
+      weight: cut.weight,
+      fontFamily: role.fontFamily,
+      fontStyle: role.fontStyle,
+    })),
+  );
 }
 
 /** Typesetting principles — live do/don’t specimens (swap for assets later). */
@@ -301,45 +441,164 @@ function typePrincipleItems(): TypePrincipleItem[] {
 }
 
 /** Hierarchy levels mapped to Design system type tokens (sizes illustrative). */
-function typeHierarchyLevels(family: string): TypeHierarchyLevel[] {
-  return [
-    {
+function typeHierarchyLevels(
+  roles: {
+    display?: { family: string; fontFamily: string; fontStyle?: string };
+    primary: { family: string; fontFamily: string };
+    mono?: { family: string; fontFamily: string };
+  },
+  samples: {
+    headline: string;
+    subhead: string;
+    body: string;
+    label: string;
+  },
+): TypeHierarchyLevel[] {
+  const levels: TypeHierarchyLevel[] = [];
+
+  if (roles.display) {
+    levels.push({
       id: "hierarchy-headline",
       role: "Headline",
-      face: `${family} Semibold`,
+      face: `${roles.display.family} Semibold`,
       size: "Display / 1.1",
       casing: "Sentence case",
-      sample:
-        "Headlines nulla vitae euismod sem. Integer ut vehicula mauris.",
+      sample: samples.headline,
       fontSize: "var(--font-size-display)",
       lineHeight: "1.1",
       weight: "semibold",
-    },
-    {
-      id: "hierarchy-subhead",
-      role: "Subhead",
-      face: `${family} Semibold`,
-      size: "XL / 1.2",
+      fontFamily: roles.display.fontFamily,
+      fontStyle: roles.display.fontStyle,
+    });
+  } else {
+    levels.push({
+      id: "hierarchy-headline",
+      role: "Headline",
+      face: `${roles.primary.family} Semibold`,
+      size: "Display / 1.1",
       casing: "Sentence case",
-      sample:
-        "Subheads suspendisse aliquet at dui eu pellentesque. In dui turpis, mollis vel est ullamcorper, bibendum consectetur massa.",
-      fontSize: "var(--font-size-xl)",
-      lineHeight: "1.2",
+      sample: samples.headline,
+      fontSize: "var(--font-size-display)",
+      lineHeight: "1.1",
       weight: "semibold",
-    },
-    {
-      id: "hierarchy-body",
-      role: "Body",
-      face: `${family} Regular`,
-      size: "Base / 1.55",
+      fontFamily: roles.primary.fontFamily,
+    });
+  }
+
+  levels.push({
+    id: "hierarchy-subhead",
+    role: "Subhead",
+    face: `${roles.primary.family} Semibold`,
+    size: "XL / 1.2",
+    casing: "Sentence case",
+    sample: samples.subhead,
+    fontSize: "var(--font-size-xl)",
+    lineHeight: "1.2",
+    weight: "semibold",
+    fontFamily: roles.primary.fontFamily,
+  });
+
+  levels.push({
+    id: "hierarchy-body",
+    role: "Body",
+    face: `${roles.primary.family} Regular`,
+    size: "Base / 1.55",
+    casing: "Sentence case",
+    sample: samples.body,
+    fontSize: "var(--font-size-base)",
+    lineHeight: "var(--line-height-body)",
+    weight: "normal",
+    fontFamily: roles.primary.fontFamily,
+  });
+
+  if (roles.mono) {
+    levels.push({
+      id: "hierarchy-label",
+      role: "Label",
+      face: `${roles.mono.family} Regular`,
+      size: "SM / 1.3",
       casing: "Sentence case",
-      sample:
-        "Body phasellus at ornare mauris, eu viverra tellus. Curabitur sit amet lorem lorem. Praesent vel turpis ex. Pellentesque in felis ante. In massa dolor, porta sed dictum non, gravida et urna. Phasellus imperdiet ligula eu neque blandit, vitae lacinia augue consequat.",
-      fontSize: "var(--font-size-base)",
-      lineHeight: "var(--line-height-body)",
+      sample: samples.label,
+      fontSize: "var(--font-size-sm)",
+      lineHeight: "1.3",
       weight: "normal",
-    },
-  ];
+      fontFamily: roles.mono.fontFamily,
+    });
+  }
+
+  return levels;
+}
+
+function specimenSample(
+  specimens: readonly {
+    label: string;
+    sample: string;
+    size: "display" | "xl" | "lg" | "base";
+  }[],
+  size: "display" | "xl" | "lg" | "base",
+  fallback: string,
+): string {
+  const hit = specimens.find((s) => s.size === size)?.sample?.trim();
+  return hit || fallback;
+}
+
+function brandGuideRepoRoot(): string {
+  if (process.env.BRAND_ROOT) {
+    return path.resolve(process.env.BRAND_ROOT);
+  }
+  let dir = process.cwd();
+  for (let i = 0; i < 8; i++) {
+    const hasBrandJson = fs.existsSync(path.join(dir, "brand.json"));
+    const hasSetup = fs.existsSync(path.join(dir, "brand", "setup.json"));
+    if (hasBrandJson && hasSetup) return dir;
+    const parent = path.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  return path.resolve(process.cwd(), "..");
+}
+
+const LOGO_ASSET_CANDIDATES = [
+  "logo.svg",
+  "logo.png",
+  "wordmark.svg",
+  "mark.svg",
+] as const;
+
+function logoAssetSrc(): string | null {
+  const root = brandGuideRepoRoot();
+  for (const filename of LOGO_ASSET_CANDIDATES) {
+    const brandPath = path.join(root, "brand/assets", filename);
+    const publicPath = path.join(root, "guide/public/brand", filename);
+    if (fs.existsSync(brandPath) || fs.existsSync(publicPath)) {
+      return `/brand/${filename}`;
+    }
+  }
+  return null;
+}
+
+function supportingLogoAssetSrc(): string | null {
+  const root = brandGuideRepoRoot();
+  for (const filename of ["supporting.svg", "supporting.png"] as const) {
+    const brandPath = path.join(root, "brand/assets", filename);
+    const publicPath = path.join(root, "guide/public/brand", filename);
+    if (fs.existsSync(brandPath) || fs.existsSync(publicPath)) {
+      return `/brand/${filename}`;
+    }
+  }
+  return null;
+}
+
+function markLogoAssetSrc(): string | null {
+  const root = brandGuideRepoRoot();
+  for (const filename of ["mark.svg", "mark.png"] as const) {
+    const brandPath = path.join(root, "brand/assets", filename);
+    const publicPath = path.join(root, "guide/public/brand", filename);
+    if (fs.existsSync(brandPath) || fs.existsSync(publicPath)) {
+      return `/brand/${filename}`;
+    }
+  }
+  return null;
 }
 
 function logoWordmark(brandName: string) {
@@ -355,6 +614,38 @@ function logoWordmark(brandName: string) {
   );
 }
 
+function logoSpecimen(brandName: string): ReactNode {
+  const src = logoAssetSrc();
+  if (src) {
+    return <img src={src} alt={brandName} className="logo-stage-wordmark" />;
+  }
+  return logoWordmark(brandName);
+}
+
+function parseClearspaceMinPx(clearspace: string | undefined): number {
+  if (!clearspace?.trim()) return 24;
+  const px = clearspace.match(/(\d+)\s*px/i);
+  if (px) return Number(px[1]);
+  const inch = clearspace.match(/(\d+(?:\.\d+)?)\s*(?:in|inch|inches)\b/i);
+  if (inch) return Math.max(16, Math.round(Number(inch[1]) * 96));
+  const bare = clearspace.match(/\b(\d{2,3})\b/);
+  if (bare) return Number(bare[1]);
+  return 24;
+}
+
+function logoScaleSteps(clearspace: string | undefined): ScaleStackStep[] {
+  const minWidth = parseClearspaceMinPx(clearspace);
+  const minLabel = clearspace?.trim() || `${minWidth}px min`;
+  return [
+    { id: "scale-xl", width: 320 },
+    { id: "scale-lg", width: 200 },
+    { id: "scale-md", width: 140 },
+    { id: "scale-sm", width: 96 },
+    { id: "scale-xs", width: 64 },
+    { id: "scale-min", width: minWidth, label: minLabel },
+  ];
+}
+
 function logoOnColorItems(
   brandName: string,
   colors: {
@@ -363,48 +654,32 @@ function logoOnColorItems(
     interface: readonly ColorSwatch[];
   },
 ): ImageGridItem[] {
-  const wordmark = logoWordmark(brandName);
+  const specimen = logoSpecimen(brandName);
 
   return [
     {
       id: "on-paper",
-      background: colorValue(
-        colors.interface,
-        "Paper",
-        "var(--color-background-surface)",
-      ),
+      background: resolvePaper(colors.brand, colors.interface),
       tone: "light",
-      children: wordmark,
+      children: specimen,
     },
     {
       id: "on-surface",
-      background: colorValue(
-        colors.interface,
-        "Surface",
-        "var(--color-background-card)",
-      ),
+      background: resolveSurface(colors.interface),
       tone: "light",
-      children: wordmark,
+      children: specimen,
     },
     {
       id: "on-ink-muted",
-      background: colorValue(
-        colors.secondary,
-        "Ink Muted",
-        "var(--color-text-secondary)",
-      ),
+      background: resolveMuted(colors.secondary, colors.interface),
       tone: "dark",
-      children: wordmark,
+      children: specimen,
     },
     {
       id: "on-ink",
-      background: colorValue(
-        colors.brand,
-        "Ink",
-        "var(--color-text-primary)",
-      ),
+      background: resolveInk(colors.brand, colors.secondary),
       tone: "dark",
-      children: wordmark,
+      children: specimen,
     },
   ];
 }
@@ -414,44 +689,27 @@ function logoSingleColorItems(
   brandName: string,
   colors: {
     brand: readonly ColorSwatch[];
+    secondary: readonly ColorSwatch[];
     interface: readonly ColorSwatch[];
   },
 ): ImageGridItem[] {
-  const wordmark = logoWordmark(brandName);
+  const specimen = logoSpecimen(brandName);
 
   return [
     {
       id: "single-on-ink",
-      background: colorValue(
-        colors.brand,
-        "Ink",
-        "var(--color-text-primary)",
-      ),
+      background: resolveInk(colors.brand, colors.secondary),
       tone: "dark",
-      children: wordmark,
+      children: specimen,
     },
     {
       id: "single-on-paper",
-      background: colorValue(
-        colors.interface,
-        "Paper",
-        "var(--color-background-surface)",
-      ),
+      background: resolvePaper(colors.brand, colors.interface),
       tone: "light",
-      children: wordmark,
+      children: specimen,
     },
   ];
 }
-
-/** Default cascade widths; override per brand with assets via `src` / step `src`. */
-const LOGO_SCALE_STEPS: readonly ScaleStackStep[] = [
-  { id: "scale-xl", width: 320 },
-  { id: "scale-lg", width: 200 },
-  { id: "scale-md", width: 140 },
-  { id: "scale-sm", width: 96 },
-  { id: "scale-xs", width: 64 },
-  { id: "scale-min", width: 20, label: "20px min" },
-];
 
 function logoDontItems(
   brandName: string,
@@ -467,31 +725,29 @@ function logoDontItems(
   }));
 }
 
-/** Color don’ts — placeholder specimens (swap for assets via `src`). */
-function colorDontItems(): DontGridItem[] {
-  return Array.from({ length: 6 }, (_, index) => ({
+/** Color don’ts from authored captions (swap for assets via `src`). */
+function colorDontItems(donts: readonly string[]): DontGridItem[] {
+  return donts.map((caption, index) => ({
     id: `color-dont-${index}`,
-    caption: "Don’t do this",
+    caption,
   }));
 }
 
-/** Photography don’ts from imagery.avoid (comma-separated) + placeholders. */
-function photographyDontItems(avoid: string): DontGridItem[] {
-  const parts = avoid
-    .split(",")
-    .map((part) => part.trim())
-    .filter(Boolean);
+/** Photography don’ts from imagery.avoid — empty when nothing authored. */
+function photographyDontItems(
+  avoid: string | readonly string[] | undefined,
+): DontGridItem[] {
+  const parts = Array.isArray(avoid)
+    ? avoid.map((part) => String(part).trim()).filter(Boolean)
+    : splitList(typeof avoid === "string" ? avoid : undefined);
 
-  const captions =
-    parts.length > 0
-      ? parts.map((part) =>
-          /^don[’']t/i.test(part) ? part : `Don’t use ${part.toLowerCase()}`,
-        )
-      : ["Don’t do this", "Don’t do this", "Don’t do this"];
+  if (parts.length === 0) return [];
 
-  return captions.map((caption, index) => ({
+  return parts.map((part, index) => ({
     id: `photo-dont-${index}`,
-    caption,
+    caption: /^don[’']t/i.test(part)
+      ? part
+      : `Don’t use ${part.toLowerCase()}`,
   }));
 }
 
@@ -510,13 +766,26 @@ function animationDontItems(captions: readonly string[]): DontGridItem[] {
   }));
 }
 
-function photographyCategoryNav(): PhotographyCategoryNavItem[] {
-  return [
-    { id: "photography-category-subjects", label: "Subjects" },
-    { id: "photography-category-settings", label: "Settings" },
-    { id: "photography-category-product", label: "Product" },
-    { id: "photography-category-moments", label: "Moments" },
-  ];
+function photographyCategoryNav(imagery: {
+  subjects?: string;
+  settings?: string;
+  product?: string;
+  moments?: string;
+}): PhotographyCategoryNavItem[] {
+  const items: PhotographyCategoryNavItem[] = [];
+  if (imagery.subjects?.trim()) {
+    items.push({ id: "photography-category-subjects", label: "Subjects" });
+  }
+  if (imagery.settings?.trim()) {
+    items.push({ id: "photography-category-settings", label: "Settings" });
+  }
+  if (imagery.product?.trim()) {
+    items.push({ id: "photography-category-product", label: "Product" });
+  }
+  if (imagery.moments?.trim()) {
+    items.push({ id: "photography-category-moments", label: "Moments" });
+  }
+  return items;
 }
 
 /** Typography don’ts — live bad treatments (swap for assets via `src`). */
@@ -603,9 +872,6 @@ function typeDontItems(family: string): DontGridItem[] {
   ];
 }
 
-const APPLICATION_PLACEHOLDER_CONTEXT =
-  "Describe how the brand appears in this channel. Include example applications below.";
-
 /** Applications leaf: label + description + one AssetStage or many ImageGrid cells. */
 function ApplicationSection({
   id,
@@ -634,7 +900,9 @@ function ApplicationSection({
     >
       {sample}
     </Text>
-  ) : null;
+  ) : (
+    <EmptyMedia label="Add application example" />
+  );
 
   return (
     <LogoAssetSection id={id} title={title} context={context} status={status}>
@@ -651,7 +919,12 @@ function ApplicationSection({
             id: `${id}-image-${index}`,
             background: "var(--color-background-muted)",
             tone: "light" as const,
-            children: index === 0 ? sampleNode : undefined,
+            children:
+              index === 0 && sample ? (
+                sampleNode
+              ) : (
+                <EmptyMedia label="Add application example" />
+              ),
           }))}
         />
       )}
@@ -661,6 +934,88 @@ function ApplicationSection({
 
 export default function Home() {
   const brand = loadBrand();
+  const faces = brand.visual.typography.faces;
+  const displayName = shortFaceName(faces.display);
+  const primaryName =
+    shortFaceName(faces.primary) ||
+    brand.visual.typography.family.trim() ||
+    "Primary";
+  const monoName = shortFaceName(faces.mono);
+  const displayFoundry = faces.displayFoundry?.trim() ?? "";
+  const primaryFoundry = faces.primaryFoundry?.trim() ?? "";
+  const monoFoundry = faces.monoFoundry?.trim() ?? "";
+  const displayStack = compiledFontSerif();
+  const primaryStack = compiledFontSans();
+  const monoStack = compiledFontMono();
+  const typeRoles = [
+    ...(displayName
+      ? [
+          {
+            id: "display",
+            family: displayName,
+            fontFamily: displayStack,
+            fontStyle: "italic" as string | undefined,
+          },
+        ]
+      : []),
+    {
+      id: "primary",
+      family: primaryName,
+      fontFamily: primaryStack,
+    },
+    ...(monoName
+      ? [
+          {
+            id: "mono",
+            family: monoName,
+            fontFamily: monoStack,
+          },
+        ]
+      : []),
+  ];
+  const weightItems = typeWeightItems(typeRoles);
+  const typeSpecimens = brand.visual.typography.specimens;
+  const hierarchyLevels = typeHierarchyLevels(
+    {
+      ...(displayName
+        ? {
+            display: {
+              family: displayName,
+              fontFamily: displayStack,
+              fontStyle: "italic",
+            },
+          }
+        : {}),
+      primary: { family: primaryName, fontFamily: primaryStack },
+      ...(monoName
+        ? { mono: { family: monoName, fontFamily: monoStack } }
+        : {}),
+    },
+    {
+      headline: specimenSample(
+        typeSpecimens,
+        "display",
+        brand.tagline || brand.name,
+      ),
+      subhead: specimenSample(
+        typeSpecimens,
+        "xl",
+        brand.tagline || brand.voice.identity || brand.name,
+      ),
+      body: specimenSample(
+        typeSpecimens,
+        "base",
+        brand.support || brand.voice.identity || brand.tagline || brand.name,
+      ),
+      label: specimenSample(
+        typeSpecimens,
+        "lg",
+        monoName
+          ? `${monoName} · labels and metadata`
+          : `${primaryName} · labels and metadata`,
+      ),
+    },
+  );
   const completeness = assessBrandCompleteness(brand);
   const { byId: sectionStatusById, chapters: chapterStatus } =
     resolveSectionStatus(brand, completeness);
@@ -682,22 +1037,42 @@ export default function Home() {
     utilitiesChapter,
   ] = GUIDE_CHAPTERS;
   const enabledChapterIds = new Set(brand.nav.map((group) => group.id));
-
-  const expressionByChannel = Object.fromEntries(
-    brand.expressions.items.map((item) => [
-      item.channel.trim().toLowerCase(),
-      item,
-    ]),
+  const navLeafIds = new Set(flattenNavSectionIds(brand.nav));
+  const showLeaf = (id: string) => navLeafIds.has(id);
+  const applicationsNavItems =
+    brand.nav.find((group) => group.id === "applications")?.items ?? [];
+  const supportingLogoCopy = brand.visual.logo.supporting?.trim() ?? "";
+  const supportingLogoSrc = supportingLogoAssetSrc();
+  const showSupportingLogo = Boolean(supportingLogoCopy || supportingLogoSrc);
+  const primaryLogoSrc = logoAssetSrc();
+  const socialMarkSrc = markLogoAssetSrc();
+  const showSocialMark = Boolean(
+    socialMarkSrc && socialMarkSrc !== primaryLogoSrc,
   );
+  const photoDontItems = photographyDontItems(brand.visual.imagery.avoid);
+  const colorDontCaptions = brand.visual.colors.donts ?? [];
+  const photoCategoryNav = photographyCategoryNav(brand.visual.imagery);
+  const principlesContext = [
+    brand.visual.imagery.tone,
+    brand.visual.imagery.style,
+    brand.visual.imagery.mood,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const logoClearspace = brand.visual.logo.clearspace?.trim() ?? "";
+  const systemIntro = brand.system?.intro?.trim() ?? "";
+  const systemComponents = brand.system?.components ?? [];
 
   return (
     <AppShell
       brandName={brand.name}
       groups={brand.nav}
+      mode="define"
       sectionStatusById={sectionStatusById}
       chapterStatus={chapterStatus}
+      quietLeafStatus={brand.setup.status === "starter"}
     >
-      <GuideColumn>
+      <GuideColumn data-setup={brand.setup.status}>
         <GuideHero setup={brand.setup.status === "starter"}>
           {brand.setup.status === "starter" ? (
             <>
@@ -713,27 +1088,7 @@ export default function Home() {
               <h1 className="hero-name hero-name-setup" data-type="h0">
                 {brand.setup.headline}
               </h1>
-              <Text
-                as="p"
-                color="secondary"
-                display="block"
-                className="hero-support"
-              >
-                Build from scratch with the{" "}
-                <a href="#utilities-branding-questionnaire">
-                  Branding Questionnaire
-                </a>
-                , or hand your agent a website, PDF, brand.md, or Figma file —
-                we&apos;ll fold what you have into this guide.{" "}
-                <a
-                  href="https://github.com/sethjenks/brand-guide"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Clone the repo on GitHub
-                </a>{" "}
-                to get started.
-              </Text>
+              <SetupHeroBody body={brand.setup.body} />
 
               <Grid
                 className="setup-sources"
@@ -911,12 +1266,42 @@ export default function Home() {
             status={sectionStatusById["strategy-audience"]}
           />
 
-          <StatementSection
+          <ClotheslineLeaf
             id="strategy-positioning"
             title="Positioning"
-            intro={brand.strategy.positioning.intro}
-            statement={brand.strategy.positioning.statement}
+            intro={brand.strategy.positioning.intro || undefined}
             status={sectionStatusById["strategy-positioning"]}
+            className="statement-section"
+            headerContent={
+              brand.strategy.positioning.statement ||
+              brand.strategy.positioning.fields?.length ? (
+              <VStack gap={6} width="100%" align="start">
+                {brand.strategy.positioning.statement ? (
+                  <Text
+                    type="display-2"
+                    weight="bold"
+                    color="primary"
+                    as="p"
+                    display="block"
+                    className="statement-display"
+                  >
+                    {brand.strategy.positioning.statement}
+                  </Text>
+                ) : null}
+                {brand.strategy.positioning.fields?.length ? (
+                  <VStack gap={4} width="100%" align="start">
+                    {brand.strategy.positioning.fields.map((field) => (
+                      <LabeledField key={field.label} label={field.label}>
+                        <Text color="secondary" as="p" display="block">
+                          {field.value}
+                        </Text>
+                      </LabeledField>
+                    ))}
+                  </VStack>
+                ) : null}
+              </VStack>
+              ) : undefined
+            }
           />
 
           <StatementSection
@@ -963,7 +1348,14 @@ export default function Home() {
             intro={brand.strategy.pillars.intro}
             items={brand.strategy.pillars.items.map((pillar) => ({
               title: pillar.name,
-              body: pillar.summary,
+              body: [
+                pillar.summary,
+                pillar.emotional && `Emotional: ${pillar.emotional}`,
+                pillar.functional && `Functional: ${pillar.functional}`,
+                pillar.trust && `Trust: ${pillar.trust}`,
+              ]
+                .filter(Boolean)
+                .join("\n"),
             }))}
             status={sectionStatusById["strategy-pillars"]}
           />
@@ -982,6 +1374,17 @@ export default function Home() {
           <GraphicStatement id="language-introduction">
             {brand.voice.identity}
           </GraphicStatement>
+          {brand.voice.essence?.trim() ? (
+            <Text
+              color="secondary"
+              type="supporting"
+              as="p"
+              display="block"
+              className="measure"
+            >
+              {brand.voice.essence}
+            </Text>
+          ) : null}
 
           <PrinciplesSection
             intro={brand.voice.principles.intro}
@@ -1017,6 +1420,51 @@ export default function Home() {
             dontItems={brand.voice.cta.dont}
             status={sectionStatusById["language-cta"]}
           />
+
+          {showLeaf("language-phrases") && brand.voice.phrases.length > 0 ? (
+            <ClotheslineGrid
+              id="language-phrases"
+              title="Phrases"
+              intro=""
+              items={brand.voice.phrases.map((phrase) => ({
+                title: phrase,
+                body: "",
+              }))}
+              status={sectionStatusById["language-phrases"]}
+            />
+          ) : null}
+
+          {showLeaf("language-we-say") && brand.voice.weSay.length > 0 ? (
+            <ClotheslineLeaf
+              id="language-we-say"
+              title="We say / never"
+              status={sectionStatusById["language-we-say"]}
+              className="clothesline-grid-section"
+            >
+              <VStack gap={8} width="100%">
+                {brand.voice.weSay.map((row) => (
+                  <DoDontColumns
+                    key={`${row.say}-${row.never}`}
+                    gap={8}
+                    do={
+                      <LabeledField label="We say" labelType="label" gap={3}>
+                        <Text weight="bold" color="primary" as="p" display="block">
+                          {row.say}
+                        </Text>
+                      </LabeledField>
+                    }
+                    dont={
+                      <LabeledField label="Never" labelType="label" gap={3}>
+                        <Text weight="bold" color="primary" as="p" display="block">
+                          {row.never}
+                        </Text>
+                      </LabeledField>
+                    }
+                  />
+                ))}
+              </VStack>
+            </ClotheslineLeaf>
+          ) : null}
 
           <VoiceSpectrumSection
             intro={brand.voice.spectrum.intro}
@@ -1124,19 +1572,10 @@ export default function Home() {
             id="logo-mark"
             title="Logo"
             context="Our logo is the primary identifier for our brand. It captures our name, mission, and legacy."
-            action={<Button label="Download" variant="primary" />}
             status={sectionStatusById["logo-mark"]}
           >
             <AssetStage aria-label={`${brand.name} logo`}>
-              <Text
-                type="display-2"
-                weight="bold"
-                color="primary"
-                display="block"
-                className="logo-stage-wordmark"
-              >
-                {brand.name}
-              </Text>
+              {logoSpecimen(brand.name)}
             </AssetStage>
           </LogoAssetSection>
 
@@ -1175,9 +1614,9 @@ export default function Home() {
             {/* Shared SVG: src="/brand/logo.svg". Size-specific PNGs: set step.src. */}
             <ScaleStack
               aria-label={`${brand.name} logo scaling`}
-              steps={LOGO_SCALE_STEPS}
+              steps={logoScaleSteps(logoClearspace || undefined)}
             >
-              {logoWordmark(brand.name)}
+              {logoSpecimen(brand.name)}
             </ScaleStack>
           </LogoAssetSection>
 
@@ -1209,15 +1648,7 @@ export default function Home() {
                   >
                     ×
                   </Text>
-                  <Text
-                    type="display-2"
-                    weight="bold"
-                    color="primary"
-                    display="block"
-                    className="logo-stage-wordmark"
-                  >
-                    {brand.name}
-                  </Text>
+                  {logoSpecimen(brand.name)}
                   <Text
                     color="secondary"
                     display="block"
@@ -1228,15 +1659,36 @@ export default function Home() {
                   </Text>
                 </HStack>
                 <Text type="supporting" color="secondary" display="block">
-                  Clearspace ≈ height of a capital letter in the wordmark
+                  {logoClearspace ||
+                    "Clearspace ≈ height of a capital letter in the wordmark"}
                 </Text>
               </VStack>
             </AssetStage>
           </LogoAssetSection>
 
-          <SectionStub id="logo-supporting" title="Supporting logo"
-            status={sectionStatusById["logo-supporting"]}
-          />
+          {showSupportingLogo && showLeaf("logo-supporting") ? (
+            <LogoAssetSection
+              id="logo-supporting"
+              title="Supporting logo"
+              context={
+                supportingLogoCopy ||
+                "Secondary mark used alongside the primary logo."
+              }
+              status={sectionStatusById["logo-supporting"]}
+            >
+              <AssetStage aria-label={`${brand.name} supporting logo`}>
+                {supportingLogoSrc ? (
+                  <img
+                    src={supportingLogoSrc}
+                    alt={`${brand.name} supporting logo`}
+                    className="logo-stage-wordmark"
+                  />
+                ) : (
+                  logoSpecimen(brand.name)
+                )}
+              </AssetStage>
+            </LogoAssetSection>
+          ) : null}
 
           <LogoAssetSection
             id="logo-use"
@@ -1246,28 +1698,36 @@ export default function Home() {
           >
             <VStack gap={8} width="100%" className="logo-use-stack">
               <LogoUseItem title="Logo" detail="Used most often">
-                {logoWordmark(brand.name)}
+                {logoSpecimen(brand.name)}
               </LogoUseItem>
-              <LogoUseItem
-                title="Supporting logo"
-                detail="Pair with the wordmark when a secondary mark helps recognition"
-              >
-                {logoWordmark(brand.name)}
-              </LogoUseItem>
-              <LogoUseItem
-                title="Social icon"
-                detail="Use at small sizes where the full wordmark won’t fit"
-              >
-                <Text
-                  type="display-2"
-                  weight="bold"
-                  color="primary"
-                  display="block"
-                  className="logo-stage-wordmark"
+              {showSupportingLogo ? (
+                <LogoUseItem
+                  title="Supporting logo"
+                  detail="Pair with the wordmark when a secondary mark helps recognition"
                 >
-                  {brand.name.slice(0, 1)}
-                </Text>
-              </LogoUseItem>
+                  {supportingLogoSrc ? (
+                    <img
+                      src={supportingLogoSrc}
+                      alt={`${brand.name} supporting logo`}
+                      className="logo-stage-wordmark"
+                    />
+                  ) : (
+                    logoSpecimen(brand.name)
+                  )}
+                </LogoUseItem>
+              ) : null}
+              {showSocialMark ? (
+                <LogoUseItem
+                  title="Social icon"
+                  detail="Use at small sizes where the full wordmark won’t fit"
+                >
+                  <img
+                    src={socialMarkSrc!}
+                    alt={`${brand.name} social icon`}
+                    className="logo-stage-wordmark"
+                  />
+                </LogoUseItem>
+              ) : null}
             </VStack>
           </LogoAssetSection>
 
@@ -1300,7 +1760,7 @@ export default function Home() {
             {/* Prefer specimen assets: src="/brand/type-background-*.jpg" on ImageGrid items. */}
             <VStack gap={3} width="100%" className="type-background-media">
               <AssetStage
-                aria-label={`${brand.visual.typography.family} typography background`}
+                aria-label={`${primaryName} typography background`}
                 className="type-background-hero"
                 minHeight={360}
               >
@@ -1316,8 +1776,14 @@ export default function Home() {
                     color="primary"
                     display="block"
                     className="type-treatment-display"
+                    style={
+                      {
+                        fontFamily: displayName ? displayStack : primaryStack,
+                        ...(displayName ? { fontStyle: "italic" } : {}),
+                      } as CSSProperties
+                    }
                   >
-                    {brand.visual.typography.family}
+                    {displayName || primaryName}
                   </Text>
                   <Text
                     weight="semibold"
@@ -1325,97 +1791,113 @@ export default function Home() {
                     display="block"
                     className="type-treatment-meta"
                   >
-                    {brand.visual.typography.faces.primary}
+                    {[
+                      displayName && `Display · ${displayName}`,
+                      `Primary · ${primaryName}`,
+                      monoName && `Label · ${monoName}`,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
                   </Text>
                 </VStack>
               </AssetStage>
               <ImageGrid
                 aria-label="Typography treatment examples"
-                columns={2}
+                columns={Math.min(Math.max(typeRoles.length, 1), 3)}
                 gap={3}
-                items={[
-                  {
-                    id: "type-family",
-                    background: colorValue(
-                      brand.visual.colors.interface,
-                      "Surface",
-                      "var(--color-background-card)",
-                    ),
-                    tone: "light",
-                    children: (
+                items={typeRoles.map((role) => ({
+                  id: `type-family-${role.id}`,
+                  background: colorValue(
+                    brand.visual.colors.interface,
+                    "Surface",
+                    "var(--color-background-card)",
+                  ),
+                  tone: "light" as const,
+                  children: (
+                    <VStack gap={2} hAlign="start" width="100%">
+                      <Text
+                        type="supporting"
+                        color="secondary"
+                        display="block"
+                      >
+                        {role.id === "display"
+                          ? "Display"
+                          : role.id === "mono"
+                            ? "Label"
+                            : "Primary"}
+                      </Text>
                       <Text
                         weight="bold"
                         display="block"
                         className="type-treatment-display"
+                        style={
+                          {
+                            fontFamily: role.fontFamily,
+                            ...(role.fontStyle
+                              ? { fontStyle: role.fontStyle }
+                              : {}),
+                          } as CSSProperties
+                        }
                       >
-                        {brand.visual.typography.family}
+                        {role.family}
                       </Text>
-                    ),
-                  },
-                  {
-                    id: "type-glyph",
-                    background: colorValue(
-                      brand.visual.colors.interface,
-                      "Surface",
-                      "var(--color-background-card)",
-                    ),
-                    tone: "light",
-                    children: (
-                      <VStack gap={2} hAlign="start" width="100%">
-                        <Text
-                          type="supporting"
-                          color="secondary"
-                          display="block"
-                        >
-                          {brand.visual.typography.faces.fallback}
-                        </Text>
-                        <Text
-                          weight="bold"
-                          display="block"
-                          className="type-treatment-display"
-                        >
-                          Aa
-                        </Text>
-                      </VStack>
-                    ),
-                  },
-                ]}
+                    </VStack>
+                  ),
+                }))}
               />
             </VStack>
           </LogoAssetSection>
 
+          {displayName ? (
+            <TypefaceSection
+              id="typography-display"
+              title="Display typeface"
+              context={`${displayName} is our display typeface. Use it for headlines and expressive moments.`}
+              faceName={displayName}
+              foundry={displayFoundry}
+              fontFamily={displayStack}
+              fontStyle="italic"
+              downloadHref="/brand/fonts/display.zip"
+              status={sectionStatusById["typography-display"]}
+            />
+          ) : null}
+
           <TypefaceSection
             id="typography-primary"
             title="Primary typeface"
-            context={`${brand.visual.typography.family} is our primary typeface. ${brand.visual.typography.note}`}
-            faceName={brand.visual.typography.family}
-            foundry="Vercel"
+            context={`${primaryName} is our primary typeface for body and UI.`}
+            faceName={primaryName}
+            foundry={primaryFoundry}
+            fontFamily={primaryStack}
             downloadHref="/brand/fonts/primary.zip"
             status={sectionStatusById["typography-primary"]}
           />
 
-          <TypefaceSection
-            id="typography-supporting"
-            title="Supporting typeface"
-            context={`${faceNameFromStack(brand.visual.typography.faces.fallback)} is our supporting typeface. Use it when the primary face is unavailable or for system fallbacks.`}
-            faceName={faceNameFromStack(brand.visual.typography.faces.fallback)}
-            foundry="IBM"
-            fontFamily={brand.visual.typography.faces.fallback}
-            downloadHref="/brand/fonts/supporting.zip"
-            status={sectionStatusById["typography-supporting"]}
-          />
+          {monoName ? (
+            <TypefaceSection
+              id="typography-mono"
+              title="Label typeface"
+              context={`${monoName} is our label typeface for captions, metadata, and code-adjacent UI.`}
+              faceName={monoName}
+              foundry={monoFoundry}
+              fontFamily={monoStack}
+              downloadHref="/brand/fonts/mono.zip"
+              className="typeface-section-mono"
+              status={sectionStatusById["typography-mono"]}
+            />
+          ) : null}
 
           <TypeWeightsSection
             id="typography-weights"
             context="Type weight provides hierarchy to distinguish between pieces of information. Use this as a guide for typeface weights employed in our brand."
-            items={typeWeightItems(brand.visual.typography.family)}
+            items={weightItems}
             status={sectionStatusById["typography-weights"]}
           />
 
           <TypeSpecimenSection
             id="typography-specimen"
             context="Typefaces transfer the voice of an organization to the reader."
-            items={typeWeightItems(brand.visual.typography.family).filter(
+            items={weightItems.filter(
               (item) =>
                 item.weight === "semibold" || item.weight === "normal",
             )}
@@ -1429,7 +1911,7 @@ export default function Home() {
           <TypeHierarchySection
             id="typography-hierarchy"
             context="Size, scale and position all play a factor in how information is read. Always ensure there is a purposeful difference between type sizes. Type sizes are for example only."
-            levels={typeHierarchyLevels(brand.visual.typography.family)}
+            levels={hierarchyLevels}
             status={sectionStatusById["typography-hierarchy"]}
           />
 
@@ -1453,7 +1935,7 @@ export default function Home() {
             <DontGrid
               aria-label="Typography don’ts"
               columns={3}
-              items={typeDontItems(brand.visual.typography.family)}
+              items={typeDontItems(primaryName)}
             />
           </LogoAssetSection>
         </ChapterSection>
@@ -1485,17 +1967,20 @@ export default function Home() {
             />
           </ColorPaletteSection>
 
-          <ColorPaletteSection
-            id="color-secondary"
-            title="Secondary palette"
-            context="Supporting tones for hierarchy without introducing a second brand hue."
-            status={sectionStatusById["color-secondary"]}
-          >
-            <ColorTiles
-              colors={toColorTiles(brand.visual.colors.secondary)}
-              aria-label="Secondary palette colors"
-            />
-          </ColorPaletteSection>
+          {showLeaf("color-secondary") &&
+          brand.visual.colors.secondary.length > 0 ? (
+            <ColorPaletteSection
+              id="color-secondary"
+              title="Secondary palette"
+              context="Supporting tones for hierarchy without introducing a second brand hue."
+              status={sectionStatusById["color-secondary"]}
+            >
+              <ColorTiles
+                colors={toColorTiles(brand.visual.colors.secondary)}
+                aria-label="Secondary palette colors"
+              />
+            </ColorPaletteSection>
+          ) : null}
 
           <ColorPaletteSection
             id="color-interface"
@@ -1510,9 +1995,15 @@ export default function Home() {
             />
           </ColorPaletteSection>
 
-          <SectionStub id="color-proportion" title="Proportion"
-            status={sectionStatusById["color-proportion"]}
-          />
+          {showLeaf("color-proportion") &&
+          brand.visual.colors.proportion?.trim() ? (
+            <LogoAssetSection
+              id="color-proportion"
+              title="Proportion"
+              context={brand.visual.colors.proportion}
+              status={sectionStatusById["color-proportion"]}
+            />
+          ) : null}
 
           <ColorPaletteSection
             id="color-combinations"
@@ -1536,18 +2027,20 @@ export default function Home() {
             />
           </ColorPaletteSection>
 
-          <ColorPaletteSection
-            id="color-donts"
-            title="Don’ts"
-            context="Do not diminish the value of color in our brand. Avoid the following treatments."
-            status={sectionStatusById["color-donts"]}
-          >
-            <DontGrid
-              aria-label="Color don’ts"
-              columns={3}
-              items={colorDontItems()}
-            />
-          </ColorPaletteSection>
+          {showLeaf("color-donts") && colorDontCaptions.length > 0 ? (
+            <ColorPaletteSection
+              id="color-donts"
+              title="Don’ts"
+              context="Do not diminish the value of color in our brand. Avoid the following treatments."
+              status={sectionStatusById["color-donts"]}
+            >
+              <DontGrid
+                aria-label="Color don’ts"
+                columns={3}
+                items={colorDontItems(colorDontCaptions)}
+              />
+            </ColorPaletteSection>
+          ) : null}
         </ChapterSection>
 
         {enabledChapterIds.has("photography") ? (
@@ -1556,60 +2049,76 @@ export default function Home() {
             {brand.visual.imagery.introduction}
           </GraphicStatement>
 
-          <PhotographyCategoriesSection
-            id="photography-categories"
-            context="Imagery is broken into the following categories. Briefly describe the rationale behind the categories."
-            items={photographyCategoryNav()}
-            status={sectionStatusById["photography-categories"]}
-          />
+          {photoCategoryNav.length > 0 ? (
+            <PhotographyCategoriesSection
+              id="photography-categories"
+              context="Imagery is broken into the following categories. Briefly describe the rationale behind the categories."
+              items={photoCategoryNav}
+              status={sectionStatusById["photography-categories"]}
+            />
+          ) : null}
 
-          <PhotographyCategorySection
-            id="photography-category-subjects"
-            title="Subjects"
-            context={brand.visual.imagery.subjects}
-            status={sectionStatusById["photography-category-subjects"]}
-          />
+          {showLeaf("photography-category-subjects") &&
+          brand.visual.imagery.subjects?.trim() ? (
+            <PhotographyCategorySection
+              id="photography-category-subjects"
+              title="Subjects"
+              context={brand.visual.imagery.subjects}
+              status={sectionStatusById["photography-category-subjects"]}
+            />
+          ) : null}
 
-          <PhotographyCategorySection
-            id="photography-category-settings"
-            title="Settings"
-            context={brand.visual.imagery.settings}
-            status={sectionStatusById["photography-category-settings"]}
-          />
+          {showLeaf("photography-category-settings") &&
+          brand.visual.imagery.settings?.trim() ? (
+            <PhotographyCategorySection
+              id="photography-category-settings"
+              title="Settings"
+              context={brand.visual.imagery.settings}
+              status={sectionStatusById["photography-category-settings"]}
+            />
+          ) : null}
 
-          <PhotographyCategorySection
-            id="photography-category-product"
-            title="Product"
-            context="Product-in-context: tools and surfaces in honest use, never catalog-white isolation."
-            status={sectionStatusById["photography-category-product"]}
-          />
+          {showLeaf("photography-category-product") &&
+          brand.visual.imagery.product?.trim() ? (
+            <PhotographyCategorySection
+              id="photography-category-product"
+              title="Product"
+              context={brand.visual.imagery.product}
+              status={sectionStatusById["photography-category-product"]}
+            />
+          ) : null}
 
-          <PhotographyCategorySection
-            id="photography-category-moments"
-            title="Moments"
-            context="Quiet candid beats — focused work, natural pause, reflective hope without staging."
-            status={sectionStatusById["photography-category-moments"]}
-          />
+          {showLeaf("photography-category-moments") &&
+          brand.visual.imagery.moments?.trim() ? (
+            <PhotographyCategorySection
+              id="photography-category-moments"
+              title="Moments"
+              context={brand.visual.imagery.moments}
+              status={sectionStatusById["photography-category-moments"]}
+            />
+          ) : null}
 
           <LogoAssetSection
             id="photography-principles"
             title="Principles"
-            context={brand.visual.imagery.tone}
+            context={principlesContext || brand.visual.imagery.tone}
             status={sectionStatusById["photography-principles"]}
           />
 
-          <LogoAssetSection
-            id="photography-donts"
-            title="Don’ts"
-            context="Do not diminish the value of imagery in our brand. Avoid the following treatments."
-            status={sectionStatusById["photography-donts"]}
-          >
-            <DontGrid
-              aria-label="Photography don’ts"
-              columns={3}
-              items={photographyDontItems(brand.visual.imagery.avoid)}
-            />
-          </LogoAssetSection>
+          {showLeaf("photography-donts") && photoDontItems.length > 0 ? (
+            <LogoAssetSection
+              id="photography-donts"
+              title="Don’ts"
+              context="Do not diminish the value of imagery in our brand. Avoid the following treatments."
+              status={sectionStatusById["photography-donts"]}
+            >
+              <DontGrid
+                aria-label="Photography don’ts"
+                columns={3}
+                items={photoDontItems}
+              />
+            </LogoAssetSection>
+          ) : null}
         </ChapterSection>
         ) : null}
 
@@ -1624,126 +2133,88 @@ export default function Home() {
               </Text>
             }
           >
-            Layout and composition guidance for the design system — the grid,
-            structure, and supporting devices that keep every surface consistent.
+            {systemIntro}
           </GraphicStatement>
-          <SectionStub id="system-grid" title="Grid"
-            status={sectionStatusById["system-grid"]}
-          />
-          <LogoAssetSection
-            id="system-composition"
-            title="Composition"
-            context="Describe any composition principles in how the identity comes to life. Include examples to demonstrate these principles."
-            status={sectionStatusById["system-composition"]}
-          >
-            {/* Prefer a composition asset: <img src="/brand/composition-*.jpg" alt="…" /> */}
-            <VStack gap={2} width="100%" className="composition-examples">
-              <AssetStage
-                aria-label="Composition principle example"
-                minHeight={480}
-                className="composition-specimen"
-              >
-                <VStack
-                  gap={6}
-                  width="100%"
-                  hAlign="stretch"
-                  vAlign="between"
-                  className="composition-specimen-layout"
-                >
-                  <HStack
-                    hAlign="center"
-                    vAlign="center"
-                    width="100%"
-                    className="composition-media-frame"
-                    style={{
-                      border: "1px solid var(--color-border)",
-                      background: "var(--color-background-card)",
-                    }}
-                    aria-hidden="true"
-                  />
-                  <HStack
-                    gap={4}
-                    hAlign="between"
-                    vAlign="end"
-                    width="100%"
-                    className="composition-specimen-footer"
-                  >
-                    <Text
-                      type="display-2"
-                      weight="bold"
-                      color="secondary"
-                      display="block"
-                      className="composition-headline"
-                    >
-                      This is a brief headline.
+
+          {systemComponents.length > 0 ? (
+            <ClotheslineLeaf
+              id="system-components"
+              title="Components"
+              className="clothesline-grid-section"
+            >
+              <VStack gap={5} width="100%">
+                {systemComponents.map((component) => (
+                  <LabeledField key={component.name} label={component.name}>
+                    <Text color="secondary" as="p" display="block">
+                      {component.usage}
                     </Text>
-                    <Text
-                      weight="bold"
-                      color="secondary"
-                      display="block"
-                      className="composition-logo"
-                    >
-                      Logo
-                    </Text>
-                  </HStack>
-                </VStack>
-              </AssetStage>
-              <Text
-                color="secondary"
-                type="supporting"
-                display="block"
-                className="composition-caption"
-              >
-                Caption describing composition principle
-              </Text>
-            </VStack>
-          </LogoAssetSection>
-          <LogoAssetSection
-            id="system-supporting"
-            title="Supporting device"
-            context="If applicable, describe a supporting device used in the identity system and its role. Add as much guidance as needed in this section."
-            status={sectionStatusById["system-supporting"]}
-          >
-            {/* Prefer device assets: src="/brand/device-*.svg" (or jpg) on ImageGrid items. */}
-            <ImageGrid
-              aria-label="Supporting device specimens"
-              columns={3}
-              gap={3}
-              ratio={1}
-              items={[
-                {
-                  id: "system-device-1",
-                  background: "var(--color-background-muted)",
-                  tone: "light",
-                },
-                {
-                  id: "system-device-2",
-                  background: "var(--color-background-muted)",
-                  tone: "light",
-                },
-                {
-                  id: "system-device-3",
-                  background: "var(--color-background-muted)",
-                  tone: "light",
-                },
-                {
-                  id: "system-device-4",
-                  background: "var(--color-background-muted)",
-                  tone: "light",
-                },
-                {
-                  id: "system-device-5",
-                  background: "var(--color-background-muted)",
-                  tone: "light",
-                },
-                {
-                  id: "system-device-6",
-                  background: "var(--color-background-muted)",
-                  tone: "light",
-                },
-              ]}
+                  </LabeledField>
+                ))}
+              </VStack>
+            </ClotheslineLeaf>
+          ) : null}
+
+          {showLeaf("system-grid") && brand.system?.grid?.trim() ? (
+            <SectionStub
+              id="system-grid"
+              title="Grid"
+              status={sectionStatusById["system-grid"]}
             />
-          </LogoAssetSection>
+          ) : null}
+
+          {showLeaf("system-composition") &&
+          brand.system?.composition?.trim() ? (
+            <LogoAssetSection
+              id="system-composition"
+              title="Composition"
+              context={brand.system.composition}
+              status={sectionStatusById["system-composition"]}
+            >
+              <VStack gap={2} width="100%" className="composition-examples">
+                <AssetStage
+                  aria-label="Composition principle example"
+                  minHeight={480}
+                  className="composition-specimen"
+                >
+                  <EmptyMedia label="Add composition example" />
+                </AssetStage>
+              </VStack>
+            </LogoAssetSection>
+          ) : null}
+
+          {showLeaf("system-supporting") &&
+          brand.system?.supporting?.trim() ? (
+            <LogoAssetSection
+              id="system-supporting"
+              title="Supporting device"
+              context={brand.system.supporting}
+              status={sectionStatusById["system-supporting"]}
+            >
+              <ImageGrid
+                aria-label="Supporting device specimens"
+                columns={3}
+                gap={3}
+                ratio={1}
+                items={[
+                  {
+                    id: "system-device-1",
+                    background: "var(--color-background-muted)",
+                    tone: "light",
+                  },
+                  {
+                    id: "system-device-2",
+                    background: "var(--color-background-muted)",
+                    tone: "light",
+                  },
+                  {
+                    id: "system-device-3",
+                    background: "var(--color-background-muted)",
+                    tone: "light",
+                  },
+                ]}
+              />
+            </LogoAssetSection>
+          ) : null}
         </ChapterSection>
 
         {enabledChapterIds.has("animation") ? (
@@ -1798,9 +2269,17 @@ export default function Home() {
 
         {enabledChapterIds.has("applications") ? (
         <ChapterSection id={applicationsChapter.id} title={applicationsChapter.title}>
-          {applicationsChapter.items.map((item) => {
+          {applicationsNavItems.map((item) => {
+            const expression = brand.expressions.items.find((row) => {
+              const channelKey = row.channel.trim().toLowerCase();
+              return (
+                channelKey === item.label.trim().toLowerCase() ||
+                applicationChannelToLeafId(row.channel) === item.id
+              );
+            });
+            if (!expression) return null;
+
             const channelKey = item.label.trim().toLowerCase();
-            const expression = expressionByChannel[channelKey];
             const multiImage =
               channelKey === "social" ||
               channelKey === "digital ads" ||
@@ -1811,12 +2290,8 @@ export default function Home() {
                 key={item.id}
                 id={item.id}
                 title={item.label}
-                context={
-                  expression
-                    ? `${expression.title}. ${expression.copy}`
-                    : APPLICATION_PLACEHOLDER_CONTEXT
-                }
-                sample={expression?.sample}
+                context={`${expression.title}. ${expression.copy}`}
+                sample={expression.sample}
                 images={multiImage ? 3 : 1}
                 status={sectionStatusById[item.id]}
               />
@@ -1831,11 +2306,19 @@ export default function Home() {
         </ChapterSection>
 
         <footer className="footer">
-          <p>
-            {brand.name} · Customize <code>brand.md</code> (including Design
-            system)
-          </p>
-          <p>Grayscale starter · Agents: prefer brand.json (compiled)</p>
+          {brand.setup.status === "populated" ? (
+            <p>
+              {brand.name} · Agents: prefer brand.json (compiled)
+            </p>
+          ) : (
+            <>
+              <p>
+                {brand.name} · Customize <code>brand.md</code> (including Design
+                system)
+              </p>
+              <p>Grayscale starter · Agents: prefer brand.json (compiled)</p>
+            </>
+          )}
         </footer>
       </GuideColumn>
     </AppShell>

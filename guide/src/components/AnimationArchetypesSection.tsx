@@ -2,9 +2,13 @@
 
 import { Grid } from "@astryxdesign/core/Grid";
 import { HStack } from "@astryxdesign/core/HStack";
+import { Text } from "@astryxdesign/core/Text";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
-import { AnimationDemoCard } from "@/components/MotionSpecimen";
+import {
+  AnimationDemoCard,
+  MotionDemoUnavailable,
+} from "@/components/MotionSpecimen";
 import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
 import {
   ARCHETYPE_PRESETS,
@@ -43,11 +47,13 @@ function ArchetypeDemo({
         <HStack hAlign="center" vAlign="center" width="100%" padding={4}>
           <motion.div
             key={playKey}
-            className="motion-specimen-tile"
+            className="motion-specimen-tile-labeled"
             initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: preset.y }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration, ease: [0.22, 1, 0.36, 1] }}
-          />
+          >
+            In
+          </motion.div>
         </HStack>
       );
     case "move":
@@ -55,11 +61,13 @@ function ArchetypeDemo({
         <HStack hAlign="start" vAlign="center" width="100%" padding={4}>
           <motion.div
             key={playKey}
-            className="motion-specimen-tile"
+            className="motion-specimen-tile-labeled"
             initial={{ x: 0 }}
             animate={{ x: `${preset.x}%` }}
             transition={{ duration, ease: [0.4, 0, 0.2, 1] }}
-          />
+          >
+            Go
+          </motion.div>
         </HStack>
       );
     case "glide":
@@ -67,7 +75,7 @@ function ArchetypeDemo({
         <HStack hAlign="start" vAlign="center" width="100%" padding={4}>
           <motion.div
             key={playKey}
-            className="motion-specimen-tile"
+            className="motion-specimen-tile-labeled"
             initial={{ x: 0 }}
             animate={reduceMotion ? { x: "40%" } : { x: ["0%", "75%", "0%"] }}
             transition={
@@ -79,7 +87,9 @@ function ArchetypeDemo({
                     repeat: Infinity,
                   }
             }
-          />
+          >
+            Drift
+          </motion.div>
         </HStack>
       );
     case "push":
@@ -154,7 +164,11 @@ export function AnimationArchetypesSection({
                 body={item.body}
               >
                 {(ctx) =>
-                  preset ? <ArchetypeDemo preset={preset} ctx={ctx} /> : null
+                  preset ? (
+                    <ArchetypeDemo preset={preset} ctx={ctx} />
+                  ) : (
+                    <MotionDemoUnavailable />
+                  )
                 }
               </AnimationDemoCard>
             );

@@ -58,6 +58,9 @@ function splitFontStack(stack: string): { family: string; fallbacks?: string } {
   };
 }
 
+const SYSTEM_MONO =
+  'ui-monospace, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
+
 const fontSans = splitFontStack(brandThemeInput.fontSans);
 const fontSerifStack =
   "fontSerif" in brandThemeInput &&
@@ -71,6 +74,12 @@ const fontSerifCss =
   brandThemeInput.fontSerif.trim()
     ? brandThemeInput.fontSerif
     : brandThemeInput.fontSans;
+const fontMonoCss =
+  "fontMono" in brandThemeInput &&
+  typeof brandThemeInput.fontMono === "string" &&
+  brandThemeInput.fontMono.trim()
+    ? brandThemeInput.fontMono
+    : SYSTEM_MONO;
 
 /**
  * Brand Guide Astryx theme.
@@ -177,6 +186,11 @@ export const brandTheme = defineTheme({
     // Same stacks as typography.body/heading — string so light-dark() is not applied.
     "--font-family-body": brandThemeInput.fontSans,
     "--font-family-heading": fontSerifCss,
+    // Custom brand mono — not in Astryx TokenName yet; cast for defineTheme.
+    ...({
+      "--font-family-mono": fontMonoCss,
+      "--font-family-code": fontMonoCss,
+    } as Record<string, string>),
   },
 });
 

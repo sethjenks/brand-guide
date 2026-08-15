@@ -2,13 +2,14 @@
 file: language
 skill_id: language
 skills_spec_version: 1.0.0
-version: 1.0.1
+version: 1.1.0
 depth: deep
 status: stable
 priority: 2
 retrieval_tags: [language, voice, skill]
 summary: >
   Chapter skill router for Language / Voice (ops: populate, audit, improve).
+  Adaptive leaves: phrases / we-say hide when empty; spectrum From/To exact-match.
 ops: [populate, audit, improve]
 writes:
   - brand.md#Voice
@@ -38,28 +39,35 @@ If unclear, ask. Default: **audit** when **Identity.** and Phrases exist, **popu
 3. `brand.md` → Strategy Personality (voice must match archetype)
 4. [`rules.md`](../../rules.md) → Vocabulary + Copy structure
 5. [`examples.md`](../../examples.md) → `## Copy examples`
-6. Language leaves in `nav.ts`
+6. Language leaves in `nav.ts` / `filterNavForAuthoredLeaves`
 
 ## Write targets
 
-Keep headings and `**Label.**` names the compiler already reads.
+Keep headings and `**Label.**` names the compiler already reads. Share `leafId`s with the guide.
 
-| Heading | Required / compiled |
-| --- | --- |
-| `### Identity` | **Identity.** (chapter intro: 12–28 words, one sentence preferred, no Design system pointer) **Essence.** |
-| `#### Voice spectrum` | **Spectrum intro.** + Dimension / From / To / Notes table (From/To labels must match shell spectrum steps) |
-| `### Principles` | **Principles intro.** + Principle / Description / Do / Don't table (≥ 1 row) |
-| `### Tagline & Slogans` | **Tagline intro.** + primary / alternatives |
-| `### Story` | **Story long.** **Story short.** (medium optional) |
-| `### Headlines` | Bullet list (≥ 1) |
-| `### Calls to action` | Do / Don't table |
-| `### Phrases` | Bullet list (≥ 1) |
-| `### Tonal Rules` | **Voice pillars.** **Do.** **Don’t.** Vocabulary use/never · And / yet table · We Say / We Never Say table · numbered **Rules** |
-| `### Tone by context` | **Context intro.** + Context / Guidance / Example table (≥ 1 row) |
+| leafId | Heading / source | Hide-empty |
+| --- | --- | --- |
+| `language-introduction` | `### Identity` → **Identity.** (chapter intro: 12–28 words, statement-only) + **Essence.** | always-on |
+| `language-spectrum` | `#### Voice spectrum` → **Spectrum intro.** + Dimension / From / To / Notes | — |
+| `language-principles` | `### Principles` → table (≥ 1 row) | — |
+| `language-tagline` | `### Tagline & Slogans` | — |
+| `language-story` | `### Story` → **Story long.** **Story short.** | — |
+| `language-headlines` | `### Headlines` bullets | — |
+| `language-cta` | `### Calls to action` Do / Don't | — |
+| `language-phrases` | `### Phrases` bullets → `voice.phrases` | hide when empty |
+| `language-we-say` | We Say / We Never Say table → `voice.weSay` | hide when empty |
+| `language-and-yet` | And / yet table | — |
+| `language-context` | `### Tone by context` table | — |
 
-Also: `rules.md` Vocabulary **Blocklist:** / **Prefer:** (comma-separated — compiler parses these lines); Copy structure bullets; `examples.md` → `## Copy examples` YAML (`id`, `type`, `label`, `input`, `reason`).
+Also: `rules.md` Vocabulary **Blocklist:** / **Prefer:**; Copy structure; `examples.md` → `## Copy examples` YAML.
 
-**Later ops** (not separate files yet): `spectrum`, `review-copy`, `phrases` — use **improve** scoped to that slice.
+**Spectrum:** From / To must **exact-match** shell steps in [`voice-spectrum.ts`](../../guide/src/lib/voice-spectrum.ts) (Volume, Energy, Sociability, Attitude). Mismatch → compile `WARN` + range unmarked. Do **not** invent poles.
+
+**Phrases:** keep on `### Phrases` / `language-phrases`. Do **not** roll phrases into **Identity.** / introduction.
+
+### Allowed `guide/src` edits
+
+Add Language leaves + nav items when the source has more authored slices than the shell catalog (e.g. extra context rows that need their own leaf). Prefer hide-empty over stubs.
 
 ## Conflict rules
 
@@ -67,9 +75,10 @@ Vocabulary blocklist in `rules.md` is highest precedence. Litmus: if any brand n
 
 ## Done gate
 
-After populate/improve: `cd guide && npm run compile`, spot-check Language. Audit may stop at a report.
+After populate/improve: `cd guide && npm run compile`, spot-check Language (phrases / we-say only if authored). Audit may stop at a report.
 
 ## Changelog
 
+- 2026-08-14 — 1.1.0 — Adaptive leaves: `language-phrases` / `language-we-say` hide-empty; spectrum exact-match; no phrases-in-intro.
 - 2026-08-11 — 1.0.1 — Chapter intro bound on **Identity.** (12–28 words, statement-only).
 - 2026-08-10 — 1.0.0 — Deep router + populate/audit/improve.

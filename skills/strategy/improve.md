@@ -9,9 +9,9 @@
 ## Steps
 
 1. Preserve unrelated Strategy headings. Edit only the named leaf. If tightening the chapter intro, land **What.** in 12–28 words, statement-only.
-2. **Positioning:** Category / Not / Only we / Differentiation together so they cannot contradict Promise **Position.**
+2. **Positioning:** Category / Not / Only we / Differentiation together so they cannot contradict Promise **Position.** Confirm fields render on `strategy-positioning`.
 3. **Archetype:** Update the H4 block and the flat **Archetype.** / drive / seeks / at-best / at-worst labels together.
-4. **Guardrails:** Tone summary, cannot-be, litmus; mirror hard bans in `rules.md` → `## Strategy` and check Voice We Never Say.
+4. **Guardrails:** Tone summary, cannot-be, litmus; mirror hard bans in `rules.md` → `## Strategy` and check Voice We Never Say. When editing pillars, keep Emotional driver / Functional value / Trust message filled when the source has them.
 5. Add or replace `examples.md` → `## Strategy examples` when the change is a new on/off claim (`strategy-00n`).
 6. `cd guide && npm run compile`. Spot-check the matching Strategy leaf.
 

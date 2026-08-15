@@ -16,13 +16,19 @@ export type MotionDemoContext = {
 
 type MotionSpecimenProps = {
   label: string;
+  /** Show “Click stage to play” under Replay (interaction demos). */
+  interactive?: boolean;
   children: (ctx: MotionDemoContext) => ReactNode;
 };
 
 /**
  * Bordered motion stage with Replay. Honors prefers-reduced-motion.
  */
-export function MotionSpecimen({ label, children }: MotionSpecimenProps) {
+export function MotionSpecimen({
+  label,
+  interactive = false,
+  children,
+}: MotionSpecimenProps) {
   const reduceMotion = useReducedMotion() ?? false;
   const [playKey, setPlayKey] = useState(0);
 
@@ -45,7 +51,7 @@ export function MotionSpecimen({ label, children }: MotionSpecimenProps) {
           {children({ playKey, reduceMotion })}
         </HStack>
       </HStack>
-      <HStack gap={3} vAlign="center">
+      <HStack gap={3} vAlign="center" wrap="wrap">
         <Button
           type="button"
           variant="ghost"
@@ -53,8 +59,13 @@ export function MotionSpecimen({ label, children }: MotionSpecimenProps) {
           label="Replay"
           clickAction={() => setPlayKey((key) => key + 1)}
         />
+        {interactive ? (
+          <Text color="secondary" type="supporting">
+            Click stage to play
+          </Text>
+        ) : null}
         {reduceMotion ? (
-          <Text color="secondary">
+          <Text color="secondary" type="supporting">
             Reduced motion
           </Text>
         ) : null}
@@ -68,6 +79,7 @@ type AnimationDemoCardProps = {
   body: string;
   badge?: string;
   defaulted?: boolean;
+  interactive?: boolean;
   children: (ctx: MotionDemoContext) => ReactNode;
 };
 
@@ -76,6 +88,7 @@ export function AnimationDemoCard({
   body,
   badge,
   defaulted = false,
+  interactive = false,
   children,
 }: AnimationDemoCardProps) {
   return (
@@ -92,7 +105,7 @@ export function AnimationDemoCard({
             {title}
           </Heading>
           {badge ? (
-            <Text color="secondary">
+            <Text color="secondary" type="supporting">
               {badge}
             </Text>
           ) : null}
@@ -103,7 +116,23 @@ export function AnimationDemoCard({
           </Text>
         ) : null}
       </VStack>
-      <MotionSpecimen label={`${title} motion demo`}>{children}</MotionSpecimen>
+      <MotionSpecimen
+        label={`${title} motion demo`}
+        interactive={interactive}
+      >
+        {children}
+      </MotionSpecimen>
     </VStack>
+  );
+}
+
+/** Fallback when a brand motion id has no live demo preset. */
+export function MotionDemoUnavailable() {
+  return (
+    <HStack hAlign="center" vAlign="center" width="100%" padding={4}>
+      <Text color="secondary" type="supporting">
+        No live demo for this id
+      </Text>
+    </HStack>
   );
 }

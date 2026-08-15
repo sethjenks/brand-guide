@@ -1,5 +1,7 @@
 import { Text } from "@astryxdesign/core/Text";
+import { AssetStage } from "@/components/AssetStage";
 import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
+import { EmptyMedia } from "@/components/EmptyMedia";
 import type { SectionStatus } from "@/lib/section-status-ui";
 
 type SectionStubProps = {
@@ -17,9 +19,13 @@ export function SectionStub({ id, title, status = "stub" }: SectionStubProps) {
       status={status}
       headerContent={
         <Text color="secondary" as="p" display="block" className="measure">
-          Coming from <code>brand.md</code>.
+          Structural placeholder — content arrives from <code>brand.md</code>.
         </Text>
       }
-    />
+    >
+      <AssetStage aria-label={`${title} placeholder`} minHeight={180}>
+        <EmptyMedia label="Coming soon" />
+      </AssetStage>
+    </ClotheslineLeaf>
   );
 }

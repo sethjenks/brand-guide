@@ -64,9 +64,5 @@ export function findSpectrumStepIndex(
   label: string,
 ): number {
   const key = label.trim().toLowerCase();
-  const exact = steps.findIndex((s) => s.toLowerCase() === key);
-  if (exact >= 0) return exact;
-  return steps.findIndex(
-    (s) => s.toLowerCase().includes(key) || key.includes(s.toLowerCase()),
-  );
+  return steps.findIndex((s) => s.toLowerCase() === key);
 }

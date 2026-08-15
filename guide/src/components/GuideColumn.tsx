@@ -6,13 +6,18 @@ import type { CSSProperties, ReactNode } from "react";
 
 type GuideColumnProps = {
   children: ReactNode;
+  /** Setup mode for CSS hooks (e.g. shorter chapter headers in starter). */
+  "data-setup"?: string;
 };
 
 /**
  * Main content column: brand padding + --guide-pad-inline for chapter-header bleed.
  * Responsive pads via useMediaQuery (replaces .guide media rules).
  */
-export function GuideColumn({ children }: GuideColumnProps) {
+export function GuideColumn({
+  children,
+  "data-setup": dataSetup,
+}: GuideColumnProps) {
   const isTablet = useMediaQuery("(max-width: 1024px)");
   const isMobile = useMediaQuery("(max-width: 720px)");
 
@@ -40,7 +45,12 @@ export function GuideColumn({ children }: GuideColumnProps) {
   };
 
   return (
-    <VStack width="100%" gap={0} style={style}>
+    <VStack
+      width="100%"
+      gap={0}
+      style={style}
+      {...(dataSetup ? { "data-setup": dataSetup } : {})}
+    >
       {children}
     </VStack>
   );

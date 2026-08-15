@@ -24,6 +24,10 @@ export type TypeHierarchyLevel = {
   lineHeight: string;
   /** Weight cut applied to the specimen. */
   weight: "normal" | "medium" | "semibold" | "bold";
+  /** Optional CSS font-family stack for this level. */
+  fontFamily?: string;
+  /** Optional CSS font-style for this level (e.g. italic). */
+  fontStyle?: string;
 };
 
 type TypeHierarchySectionProps = {
@@ -64,6 +68,12 @@ export function TypeHierarchySection({
           const specimenStyle = {
             "--type-hierarchy-size": level.fontSize,
             "--type-hierarchy-leading": level.lineHeight,
+            ...(level.fontFamily
+              ? { "--type-hierarchy-font": level.fontFamily }
+              : undefined),
+            ...(level.fontStyle
+              ? { "--type-hierarchy-style": level.fontStyle }
+              : undefined),
           } as CSSProperties;
 
           return (

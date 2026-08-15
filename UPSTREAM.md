@@ -59,9 +59,15 @@ These roles must appear as color tokens in `brand.md` → Design system. `compil
 
 **Required face stack:** `--font-sans` (CSS `font-family` list). Compile fails if missing. Emitted as `brandThemeInput.fontSans` for [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts) (drives Astryx `typography.body` and `--font-family-body`).
 
-**Optional heading face:** `--font-serif`. When present, emitted as `brandThemeInput.fontSerif` and DTCG `font.serif`; [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts) uses it for `typography.heading` / `--font-family-heading`. When omitted, heading equals sans (Sample Brand default).
+**Optional heading / display face:** `--font-serif`. When present, emitted as `brandThemeInput.fontSerif` and DTCG `font.serif`; [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts) uses it for `typography.heading` / `--font-family-heading`. When omitted, heading equals sans (Sample Brand default). Pair with Visual **Type display.** (+ **Type display foundry.**) so the guide shows a Display typeface leaf.
 
-**Next font loader contract (two owners):** Design system owns the CSS stacks; [`guide/src/app/layout.tsx`](guide/src/app/layout.tsx) owns which webfont CSS variables `next/font` injects (e.g. `--font-geist-sans`). Author stacks so they reference those variables. Compile does **not** codegen `next/font` — adding Literata (or any second face) is a hand edit in `layout.tsx`.
+**Optional label / mono face:** `--font-mono`. When present, emitted as `brandThemeInput.fontMono` and DTCG `font.mono`; [`guide/src/themes/brand.ts`](guide/src/themes/brand.ts) maps it to `--font-family-mono` (and `--font-family-code`). When omitted, system mono fallback. Pair with Visual **Type mono.** (+ **Type mono foundry.**) so the guide shows a Label typeface leaf.
+
+**Visual type faces:** **Type primary.** (required for the Primary leaf) + optional **Type display.** / **Type mono.** and matching foundry labels. Compile emits them on `guide.visual.typography.faces`. **Type fallback.** remains a stack string only — it is not a typeface leaf. Nav hides empty display/mono leaves.
+
+**Next font loader contract (N faces):** Design system owns the CSS stacks; [`guide/src/app/layout.tsx`](guide/src/app/layout.tsx) owns which webfont CSS variables `next/font` injects (e.g. `--font-geist-sans`). Author stacks so they reference those variables. Every `var(--font-*)` in `--font-sans` / `--font-serif` / `--font-mono` must appear as `variable: "--font-…"` on `<html>` — a **required** hand edit in `layout.tsx`, not a human note. Compile does **not** codegen `next/font`. See [`skills/typography/SKILL.md`](skills/typography/SKILL.md).
+
+**Adaptive leaves (N-of-whatever):** The guide shows a leaf if and only if the brand authored its data (plus always-on cores). Runtime nav filters empty Phrases / We Say / Applications channels / photo categories / color proportion / system stubs. Expressions table (+ merged **Channel X.** labels) is the source of truth for Applications — unknown channels become `applications-<slug>`. Sample Brand is the zero/one sparse case, not the maximum. Inventory map: [`docs/agent/section-inventory-spec.md`](docs/agent/section-inventory-spec.md).
 
 **Design dump import:** Stitch/MD3-style `DESIGN.md` YAML → Design system fence via `npm run import:design` ([`scripts/import-design-dump.mjs`](scripts/import-design-dump.mjs)). Maps named keys (`obsidian-ink`, `clay-earth`, …) and MD3 roles onto required semantic tokens; `--splice --yes` backs up `brand.md.bak` first. Does not rewrite Strategy/Voice.
 

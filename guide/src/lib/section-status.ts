@@ -52,6 +52,8 @@ const ASSET_PLACEHOLDER_IDS = new Set([
   "photography-categories",
   "photography-category-subjects",
   "photography-category-settings",
+  "photography-category-product",
+  "photography-category-moments",
   "system-composition",
   "system-supporting",
   "logo-scaling",
@@ -59,12 +61,6 @@ const ASSET_PLACEHOLDER_IDS = new Set([
   "logo-donts",
   "logo-background",
   "logo-use",
-]);
-
-/** Hardcoded starter photography contexts in page.tsx until brand.md drives them. */
-const HARDCODED_PHOTO_IDS = new Set([
-  "photography-category-product",
-  "photography-category-moments",
 ]);
 
 /**
@@ -95,6 +91,8 @@ const FIELD_PATH_TO_LEAVES: readonly { prefix: string; leaves: readonly string[]
     { prefix: "voice.story", leaves: ["language-story"] },
     { prefix: "voice.headlines", leaves: ["language-headlines"] },
     { prefix: "voice.cta", leaves: ["language-cta"] },
+    { prefix: "voice.phrases", leaves: ["language-phrases"] },
+    { prefix: "voice.weSay", leaves: ["language-we-say"] },
     { prefix: "voice.andYet", leaves: ["language-and-yet"] },
     { prefix: "voice.contexts", leaves: ["language-context"] },
     { prefix: "voice.spectrum", leaves: ["language-spectrum"] },
@@ -109,7 +107,12 @@ const FIELD_PATH_TO_LEAVES: readonly { prefix: string; leaves: readonly string[]
     },
     {
       prefix: "visual.typography",
-      leaves: ["typography-introduction", "typography-primary"],
+      leaves: [
+        "typography-introduction",
+        "typography-display",
+        "typography-primary",
+        "typography-mono",
+      ],
     },
     {
       prefix: "visual.imagery",
@@ -162,11 +165,13 @@ function normalizeChannelKey(label: string): string {
 /** Map expression channel labels onto applications-* nav ids. */
 function expressionChannelToAppId(channel: string): string | null {
   const key = normalizeChannelKey(channel);
+  if (!key) return null;
+  // Known + slug — always have an id (adaptive leaves).
   if (key === "web") return "applications-web";
   if (key === "social") return "applications-social";
   if (key === "print" || key.startsWith("print")) return "applications-print";
   if (key === "swag" || key === "merchandise") return "applications-merchandise";
-  if (key === "business cards" || key === "business-cards") {
+  if (key === "business cards" || key === "business-cards" || key === "business card") {
     return "applications-business-cards";
   }
   if (key === "packaging") return "applications-packaging";
@@ -177,8 +182,8 @@ function expressionChannelToAppId(channel: string): string | null {
     return "applications-digital-ads";
   }
   if (key === "app") return "applications-app";
-  if (key === "awareness" || key === "campaigns") return null;
-  return null;
+  if (key === "email") return "applications-email";
+  return `applications-${key.replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "channel"}`;
 }
 
 function appIdsFromNav(groups: readonly NavGroup[]): string[] {
@@ -274,12 +279,7 @@ export function resolveSectionStatus(
     bump(id, "stub");
   }
 
-  // 3) Hardcoded photo starter leaves
-  for (const id of HARDCODED_PHOTO_IDS) {
-    bump(id, "empty");
-  }
-
-  // 4) Asset placeholders
+  // 3) Asset placeholders
   for (const id of ASSET_PLACEHOLDER_IDS) {
     bump(id, "assets");
   }

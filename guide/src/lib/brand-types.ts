@@ -190,6 +190,7 @@ export type GuidePayload = {
     positioning: {
       intro: string;
       statement: string;
+      fields?: readonly { label: string; value: string }[];
     };
     vision: {
       intro: string;
@@ -293,6 +294,14 @@ export type GuidePayload = {
     actLabel: string;
     colors: {
       intro: string;
+      proportion?: string;
+      donts?: readonly string[];
+      pairings?: readonly {
+        name: string;
+        token: string;
+        value: string;
+        usage: string;
+      }[];
       brand: ColorSwatch[];
       secondary: ColorSwatch[];
       interface: ColorSwatch[];
@@ -300,7 +309,15 @@ export type GuidePayload = {
     typography: {
       family: string;
       note: string;
-      faces: { primary: string; fallback: string };
+      faces: {
+        primary: string;
+        fallback: string;
+        display?: string;
+        mono?: string;
+        displayFoundry?: string;
+        primaryFoundry?: string;
+        monoFoundry?: string;
+      };
       specimens: readonly {
         label: string;
         sample: string;
@@ -309,6 +326,8 @@ export type GuidePayload = {
     };
     logo: {
       description: string;
+      clearspace?: string;
+      supporting?: string;
       donts: readonly string[];
     };
     imagery: {
@@ -316,8 +335,20 @@ export type GuidePayload = {
       tone: string;
       subjects: string;
       settings: string;
-      avoid: string;
+      product?: string;
+      moments?: string;
+      style?: string;
+      mood?: string;
+      crop?: string;
+      avoid: readonly string[];
     };
+  };
+  system?: {
+    intro: string;
+    grid: string;
+    composition: string;
+    supporting: string;
+    components: readonly { name: string; usage: string }[];
   };
   animation: {
     introduction: string;

@@ -25,6 +25,20 @@
   background: var(--color-text-primary);
 }
 
+.motion-specimen-tile-labeled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding-inline: var(--spacing-2, 0.5rem);
+  background: var(--color-text-primary);
+  color: var(--color-background-surface);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
 .motion-specimen-chip {
   padding-inline: var(--spacing-3, 0.75rem);
   padding-block: var(--spacing-1, 0.25rem);

@@ -3,11 +3,13 @@
 import { Grid } from "@astryxdesign/core/Grid";
 import { HStack } from "@astryxdesign/core/HStack";
 import { motion } from "motion/react";
-import { AnimationDemoCard } from "@/components/MotionSpecimen";
+import {
+  AnimationDemoCard,
+  MotionDemoUnavailable,
+} from "@/components/MotionSpecimen";
 import { ClotheslineLeaf } from "@/components/ClotheslineLeaf";
 import { personalityCurve } from "@/lib/animation-presets";
 import type { SectionStatus } from "@/lib/section-status-ui";
-
 type PersonalityItem = {
   id: string;
   title: string;
@@ -79,7 +81,7 @@ export function AnimationPersonalitySection({
                     >
                       <motion.div
                         key={playKey}
-                        className="motion-specimen-tile"
+                        className="motion-specimen-tile-labeled"
                         initial={{ x: 0 }}
                         animate={{ x: "70%" }}
                         transition={
@@ -90,9 +92,13 @@ export function AnimationPersonalitySection({
                                 ease: curve.ease,
                               }
                         }
-                      />
+                      >
+                        {item.title.slice(0, 1)}
+                      </motion.div>
                     </HStack>
-                  ) : null
+                  ) : (
+                    <MotionDemoUnavailable />
+                  )
                 }
               </AnimationDemoCard>
             );

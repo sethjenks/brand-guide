@@ -9,21 +9,20 @@
 ## Steps
 
 1. Read Visual → Photography / Imagery. If Sample Brand starter copy is still present and the brand is not Sample Brand, replace it — do not leave grayscale-kit clichés as if they were the new brand.
-2. Write all ten `**Imagery …**` labels. **Imagery introduction.** is the chapter intro (12–28 words, statement-only). Keep **Imagery tone.** a short mood phrase — do not stretch it into the GraphicStatement. Then style, mood, subjects, settings, avoid, prompt product, prompt lifestyle, negative.
-3. Align **Imagery avoid.** / **Imagery negative.** with [`rules.md`](../../rules.md) → `## Photography`. Add or tighten bullets there if the brand has extra hard constraints (stock bans, people policy, alt-text).
-4. Ensure `examples.md` → `## Imagery examples` has at least two pairs (on/off). Add category-flavored inputs (subjects, settings, product-in-context, candid moment) when the source supports them.
-5. **Prompts:** keep product and lifestyle prompts concrete (light, crop, palette, what is in frame). Put banned motifs in **Imagery negative.** as a ·-separated list.
-6. **Categories:** subjects/settings/product/moments should be describable from the labels you wrote. Do not fabricate photo specimens for hardcoded guide leaves (`photography-category-product`, `photography-category-moments`).
+2. Write Imagery labels the source supports. **Imagery introduction.** is the chapter intro (12–28 words, statement-only). Keep **Imagery tone.** a short mood phrase. Author **Imagery style.** / **Imagery mood.** / **Concealed crop.** when evidenced. Subjects, settings, avoid; product via **Imagery product.** or **Imagery prompt product.**; moments via **Imagery moments.** or **Imagery prompt lifestyle.** Empty product/moments → those leaves hide.
+3. Align **Imagery avoid.** / **Imagery negative.** with [`rules.md`](../../rules.md) → `## Photography`. Prefer `·`-separated lists (`splitList` also accepts `,`). Add or tighten bullets there if the brand has extra hard constraints.
+4. Ensure `examples.md` → `## Imagery examples` has at least two pairs (on/off). Add category-flavored inputs when the source supports them.
+5. **Prompts:** keep product and lifestyle prompts concrete (light, crop, palette, what is in frame). Put banned motifs in **Imagery negative.** / **Imagery avoid.**
+6. **Categories:** author only evidenced categories. Do **not** fabricate product/moments to clear leftover badges.
 7. `cd guide && npm run compile`.
-8. Spot-check Photography in the guide. Completeness should pick up `visual.imagery.*`; leftover **assets** / **empty** badges on category/don’ts leaves are expected until the shell is driven by markdown.
+8. Spot-check authored Photography leaves. If the source has more categories than the shell, add a leaf in `guide/src`.
 
 ## Checklist
 
 - [ ] **Imagery introduction.** is 12–28 words, statement-only
-- [ ] Style, mood, tone filled (tone stays a short mood phrase)
-- [ ] Subjects, settings, avoid filled
-- [ ] Product + lifestyle prompts filled
-- [ ] Negatives ·-separated
+- [ ] Style, mood, tone filled when evidenced (tone stays a short mood phrase)
+- [ ] Subjects / settings / product / moments only when evidenced (empty → hide)
+- [ ] Avoid / negative lists (`·` or `,`)
 - [ ] `rules.md` Photography constraints match avoid/negative
 - [ ] Imagery few-shots on + off
 - [ ] Compile run; no hand-edits to `brand.json`

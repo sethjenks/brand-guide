@@ -1,7 +1,7 @@
 ---
 file: intake-skills-shared
 intake_skills_spec_version: 1.0.0
-version: 1.0.0
+version: 1.2.0
 status: draft
 summary: >
   Shared populate contract for every intake path skill. Path SKILL.md files
@@ -44,6 +44,7 @@ Keep grayscale unless the source specifies a palette (`:root` tokens, brand-book
 2. [`examples.md`](../../examples.md), [`rules.md`](../../rules.md), [`templates.md`](../../templates.md) as needed
 3. [`brand/setup.json`](../../brand/setup.json) — hero/setup copy if needed; cite each source in `sources[]` with `"kind": "citation"` (no `prompt`). Leave starter intake cards for re-populate.
 4. [`brand/coverage.json`](../../brand/coverage.json) — required when setting `status` to `"populated"`; section statuses `filled` | `inferred` | `placeholder`
+5. [`guide/src/app/layout.tsx`](../../guide/src/app/layout.tsx) — when the source authors webfonts: add `next/font` loaders so every stack `var(--font-*)` is injected on `<html>` (see Type contract below)
 
 Preserve the guide’s section structure. Replace Sample Brand copy where the source has signal.
 
@@ -62,7 +63,12 @@ From `guide/`:
 npm run compile
 ```
 
-Do **not** hand-edit `brand.json`, `tokens.json`, or `guide/src` UI files for content/theme.
+Do **not** hand-edit `brand.json`, `tokens.json`, or `guide/src` UI files for content/theme — **except**:
+
+1. `guide/src/app/layout.tsx` webfont loaders (required when stacks name `var(--font-*)`)
+2. **Any** missing TypefaceSection / nav leaf / list row when the source has more items than the shell — follow the chapter skill. Do not cram extras into a chapter intro (**Type note.**, **Identity.**, **Colors intro.**, **Logo description.**)
+
+See [`skills/typography/SKILL.md`](../../skills/typography/SKILL.md) and the matching chapter skill for leaf ids.
 
 ## 5. Gap pass
 
@@ -74,7 +80,7 @@ Run from `guide/` after compile. Prefer `npm run post-populate-check` (hard fail
 
 - [ ] **Setup validates** — `npm run compile` / `compile:check` passes; citations use `"kind": "citation"` (no fake `prompt`).
 - [ ] **Required color roles** — Design system has ink, ink-muted, ink-subtle, canvas, paper, surface, surface-deep, border (+ accent if the source has a CTA color).
-- [ ] **Type contract** — `--font-sans` present; if the source has a display/serif face, author `--font-serif` and note a `layout.tsx` `next/font` loader for humans (compile does not load faces).
+- [ ] **Type contract** — Inventory display / body / label faces. `--font-sans` required. Author `--font-serif` + **Type display.** when a display face exists; `--font-mono` + **Type mono.** when a label face exists. Edit `layout.tsx` so every `var(--font-*)` is loaded. One TypefaceSection per authored face (do not cram faces into **Type note.** or the primary leaf; do not treat `system-ui` as a second typeface).
 - [ ] **Logo assets** — If the source had no mark: note `brand/assets/` gap. If present: file under `brand/assets/` and recompile.
 - [ ] **Source coverage** — `brand/coverage.json` written; every `inferred` Strategy/Voice field listed for human review; `placeholder` sections stay Sample Brand (or explicit stubs), not invented.
 - [ ] **Honesty** — No pillars/values invented from token names alone.

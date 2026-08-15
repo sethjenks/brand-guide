@@ -21,37 +21,23 @@ function ResponsePlaceholder({
 }: {
   lines?: number;
 }) {
-  if (lines && lines > 1) {
-    return (
-      <VStack gap={1} className="questionnaire-response" aria-hidden="true">
-        <Text type="supporting" color="secondary" display="block">
-          Response:
-        </Text>
-        {Array.from({ length: lines }, (_, i) => (
-          <Text
-            key={i}
-            type="supporting"
-            color="secondary"
-            display="block"
-            className="questionnaire-response-line"
-          >
-            {i + 1}.
-          </Text>
-        ))}
-      </VStack>
-    );
-  }
+  const count = lines && lines > 1 ? lines : 1;
 
   return (
-    <Text
-      type="supporting"
-      color="secondary"
-      display="block"
-      className="questionnaire-response"
-      aria-hidden="true"
-    >
-      Response:
-    </Text>
+    <VStack gap={1} className="questionnaire-response" aria-hidden="true">
+      <Text type="supporting" color="secondary" display="block">
+        Answer space (print / PDF)
+      </Text>
+      {Array.from({ length: count }, (_, i) => (
+        <VStack
+          key={i}
+          gap={0}
+          width="100%"
+          className="questionnaire-response-line"
+          aria-hidden="true"
+        />
+      ))}
+    </VStack>
   );
 }
 

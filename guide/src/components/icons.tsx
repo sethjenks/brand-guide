@@ -7,6 +7,7 @@
 import {
   Check,
   ChevronDown,
+  CircleAlert,
   Copy,
   Image,
   PanelLeft,
@@ -32,6 +33,7 @@ function withDefaults(Icon: typeof ChevronDown) {
 }
 
 export const Icons = {
+  AlertCircle: withDefaults(CircleAlert),
   Check: withDefaults(Check),
   ChevronDown: withDefaults(ChevronDown),
   Copy: withDefaults(Copy),

@@ -23,7 +23,7 @@ export type ColorContrastItem = {
    * grounds); `light` = light chip / dark label (for dark grounds).
    */
   chipTone?: "dark" | "light";
-  /** Chip label; defaults to "Placeholder". */
+  /** Chip label; defaults to "Label". */
   chipLabel?: string;
 };
 
@@ -119,7 +119,7 @@ export function ColorContrastGrid({
                     color="inherit"
                     className="color-contrast-chip-label"
                   >
-                    {item.chipLabel ?? "Placeholder"}
+                    {item.chipLabel ?? "Label"}
                   </Text>
                 </HStack>
 

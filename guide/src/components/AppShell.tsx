@@ -33,7 +33,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { flattenNavSectionIds } from "@/lib/nav";
+import { flattenNavSectionIds, type GuideMode } from "@/lib/nav";
 import type { NavGroup, NavItem } from "@/lib/brand-types";
 import type {
   ChapterStatusAggregate,
@@ -41,16 +41,25 @@ import type {
   SectionStatusMap,
 } from "@/lib/section-status-ui";
 import { sectionNeedsWork, worse } from "@/lib/section-status-ui";
+import { ModeSwitch } from "@/components/ModeSwitch";
 import { SectionStatusShape } from "@/components/SectionStatusShape";
+import { useRouter } from "next/navigation";
 
 type AppShellProps = {
   brandName: string;
   groups: readonly NavGroup[];
   children: ReactNode;
+  /** Product mode — Define (guide) or Create (workspace). */
+  mode?: GuideMode;
   /** Per GUIDE_NAV leaf customization status (ok leaves omit indicator). */
   sectionStatusById?: SectionStatusMap;
   /** Chapter rollups for muted need-work counts on group rows. */
   chapterStatus?: readonly ChapterStatusAggregate[];
+  /**
+   * When true (starter kit), only chapter rows show status marks —
+   * leaf shapes stay off so the TOC reads as a brand book, not a checklist.
+   */
+  quietLeafStatus?: boolean;
 };
 
 function NavStatusEnd({
@@ -100,6 +109,8 @@ function itemNeedsWorkStatus(
 
 const STORAGE_KEY = "brand-guide-sidebar-collapsed";
 const WIDTH_STORAGE_KEY = "brand-guide-sidenav-width";
+/** Hero / setup at the top of the guide (`GuideHero` id). */
+const TOP_SECTION_ID = "top";
 const SCROLL_OFFSET_PX = 96;
 const DEFAULT_NAV_WIDTH = 248;
 /** Matches Astryx `--spacing-12` collapsed rail. */
@@ -149,20 +160,34 @@ export function AppShell({
   brandName,
   groups,
   children,
+  mode = "define",
   sectionStatusById,
   chapterStatus,
+  quietLeafStatus = false,
 }: AppShellProps) {
-  const sectionIds = useMemo(() => flattenNavSectionIds(groups), [groups]);
+  const router = useRouter();
+  const isDefine = mode === "define";
+  const sectionIds = useMemo(
+    () => (isDefine ? flattenNavSectionIds(groups) : []),
+    [groups, isDefine],
+  );
+  const spyIds = useMemo(
+    () => (isDefine ? [TOP_SECTION_ID, ...sectionIds] : []),
+    [isDefine, sectionIds],
+  );
   const chapterById = useMemo(() => {
     const map = new Map<string, ChapterStatusAggregate>();
+    if (!isDefine) return map;
     for (const chapter of chapterStatus ?? []) {
       map.set(chapter.id, chapter);
     }
     return map;
-  }, [chapterStatus]);
+  }, [chapterStatus, isDefine]);
   const reduceMotion = useReducedMotion();
 
-  const [activeId, setActiveId] = useState<string>(sectionIds[0] ?? "");
+  const [activeId, setActiveId] = useState<string>(
+    isDefine ? TOP_SECTION_ID : (groups[0]?.items[0]?.id ?? groups[0]?.id ?? ""),
+  );
   const [collapsed, setCollapsed] = useState(false);
   const [navWidth, setNavWidth] = useState(DEFAULT_NAV_WIDTH);
   /** Spring only on collapse toggle; resize stays 1:1 with the drag. */
@@ -174,6 +199,18 @@ export function AppShell({
   );
   /** False until localStorage prefs are applied post-mount (avoids SSR mismatch). */
   const [prefsReady, setPrefsReady] = useState(false);
+
+  const onModeChange = useCallback(
+    (next: GuideMode) => {
+      if (next === mode) return;
+      if (next === "create") {
+        router.push("/create");
+        return;
+      }
+      router.push("/#top");
+    },
+    [mode, router],
+  );
 
   const onCollapsedChange = useCallback(
     (next: boolean) => {
@@ -213,6 +250,7 @@ export function AppShell({
 
   // Keep the chapter accordion open for the active hash / scroll target.
   useEffect(() => {
+    if (!isDefine) return;
     const owner = groups.find((group) => groupOwnsActive(group, activeId));
     if (!owner) return;
     setOpenGroupIds((prev) => {
@@ -221,13 +259,13 @@ export function AppShell({
       next.add(owner.id);
       return next;
     });
-  }, [activeId, groups]);
+  }, [activeId, groups, isDefine]);
 
   const syncActiveFromScroll = useCallback(() => {
-    if (sectionIds.length === 0) return;
+    if (!isDefine || spyIds.length === 0) return;
 
-    let current = sectionIds[0];
-    for (const id of sectionIds) {
+    let current = TOP_SECTION_ID;
+    for (const id of spyIds) {
       const el = document.getElementById(id);
       if (!el) continue;
       const top = el.getBoundingClientRect().top;
@@ -237,9 +275,10 @@ export function AppShell({
     }
 
     setActiveId((prev) => (prev === current ? prev : current));
-  }, [sectionIds]);
+  }, [isDefine, spyIds]);
 
   useEffect(() => {
+    if (!isDefine) return;
     syncActiveFromScroll();
     window.addEventListener("scroll", syncActiveFromScroll, { passive: true });
     window.addEventListener("resize", syncActiveFromScroll);
@@ -247,13 +286,13 @@ export function AppShell({
       window.removeEventListener("scroll", syncActiveFromScroll);
       window.removeEventListener("resize", syncActiveFromScroll);
     };
-  }, [syncActiveFromScroll]);
+  }, [isDefine, syncActiveFromScroll]);
 
   useEffect(() => {
+    if (!isDefine) return;
     const onHashChange = () => {
-      const id = window.location.hash.replace(/^#/, "");
-      if (!id) return;
-      if (sectionIds.includes(id)) setActiveId(id);
+      const id = window.location.hash.replace(/^#/, "") || TOP_SECTION_ID;
+      if (id === TOP_SECTION_ID || sectionIds.includes(id)) setActiveId(id);
       window.requestAnimationFrame(() => syncActiveFromScroll());
     };
 
@@ -263,7 +302,7 @@ export function AppShell({
 
     window.addEventListener("hashchange", onHashChange);
     return () => window.removeEventListener("hashchange", onHashChange);
-  }, [sectionIds, syncActiveFromScroll]);
+  }, [isDefine, sectionIds, syncActiveFromScroll]);
 
   const onNavigate = useCallback((itemId: string) => {
     setActiveId(itemId);
@@ -272,6 +311,10 @@ export function AppShell({
   const contentTransition = reduceMotion
     ? { duration: 0 }
     : NAV_CONTENT.spring;
+
+  const headingHref = isDefine ? "#top" : "/create";
+  const subheading = isDefine ? "Brand Guide" : "Create";
+  const statusById = isDefine ? sectionStatusById : undefined;
 
   const sideNav = (
     <motion.div
@@ -306,7 +349,7 @@ export function AppShell({
             <AnimatePresence initial={false}>
               {!collapsed ? (
                 <motion.div
-                  key="sidenav-heading"
+                  key="sidenav-mode-switch"
                   initial={{ opacity: 0, x: -NAV_CONTENT.offsetX }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -NAV_CONTENT.offsetX }}
@@ -315,10 +358,35 @@ export function AppShell({
                     delay: reduceMotion ? 0 : TIMING.heading / 1000,
                   }}
                 >
+                  <ModeSwitch mode={mode} onModeChange={onModeChange} />
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+            <AnimatePresence initial={false}>
+              {!collapsed ? (
+                <motion.div
+                  key="sidenav-heading"
+                  className={
+                    isDefine && activeId === TOP_SECTION_ID
+                      ? "brand-guide-sidenav-heading is-current"
+                      : "brand-guide-sidenav-heading"
+                  }
+                  initial={{ opacity: 0, x: -NAV_CONTENT.offsetX }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -NAV_CONTENT.offsetX }}
+                  transition={{
+                    ...contentTransition,
+                    delay: reduceMotion ? 0 : TIMING.heading / 1000,
+                  }}
+                  onClick={() => {
+                    if (isDefine) onNavigate(TOP_SECTION_ID);
+                  }}
+                >
                   <SideNavHeading
                     heading={brandName}
-                    headingHref="#top"
-                    subheading="Brand Guide"
+                    headingHref={headingHref}
+                    subheading={subheading}
+                    subheadingHref={headingHref}
                   />
                 </motion.div>
               ) : null}
@@ -328,7 +396,7 @@ export function AppShell({
       >
         {groups.map((group, index) => {
           const isOpen = openGroupIds.has(group.id);
-          const chapterAgg = chapterById.get(group.id);
+          const chapterAgg = isDefine ? chapterById.get(group.id) : undefined;
 
           return (
             <motion.div
@@ -357,10 +425,12 @@ export function AppShell({
                 href={`#${group.id}`}
                 isSelected={activeId === group.id}
                 endContent={
-                  <NavStatusEnd
-                    status={chapterAgg?.worst}
-                    count={chapterAgg?.needsWorkCount}
-                  />
+                  isDefine ? (
+                    <NavStatusEnd
+                      status={chapterAgg?.worst}
+                      count={chapterAgg?.needsWorkCount}
+                    />
+                  ) : undefined
                 }
                 collapsible={{
                   isCollapsed: !isOpen,
@@ -387,10 +457,7 @@ export function AppShell({
                     item.children && item.children.length > 0,
                   );
                   const selected = isItemActive(item, activeId);
-                  const itemStatus = itemNeedsWorkStatus(
-                    item,
-                    sectionStatusById,
-                  );
+                  const itemStatus = itemNeedsWorkStatus(item, statusById);
 
                   return (
                     <SideNavItem
@@ -399,14 +466,16 @@ export function AppShell({
                       href={`#${item.id}`}
                       isSelected={selected}
                       endContent={
-                        <NavStatusEnd
-                          status={itemStatus.status}
-                          count={
-                            hasChildren && itemStatus.count > 1
-                              ? itemStatus.count
-                              : undefined
-                          }
-                        />
+                        !isDefine || quietLeafStatus ? undefined : (
+                          <NavStatusEnd
+                            status={itemStatus.status}
+                            count={
+                              hasChildren && itemStatus.count > 1
+                                ? itemStatus.count
+                                : undefined
+                            }
+                          />
+                        )
                       }
                       collapsible={
                         hasChildren
@@ -423,11 +492,11 @@ export function AppShell({
                               href={`#${child.id}`}
                               isSelected={child.id === activeId}
                               endContent={
-                                <NavStatusEnd
-                                  status={
-                                    sectionStatusById?.[child.id] ?? "ok"
-                                  }
-                                />
+                                !isDefine || quietLeafStatus ? undefined : (
+                                  <NavStatusEnd
+                                    status={statusById?.[child.id] ?? "ok"}
+                                  />
+                                )
                               }
                               onClick={() => onNavigate(child.id)}
                             />

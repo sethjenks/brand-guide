@@ -14,13 +14,13 @@
    - `brand/assets/` exists?
    - Any of `logo.svg`, `logo.png`, `wordmark.svg`, `mark.svg`?
    - `logo.svg` specifically (drives `logoAssetExists` in section-status)
-5. Overlay **section-status** placeholders — do not treat them as finished customisation:
+5. Overlay **section-status** — do not treat specimen placeholders as finished customisation:
 
    | Leaf id | Typical status | Meaning |
    | --- | --- | --- |
-   | `logo-supporting` | stub | UI stub in `page.tsx` |
-   | `logo-background`, `logo-scaling`, `logo-clearspace`, `logo-donts`, `logo-use` | assets | Placeholder specimens |
-   | `logo-mark` (+ scaling/clearspace/donts) | assets if `logo.svg` exists | File present but UI may still use a text wordmark |
+   | `logo-supporting` | hidden / stub | Hide when no **Supporting logo.** / supporting asset |
+   | `logo-background`, `logo-scaling`, `logo-clearspace`, `logo-donts`, `logo-use` | assets | Placeholder specimens (prose may still be ok) |
+   | `logo-mark` (+ scaling/clearspace) | ok when SVG loads | Prefer `logo.svg` over text wordmark |
 
 6. Report: prose gaps vs asset gaps vs shell stubs. Suggest `improve` vs `populate`. Do not invent a mark or don’ts unless asked to fix.
 

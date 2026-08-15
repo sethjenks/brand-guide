@@ -2,14 +2,19 @@ import {
   EXTENDED_CHAPTER_IDS,
   type BrandSetupChapters,
   type ExtendedChapterId,
+  type GuidePayload,
   type NavGroup,
   type NavItem,
 } from "@/lib/brand-types";
+import { applicationsNavFromExpressions } from "@/lib/application-channels";
 
 export {
   CORE_CHAPTER_IDS,
   EXTENDED_CHAPTER_IDS,
 } from "@/lib/brand-types";
+
+/** Top-level product mode: Define (brand guide) vs Create (workspace). */
+export type GuideMode = "define" | "create";
 
 export type ChapterTocItem = {
   id: string;
@@ -61,6 +66,8 @@ export const GUIDE_NAV = [
       { id: "language-story", label: "Story" },
       { id: "language-headlines", label: "Headlines" },
       { id: "language-cta", label: "Calls to action" },
+      { id: "language-phrases", label: "Phrases" },
+      { id: "language-we-say", label: "We say / never" },
       { id: "language-spectrum", label: "Voice spectrum" },
       { id: "language-and-yet", label: "And / Yet" },
       { id: "language-context", label: "By context" },
@@ -88,8 +95,9 @@ export const GUIDE_NAV = [
     items: [
       { id: "typography-introduction", label: "Introduction" },
       { id: "typography-background", label: "Background" },
+      { id: "typography-display", label: "Display typeface" },
       { id: "typography-primary", label: "Primary typeface" },
-      { id: "typography-supporting", label: "Supporting typeface" },
+      { id: "typography-mono", label: "Label typeface" },
       { id: "typography-weights", label: "Weights" },
       { id: "typography-specimen", label: "Specimen" },
       { id: "typography-setting", label: "Setting type" },
@@ -164,6 +172,7 @@ export const GUIDE_NAV = [
       { id: "applications-ooh", label: "Out of home" },
       { id: "applications-digital-ads", label: "Digital ads" },
       { id: "applications-app", label: "App" },
+      { id: "applications-email", label: "Email" },
     ],
   },
   {
@@ -176,6 +185,18 @@ export const GUIDE_NAV = [
       },
       { id: "utilities-brand-document", label: "Brand document" },
     ],
+  },
+] as const satisfies readonly NavGroup[];
+
+/**
+ * Scaffold nav for Create mode. Replace when the first tools are named —
+ * do not invent a fake tool IA here.
+ */
+export const CREATE_NAV = [
+  {
+    id: "studio",
+    label: "Studio",
+    items: [{ id: "studio-overview", label: "Overview" }],
   },
 ] as const satisfies readonly NavGroup[];
 
@@ -203,6 +224,155 @@ export function filterNavForSetup(
   return nav.filter((group) => {
     if (!isExtendedChapterId(group.id)) return true;
     return isExtendedChapterEnabled(chapters, group.id);
+  });
+}
+
+/** Face fields used to hide unauthored Typography leaves. */
+export type TypeFacesForNav = {
+  display?: string;
+  mono?: string;
+};
+
+/**
+ * Drop Display / Label typeface leaves when those Visual faces are empty.
+ * Primary always remains.
+ */
+export function filterNavForTypeFaces(
+  nav: readonly NavGroup[],
+  faces: TypeFacesForNav | undefined,
+): NavGroup[] {
+  const hideDisplay = !faces?.display?.trim();
+  const hideMono = !faces?.mono?.trim();
+  if (!hideDisplay && !hideMono) return [...nav];
+
+  return nav.map((group) => {
+    if (group.id !== "typography") return group;
+    return {
+      ...group,
+      items: group.items.filter((item) => {
+        if (item.id === "typography-display" && hideDisplay) return false;
+        if (item.id === "typography-mono" && hideMono) return false;
+        return true;
+      }),
+    };
+  });
+}
+
+/**
+ * Replace the Applications catalog with one leaf per authored expression row
+ * (known ids + applications-<slug> for unknown channels).
+ */
+export function withApplicationsFromExpressions(
+  nav: readonly NavGroup[],
+  expressions: GuidePayload["expressions"] | undefined,
+): NavGroup[] {
+  const items = applicationsNavFromExpressions(expressions?.items ?? []);
+  return nav.map((group) => {
+    if (group.id !== "applications") return group;
+    return { ...group, items };
+  });
+}
+
+function nonEmptyString(value: unknown): boolean {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function nonEmptyList(value: unknown): boolean {
+  return Array.isArray(value) && value.length > 0;
+}
+
+/**
+ * Drop leaves whose backing brand fields are empty.
+ * Always-on cores: chapter intros, utilities, primary typeface, and leaves the
+ * starter always fills. Prefer hiding over Sample stubs.
+ */
+export function filterNavForAuthoredLeaves(
+  nav: readonly NavGroup[],
+  brand: GuidePayload,
+): NavGroup[] {
+  const phrases = brand.voice?.phrases ?? [];
+  const weSay = brand.voice?.weSay ?? [];
+  const imagery = brand.visual?.imagery as
+    | (GuidePayload["visual"]["imagery"] & {
+        product?: string;
+        moments?: string;
+        avoid?: string | readonly string[];
+      })
+    | undefined;
+  const colors = brand.visual?.colors as
+    | (GuidePayload["visual"]["colors"] & {
+        proportion?: string;
+        donts?: readonly string[];
+      })
+    | undefined;
+  const logo = brand.visual?.logo as
+    | (GuidePayload["visual"]["logo"] & {
+        clearspace?: string;
+        supporting?: string;
+      })
+    | undefined;
+  const system = (
+    brand as GuidePayload & {
+      system?: {
+        intro?: string;
+        grid?: string;
+        composition?: string;
+        supporting?: string;
+        components?: readonly unknown[];
+      };
+    }
+  ).system;
+
+  const product = imagery?.product ?? "";
+  const moments = imagery?.moments ?? "";
+  const avoidList = Array.isArray(imagery?.avoid)
+    ? imagery.avoid
+    : nonEmptyString(imagery?.avoid)
+      ? [String(imagery?.avoid)]
+      : [];
+
+  const proportion = colors?.proportion ?? "";
+  const colorDonts = colors?.donts ?? [];
+  const supportingLogo = logo?.supporting ?? "";
+
+  return nav.map((group) => {
+    if (group.id === "applications") {
+      return group;
+    }
+
+    return {
+      ...group,
+      items: group.items.filter((item) => {
+        switch (item.id) {
+          case "language-phrases":
+            return nonEmptyList(phrases);
+          case "language-we-say":
+            return nonEmptyList(weSay);
+          case "logo-supporting":
+            return nonEmptyString(supportingLogo);
+          case "photography-category-product":
+            return nonEmptyString(product);
+          case "photography-category-moments":
+            return nonEmptyString(moments);
+          case "photography-donts":
+            return nonEmptyList(avoidList);
+          case "color-proportion":
+            return nonEmptyString(proportion);
+          case "color-donts":
+            return nonEmptyList(colorDonts);
+          case "color-secondary":
+            return nonEmptyList(colors?.secondary);
+          case "system-grid":
+            return nonEmptyString(system?.grid);
+          case "system-composition":
+            return nonEmptyString(system?.composition);
+          case "system-supporting":
+            return nonEmptyString(system?.supporting);
+          default:
+            return true;
+        }
+      }),
+    };
   });
 }
 

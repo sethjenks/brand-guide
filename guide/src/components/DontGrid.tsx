@@ -3,6 +3,7 @@ import { HStack } from "@astryxdesign/core/HStack";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import type { ReactNode } from "react";
+import { EmptyMedia } from "@/components/EmptyMedia";
 import { StruckStage } from "@/components/StruckStage";
 
 export type DontGridItem = {
@@ -78,7 +79,7 @@ export function DontGrid({
                 height="100%"
                 className="dont-grid-placeholder"
               >
-                {item.children}
+                {item.children ?? <EmptyMedia label="Specimen pending" />}
               </HStack>
             )}
           </StruckStage>

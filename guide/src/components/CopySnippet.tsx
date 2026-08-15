@@ -19,6 +19,8 @@ type CopySnippetProps = {
   text: string;
 };
 
+type CopyFeedback = "idle" | "copied" | "failed";
+
 /**
  * Clothesline-style snippet: label left, panel on the right.
  * Stacks to a single column below 720px via useMediaQuery.
@@ -28,7 +30,7 @@ export function CopySnippet({
   title = "Prompt",
   text,
 }: CopySnippetProps) {
-  const [copied, setCopied] = useState(false);
+  const [feedback, setFeedback] = useState<CopyFeedback>("idle");
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isNarrow = useMediaQuery("(max-width: 720px)");
 
@@ -38,16 +40,27 @@ export function CopySnippet({
     };
   }, []);
 
+  function flash(next: CopyFeedback) {
+    setFeedback(next);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setFeedback("idle"), 1400);
+  }
+
   async function handleCopy() {
     try {
       await navigator.clipboard.writeText(text);
+      flash("copied");
     } catch {
-      return;
+      flash("failed");
     }
-    setCopied(true);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => setCopied(false), 1400);
   }
+
+  const tooltip =
+    feedback === "copied"
+      ? "Copied"
+      : feedback === "failed"
+        ? "Copy failed"
+        : "Copy";
 
   const titleNode = (
     <Text
@@ -84,8 +97,16 @@ export function CopySnippet({
           variant="ghost"
           size="sm"
           label="Copy"
-          tooltip={copied ? "Copied" : "Copy"}
-          icon={copied ? <Icons.Check size={14} /> : <Icons.Copy size={14} />}
+          tooltip={tooltip}
+          icon={
+            feedback === "copied" ? (
+              <Icons.Check size={14} />
+            ) : feedback === "failed" ? (
+              <Icons.AlertCircle size={14} />
+            ) : (
+              <Icons.Copy size={14} />
+            )
+          }
           onClick={() => {
             void handleCopy();
           }}

@@ -1,6 +1,6 @@
 import type { SectionStatus } from "@/lib/section-status-ui";
 
-export type SectionStatusShapeKind = "ring" | "half" | "triangle";
+export type SectionStatusShapeKind = "ring" | "square" | "half" | "triangle";
 
 type SectionStatusShapeProps = {
   status?: SectionStatus;
@@ -8,7 +8,7 @@ type SectionStatusShapeProps = {
   className?: string;
 };
 
-/** Map status → silhouette (stub/sample share empty’s ring). */
+/** Map status → silhouette. */
 export function sectionStatusShapeKind(
   status: SectionStatus | undefined,
 ): SectionStatusShapeKind | null {
@@ -17,9 +17,10 @@ export function sectionStatusShapeKind(
     case "ok":
       return null;
     case "empty":
-    case "stub":
     case "sample":
       return "ring";
+    case "stub":
+      return "square";
     case "partial":
       return "half";
     case "assets":
@@ -33,7 +34,7 @@ export function sectionStatusShapeKind(
 
 /**
  * Geometric mark for section customization status (nav + header badges).
- * empty/stub/sample → ring; partial → half-filled; assets → up-triangle.
+ * empty/sample → ring; stub → square; partial → half-filled; assets → triangle.
  */
 export function SectionStatusShape({
   status,
