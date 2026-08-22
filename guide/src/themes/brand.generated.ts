@@ -5,22 +5,23 @@
  */
 
 export const brandThemeInput = {
-  "accent": "#111111",
+  "accent": "#AD5137",
   "radiusBasePx": 8,
   "typeScale": {
     "base": 16,
     "ratio": 1.2
   },
-  "fontSans": "var(--font-geist-sans), \"Geist\", \"IBM Plex Sans\", system-ui, sans-serif",
+  "fontSans": "var(--font-geist-sans), \"Geist\", system-ui, sans-serif",
+  "fontSerif": "var(--font-tobias), \"Tobias\", Georgia, serif",
   "colors": {
-    "ink": "#111111",
-    "inkMuted": "#4a4a4a",
-    "inkSubtle": "#6b6b6b",
-    "canvas": "#dcdcdc",
-    "rail": "#e6e6e6",
-    "paper": "#ffffff",
-    "surface": "#f5f5f5",
-    "surfaceDeep": "#e8e8e8",
-    "border": "#d0d0d0"
+    "ink": "#211E19",
+    "inkMuted": "#535048",
+    "inkSubtle": "#878275",
+    "canvas": "#F7F3EB",
+    "rail": "#EDE6DA",
+    "paper": "#FFFFFF",
+    "surface": "#EDE6DA",
+    "surfaceDeep": "#DCD5CA",
+    "border": "#DCD5CA"
   }
 } as const;

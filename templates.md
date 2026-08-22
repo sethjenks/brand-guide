@@ -9,7 +9,7 @@ compliance: false
 compliance_weight: medium
 visibility: public
 summary: >
-  Slot-based output templates for Sample Brand.
+  Slot-based output templates for Sunset.
 cache_ttl: 30d
 ---
 
@@ -24,9 +24,9 @@ structure: "{{hook}} {{proof}} {{cta}}"
 constraints:
   max_chars: 280
 example:
-  hook: "Most brand docs collect dust."
-  proof: "Sample Brand lives in your repo."
-  cta: "Open the guide."
+  hook: "If it exists, we'll find it."
+  proof: "Sunset finds every account, asset, and debt they left behind — free for families."
+  cta: "Begin search."
 ```
 
 ## product_update
@@ -36,8 +36,8 @@ structure: "{{change}} — {{why}}."
 constraints:
   max_sentences: 2
 example:
-  change: "We added grayscale tokens to brand.md Design system"
-  why: "so agents and CSS stay aligned"
+  change: "We'll email you as soon as your requested searches are complete"
+  why: "so you can review and close discovered accounts when you're ready"
 ```
 
 ## ui_empty_state
@@ -47,8 +47,8 @@ structure: "{{observation}} {{next_step}}"
 constraints:
   max_chars: 120
 example:
-  observation: "No transcripts yet."
-  next_step: "Run the Branding Exercise and save the file here."
+  observation: "No searches yet."
+  next_step: "Begin search to find what they left behind."
 ```
 
 ## meta_description
@@ -58,6 +58,6 @@ structure: "{{what}}. {{promise}}."
 constraints:
   max_chars: 155
 example:
-  what: "Sample Brand is a grayscale starter brand guide for humans and agents"
-  promise: "Clear work, plainly said"
+  what: "Sunset finds every account, asset, and debt your loved one left behind"
+  promise: "Free for families, in all 50 states"
 ```

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import localFont from "next/font/local";
 import { AstryxProviders } from "@/components/AstryxProviders";
 import { loadBrand } from "@/lib/load-brand";
 import "@astryxdesign/core/reset.css";
@@ -12,7 +13,7 @@ import "./globals.css";
  * 1. Design system owns CSS stacks (`--font-sans` required; optional `--font-serif`
  *    for display/heading; optional `--font-mono` for labels/code).
  * 2. This file owns which webfont CSS variables `next/font` injects
- *    (Sample Brand: `--font-geist-sans`).
+ *    (Sunset: `--font-geist-sans` body, `--font-tobias` display).
  * 3. Every `var(--font-*)` in authored stacks must appear as `variable: "--font-…"` here.
  * 4. Put loader `.variable` classes on `<html>` — never on `<body>` (that fights the theme stack).
  * 5. Adding a face is a required hand edit here + the matching Visual field + Design stack.
@@ -20,6 +21,12 @@ import "./globals.css";
 const geistSans = Geist({
   subsets: ["latin"],
   variable: "--font-geist-sans",
+});
+
+const tobias = localFont({
+  src: "../fonts/Tobias-Regular.woff2",
+  variable: "--font-tobias",
+  display: "swap",
 });
 
 export function generateMetadata(): Metadata {
@@ -43,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={geistSans.variable}>
+    <html lang="en" className={`${geistSans.variable} ${tobias.variable}`}>
       <body>
         <AstryxProviders>{children}</AstryxProviders>
       </body>

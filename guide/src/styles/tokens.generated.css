@@ -9,20 +9,21 @@
  */
 
 :root {
-  --color-gray-1: #fcfcfc;
-  --color-gray-10: #838383;
-  --color-gray-11: #646464;
-  --color-gray-12: #202020;
-  --color-gray-2: #f9f9f9;
-  --color-gray-3: #f0f0f0;
-  --color-gray-4: #e8e8e8;
-  --color-gray-5: #e0e0e0;
-  --color-gray-6: #d9d9d9;
-  --color-gray-7: #cecece;
-  --color-gray-8: #bbbbbb;
-  --color-gray-9: #8d8d8d;
+  --color-gray-1: #FFFFFF;
+  --color-gray-10: #6D6860;
+  --color-gray-11: #535048;
+  --color-gray-12: #211E19;
+  --color-gray-2: #F7F3EB;
+  --color-gray-3: #EDE6DA;
+  --color-gray-4: #E4DECF;
+  --color-gray-5: #DCD5CA;
+  --color-gray-6: #C4BDB2;
+  --color-gray-7: #B2ABA0;
+  --color-gray-8: #9A948A;
+  --color-gray-9: #878275;
   --content-max: 65ch;
-  --font-sans: var(--font-geist-sans), "Geist", "IBM Plex Sans", system-ui, sans-serif;
+  --font-sans: var(--font-geist-sans), "Geist", system-ui, sans-serif;
+  --font-serif: var(--font-tobias), "Tobias", Georgia, serif;
   --font-size-base: 1rem;
   --font-size-display: clamp(2.75rem, 6vw, 4.25rem);
   --font-size-h0: clamp(4.5rem, 14vw, 9rem);

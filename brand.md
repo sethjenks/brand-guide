@@ -1,16 +1,16 @@
 ---
-name: "Sample Brand"
-tagline: "Clear work, plainly said."
+name: "Sunset"
+tagline: "Find what they left behind."
 version: 1
 language: en
 type: master
 ---
 
-# Sample Brand
+# Sunset
 
 Portable brand constitution and design system for humans and agents. Aesthetic **intent** lives in Strategy / Voice / Visual; concrete tokens live in **Design system** (below).
 
-This is the out-of-box grayscale starter. Canonical copy also lives at [`examples/brand.default.md`](examples/brand.default.md). Edit this file (and `examples.md`, `rules.md`, `templates.md`, `brand/setup.json`). Run `npm run compile` from `guide/` to regenerate `brand.json`, CSS, and `tokens.json`. Do not hand-edit generated outputs.
+Populated from the live marketing site (https://www.hellosunset.com) on 2026-08-22. Inventory: [`resources/transcripts/populate-sunset-inventory.md`](resources/transcripts/populate-sunset-inventory.md). Edit this file (and `examples.md`, `rules.md`, `templates.md`, `brand/setup.json`). Run `npm run compile` from `guide/` to regenerate `brand.json`, CSS, and `tokens.json`. Do not hand-edit generated outputs.
 
 ---
 
@@ -66,45 +66,45 @@ The human-facing guide is organized as nine brand-book chapters (Strategy, Langu
 
 ### Overview
 
-**What.** Sample Brand is a starter brand constitution for teams who want guidelines agents can read and humans can trust — without hunting PDFs.
+**What.** Sunset is an estate-settlement platform that finds and secures the accounts, assets, and debts a loved one left behind.
 
-**Origin.** Built as the default grayscale template inside this brand-guide kit so teams start from a finished example, not blank scaffolds.
+**Origin.** Sunset Software, Inc. was founded in 2024 in Salt Lake City by Stephen Walter (Co-founder and CEO, a practicing attorney) and Kaela Worthen (Co-founder, previously led payments and fintech product at Podium). They built Sunset after each personally settled a loved one’s estate — Stephen after his father-in-law died; Kaela while helping her husband itemize his parents’ assets. Sunset is the second company they built together.
 
-**What it really does.** It holds meaning (why we sound and look a certain way) so product, marketing, and agents share one source of truth.
+**What it really does.** It finds every financial account, debt, and asset of a deceased person, then helps families and the professionals who serve them close, transfer, and distribute what was found — without charging the family.
 
-**Problem.** Brand rules live in slide decks and tribal knowledge. Agents invent tone; humans disagree about “on brand.”
+**Problem.** After a death, families sort mail for months, wait for creditors to call, search devices for unknown accounts, and never know if they found it all — while putting the deceased at risk of fraud.
 
-**Current.** Teams paste guidelines into every prompt, or ship generic creative and hope it sticks.
+**Current.** Most estates in the U.S. are still settled by hand: forms typed and retyped, balances written on legal pads, banks that take months to release funds, and companies that charge grieving families thousands of dollars or a percentage of the estate.
 
-**Opportunity.** Keep meaning in the repo — one file agents load, one design system they implement.
+**Opportunity.** Give every family a complete picture on the day after — not the year after — and keep them in control of every next step.
 
-**Solution.** A filled grayscale template: Strategy, Voice, Visual, and Design system tokens in one `brand.md`, plus a visual guide you can open locally.
+**Solution.** Automated search across government, credit, and banking sources; county-specific probate documents in all 50 states and 3,000+ counties; an FDIC-insured estate bank account; assisted closures and transfers; then distribution to heirs. Free for families. Paid by bank partners and by Sunset Pro.
 
-**Transformation.** Before: fragmented vibe checks. After: one file agents load and humans edit — constitution and tokens together.
+**Transformation.** Before: months of phone calls and the fear of unknown bills. After: a complete inventory, clear next steps, and nothing that moves without your approval.
 
 **Vision intro.** Where we are headed — the long-term ambition that keeps strategy, product, and creative pointed at the same horizon.
 
-**Long-term ambition.** Every team that clones this kit ships on-brand work without reverse-engineering a PDF.
+**Long-term ambition.** Do for estate settlement what TurboTax did for taxes: asset discovery, creditor notification, closures, tax filings, court submissions, and distributions — handled with care, finished in weeks instead of years.
 
 ### Positioning
 
 **Positioning intro.** A succinct expression of our core business activity and what sets us apart. This statement helps align marketing efforts with our brand and value proposition.
 
-**Category.** Repo-native brand constitution for product and creative teams.
+**Category.** Estate settlement platform for families and the professionals who serve them.
 
-**Not.** Not a design-tool plugin. Not a marketing agency. Not a vibes deck.
+**Not.** Not a probate law firm. Not a fee-extracting “after-loss” bill. Not a percentage of the estate.
 
-**Audience.** Founders, designers, and builders who ship with AI tools and need shared brand context.
+**Audience.** Family members, executors, administrators, and personal representatives settling an estate — and probate attorneys, licensed fiduciaries, trustees, aftercare specialists, and funeral homes who do this work with them.
 
-**Audience primary.** Founders and product teams shipping with AI tools
+**Audience primary.** Families, executors, and personal representatives settling an estate themselves
 
-**Audience secondary.** Designers maintaining a design system alongside brand meaning
+**Audience secondary.** Probate attorneys, licensed fiduciaries, trustees, aftercare specialists, and funeral homes
 
-**Differentiation.** File-based, grayscale-first, dual audience (human guide + agent API).
+**Differentiation.** Free for families in all 50 states and U.S. territories; paid by receiving banks and by Pro subscriptions, not by the estate; silent discovery (institutions are not notified during search except life insurance).
 
-**Only we.** A starter that ships a filled Sample Brand, a visual guide, and a compiled `brand.json` in one repo.
+**Only we.** The family-facing suite — search, probate documents, closures, transfers, and estate bank account setup — stays free because banks pay a referral fee when assets move and professionals pay for Sunset Pro.
 
-**Territory.** Clarity over ornament. Plain language over hype.
+**Territory.** Clarity after a loss. Completeness over guesswork. The family stays in control.
 
 ### Audience
 
@@ -112,135 +112,107 @@ The human-facing guide is organized as nine brand-book chapters (Strategy, Langu
 
 | Segments | Wants | Needs |
 | --- | --- | --- |
-| Founders · Product teams · AI builders | A shared brand context that travels with the work — not another PDF to hunt when shipping with agents. | Plain rules they can load once, trust, and apply without a design ops team. |
-| Designers · Design-system leads · Brand owners | Meaning and tokens in the same place so visual decisions stay tied to voice and strategy. | Clear do/don’t guidance, grayscale-first tokens, and a guide that shows the system in use. |
-| Agents · Cursor workflows · Automation | Structured brand facts they can retrieve without inventing tone or palette. | Stable `brand.json`, retrieval tags, and copy that fails a litmus test when it could belong to anyone. |
+| Families · Executors · Personal representatives | To find every account without months of mail and phone trees — and to know nothing moves unless they say so. | A free, complete inventory; probate papers for their county; an estate account they control; help closing what was found. |
+| Probate attorneys · Licensed fiduciaries · Trustees | A comprehensive estate asset inventory so they can choose the right probate path and file without surprises. | Richer account detail, due-diligence records, exports, and a client-approval workflow before a search runs. |
+| Funeral homes · Aftercare specialists | One less thing for families to worry about after the service. | Free materials for family packets and a path that costs the family nothing. |
 
 ### Personality
 
-**Archetype.** The Editor
+**Archetype.** The Caregiver *(inferred — the site never names an archetype; see coverage)*
 
-**Archetype drive.** Precision · Clarity · Restraint
+**Archetype drive.** Service · Compassion · Protection · Generosity
 
-**Archetype seeks.** Understanding
+**Archetype seeks.** Service
 
-**Archetype at best.** Wise · Accessible · Calm · Grounded · Trustworthy
+**Archetype at best.** Compassionate · Generous · Protective · Trustworthy
 
-**Archetype at worst.** Aloof · Detached · Complicated · Dismissive
+**Archetype at worst.** Martyring · Intrusive · Enabling · Over-promising
 
-**Archetype motto.** Say the useful thing, then stop.
+**Archetype motto.** Here with you.
 
-**Archetype voice.** Knowledgeable · Assured · Guiding
+**Archetype voice.** Warm · Supportive · Reassuring · Patient
 
 **Personality intro.** A unique set of characteristics that make our brand feel truly human. We strive to maintain this personality in all of our communications.
 
-**Attributes.** Clear · Steady · Direct · Respectful · Practical
+**Attributes.** Guided · Specific · Patient · Honest about money · In your control
 
-**Trait scores.** direct: 5 · warm: 3 · playful: 1
+**Trait scores.** direct: 4 · warm: 5 · playful: 1
 
-**We are.** Plainspoken · Specific · Diff-friendly · Respectful of the reader’s time.
+**We are.** Step-by-step · Specific about accounts and next steps · Patient with grief · Honest about how we get paid · Protective of the deceased and the family.
 
-**We are not.** Hype-driven · Vague · Performatively premium · Loud for its own sake
+**We are not.** Fee-extracting · Fake-urgent · Corporate euphemism · Grief theater · Silent about revenue
 
 | Trait | Description |
 | --- | --- |
-| Clear | Prefer the plain word. If a line needs a decoder ring, rewrite it until it can only mean one thing. |
-| Steady | Keep the same register across product, docs, and agents — no sudden hype spikes or mood swings. |
-| Direct | Lead with the useful fact. Cut throat-clearing, fake urgency, and ornamental setup. |
-| Respectful | Assume the reader is busy and capable. Earn attention; don’t perform for it. |
+| Guided | One question at a time. Always say what comes next. |
+| Specific | Name the account type, the county, the document, the fee source. |
+| Patient | Families go as fast or as slow as they want. Nothing moves without approval. |
+| Honest about money | Say we are paid by banks and by Pro — never hide the model. |
+| In your control | The estate bank account is theirs. Search stays private until they request closure. |
 
 Copy a `#### Primary|Secondary|Tertiary archetype` block below for each wheel selection. Keep **Wheel.** aligned with a classic archetype id (or alias) so the guide can emphasize the ring.
 
 #### Primary archetype
 
-**Name.** Editor / Sage
+**Name.** Caregiver
 
-**Wheel.** Sage
+**Wheel.** Caregiver
 
-**Motivations.** Seeking understanding
+**Motivations.** Provide structure
 
-**Personality narrative.** The Editor wants clarity that lasts — cutting noise so the useful thing remains. They distrust jargon and theater, and believe restraint is a form of respect. At their best they make complex work feel simple; at their worst they can sound aloof or over-precise.
+**Personality narrative.** Sunset sits with people on the worst week of their lives and does the financial work so they can grieve. The site never names an archetype; Caregiver is inferred from “felt cared for,” “less scary,” “guided the whole way,” and the About letter (“Here with you”). At best that is protection and permission to rest; at worst it could over-promise or take over. Human review required.
 
-**Quote.** Say the useful thing, then stop.
+**Quote.** Here with you.
 
-**Drive.** Precision · Clarity · Restraint · Understanding · Craft
+**Drive.** Service · Compassion · Protection · Completeness · Control stays with the family
 
-**Fears.** Ambiguity · Noise · Hype · Performative complexity · Vague inspiration
+**Fears.** Unknown bills · Missed accounts · Fraud against the deceased · Charging a grieving family
 
-**Strategy.** Cut to the useful thing · Prefer concrete nouns · Edit until the line can only mean one thing
+**Strategy.** Find everything · Stay free for families · Nothing moves without approval
 
-**Voice.** Knowledgeable · Assured · Guiding · Direct · Calm
+**Voice.** Warm · Supportive · Reassuring · Patient · Specific
 
-**Seeks.** Understanding
+**Seeks.** Service
 
-**Motto.** Say the useful thing, then stop. · Clear work, plainly said.
+**Motto.** Here with you. · Find what they left behind.
 
-**Audience feels.** Relieved · Oriented · Respected · Steady · Clear-headed
+**Audience feels.** Cared for · Safe · Guided · Less scared · In control
 
-**Brands.** Strunk & White · The Economist · Notion docs done well
+**Brands.** (not claimed on the site — do not invent peer brands)
 
-**At best.** Wise · Accessible · Calm · Grounded · Trustworthy
+**At best.** Compassionate · Generous · Protective
 
-**At worst.** Aloof · Detached · Complicated · Dismissive
+**At worst.** Martyring · Intrusive · Enabling
 
-**Characters.** The careful editor · The reference librarian · The senior who deletes the flourish
+**Characters.** The friend who sits at the kitchen table · The attorney who translates the bank · The product person who makes money move safely
 
-**Types.** Editor · Guide · Critic · Analyst
+**Types.** Helper · Guide · Guardian
 
-**Types highlighted.** Editor · Guide
-
-<!--
-#### Secondary archetype
-
-**Name.** Creator / Maker
-**Wheel.** Creator
-**Motivations.** Seeking innovation
-**Personality narrative.** …
-**Quote.**
-**Drive.** …
-**Fears.** …
-**Strategy.** …
-**Voice.** …
-**Seeks.** Innovation
-**Motto.** …
-**Audience feels.** …
-**Brands.** …
-**At best.** …
-**At worst.** …
-**Characters.** …
-**Types.** …
-**Types highlighted.** …
-
-#### Tertiary archetype
-
-**Name.** Outlaw / Revolutionary / Maverick
-**Wheel.** Rebel
-…same fields as Primary…
--->
+**Types highlighted.** Helper · Guide
 
 ### Promise
 
 **Mission intro.** Why we exist in practical terms — the job we do every day for the people who depend on this brand.
 
-**Mission.** Hold brand meaning in the repo so humans and agents share one source of truth.
+**Mission.** Find every account, asset, and debt a loved one left behind, then help families claim and close them — free.
 
-**Purpose.** We exist to make brand context portable — clear, fast to load, and doable without a design ops team.
+**Purpose.** Families should be able to grieve without a second job, and without writing a check to clean up the financial life of someone they just lost.
 
-**Position.** Repo-native brand constitution for product and creative teams. Not a plugin. Not an agency. Not a vibes deck.
+**Position.** Estate settlement platform. Free for families. Paid by banks and by professionals. Not a law firm. Not a percentage of the estate.
 
-**Promise.** Say what we mean in plain language. Keep visuals quiet so content can lead. Treat agents as first-class readers.
+**Promise.** If it exists, we’ll find it. You stay in control. You keep the money.
 
-- We will say what we mean in plain language.
-- We will keep visual systems quiet so content can lead.
-- We will treat agents as first-class readers of this brand.
+- We will find and secure the accounts, assets, and debts they left behind.
+- We will not charge families a fee or take a percentage of the estate.
+- We will not move anything forward without your approval.
 
-**Base message.** Clear work, plainly said.
+**Base message.** Find what they left behind.
 
-**Synthesizing phrase.** Brand context that lives in the repo and travels with the work.
+**Synthesizing phrase.** Find, claim, and close every account — free for families, paid by banks.
 
-**Boilerplate short.** Sample Brand is a grayscale starter brand guide for humans and agents.
+**Boilerplate short.** Sunset finds every account, asset, and debt your loved one left behind. Free for families, in all 50 states.
 
-**Boilerplate long.** Sample Brand is the filled example inside brand-guide: a Strategy / Voice / Visual constitution, Design system tokens, brand.json for agents, and a Next.js visual guide.
+**Boilerplate long.** Sunset is an estate settlement platform from Sunset Software, Inc. It helps families and the professionals who serve them discover and close every financial account, debt, and asset of a deceased person. Family-facing tools are free. Sunset is paid by bank partners when assets transfer, and by Sunset Pro for probate attorneys, fiduciaries, trustees, and aftercare specialists.
 
 ### Message Pillars
 
@@ -250,19 +222,19 @@ Copy a `#### Primary|Secondary|Tertiary archetype` block below for each wheel se
 
 | Pillar | Summary | Emotional driver | Functional value | Trust message |
 | --- | --- | --- | --- | --- |
-| **Clarity** | Cut jargon; name the thing | Relieved | Plain-language copy and UI | You’ll always know what we mean. |
-| **Craft** | Care shows in small decisions | Confident | Consistent type, space, contrast | Details aren’t decoration. |
-| **Portability** | Brand rules move with the work | Steady | Files agents and humans share | The brand travels with the repo. |
+| **Find everything** | If it exists, we’ll find it | Relief | Automated search across IRS, credit bureaus, banking networks, and more | You can be confident nothing was overlooked. |
+| **Free for families** | Paid by banks, not families | Dignity | No fees, subscriptions, or cuts of the inheritance | You will not get a bill in the worst month of your life. |
+| **Your pace, your control** | Nothing moves without your approval | Safety | You approve each step; the estate account is yours | You stay in the driver’s seat. |
 
 ### Guardrails
 
 **Guardrails intro.** Hard edges for agents and humans — what we sound like, what we refuse, and the test that keeps us on-brand.
 
-**Tone summary.** Direct, calm, specific, human.
+**Tone summary.** Calm, specific, guided, honest about money.
 
-**The brand cannot be.** Synergy soup · Fake urgency · Empty inspiration · Decorative complexity.
+**The brand cannot be.** A fee on grief · Fake urgency · A cut of the inheritance · A silent search that notifies banks (except life insurance) · Grief theater.
 
-**Litmus test.** If you could swap in any other brand name and the line still works, rewrite it.
+**Litmus test.** If you could swap in any other estate-settlement name and the line still works, rewrite it. If the line hides how Sunset gets paid, rewrite it.
 
 ---
 
@@ -272,9 +244,9 @@ Copy a `#### Primary|Secondary|Tertiary archetype` block below for each wheel se
 
 ### Identity
 
-**Identity.** We speak like a careful editor: short sentences, concrete nouns, no theater — Sample Brand, the quiet template a brand lives in the repo.
+**Identity.** We speak like a calm guide at the kitchen table: one question at a time, and nothing moves without you.
 
-**Essence.** Say the useful thing, then stop.
+**Essence.** Find what they left behind.
 
 #### Voice spectrum
 
@@ -284,10 +256,10 @@ Mark the brand’s range with **From** / **To** (labels must match the shell spe
 
 | Dimension | From | To | Notes |
 | --- | --- | --- | --- |
-| Volume | Inside voices | Inside voices | Quiet, measured; never loud for its own sake. |
-| Energy | Relaxed | Going for a stroll | Calm confidence; purposeful, not frantic. |
-| Sociability | Just in the family | Friends & family | Clear for the people who need it — not a party brand. |
-| Attitude | Opinionated when needed | Opinionated when needed | Direct when it matters; never polarizing for sport. |
+| Volume | Inside voices | Inside voices | Calm enough for grief; never loud for its own sake. Inferred from the rebrand (“clear, calm, and purposeful”). |
+| Energy | Relaxed | Going for a stroll | At your pace — purposeful, not frantic. |
+| Sociability | Just in the family | Friends & family | Written for the household, then for the attorney or funeral director beside them. |
+| Attitude | Traditional | Opinionated when needed | Gentle with families; direct about companies that charge the grieving. |
 
 ### Principles
 
@@ -295,34 +267,38 @@ Mark the brand’s range with **From** / **To** (labels must match the shell spe
 
 | Principle | Description | Do | Don't |
 | --- | --- | --- | --- |
-| Say the useful thing, then stop. | Cut to the job the reader needs done. Short sentences, concrete nouns, no theater — then leave the rest unsaid. | Lead with the change and why it matters. | Pad the point with hype, throat-clearing, or synonym stacks. |
-| Specific beats impressive. | Prefer the exact noun over the polished adjective. Proof before flourish; if a line could belong to any brand, rewrite it. | Name the file, the step, or the outcome. | Claim seamless, revolutionary, or best-in-class without evidence. |
+| One question at a time. | Lead with the next useful step. Short sentences. Then stop. | “Begin search.” “We’ll email you when results are ready.” | Stack five asks or bury the action in sympathy. |
+| Name the thing. | Prefer the account, the county, the document, the fee source. | “Generate probate documents for your county.” | “Unlock a seamless after-loss journey.” |
+| Honest about money. | Families never pay. Say who does. | “We’re paid by banks, not families.” | Hide referral fees or imply Sunset is a charity. |
+| Stay in their control. | Approval is the product. | “Nothing happened unless I said so.” (user proof) | Move, file, or notify on their behalf without saying so. |
 
 ### Tagline & Slogans
 
 **Tagline intro.** An external piece of language that sums up our brand promise in a few memorable words.
 
-- **Primary:** Clear work, plainly said.
-- Alternatives: Brand context that ships with the work. · Guidelines agents can actually read. · Quiet system, loud clarity.
+- **Primary:** Find what they left behind.
+- Alternatives: If it exists, we’ll find it. · We’re paid by banks, not families. · Always know what comes next.
 
 ### Story
 
 **Story intro.** Our story is an external tool that translates our core beliefs and reason for being.
 
-**Story long.** Brand work used to live in decks, Notion pages, and tribal memory — then vanish the moment a new hire or an agent needed it. Sample Brand exists so meaning stays where the work stays: in the repo. We started with a grayscale starter on purpose. Color and flourish can wait; clarity cannot. Strategy, language, and visual rules compile into files humans browse and agents read, so every surface — product UI, email, support — can pull from the same constitution. We are not a plugin and not an agency. We are the quiet template that shows how a brand should travel with the work.
+**Story long.** For ten years Stephen Walter and Kaela Worthen had been close friends. He was a practicing attorney who translated families to financial institutions. She had built payments systems that moved billions through small businesses. They did not set out to start an estate company. Then his father-in-law died, and the day after he sat with his mother-in-law and gave her a complete picture of the debts and accounts — work that would have taken her months. Around the same time Kaela was at a kitchen table helping her husband itemize his parents’ assets. They compared notes and built the thing they wished had existed: a platform that finds every account, files the forms, and shepherds the assets home. They refused to charge grieving families. It took almost a year to land the model: receiving banks pay a referral fee when assets move, and professionals pay for Sunset Pro. That is the day Sunset became Sunset. A sunset is also a sunrise.
 
-**Story medium.** Brand context used to scatter across decks and chat threads. Sample Brand keeps it in the repo — Strategy, Language, and Visual rules that compile for humans and agents alike. Grayscale first; meaning first. Clear work, plainly said.
+**Story medium.** Two cofounders each settled a loved one’s estate by hand, then built the platform they wished had existed. Sunset finds and closes what they left behind — free for families, paid by banks and by professionals. Founded 2024, Salt Lake City.
 
-**Story short.** Sample Brand keeps brand meaning in the repo so humans and agents share one source of truth.
+**Story short.** Sunset finds what they left behind, then helps you claim and close it — free for families.
 
 ### Headlines
 
 **Headlines intro.** Short, ownable lines for campaigns, product, and empty states — voice first, benefit clear.
 
-- Clear work, plainly said.
-- The brand lives where the work lives.
-- Specific beats impressive.
-- Ornament is optional; clarity is not.
+- Find what they left behind.
+- If it exists, we’ll find it.
+- There’s a better way to find and secure their assets.
+- Always know what comes next.
+- We’re paid by banks, not families.
+- At your pace, in your control.
 
 ### Calls to action
 
@@ -330,32 +306,35 @@ Mark the brand’s range with **From** / **To** (labels must match the shell spe
 
 | Do | Don't |
 | --- | --- |
-| Save draft | Click here |
-| Open the guide | Learn more |
-| Ship with the work | Get started now |
-| Copy token | Unlock your potential |
+| begin search | Click here |
+| Learn more about our process | Unlock your after-loss journey |
+| Contact partners@hellosunset.com | Start your journey today |
+| Log in | Get started now |
 
 ### Phrases
 
-- Clear work, plainly said.
-- If it needs a synonym, it needs a rewrite.
-- The brand lives where the work lives.
-- Grayscale first; meaning first.
-- Specific beats impressive.
-- Agents read this file too.
-- Ornament is optional; clarity is not.
+- Find what they left behind.
+- If it exists, we’ll find it.
+- We’re paid by banks, not families.
+- Always know what comes next.
+- At your pace, in your control.
+- Nothing moves forward without your approval.
+- Begin search.
+- You keep all your money.
+- A sunset is also a sunrise.
+- Here with you.
 
 ### Tonal Rules
 
-**Voice pillars.** Direct · Calm · Specific
+**Voice pillars.** Guided · Specific · Honest about money
 
-**Do.** Lead with the user’s job to be done · Prefer short sentences · Use concrete nouns
+**Do.** Lead with the next step · Name accounts and documents · Say who pays Sunset
 
-**Don’t.** Hype without proof · Vague benefits · Corporate euphemism
+**Don’t.** Charge-the-family framing · Vague “after-loss journeys” · Fake urgency
 
-**Vocabulary use.** build · ship · clear · plain · specific · guide
+**Vocabulary use.** find · search · close · transfer · estate · account · free · approve · family
 
-**Vocabulary never.** synergistic · best-in-class · seamless · revolutionary · unlock your potential
+**Vocabulary never.** synergistic · best-in-class · seamless · revolutionary · unlock your potential · percentage of the estate · after-loss journey
 
 **And / yet pairs**
 
@@ -363,30 +342,30 @@ Mark the brand’s range with **From** / **To** (labels must match the shell spe
 
 | Lean | Bridge | And yet | Phrase |
 | --- | --- | --- | --- |
-| Knowledgeable | yet | Humble | Clear work, plainly said. |
-| Direct | yet | Warm | Specific beats impressive. |
-| Precise | yet | Plain | If it needs a synonym, it needs a rewrite. |
-| Confident | yet | Quiet | Grayscale first; meaning first. |
+| Warm | yet | Specific | Find what they left behind. |
+| Patient | yet | Direct | Nothing moves forward without your approval. |
+| Protective | yet | Honest | We’re paid by banks, not families. |
+| Guided | yet | In their control | Always know what comes next. |
 
 **Rules**
 
-1. Lead with the user’s job to be done.
+1. Lead with the next step the reader can take.
 2. Prefer short sentences; split compound claims.
-3. Use concrete nouns over abstract nouns.
+3. Name the account, document, or fee source.
 4. Never claim “revolutionary,” “seamless,” or “best-in-class.”
-5. Proof before adjectives.
+5. Never hide how Sunset gets paid.
 6. One idea per paragraph in marketing copy.
-7. Match channel length: social short, docs precise, support patient.
+7. Match channel length: social short, support patient, Pro precise.
 8. When unsure, choose the plainer word.
 
-**Identity boundaries.** We are not a growth-hack voice. We are not ironic. We are not corporate euphemism.
+**Identity boundaries.** We are not a growth-hack voice. We are not ironic. We are not a bill on grief.
 
 | We Say | We Never Say |
 | --- | --- |
-| Here’s what changed and why. | Unlock your potential. |
-| Ship the brand with the work. | Synergistic brand solutions. |
-| Plain language, strong contrast. | Seamless holistic experience. |
-| Specific beats impressive. | World-class premium vibes. |
+| Find what they left behind. | Unlock your potential. |
+| We’re paid by banks, not families. | A small percentage of the estate. |
+| Begin search. | Start your after-loss journey today. |
+| Nothing moves forward without your approval. | We’ll take it from here — no need to look. |
 
 ### Tone by context
 
@@ -394,11 +373,12 @@ Mark the brand’s range with **From** / **To** (labels must match the shell spe
 
 | Context | Guidance | Example |
 | --- | --- | --- |
-| Product UI | Short labels; verbs on buttons | Save draft |
-| Email | One purpose; clear next step | Your guide preview is ready — open it. |
-| Social | One idea; ownable phrase if possible | Clear work, plainly said. |
-| Support | Patient, concrete, no blame | Here’s the exact file to update. |
-| Incident | Facts first; no spin | We fixed the deploy path at 14:02 UTC. |
+| Product UI | Short labels; verbs on buttons | begin search |
+| Email | One purpose; when results are ready, say so | We’ll email you as soon as your requested searches are complete. |
+| Social | One idea; prefer a Voice phrase | Find what they left behind. |
+| Support | Patient, concrete, a real person | Email support@hellosunset.com — we reply within 1 business day. |
+| Incident | Facts first; no spin | We fixed the search path at 14:02 UTC. |
+| Pro / attorneys | Precise, duty-aware, no family-voice softness that hides the work | Upload the death certificate, then invite your client to authorize the search. |
 
 ---
 
@@ -410,11 +390,11 @@ This section is the brief. Concrete hex / CSS values live in **Design system** b
 
 ### Colors
 
-**Colors intro.** A grayscale starter with a twelve-step interface scale — swap the palette when you adopt the kit.
+**Colors intro.** A warm cream field and dark brown ink — quiet enough for grief, clear enough to act.
 
 Semantic roles (token names only; required in Design system):
 
-- **Primary text** — body, headings, key chrome (`--color-ink`); theme accent defaults to ink (optional `--color-accent` when CTA must diverge)
+- **Primary text** — body, headings, key chrome (`--color-ink`); primary buttons use ink on cream
 - **Secondary text** — supporting copy, captions (`--color-ink-muted`)
 - **Tertiary text** — meta, timestamps, placeholders (`--color-ink-subtle`)
 - **Border** — rules and dividers (`--color-border`)
@@ -422,60 +402,71 @@ Semantic roles (token names only; required in Design system):
 - **Surface deep** — deeper panels, muted fills (`--color-surface-deep`)
 - **Paper** — content card / page surface (`--color-paper`)
 - **Canvas** — app canvas behind the content card (`--color-canvas`)
+- **Hover accent** — nav / link hover and FAQ rule (`--color-accent`, site `--_colors---secondary--red-600`). Not the primary button fill.
 
 Accessibility expectation: primary and secondary body text ≥ 4.5:1 on paper; tertiary ≥ 4.5:1 when used at body size.
 
+The marketing CSS also names unused secondaries (yellow, orange, blue, purple). Do not treat those as brand accents.
+
 ### Typography
 
-**Type note.** One grotesque for display and body. Hierarchy through size and weight — not a second decorative face.
+**Type note.** Tobias for headlines, Geist for everything you read and tap — hierarchy through size, not decoration.
 
-**Type primary.** Geist — display and body
+**Type display.** Tobias — headlines and display
 
-**Type fallback.** IBM Plex Sans, system-ui, sans-serif
+**Type display foundry.** Klim Type Foundry
 
-**Type family.** Geist
+**Type primary.** Geist — body and UI
 
-**Type specimen display.** Sample Brand
+**Type primary foundry.** Vercel
+
+**Type fallback.** Georgia, system-ui, sans-serif
+
+**Type family.** Tobias + Geist
+
+**Type specimen display.** Sunset
 
 **Type specimen section.** Brand Strategy
 
-**Type specimen lead.** Clear work, plainly said.
+**Type specimen lead.** Find what they left behind.
 
-**Type specimen body.** Brand context that lives in the repo and travels with the work.
+**Type specimen body.** Sunset finds every account, asset, and debt your loved one left behind. Free for families, in all 50 states.
 
 ### Photography / Imagery
 
-**Imagery introduction.** Photography should feel like real work in real rooms — candid crops, natural light, product in context.
+**Imagery introduction.** Photography shows real families, real product screens, and quiet rooms — warm light, no grief theater.
 
-**Imagery style.** Editorial, natural light, product-in-context.
+**Imagery style.** Editorial portraits, product-in-context UI, warm natural light.
 
-**Imagery mood.** Focused, calm, confident.
+**Imagery mood.** Calm, cared-for, clear.
 
 **Imagery tone.** Human, authentic, reflective, hopeful
 
-**Imagery subjects.** Real workspaces, candid crops, product-in-context
+**Imagery subjects.** Testimonial portraits, cofounders, product UI, funeral-home print
 
-**Imagery settings.** Natural light, quiet interiors, honest materials
+**Imagery settings.** Kitchen-table quiet, cream fields, landscape light, honest interiors
 
-**Imagery avoid.** Oversaturated stock, fake handshakes, neon gradients
+**Imagery avoid.** Oversaturated stock, fake handshakes, neon gradients, grief-porn close-ups
 
-**Imagery prompt product.** Sample Brand guide on desk, natural light, muted neutrals, candid crop --ar 4:5 --style raw
+**Imagery product.** Sunset discovery or settlement UI on a cream field, natural light, candid crop --ar 4:5 --style raw
 
-**Imagery prompt lifestyle.** Candid use in real environments, no stock smiles.
+**Imagery prompt product.** Sunset app showing an estate inventory on a laptop, cream field, natural light, candid crop --ar 4:5 --style raw
 
-**Imagery negative.** oversaturated · generic stock office · neon gradients · purple AI cliché
+**Imagery prompt lifestyle.** A person at a kitchen table with documents, not a stock smile; warm light; room to breathe.
+
+**Imagery negative.** oversaturated · generic stock office · neon gradients · purple AI cliché · grief-porn
 
 ### Logo / Wordmark
 
-**Logo description.** A wordmark in ink on paper — or reversed on ink — that reads as type, not decoration.
+**Logo description.** The Sunset wordmark is a typed lockup with a rising sun over the t — every sunset is also a sunrise.
 
-**Logo clearspace.** Approximately the height of the capital S
+**Logo clearspace.** Approximately the height of the sun segment
 
-**Logo donts.** Don’t stretch or outline · Don’t add drop shadows · Don’t place on busy photography without a paper panel
+**Logo donts.** Don’t stretch or outline · Don’t add drop shadows · Don’t place on busy photography without a cream or paper panel · Don’t separate the sun from the wordmark unless using the approved mark
 
 ### Animation / Motion
 
-**Animation introduction.** Motion orients. It helps people see what changed, where to look next, and how the brand feels under the hand — never decoration for its own sake.
+**Animation introduction.** Motion on the marketing site orients: pages settle, steps reveal, and nothing blocks the next action.
 
 **Animation principles intro.** How the brand moves and why. Keep motion purposeful, consistent, and quiet enough that it never stands between someone and their next action.
 
@@ -495,7 +486,7 @@ Accessibility expectation: primary and secondary body text ≥ 4.5:1 on paper; t
 
 | Principle | Description | Do | Don't |
 | --- | --- | --- | --- |
-| Orient, don’t decorate | Animate when it clarifies a change of state or space. Skip motion when it only adds spectacle. | Fade and settle a panel so the eye can track what opened. | Add bounce or sparkle to every hover and click. |
+| Orient, don’t decorate | Animate when it clarifies a change of state or space. Skip motion when it only adds spectacle. | Fade and settle a step so the eye can track what opened. | Add bounce or sparkle to every hover and click. |
 | Match the action | Direction and weight should feel like the thing that just happened — forward to go deeper, back to return, soft to settle, firm to confirm. | Slide a drill-in view from the same edge the control implies. | Use a playful overshoot for a destructive or irreversible action. |
 | Prefer entrance over exit | People need help arriving. Once attention has moved on, most exits can be instant. | Animate a modal in; dismiss tooltips and menus immediately. | Make users wait on exit choreography before they can act again. |
 | Respect reduced motion | Some people experience motion sensitivity. Honor system preferences with instant state changes. | Swap timed transitions for immediate show/hide when prefers-reduced-motion is on. | Ship large parallax or looping motion with no reduced-motion path. |
@@ -507,7 +498,7 @@ Accessibility expectation: primary and secondary body text ≥ 4.5:1 on paper; t
 | drift | Drift | Calm and considered. Elements settle into place like paper coming to rest. |
 | punch | Punch | Decisive and athletic. Motion starts hard and brakes late, like a sprinter into the line. |
 | elastic | Elastic | Playful and physical. Elements overshoot their mark and spring back, full of energy. |
-| editorial | Editorial | Slow and stately. Motion at the pace of turning a page in a well-made book. Our default. |
+| editorial | Editorial | Slow and stately. Motion at the pace of turning a page. Our default — inferred from “clear, calm, and purposeful.” |
 
 #### Archetypes
 
@@ -534,22 +525,23 @@ Accessibility expectation: primary and secondary body text ≥ 4.5:1 on paper; t
 
 ### Style
 
-Design keywords: Quiet grid · Strong type · Honest contrast · No ornament for its own sake.
+Design keywords: Warm cream · Strong type · Honest contrast · No ornament for its own sake.
 
-Direction: The identity should communicate system and clarity, not decoration.
+Direction: The identity should feel clear, calm, and purposeful — a sunset that is also a sunrise.
 
 ### Color ↔ Brand contract
 
 | Brand idea | Semantic role | Token name |
 | --- | --- | --- |
-| Clarity / focus | Primary text & actions (accent = ink) | `--color-ink` |
+| Clarity / focus | Primary text & primary buttons | `--color-ink` |
 | Calm surfaces | Content card / page surface | `--color-paper` |
+| Warm field | App canvas / marketing ground | `--color-canvas` |
 | Subtle panels | Panels, zebra rows | `--color-surface` |
 | Deeper wash | Muted fills, hover grounds | `--color-surface-deep` |
-| App chrome | Canvas behind the content card | `--color-canvas` |
 | Quiet structure | Borders / rules | `--color-border` |
 | Secondary info | Supporting copy | `--color-ink-muted` |
 | Tertiary meta | Timestamps, placeholders | `--color-ink-subtle` |
+| Link / hover (not primary CTA) | Interactive hover | `--color-accent` |
 
 When aesthetic principles change, update Visual here and align Design system tokens. When palette hex shifts materially, update Design system first, then confirm this contract still names the right roles. Compile fails if any required role above is missing from Design system.
 
@@ -563,23 +555,27 @@ Where the brand shows up (also rendered in the visual guide):
 
 | Channel | Title | Copy | Sample |
 | --- | --- | --- | --- |
-| Web | Document-like pages | Brand name as the hero signal. One headline, one supporting line, one quiet system UI — grayscale throughout. | Open the guide |
-| Social | Ownable phrases | One idea per post. High-contrast wordmark on paper or ink. Prefer a phrase from the Voice list. | Clear work, plainly said. |
-| Print | Decks & handouts | Same type hierarchy. Generous margins. Hairline rules only when they aid reading — never as decoration. | Brand Guide · 2026 |
+| Web | Marketing pages | Brand name as the hero signal. One headline, one supporting line, one CTA — cream field, ink type. | Find what they left behind. |
+| App | Search and settlement | One question at a time. Nothing moves without approval. | begin search |
+| Social | Ownable phrases | One idea per post. High-contrast wordmark on cream or ink. Prefer a phrase from the Voice list. | Find what they left behind. |
+| Email | Results and support | One purpose; when searches complete, say so; a real person on the reply. | We’ll email you as soon as your requested searches are complete. |
+| Print | Funeral-home trifolds | Same type hierarchy. Fits a family packet. Free for the family. | Give families one less thing to worry about. |
 
-**Channel web.** Document-like pages; brand name as hero signal
+**Channel web.** Marketing pages; brand name as hero signal
+
+**Channel app.** One question at a time; begin search
 
 **Channel social.** Short ownable phrases; high-contrast wordmarks
 
-**Channel print.** Same type hierarchy; generous margins
-
 **Channel email.** One purpose; clear next step
+
+**Channel print.** Trifold for funeral-home family packets
 
 ---
 
 ## Agent
 
-**System prompt base.** You work on behalf of Sample Brand. Prefer plain language. Stay in the grayscale token set unless the user expands the palette.
+**System prompt base.** You work on behalf of Sunset (Sunset Software, Inc.). Prefer plain language. Never charge families in copy. Stay in the cream-and-ink token set; terracotta is hover only unless the user expands the palette.
 
 **Compliance threshold.** 0.85
 
@@ -588,9 +584,9 @@ Where the brand shows up (also rendered in the visual guide):
 <!-- brand-guide:design-system -->
 ## Design system
 
-Implementation layer for the grayscale **Sample Brand** starter. Strategy / Voice / Visual above are the brief; this section defines **what to ship**: tokens, type scale, spacing, and component notes.
+Implementation layer for **Sunset**, populated from https://www.hellosunset.com shared CSS (2026-08-22). Strategy / Voice / Visual above are the brief; this section defines **what to ship**: tokens, type scale, spacing, and component notes.
 
-**Theme authoring:** edit this fenced block only. Run `npm run tokens` or `npm run compile` from `guide/`. Canonical token-only reset snapshot: [`examples/design-system.default.md`](examples/design-system.default.md) (same tokens as this block). Reset with `npm run tokens:reset` (replaces this block; leaves Strategy / Voice / Visual untouched).
+**Theme authoring:** edit this fenced block only. Run `npm run tokens` or `npm run compile` from `guide/`. Canonical token-only reset snapshot: [`examples/design-system.default.md`](examples/design-system.default.md) (starter grayscale — do not use to wipe Sunset). Reset with `npm run tokens:reset` only if you intend to drop back to the kit grayscale.
 
 Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`tokens.json`](tokens.json), `guide/public/tokens.json`, and `brand.json` color fields.
 
@@ -598,57 +594,60 @@ Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`
 
 | Token | Value | Usage | Guide |
 | --- | --- | --- | --- |
-| `--color-ink` | `#111111` | Primary text, key chrome, CTAs | brand |
-| `--color-ink-muted` | `#4a4a4a` | Secondary text, captions | secondary |
-| `--color-ink-subtle` | `#6b6b6b` | Tertiary text, meta, placeholders | secondary |
-| `--color-gray-1` | `#fcfcfc` | App background | interface |
-| `--color-gray-2` | `#f9f9f9` | Subtle background | interface |
-| `--color-gray-3` | `#f0f0f0` | UI element background | interface |
-| `--color-gray-4` | `#e8e8e8` | Hovered UI element background | interface |
-| `--color-gray-5` | `#e0e0e0` | Active / selected UI element background | interface |
-| `--color-gray-6` | `#d9d9d9` | Subtle borders and separators | interface |
-| `--color-gray-7` | `#cecece` | UI element border and focus rings | interface |
-| `--color-gray-8` | `#bbbbbb` | Hovered UI element border | interface |
-| `--color-gray-9` | `#8d8d8d` | Solid backgrounds | interface |
-| `--color-gray-10` | `#838383` | Hovered solid backgrounds | interface |
-| `--color-gray-11` | `#646464` | Low-contrast text | interface |
-| `--color-gray-12` | `#202020` | High-contrast text | interface |
-| `--color-border` | `#d0d0d0` | Dividers, hairlines, input borders | chrome |
-| `--color-surface` | `#f5f5f5` | Panels, zebra rows, subtle fills | chrome |
-| `--color-surface-deep` | `#e8e8e8` | Deeper panels, hover fills | chrome |
-| `--color-paper` | `#ffffff` | Page / content card background | chrome |
-| `--color-canvas` | `#dcdcdc` | App canvas behind the content card | chrome |
-| `--color-rail` | `#e6e6e6` | Sidebar / rail background | chrome |
+| `--color-ink` | `#211E19` | Primary text, key chrome, primary CTAs (site `--_colors---neutral--900`) | brand |
+| `--color-ink-muted` | `#535048` | Secondary text, captions (`neutral--800`) | secondary |
+| `--color-ink-subtle` | `#878275` | Tertiary text, meta, placeholders (`neutral--700`) | secondary |
+| `--color-accent` | `#AD5137` | Link / nav hover and FAQ rule (`secondary--red-600`); not primary button fill | brand |
+| `--color-gray-1` | `#FFFFFF` | App background (site `neutral--100`) | interface |
+| `--color-gray-2` | `#F7F3EB` | Subtle background (`neutral--200`) | interface |
+| `--color-gray-3` | `#EDE6DA` | UI element background (`neutral--300`) | interface |
+| `--color-gray-4` | `#E4DECF` | Hovered UI element background (interpolated 300–500) | interface |
+| `--color-gray-5` | `#DCD5CA` | Active / selected UI element background (`neutral--500`) | interface |
+| `--color-gray-6` | `#C4BDB2` | Subtle borders and separators (interpolated) | interface |
+| `--color-gray-7` | `#B2ABA0` | UI element border and focus rings (interpolated) | interface |
+| `--color-gray-8` | `#9A948A` | Hovered UI element border (interpolated) | interface |
+| `--color-gray-9` | `#878275` | Solid backgrounds (`neutral--700`) | interface |
+| `--color-gray-10` | `#6D6860` | Hovered solid backgrounds (interpolated) | interface |
+| `--color-gray-11` | `#535048` | Low-contrast text (`neutral--800`) | interface |
+| `--color-gray-12` | `#211E19` | High-contrast text (`neutral--900`) | interface |
+| `--color-border` | `#DCD5CA` | Dividers, hairlines, input borders (`neutral--500`) | chrome |
+| `--color-surface` | `#EDE6DA` | Panels, zebra rows, subtle fills (`neutral--300`) | chrome |
+| `--color-surface-deep` | `#DCD5CA` | Deeper panels, hover fills (`neutral--500`) | chrome |
+| `--color-paper` | `#FFFFFF` | Page / content card background (`neutral--100`) | chrome |
+| `--color-canvas` | `#F7F3EB` | App canvas behind the content card (`neutral--200` / theme-color) | chrome |
+| `--color-rail` | `#EDE6DA` | Sidebar / rail background (`neutral--300`) | chrome |
 
 `Guide` column: `brand` | `secondary` | `interface` | `chrome` (CSS only). Interface is the 12-step Radix-style scale shown in the guide; semantic aliases (`paper`, `surface`, …) stay `chrome` for theme CSS. New `--color-*` rows default to `interface` unless the name suggests brand/accent.
 
 ```css
 :root {
-  /* Color */
-  --color-ink: #111111;
-  --color-ink-muted: #4a4a4a;
-  --color-ink-subtle: #6b6b6b;
-  --color-gray-1: #fcfcfc;
-  --color-gray-2: #f9f9f9;
-  --color-gray-3: #f0f0f0;
-  --color-gray-4: #e8e8e8;
-  --color-gray-5: #e0e0e0;
-  --color-gray-6: #d9d9d9;
-  --color-gray-7: #cecece;
-  --color-gray-8: #bbbbbb;
-  --color-gray-9: #8d8d8d;
-  --color-gray-10: #838383;
-  --color-gray-11: #646464;
-  --color-gray-12: #202020;
-  --color-border: #d0d0d0;
-  --color-surface: #f5f5f5;
-  --color-surface-deep: #e8e8e8;
-  --color-paper: #ffffff;
-  --color-canvas: #dcdcdc;
-  --color-rail: #e6e6e6;
+  /* Color — site :root neutrals + hover accent; interface steps between specified stops are interpolated */
+  --color-ink: #211E19;
+  --color-ink-muted: #535048;
+  --color-ink-subtle: #878275;
+  --color-accent: #AD5137;
+  --color-gray-1: #FFFFFF;
+  --color-gray-2: #F7F3EB;
+  --color-gray-3: #EDE6DA;
+  --color-gray-4: #E4DECF;
+  --color-gray-5: #DCD5CA;
+  --color-gray-6: #C4BDB2;
+  --color-gray-7: #B2ABA0;
+  --color-gray-8: #9A948A;
+  --color-gray-9: #878275;
+  --color-gray-10: #6D6860;
+  --color-gray-11: #535048;
+  --color-gray-12: #211E19;
+  --color-border: #DCD5CA;
+  --color-surface: #EDE6DA;
+  --color-surface-deep: #DCD5CA;
+  --color-paper: #FFFFFF;
+  --color-canvas: #F7F3EB;
+  --color-rail: #EDE6DA;
 
   /* Typography — --type-base / --type-ratio derive sm/base/lg/xl on compile */
-  --font-sans: var(--font-geist-sans), "Geist", "IBM Plex Sans", system-ui, sans-serif;
+  --font-sans: var(--font-geist-sans), "Geist", system-ui, sans-serif;
+  --font-serif: var(--font-tobias), "Tobias", Georgia, serif;
   --type-base: 16;
   --type-ratio: 1.2;
   --font-size-display: clamp(2.75rem, 6vw, 4.25rem);
@@ -670,9 +669,10 @@ Compiled outputs (do not hand-edit): `guide/src/styles/tokens.generated.css`, [`
 
 **Rules**
 
-- No accent hue in the starter kit (omit `--color-accent` so theme accent equals ink). Author `--color-accent` when CTAs must diverge from primary text.
+- Primary buttons stay ink on cream. `--color-accent` is the site hover terracotta, not a second CTA fill.
 - Body text on `--color-paper` must meet WCAG AA (≥ 4.5:1). Ink on paper exceeds AAA.
 - Prefer these tokens for marketing and UI; add new semantic tokens here before using one-off hex in CSS.
+- Do not ship CSS secondaries yellow / orange / blue / purple as brand accents unless a later source specifies their use.
 
 **DTCG / agent names (compiled)**
 
@@ -686,18 +686,21 @@ Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this De
 
 | Agent key | DTCG path | Value | Usage |
 | --- | --- | --- | --- |
-| `color-ink` | `color.ink` | `#111111` | Primary text / CTA |
-| `color-ink-muted` | `color.ink-muted` | `#4a4a4a` | Secondary text |
-| `color-ink-subtle` | `color.ink-subtle` | `#6b6b6b` | Tertiary text |
-| `color-border` | `color.border` | `#d0d0d0` | Borders |
-| `color-surface` | `color.surface` | `#f5f5f5` | Surfaces |
-| `color-paper` | `color.paper` | `#ffffff` | Background |
+| `color-ink` | `color.ink` | `#211E19` | Primary text / primary CTA |
+| `color-ink-muted` | `color.ink-muted` | `#535048` | Secondary text |
+| `color-ink-subtle` | `color.ink-subtle` | `#878275` | Tertiary text |
+| `color-accent` | `color.accent` | `#AD5137` | Link hover |
+| `color-border` | `color.border` | `#DCD5CA` | Borders |
+| `color-surface` | `color.surface` | `#EDE6DA` | Surfaces |
+| `color-paper` | `color.paper` | `#FFFFFF` | Background |
+| `color-canvas` | `color.canvas` | `#F7F3EB` | Canvas |
 
 ### Type tokens
 
 | Token | Value | Usage |
 | --- | --- | --- |
-| `--font-sans` | `var(--font-geist-sans), "Geist", "IBM Plex Sans", system-ui, sans-serif` | Display + body |
+| `--font-sans` | `var(--font-geist-sans), "Geist", system-ui, sans-serif` | Body + UI |
+| `--font-serif` | `var(--font-tobias), "Tobias", Georgia, serif` | Display / headlines |
 | `--type-base` | `16` | Modular scale base (px); compiles to Astryx `typography.scale.base` and `--font-size-*` steps |
 | `--type-ratio` | `1.2` | Modular scale ratio; compiles to Astryx `typography.scale.ratio` |
 | `--font-size-display` | `clamp(2.75rem, 6vw, 4.25rem)` | Cover / hero brand name (authored fluid) |
@@ -712,10 +715,10 @@ Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this De
 **Hierarchy**
 
 1. H0 — chapter openers (inverted ink panels)
-2. Display — brand name, cover
+2. Display — brand name, cover (Tobias)
 3. XL — section titles (derived)
 4. LG — subsection titles (derived)
-5. Base — body (derived)
+5. Base — body (derived, Geist)
 6. SM — captions, token labels (derived)
 
 **Accessibility**
@@ -735,7 +738,7 @@ Do not hand-edit `tokens.json` or `brand.json`. Theme authoring stays in this De
 
 **Derived on compile** (do not hand-author): `--space-1`…`--space-7` as `unit × [1, 2, 4, 6, 10, 16, 24]`. Document rhythm for guide CSS (`--section-gap` builds on `--space-6`) — not Astryx UI `--spacing-*`.
 
-**Radius.** `--radius-base` is the single roundness knob. Compile emits `radiusBasePx` into the Astryx theme; Astryx expands semantic radii (`inner`, `element`, `container`, `page`). Set to `0` for sharp corners.
+**Radius.** `--radius-base` is the single roundness knob. Compile emits `radiusBasePx` into the Astryx theme; Astryx expands semantic radii (`inner`, `element`, `container`, `page`). Set to `0` for sharp corners. Site buttons use `0.5rem` (`--_components---button--border-radius`).
 
 Document-like layout: single column for prose. Constrain readable copy to `--content-max` (≈ 65 characters) so lines stay in the 65–75 character comfort range; grids, swatches, and specimens may span wider. Generous vertical rhythm between sections (`--space-6`).
 
@@ -745,25 +748,26 @@ App chrome sizes (`--chrome-h`, `--sidebar-w`, `--workspace-pad`) live in `guide
 
 | Component | Guidance |
 | --- | --- |
-| Primary button | Ink fill, paper text; no rounded-full pills |
-| Secondary button | Paper fill, ink text, `1px` border |
-| Links | Ink, underline on hover; no accent color |
+| Primary button | Ink fill, cream text; site label “begin search”; radius `--radius-base` — not rounded-full pills |
+| Secondary button | Transparent fill, muted ink text, `1px` ink-muted border |
+| Links | Ink at rest; terracotta `--color-accent` on hover |
 | Cards | Prefer none. Use only when the container is interactive |
 | Dividers | `--color-border` hairlines |
-| Code / tokens | Surface background, mono optional |
+| Code / tokens | Surface background; no brand mono authored |
 
 ### Logo (implementation)
 
-- Default: ink wordmark on paper
-- Inverse: paper wordmark on ink
-- Min clearspace: `1em` of the wordmark height
-- Export SVG preferred; PNG fallback with transparent background
+- Default: ink wordmark on cream or paper
+- Inverse: cream wordmark on ink
+- Min clearspace: height of the sun segment
+- Export SVG preferred (`brand/assets/logo.svg`); PNG favicon / webclip as fallbacks
+- Mark-only: `brand/assets/mark.svg` (sun segment). Do not invent a new mark.
 
 ### Sync checklist
 
 When restoring or editing the default:
 
-1. Prefer [`examples/brand.default.md`](examples/brand.default.md) when resetting the whole constitution
-2. Prefer [`examples/design-system.default.md`](examples/design-system.default.md) / `npm run tokens:reset` when resetting tokens only
+1. Prefer the populate inventory under `resources/transcripts/` over Sample Brand reset files
+2. Prefer [`examples/design-system.default.md`](examples/design-system.default.md) / `npm run tokens:reset` only when intentionally returning to kit grayscale
 3. Spot-check the guide; color swatches and `brand.json` values sync automatically
 <!-- /brand-guide:design-system -->

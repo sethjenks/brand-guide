@@ -1,0 +1,72 @@
+{
+  "_spec_version": "1.0.0",
+  "source": {
+    "label": "Website",
+    "kind": "website",
+    "url": "https://www.hellosunset.com"
+  },
+  "sections": {
+    "strategy": {
+      "status": "filled",
+      "notes": "Positioning, origin, pillars, and free-for-families model taken from home / about / pricing. Archetype is inferred (Caregiver) — site never names one."
+    },
+    "voice": {
+      "status": "filled",
+      "notes": "Tagline, CTAs, phrases, and story from the live site. Spectrum poles are inferred from rebrand + family register; From/To match shell steps."
+    },
+    "visual": {
+      "status": "filled",
+      "notes": "Cream/ink palette and Geist + Tobias from shared CSS. Logo SVG from the marketing nav. Animation left thin (chapter off)."
+    },
+    "expressions": {
+      "status": "filled",
+      "notes": "Web, App, Social, Email, Print (funeral-home trifolds) are surfaces the site actually uses."
+    },
+    "designSystem": {
+      "status": "filled",
+      "notes": "Required semantic roles map to specified CSS neutrals. Interface gray-4/6/7/8/10 are interpolated between specified stops and need review."
+    }
+  },
+  "fields": [
+    {
+      "path": "strategy.archetype",
+      "status": "inferred",
+      "evidence": "Site never names an archetype. Inferred Caregiver from testimonials and About letter. Not Sage."
+    },
+    {
+      "path": "strategy.traitScores",
+      "status": "inferred",
+      "evidence": "No numeric scores on the site; warm 5 / direct 4 / playful 1 from voice evidence."
+    },
+    {
+      "path": "voice.spectrum",
+      "status": "inferred",
+      "evidence": "Rebrand ('clear, calm, and purposeful') + family register; poles exact-match shell steps."
+    },
+    {
+      "path": "visual.animation",
+      "status": "inferred",
+      "evidence": "Marketing site uses GSAP/scroll; no written motion spec. Chapter left off. Editorial default inferred."
+    },
+    {
+      "path": "designSystem.interfaceSteps",
+      "status": "inferred",
+      "evidence": "gray-4, gray-6, gray-7, gray-8, gray-10 interpolated between specified neutrals 200/300/500/700/800/900."
+    },
+    {
+      "path": "visual.color.accent",
+      "status": "filled",
+      "evidence": "CSS --_colors---secondary--red-600 #AD5137 used for nav/link hover, not primary buttons."
+    },
+    {
+      "path": "visual.logo",
+      "status": "filled",
+      "evidence": "Official nav SVG + favicon/webclip from hellosunset.com; meaning from /announcements/a-new-look-for-sunset."
+    },
+    {
+      "path": "visual.type.mono",
+      "status": "placeholder",
+      "evidence": "No brand mono on the site; eyebrows use Geist. --font-mono not authored."
+    }
+  ]
+}
