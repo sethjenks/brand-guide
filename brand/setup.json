@@ -1,11 +1,17 @@
 {
-  "status": "starter",
-  "intake": "pending",
+  "status": "populated",
+  "intake": "skipped",
   "year": "2026",
-  "support": "A grayscale starter brand guide for humans and agents — filled example copy you customize.",
-  "headline": "Start fresh or bring your brand in",
-  "body": "Build from scratch with the Branding Questionnaire, or hand your agent a website, PDF, brand.md, design dump, or Figma file — we'll fold what you have into this guide. Clone the repo on GitHub (https://github.com/sethjenks/brand-guide) to get started.",
+  "support": "Sunset finds every account, asset, and debt your loved one left behind. Free for families, in all 50 states.",
+  "headline": "Find what they left behind.",
+  "body": "Populated from the live Sunset marketing site (https://www.hellosunset.com). Questionnaire skipped. Inventory: resources/transcripts/populate-sunset-inventory.md.",
   "sources": [
+    {
+      "kind": "citation",
+      "label": "Website",
+      "detail": "https://www.hellosunset.com — pages: home, /how-it-works, /about-us, /pricing, /attorneys, /funeral-homes, /contact, /announcements/a-new-look-for-sunset. Tokens from shared Webflow CSS (neutral-100–900, secondary-red-600 hover, Geist + Tobias). Schema.org Organization facts (legal name, founders, 2024, Salt Lake City). Also https://hellosunset.com.",
+      "url": "https://www.hellosunset.com"
+    },
     {
       "kind": "intake",
       "label": "Branding Questionnaire (recommended)",
@@ -43,11 +49,11 @@
       "prompt": "Populate this brand-guide kit from my Figma design file. Set brand/setup.json intake to \"skipped\". Load intake/skills/README.md, then intake/skills/figma/SKILL.md (shared contract: intake/skills/_shared.md): parse fileKey/nodeId, then metadata → variables/styles → frame copy → assets; write into brand.md (never hand-edit brand.json or tokens.json). Update examples.md, rules.md, and brand/setup.json; cite the Figma URL in sources[] with kind \"citation\". Run npm run compile from guide/. Keep grayscale unless the file specifies a palette. When done, set status to \"populated\".\n\nFigma design URL: "
     }
   ],
-  "prompt": "This brand-guide kit is still a starter (intake pending). Load intake/skills/README.md and run intake/skills/questionnaire/SKILL.md: ask one question at a time, save answers to resources/transcripts/, set brand/setup.json intake to \"complete\", then rewrite brand.md (including Design system), examples.md, rules.md, and setup from the transcript. Follow intake/skills/_shared.md. Run npm run compile from guide/. When done, set status to \"populated\". If I already have a URL / PDF / brand.md / DESIGN.md / Figma design URL, set intake to \"skipped\" and load the matching path skill from intake/skills/README.md instead — or copy the matching prompt from the Accepted sources cards above.",
+  "prompt": "Sunset was populated from https://www.hellosunset.com (intake skipped). To re-populate: load intake/skills/README.md, then the matching path skill, follow intake/skills/_shared.md, run npm run compile from guide/, and set status to \"populated\". Do not hand-edit brand.json or tokens.json.",
   "chapters": {
-    "logo": "off",
-    "photography": "off",
+    "logo": "on",
+    "photography": "on",
     "animation": "off",
-    "applications": "off"
+    "applications": "on"
   }
 }

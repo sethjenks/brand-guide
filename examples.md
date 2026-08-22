@@ -9,7 +9,7 @@ compliance: true
 compliance_weight: high
 visibility: public
 summary: >
-  Labeled on-brand / off-brand few-shot examples for Sample Brand.
+  Labeled on-brand / off-brand few-shot examples for Sunset.
 cache_ttl: 30d
 ---
 
@@ -23,26 +23,26 @@ Few-shot pairs for creative review. Compiled into `brand.json` → `examples` vi
 - id: copy-001
   type: headline
   label: off-brand
-  input: "Unlock your potential with our synergistic brand solutions."
+  input: "Unlock your potential with our synergistic after-loss journey."
   reason: "Jargon, vague benefit, fails the litmus test."
 
 - id: copy-002
   type: headline
   label: on-brand
-  input: "Clear work, plainly said."
-  reason: "Ownable, specific, matches voice pillars."
+  input: "Find what they left behind."
+  reason: "Site tagline; specific job; ownable."
 
 - id: copy-003
   type: cta
   label: off-brand
-  input: "Start your journey to world-class branding today!"
-  reason: "Hype, fake urgency, not plain language."
+  input: "Start your journey to world-class estate settlement today!"
+  reason: "Hype, fake urgency, not the site CTA."
 
 - id: copy-004
   type: cta
   label: on-brand
-  input: "Open the guide"
-  reason: "Concrete verb, short, matches UI tone."
+  input: "begin search"
+  reason: "Concrete verb, short, matches marketing and app CTA."
 
 - id: copy-005
   type: product_update
@@ -53,8 +53,8 @@ Few-shot pairs for creative review. Compiled into `brand.json` → `examples` vi
 - id: copy-006
   type: product_update
   label: on-brand
-  input: "We added grayscale token names to brand.md Design system so agents and CSS stay aligned."
-  reason: "Specific change and why it matters."
+  input: "Most families have 100% of assets discovered within two weeks — we'll email you when your searches are complete."
+  reason: "Specific timeline and next step from the FAQ."
 ```
 
 ## Strategy examples
@@ -63,25 +63,25 @@ Few-shot pairs for creative review. Compiled into `brand.json` → `examples` vi
 - id: strategy-001
   type: positioning
   label: off-brand
-  input: "The world's leading synergistic brand platform for every team."
+  input: "The world's leading synergistic estate platform for every family."
   reason: "Unfalsifiable superlative + blocklisted 'synergistic'; fails Only-we / litmus."
 
 - id: strategy-002
   type: positioning
   label: on-brand
-  input: "A starter that ships a filled Sample Brand, a visual guide, and a compiled brand.json in one repo."
+  input: "The family-facing suite stays free because banks pay a referral fee when assets move and professionals pay for Sunset Pro."
   reason: "Concrete, exclusive, matches Only we."
 
 - id: strategy-003
   type: promise
   label: off-brand
-  input: "We unlock your potential with world-class brand vibes."
-  reason: "Blocklist + empty inspiration; contradicts Guardrails."
+  input: "We take a small percentage of the estate so we can unlock your potential."
+  reason: "Contradicts free-for-families model and Guardrails."
 
 - id: strategy-004
   type: promise
   label: on-brand
-  input: "Hold brand meaning in the repo so humans and agents share one source of truth."
+  input: "Find every account, asset, and debt a loved one left behind, then help families claim and close them — free."
   reason: "Matches Mission; specific job to be done."
 ```
 
@@ -91,26 +91,38 @@ Few-shot pairs for creative review. Compiled into `brand.json` → `examples` vi
 - id: app-001
   type: web
   label: off-brand
-  input: "Unlock your potential — start your brand journey today with our seamless hero."
+  input: "Unlock your potential — start your after-loss journey today with our seamless hero."
   reason: "Blocklist, fake urgency, not the Web pattern (one headline, one supporting line)."
 
 - id: app-002
   type: web
   label: on-brand
-  input: "Open the guide"
-  reason: "Concrete CTA; matches Sample Brand Web sample."
+  input: "Find what they left behind."
+  reason: "Concrete headline; matches Sunset Web sample."
 
 - id: app-003
   type: social
   label: off-brand
-  input: "Three ideas, a product dump, and a purple gradient wordmark."
+  input: "Three ideas, a product dump, and a neon gradient wordmark."
   reason: "Social is one idea; off-palette; not an ownable phrase."
 
 - id: app-004
   type: social
   label: on-brand
-  input: "Clear work, plainly said."
+  input: "Find what they left behind."
   reason: "One ownable Voice phrase; high-contrast lockup implied."
+
+- id: app-005
+  type: app
+  label: on-brand
+  input: "begin search"
+  reason: "Matches the product CTA on app.hellosunset.com."
+
+- id: app-006
+  type: print
+  label: on-brand
+  input: "Give families one less thing to worry about."
+  reason: "Funeral-home trifold headline from /funeral-homes."
 ```
 
 ## Color examples
@@ -119,22 +131,27 @@ Few-shot pairs for creative review. Compiled into `brand.json` → `examples` vi
 - id: color-001
   label: off-brand
   input: "#7C3AED"
-  reason: "Accent purple breaks the grayscale starter; nearest approved is ink/paper/surface only."
+  reason: "Accent purple is not in the site palette; nearest approved is ink / cream / terracotta hover."
 
 - id: color-002
   label: on-brand
-  input: "#111111"
-  reason: "Matches --color-ink / color-ink."
+  input: "#211E19"
+  reason: "Matches --color-ink / site neutral-900."
 
 - id: color-003
   label: off-brand
-  input: "#FF6B35"
-  reason: "Warm accent not in palette."
+  input: "#0F87FF"
+  reason: "Webflow default blue; not a Sunset brand color."
 
 - id: color-004
   label: on-brand
-  input: "#f5f5f5"
-  reason: "Matches --color-surface."
+  input: "#F7F3EB"
+  reason: "Matches --color-canvas / site neutral-200 / theme-color."
+
+- id: color-005
+  label: on-brand
+  input: "#AD5137"
+  reason: "Site hover accent (secondary-red-600); not a primary button fill."
 ```
 
 ## Imagery examples
@@ -147,18 +164,18 @@ Few-shot pairs for creative review. Compiled into `brand.json` → `examples` vi
 
 - id: imagery-002
   label: on-brand
-  input: "Natural light desk scene: open laptop showing a plain brand guide page, muted neutrals, candid crop"
-  reason: "Editorial, product-in-context, calm mood."
+  input: "Natural light portrait of a real person, cream field, candid crop — matching site testimonial stills"
+  reason: "Editorial, human, calm mood."
 
 - id: imagery-003
   label: off-brand
-  input: "Glowing AI brain in purple void"
-  reason: "Cliché AI visual; wrong palette and energy."
+  input: "Grief-porn close-up of crying hands over a casket, purple grade"
+  reason: "Grief theater; wrong palette and energy."
 
 - id: imagery-004
   label: on-brand
-  input: "Black wordmark on white paper with generous margins, photographed flat"
-  reason: "Matches logo and style direction."
+  input: "Sunset discovery UI on a cream field, photographed flat, generous margins"
+  reason: "Product-in-context; matches home / how-it-works screens."
 ```
 
 ## Logo examples
@@ -167,21 +184,21 @@ Few-shot pairs for creative review. Compiled into `brand.json` → `examples` vi
 - id: logo-001
   label: off-brand
   input: "Wordmark stretched to fill a banner, drop shadow, placed on a busy photo"
-  reason: "Stretch, shadow, and busy photography without a paper panel violate Logo donts."
+  reason: "Stretch, shadow, and busy photography without a cream panel violate Logo donts."
 
 - id: logo-002
   label: on-brand
-  input: "Ink wordmark on paper with clearspace equal to the cap-height of S"
+  input: "Ink wordmark on cream with clearspace equal to the height of the sun segment"
   reason: "Default colorway and measurable clearspace."
 
 - id: logo-003
   label: off-brand
   input: "Outlined wordmark in #7C3AED on a neon gradient"
-  reason: "Outline plus off-palette accent; starter lockup is ink/paper only."
+  reason: "Outline plus off-palette accent."
 
 - id: logo-004
   label: on-brand
-  input: "Paper wordmark reversed on ink, SVG, transparent background"
+  input: "Cream wordmark reversed on ink, SVG, transparent background"
   reason: "Approved inverse; SVG preferred per Design system Logo implementation."
 ```
 

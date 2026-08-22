@@ -1,11 +1,11 @@
 {
-  "_hash": "sha256:29ce0d5014216fb8837b911c36a60541385fb3e11755071e5d0284afae120df8",
+  "_hash": "sha256:56ce40a05eba8fec2e1833dd1dac1e01f539a037c4b5c8e1502ad47e1371377b",
   "_spec_version": "1.2.0",
-  "_compiled": "2026-08-15T00:15:29.288Z",
-  "_last_material_change": "2026-08-15",
+  "_compiled": "2026-08-22T16:06:07.315Z",
+  "_last_material_change": "2026-08-22",
   "_sanitized": true,
   "meta": {
-    "name": "Sample Brand",
+    "name": "Sunset",
     "version": "0.1.0",
     "files": [
       {
@@ -26,92 +26,101 @@
     ]
   },
   "identity": {
-    "mission": "Hold brand meaning in the repo so humans and agents share one source of truth.",
-    "vision": "Every team that clones this kit ships on-brand work without reverse-engineering a PDF.",
+    "mission": "Find every account, asset, and debt a loved one left behind, then help families claim and close them — free.",
+    "vision": "Do for estate settlement what TurboTax did for taxes: asset discovery, creditor notification, closures, tax filings, court submissions, and distributions — handled with care, finished in weeks instead of years.",
     "values": [
-      "Clarity",
-      "Craft",
-      "Portability"
+      "Find everything",
+      "Free for families",
+      "Your pace, your control"
     ],
-    "origin": "Built as the default grayscale template inside this brand-guide kit so teams start from a finished example, not blank scaffolds."
+    "origin": "Sunset Software, Inc. was founded in 2024 in Salt Lake City by Stephen Walter (Co-founder and CEO, a practicing attorney) and Kaela Worthen (Co-founder, previously led payments and fintech product at Podium). They built Sunset after each personally settled a loved one’s estate — Stephen after his father-in-law died; Kaela while helping her husband itemize his parents’ assets. Sunset is the second company they built together."
   },
   "positioning": {
-    "audience": "Founders, designers, and builders who ship with AI tools and need shared brand context.",
-    "differentiation": "File-based, grayscale-first, dual audience (human guide + agent API).",
+    "audience": "Family members, executors, administrators, and personal representatives settling an estate — and probate attorneys, licensed fiduciaries, trustees, aftercare specialists, and funeral homes who do this work with them.",
+    "differentiation": "Free for families in all 50 states and U.S. territories; paid by receiving banks and by Pro subscriptions, not by the estate; silent discovery (institutions are not notified during search except life insurance).",
     "only_we": [
-      "A starter that ships a filled Sample Brand, a visual guide, and a compiled `brand.json` in one repo."
+      "The family-facing suite — search, probate documents, closures, transfers, and estate bank account setup — stays free because banks pay a referral fee when assets move and professionals pay for Sunset Pro."
     ]
   },
   "personality": {
     "archetypes": [
-      "Sage"
+      "Caregiver"
     ],
     "traits": {
-      "direct": 5,
-      "warm": 3,
+      "direct": 4,
+      "warm": 5,
       "playful": 1
     },
     "anti_personality": [
-      "Hype-driven",
-      "Vague",
-      "Performatively premium",
-      "Loud for its own sake"
+      "Fee-extracting",
+      "Fake-urgent",
+      "Corporate euphemism",
+      "Grief theater",
+      "Silent about revenue"
     ]
   },
   "voice": {
     "default": {
       "pillars": [
-        "Direct",
-        "Calm",
-        "Specific"
+        "Guided",
+        "Specific",
+        "Honest about money"
       ],
       "do": [
-        "Lead with the user’s job to be done",
-        "Prefer short sentences",
-        "Use concrete nouns"
+        "Lead with the next step",
+        "Name accounts and documents",
+        "Say who pays Sunset"
       ],
       "dont": [
-        "Hype without proof",
-        "Vague benefits",
-        "Corporate euphemism"
+        "Charge-the-family framing",
+        "Vague “after-loss journeys”",
+        "Fake urgency"
       ],
       "vocabulary": {
         "use": [
-          "build",
-          "ship",
-          "clear",
-          "plain",
-          "specific",
-          "guide"
+          "find",
+          "search",
+          "close",
+          "transfer",
+          "estate",
+          "account",
+          "free",
+          "approve",
+          "family"
         ],
         "never": [
           "synergistic",
           "best-in-class",
           "seamless",
           "revolutionary",
-          "unlock your potential"
+          "unlock your potential",
+          "percentage of the estate",
+          "after-loss journey"
         ]
       },
       "phrases": [
-        "Clear work, plainly said.",
-        "If it needs a synonym, it needs a rewrite.",
-        "The brand lives where the work lives.",
-        "Grayscale first; meaning first.",
-        "Specific beats impressive.",
-        "Agents read this file too.",
-        "Ornament is optional; clarity is not."
+        "Find what they left behind.",
+        "If it exists, we’ll find it.",
+        "We’re paid by banks, not families.",
+        "Always know what comes next.",
+        "At your pace, in your control.",
+        "Nothing moves forward without your approval.",
+        "Begin search.",
+        "You keep all your money.",
+        "A sunset is also a sunrise.",
+        "Here with you."
       ],
       "we_say": [
-        "Here’s what changed and why.",
-        "Ship the brand with the work.",
-        "Plain language, strong contrast.",
-        "Specific beats impressive."
+        "Find what they left behind.",
+        "We’re paid by banks, not families.",
+        "Begin search.",
+        "Nothing moves forward without your approval."
       ],
       "we_never_say": [
         "Unlock your potential.",
-        "Synergistic brand solutions.",
-        "Seamless holistic experience.",
-        "World-class premium vibes."
+        "A small percentage of the estate.",
+        "Start your after-loss journey today.",
+        "We’ll take it from here — no need to look."
       ]
     }
   },
@@ -121,236 +130,250 @@
         {
           "context": "product_ui",
           "guidance": "Short labels; verbs on buttons.",
-          "example": "Save draft"
+          "example": "begin search"
         },
         {
           "context": "email",
-          "guidance": "One purpose; clear next step.",
-          "example": "Your guide preview is ready — open it."
+          "guidance": "One purpose; when results are ready, say so.",
+          "example": "We’ll email you as soon as your requested searches are complete."
         },
         {
           "context": "social",
-          "guidance": "One idea; ownable phrase if possible.",
-          "example": "Clear work, plainly said."
+          "guidance": "One idea; prefer a Voice phrase.",
+          "example": "Find what they left behind."
         },
         {
           "context": "support",
-          "guidance": "Patient, concrete, no blame.",
-          "example": "Here’s the exact file to update."
+          "guidance": "Patient, concrete, a real person.",
+          "example": "Email support@hellosunset.com — we reply within 1 business day."
         },
         {
           "context": "incident",
           "guidance": "Facts first; no spin.",
-          "example": "We fixed the deploy path at 14:02 UTC."
+          "example": "We fixed the search path at 14:02 UTC."
+        },
+        {
+          "context": "pro_/_attorneys",
+          "guidance": "Precise, duty-aware, no family-voice softness that hides the work.",
+          "example": "Upload the death certificate, then invite your client to authorize the search."
         }
       ]
     }
   },
   "messaging": {
     "default": {
-      "core": "Brand context that lives in the repo and travels with the work.",
+      "core": "Find, claim, and close every account — free for families, paid by banks.",
       "pillars": [
-        "Clarity",
-        "Craft",
-        "Portability"
+        "Find everything",
+        "Free for families",
+        "Your pace, your control"
       ],
       "taglines": [
-        "Clear work, plainly said."
+        "Find what they left behind."
       ],
       "boilerplate": {
-        "short": "Sample Brand is a grayscale starter brand guide for humans and agents.",
-        "long": "Sample Brand is the filled example inside brand-guide: a Strategy / Voice / Visual constitution, Design system tokens, brand.json for agents, and a Next.js visual guide."
+        "short": "Sunset finds every account, asset, and debt your loved one left behind. Free for families, in all 50 states.",
+        "long": "Sunset is an estate settlement platform from Sunset Software, Inc. It helps families and the professionals who serve them discover and close every financial account, debt, and asset of a deceased person. Family-facing tools are free. Sunset is paid by bank partners when assets transfer, and by Sunset Pro for probate attorneys, fiduciaries, trustees, and aftercare specialists."
       }
     }
   },
   "color": {
     "tokens": {
-      "color-border": {
-        "value": "#d0d0d0",
+      "color-accent": {
+        "value": "#AD5137",
         "type": "color",
-        "rgb": "208, 208, 208",
-        "hsl": "0, 0%, 82%",
-        "usage": "Dividers, hairlines, input borders",
+        "rgb": "173, 81, 55",
+        "hsl": "13, 52%, 45%",
+        "usage": "Link / nav hover and FAQ rule (`secondary--red-600`); not primary button fill",
+        "wcag_on_white": "AA",
+        "wcag_on_black": "fail"
+      },
+      "color-border": {
+        "value": "#DCD5CA",
+        "type": "color",
+        "rgb": "220, 213, 202",
+        "hsl": "37, 20%, 83%",
+        "usage": "Dividers, hairlines, input borders (`neutral--500`)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-canvas": {
-        "value": "#dcdcdc",
+        "value": "#F7F3EB",
         "type": "color",
-        "rgb": "220, 220, 220",
-        "hsl": "0, 0%, 86%",
-        "usage": "App canvas behind the content card",
+        "rgb": "247, 243, 235",
+        "hsl": "40, 43%, 95%",
+        "usage": "App canvas behind the content card (`neutral--200` / theme-color)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-gray-1": {
-        "value": "#fcfcfc",
+        "value": "#FFFFFF",
         "type": "color",
-        "rgb": "252, 252, 252",
-        "hsl": "0, 0%, 99%",
-        "usage": "App background",
+        "rgb": "255, 255, 255",
+        "hsl": "0, 0%, 100%",
+        "usage": "App background (site `neutral--100`)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-gray-2": {
-        "value": "#f9f9f9",
+        "value": "#F7F3EB",
         "type": "color",
-        "rgb": "249, 249, 249",
-        "hsl": "0, 0%, 98%",
-        "usage": "Subtle background",
+        "rgb": "247, 243, 235",
+        "hsl": "40, 43%, 95%",
+        "usage": "Subtle background (`neutral--200`)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-gray-3": {
-        "value": "#f0f0f0",
+        "value": "#EDE6DA",
         "type": "color",
-        "rgb": "240, 240, 240",
-        "hsl": "0, 0%, 94%",
-        "usage": "UI element background",
+        "rgb": "237, 230, 218",
+        "hsl": "38, 35%, 89%",
+        "usage": "UI element background (`neutral--300`)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-gray-4": {
-        "value": "#e8e8e8",
+        "value": "#E4DECF",
         "type": "color",
-        "rgb": "232, 232, 232",
-        "hsl": "0, 0%, 91%",
-        "usage": "Hovered UI element background",
+        "rgb": "228, 222, 207",
+        "hsl": "43, 28%, 85%",
+        "usage": "Hovered UI element background (interpolated 300–500)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-gray-5": {
-        "value": "#e0e0e0",
+        "value": "#DCD5CA",
         "type": "color",
-        "rgb": "224, 224, 224",
-        "hsl": "0, 0%, 88%",
-        "usage": "Active / selected UI element background",
+        "rgb": "220, 213, 202",
+        "hsl": "37, 20%, 83%",
+        "usage": "Active / selected UI element background (`neutral--500`)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-gray-6": {
-        "value": "#d9d9d9",
+        "value": "#C4BDB2",
         "type": "color",
-        "rgb": "217, 217, 217",
-        "hsl": "0, 0%, 85%",
-        "usage": "Subtle borders and separators",
+        "rgb": "196, 189, 178",
+        "hsl": "37, 13%, 73%",
+        "usage": "Subtle borders and separators (interpolated)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-gray-7": {
-        "value": "#cecece",
+        "value": "#B2ABA0",
         "type": "color",
-        "rgb": "206, 206, 206",
-        "hsl": "0, 0%, 81%",
-        "usage": "UI element border and focus rings",
+        "rgb": "178, 171, 160",
+        "hsl": "37, 10%, 66%",
+        "usage": "UI element border and focus rings (interpolated)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-gray-8": {
-        "value": "#bbbbbb",
+        "value": "#9A948A",
         "type": "color",
-        "rgb": "187, 187, 187",
-        "hsl": "0, 0%, 73%",
-        "usage": "Hovered UI element border",
+        "rgb": "154, 148, 138",
+        "hsl": "38, 7%, 57%",
+        "usage": "Hovered UI element border (interpolated)",
         "wcag_on_white": "fail",
-        "wcag_on_black": "AAA"
+        "wcag_on_black": "AA"
       },
       "color-gray-9": {
-        "value": "#8d8d8d",
+        "value": "#878275",
         "type": "color",
-        "rgb": "141, 141, 141",
-        "hsl": "0, 0%, 55%",
-        "usage": "Solid backgrounds",
+        "rgb": "135, 130, 117",
+        "hsl": "43, 7%, 49%",
+        "usage": "Solid backgrounds (`neutral--700`)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AA"
       },
       "color-gray-10": {
-        "value": "#838383",
+        "value": "#6D6860",
         "type": "color",
-        "rgb": "131, 131, 131",
-        "hsl": "0, 0%, 51%",
-        "usage": "Hovered solid backgrounds",
-        "wcag_on_white": "fail",
-        "wcag_on_black": "AA"
-      },
-      "color-gray-11": {
-        "value": "#646464",
-        "type": "color",
-        "rgb": "100, 100, 100",
-        "hsl": "0, 0%, 39%",
-        "usage": "Low-contrast text",
+        "rgb": "109, 104, 96",
+        "hsl": "37, 6%, 40%",
+        "usage": "Hovered solid backgrounds (interpolated)",
         "wcag_on_white": "AA",
         "wcag_on_black": "fail"
       },
-      "color-gray-12": {
-        "value": "#202020",
+      "color-gray-11": {
+        "value": "#535048",
         "type": "color",
-        "rgb": "32, 32, 32",
-        "hsl": "0, 0%, 13%",
-        "usage": "High-contrast text",
+        "rgb": "83, 80, 72",
+        "hsl": "44, 7%, 30%",
+        "usage": "Low-contrast text (`neutral--800`)",
+        "wcag_on_white": "AAA",
+        "wcag_on_black": "fail"
+      },
+      "color-gray-12": {
+        "value": "#211E19",
+        "type": "color",
+        "rgb": "33, 30, 25",
+        "hsl": "37, 14%, 11%",
+        "usage": "High-contrast text (`neutral--900`)",
         "wcag_on_white": "AAA",
         "wcag_on_black": "fail"
       },
       "color-ink": {
-        "value": "#111111",
+        "value": "#211E19",
         "type": "color",
-        "rgb": "17, 17, 17",
-        "hsl": "0, 0%, 7%",
-        "usage": "Primary text, key chrome, CTAs",
+        "rgb": "33, 30, 25",
+        "hsl": "37, 14%, 11%",
+        "usage": "Primary text, key chrome, primary CTAs (site `--_colors---neutral--900`)",
         "wcag_on_white": "AAA",
         "wcag_on_black": "fail"
       },
       "color-ink-muted": {
-        "value": "#4a4a4a",
+        "value": "#535048",
         "type": "color",
-        "rgb": "74, 74, 74",
-        "hsl": "0, 0%, 29%",
-        "usage": "Secondary text, captions",
+        "rgb": "83, 80, 72",
+        "hsl": "44, 7%, 30%",
+        "usage": "Secondary text, captions (`neutral--800`)",
         "wcag_on_white": "AAA",
         "wcag_on_black": "fail"
       },
       "color-ink-subtle": {
-        "value": "#6b6b6b",
+        "value": "#878275",
         "type": "color",
-        "rgb": "107, 107, 107",
-        "hsl": "0, 0%, 42%",
-        "usage": "Tertiary text, meta, placeholders",
-        "wcag_on_white": "AA",
-        "wcag_on_black": "fail"
+        "rgb": "135, 130, 117",
+        "hsl": "43, 7%, 49%",
+        "usage": "Tertiary text, meta, placeholders (`neutral--700`)",
+        "wcag_on_white": "fail",
+        "wcag_on_black": "AA"
       },
       "color-paper": {
-        "value": "#ffffff",
+        "value": "#FFFFFF",
         "type": "color",
         "rgb": "255, 255, 255",
         "hsl": "0, 0%, 100%",
-        "usage": "Page / content card background",
+        "usage": "Page / content card background (`neutral--100`)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-rail": {
-        "value": "#e6e6e6",
+        "value": "#EDE6DA",
         "type": "color",
-        "rgb": "230, 230, 230",
-        "hsl": "0, 0%, 90%",
-        "usage": "Sidebar / rail background",
+        "rgb": "237, 230, 218",
+        "hsl": "38, 35%, 89%",
+        "usage": "Sidebar / rail background (`neutral--300`)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-surface": {
-        "value": "#f5f5f5",
+        "value": "#EDE6DA",
         "type": "color",
-        "rgb": "245, 245, 245",
-        "hsl": "0, 0%, 96%",
-        "usage": "Panels, zebra rows, subtle fills",
+        "rgb": "237, 230, 218",
+        "hsl": "38, 35%, 89%",
+        "usage": "Panels, zebra rows, subtle fills (`neutral--300`)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       },
       "color-surface-deep": {
-        "value": "#e8e8e8",
+        "value": "#DCD5CA",
         "type": "color",
-        "rgb": "232, 232, 232",
-        "hsl": "0, 0%, 91%",
-        "usage": "Deeper panels, hover fills",
+        "rgb": "220, 213, 202",
+        "hsl": "37, 20%, 83%",
+        "usage": "Deeper panels, hover fills (`neutral--500`)",
         "wcag_on_white": "fail",
         "wcag_on_black": "AAA"
       }
@@ -361,6 +384,7 @@
         "color-paper"
       ],
       "neutral": [
+        "color-accent",
         "color-border",
         "color-canvas",
         "color-gray-1",
@@ -384,8 +408,8 @@
         "color-surface-deep"
       ],
       "semantic": {
-        "success": "color-border",
-        "error": "color-border"
+        "success": "color-accent",
+        "error": "color-accent"
       }
     },
     "compliance_threshold_delta_e": 5
@@ -393,7 +417,7 @@
   "typography": {
     "tokens": {
       "font-family-primary": {
-        "value": "Geist",
+        "value": "Tobias + Geist",
         "type": "fontFamily"
       },
       "font-size-base": {
@@ -426,69 +450,70 @@
     }
   },
   "imagery": {
-    "style": "Editorial, natural light, product-in-context.",
-    "mood": "Focused, calm, confident.",
+    "style": "Editorial portraits, product-in-context UI, warm natural light.",
+    "mood": "Calm, cared-for, clear.",
     "prompts": {
-      "product_photography": "Sample Brand guide on desk, natural light, muted neutrals, candid crop --ar 4:5 --style raw",
-      "lifestyle": "Candid use in real environments, no stock smiles."
+      "product_photography": "Sunset app showing an estate inventory on a laptop, cream field, natural light, candid crop --ar 4:5 --style raw",
+      "lifestyle": "A person at a kitchen table with documents, not a stock smile; warm light; room to breathe."
     },
     "negative_prompts": [
       "oversaturated",
       "generic stock office",
       "neon gradients",
-      "purple AI cliché"
+      "purple AI cliché",
+      "grief-porn"
     ],
     "references": []
   },
   "logo": {
-    "wordmark": "Sample Brand",
-    "clearspace": "Approximately the height of the capital S",
+    "wordmark": "Sunset",
+    "clearspace": "Approximately the height of the sun segment",
     "donts": [
       "Don’t stretch or outline",
       "Don’t add drop shadows",
-      "Don’t place on busy photography without a paper panel"
+      "Don’t place on busy photography without a cream or paper panel",
+      "Don’t separate the sun from the wordmark unless using the approved mark"
     ]
   },
   "audience": {
     "default": {
-      "primary": "Founders and product teams shipping with AI tools",
-      "secondary": "Designers maintaining a design system alongside brand meaning",
+      "primary": "Families, executors, and personal representatives settling an estate themselves",
+      "secondary": "Probate attorneys, licensed fiduciaries, trustees, aftercare specialists, and funeral homes",
       "intro": "A closer look at the groups of people that help our business thrive. We should consider who they are and how they think when we make decisions about design and messaging.",
       "groups": [
         {
           "segments": [
-            "Founders",
-            "Product teams",
-            "AI builders"
+            "Families",
+            "Executors",
+            "Personal representatives"
           ],
-          "wants": "A shared brand context that travels with the work — not another PDF to hunt when shipping with agents.",
-          "needs": "Plain rules they can load once, trust, and apply without a design ops team."
+          "wants": "To find every account without months of mail and phone trees — and to know nothing moves unless they say so.",
+          "needs": "A free, complete inventory; probate papers for their county; an estate account they control; help closing what was found."
         },
         {
           "segments": [
-            "Designers",
-            "Design-system leads",
-            "Brand owners"
+            "Probate attorneys",
+            "Licensed fiduciaries",
+            "Trustees"
           ],
-          "wants": "Meaning and tokens in the same place so visual decisions stay tied to voice and strategy.",
-          "needs": "Clear do/don’t guidance, grayscale-first tokens, and a guide that shows the system in use."
+          "wants": "A comprehensive estate asset inventory so they can choose the right probate path and file without surprises.",
+          "needs": "Richer account detail, due-diligence records, exports, and a client-approval workflow before a search runs."
         },
         {
           "segments": [
-            "Agents",
-            "Cursor workflows",
-            "Automation"
+            "Funeral homes",
+            "Aftercare specialists"
           ],
-          "wants": "Structured brand facts they can retrieve without inventing tone or palette.",
-          "needs": "Stable `brand.json`, retrieval tags, and copy that fails a litmus test when it could belong to anyone."
+          "wants": "One less thing for families to worry about after the service.",
+          "needs": "Free materials for family packets and a path that costs the family nothing."
         }
       ]
     }
   },
   "channels": {
-    "web": "Document-like pages; brand name as hero signal",
+    "web": "Marketing pages; brand name as hero signal",
     "social": "Short ownable phrases; high-contrast wordmarks",
-    "print": "Same type hierarchy; generous margins",
+    "print": "Trifold for funeral-home family packets",
     "email": "One purpose; clear next step"
   },
   "agent": {
@@ -532,7 +557,7 @@
       }
     },
     "system_prompts": {
-      "base": "You work on behalf of Sample Brand. Prefer plain language. Stay in the grayscale token set unless the user expands the palette."
+      "base": "You work on behalf of Sunset (Sunset Software, Inc.). Prefer plain language. Never charge families in copy. Stay in the cream-and-ink token set; terracotta is hover only unless the user expands the palette."
     },
     "permissions": {
       "autonomous": [
@@ -573,17 +598,21 @@
         "unlock your potential",
         "world-class",
         "holistic",
-        "leverage"
+        "leverage",
+        "percentage of the estate",
+        "after-loss journey"
       ],
       "allowlist_preferred": [
-        "build",
-        "ship",
-        "clear",
-        "plain",
-        "specific",
-        "guide",
-        "update",
-        "open"
+        "find",
+        "search",
+        "close",
+        "transfer",
+        "estate",
+        "account",
+        "free",
+        "approve",
+        "family",
+        "begin search"
       ]
     },
     "color_rules": {
@@ -596,19 +625,20 @@
         "Do not invent competitors, market share, awards, or proof the source does not support.",
         "Positioning **Only we.** must fail the litmus test if another brand name could replace ours.",
         "Changing Guardrails (`Tone summary`, litmus, cannot-be) requires human approval.",
-        "Archetype **Wheel.** must be a known catalog id; do not invent a three-ring wheel without source."
+        "Archetype **Wheel.** must be a known catalog id; Caregiver is **inferred** from the site (not named). Do not silently assign Sage.",
+        "Do not invent message pillars from color or token names."
       ]
     },
     "applications_rules": {
       "constraints": [
         "Only author Expression channels the brand actually uses. Leave unmatched Applications nav leaves empty rather than filling with generic copy.",
-        "Channel cell labels must map (`Web`, `Social`, `Print`, `App`, …) — see `skills/applications/SKILL.md`.",
+        "Channel cell labels must map (`Web`, `Social`, `Print`, `App`, `Email`, …) — see `skills/applications/SKILL.md`.",
         "Samples are shippable Voice lines; they must pass Vocabulary blocklist and the litmus test."
       ]
     },
     "photography_rules": {
       "constraints": [
-        "Prefer editorial, natural light, product-in-context. No oversaturated stock, fake handshakes, neon gradients, or purple AI clichés.",
+        "Prefer editorial portraits, natural light, product-in-context UI. No oversaturated stock, fake handshakes, neon gradients, purple AI clichés, or grief theater.",
         "People and places must be real or honestly candid — no stock theater.",
         "Image-gen prompts live in `brand.md` Visual → **Imagery prompt product.** / **Imagery prompt lifestyle.**; bans in **Imagery negative.**",
         "Do not treat hardcoded Photography category specimens in the guide as brand-authored until `brand.md` drives them.",
@@ -617,10 +647,11 @@
     },
     "logo_rules": {
       "constraints": [
-        "Default lockup: ink wordmark on paper. Inverse: paper wordmark on ink.",
-        "Do not stretch, outline, add drop shadows, or place the mark on busy photography without a paper panel.",
+        "Default lockup: ink wordmark on cream or paper. Inverse: cream wordmark on ink.",
+        "Do not stretch, outline, add drop shadows, or place the mark on busy photography without a cream or paper panel.",
         "Preferred files in `brand/assets/`: `logo.svg` (or `logo.png`), `wordmark.svg`, `mark.svg`. Compile copies files to `guide/public/brand/` — do not hand-edit the public copy.",
-        "Clearspace must be measurable (e.g. cap-height), not “generous.”"
+        "Clearspace must be measurable (sun-segment height), not “generous.”",
+        "Do not reconstruct a new mark from path soup; use the official SVG from hellosunset.com."
       ]
     },
     "animation_rules": {
@@ -629,7 +660,8 @@
         "Honor `prefers-reduced-motion` with instant show/hide. No parallax or looping motion without a reduced-motion path.",
         "Do not block clicks waiting for motion to finish, mix conflicting easing personalities on one screen, or delay exits the user has already left behind.",
         "Personality, archetype, and interaction **Id** cells must match shell demo keys (`drift`, `enter`, `modal`, …). Unknown ids compile as copy-only — do not invent choreography.",
-        "Guide demos are shell-owned. Brands author titles and bodies in `brand.md`; do not hand-edit `animation-presets.ts` in a brand clone."
+        "Guide demos are shell-owned. Brands author titles and bodies in `brand.md`; do not hand-edit `animation-presets.ts` in a brand clone.",
+        "Animation chapter remains **off** until a written motion spec exists; marketing GSAP is not a brand book."
       ]
     },
     "conflict_resolution": {
@@ -648,29 +680,29 @@
         "id": "copy-001",
         "type": "headline",
         "label": "off-brand",
-        "input": "Unlock your potential with our synergistic brand solutions.",
+        "input": "Unlock your potential with our synergistic after-loss journey.",
         "reason": "Jargon, vague benefit, fails the litmus test."
       },
       {
         "id": "copy-002",
         "type": "headline",
         "label": "on-brand",
-        "input": "Clear work, plainly said.",
-        "reason": "Ownable, specific, matches voice pillars."
+        "input": "Find what they left behind.",
+        "reason": "Site tagline; specific job; ownable."
       },
       {
         "id": "copy-003",
         "type": "cta",
         "label": "off-brand",
-        "input": "Start your journey to world-class branding today!",
-        "reason": "Hype, fake urgency, not plain language."
+        "input": "Start your journey to world-class estate settlement today!",
+        "reason": "Hype, fake urgency, not the site CTA."
       },
       {
         "id": "copy-004",
         "type": "cta",
         "label": "on-brand",
-        "input": "Open the guide",
-        "reason": "Concrete verb, short, matches UI tone."
+        "input": "begin search",
+        "reason": "Concrete verb, short, matches marketing and app CTA."
       },
       {
         "id": "copy-005",
@@ -683,8 +715,8 @@
         "id": "copy-006",
         "type": "product_update",
         "label": "on-brand",
-        "input": "We added grayscale token names to brand.md Design system so agents and CSS stay aligned.",
-        "reason": "Specific change and why it matters."
+        "input": "Most families have 100% of assets discovered within two weeks — we'll email you when your searches are complete.",
+        "reason": "Specific timeline and next step from the FAQ."
       }
     ],
     "strategy": [
@@ -692,28 +724,28 @@
         "id": "strategy-001",
         "type": "positioning",
         "label": "off-brand",
-        "input": "The world's leading synergistic brand platform for every team.",
+        "input": "The world's leading synergistic estate platform for every family.",
         "reason": "Unfalsifiable superlative + blocklisted 'synergistic'; fails Only-we / litmus."
       },
       {
         "id": "strategy-002",
         "type": "positioning",
         "label": "on-brand",
-        "input": "A starter that ships a filled Sample Brand, a visual guide, and a compiled brand.json in one repo.",
+        "input": "The family-facing suite stays free because banks pay a referral fee when assets move and professionals pay for Sunset Pro.",
         "reason": "Concrete, exclusive, matches Only we."
       },
       {
         "id": "strategy-003",
         "type": "promise",
         "label": "off-brand",
-        "input": "We unlock your potential with world-class brand vibes.",
-        "reason": "Blocklist + empty inspiration; contradicts Guardrails."
+        "input": "We take a small percentage of the estate so we can unlock your potential.",
+        "reason": "Contradicts free-for-families model and Guardrails."
       },
       {
         "id": "strategy-004",
         "type": "promise",
         "label": "on-brand",
-        "input": "Hold brand meaning in the repo so humans and agents share one source of truth.",
+        "input": "Find every account, asset, and debt a loved one left behind, then help families claim and close them — free.",
         "reason": "Matches Mission; specific job to be done."
       }
     ],
@@ -722,29 +754,43 @@
         "id": "app-001",
         "type": "web",
         "label": "off-brand",
-        "input": "Unlock your potential — start your brand journey today with our seamless hero.",
+        "input": "Unlock your potential — start your after-loss journey today with our seamless hero.",
         "reason": "Blocklist, fake urgency, not the Web pattern (one headline, one supporting line)."
       },
       {
         "id": "app-002",
         "type": "web",
         "label": "on-brand",
-        "input": "Open the guide",
-        "reason": "Concrete CTA; matches Sample Brand Web sample."
+        "input": "Find what they left behind.",
+        "reason": "Concrete headline; matches Sunset Web sample."
       },
       {
         "id": "app-003",
         "type": "social",
         "label": "off-brand",
-        "input": "Three ideas, a product dump, and a purple gradient wordmark.",
+        "input": "Three ideas, a product dump, and a neon gradient wordmark.",
         "reason": "Social is one idea; off-palette; not an ownable phrase."
       },
       {
         "id": "app-004",
         "type": "social",
         "label": "on-brand",
-        "input": "Clear work, plainly said.",
+        "input": "Find what they left behind.",
         "reason": "One ownable Voice phrase; high-contrast lockup implied."
+      },
+      {
+        "id": "app-005",
+        "type": "app",
+        "label": "on-brand",
+        "input": "begin search",
+        "reason": "Matches the product CTA on app.hellosunset.com."
+      },
+      {
+        "id": "app-006",
+        "type": "print",
+        "label": "on-brand",
+        "input": "Give families one less thing to worry about.",
+        "reason": "Funeral-home trifold headline from /funeral-homes."
       }
     ],
     "color": [
@@ -752,25 +798,31 @@
         "id": "color-001",
         "label": "off-brand",
         "input": "#7C3AED",
-        "reason": "Accent purple breaks the grayscale starter; nearest approved is ink/paper/surface only."
+        "reason": "Accent purple is not in the site palette; nearest approved is ink / cream / terracotta hover."
       },
       {
         "id": "color-002",
         "label": "on-brand",
-        "input": "#111111",
-        "reason": "Matches --color-ink / color-ink."
+        "input": "#211E19",
+        "reason": "Matches --color-ink / site neutral-900."
       },
       {
         "id": "color-003",
         "label": "off-brand",
-        "input": "#FF6B35",
-        "reason": "Warm accent not in palette."
+        "input": "#0F87FF",
+        "reason": "Webflow default blue; not a Sunset brand color."
       },
       {
         "id": "color-004",
         "label": "on-brand",
-        "input": "#f5f5f5",
-        "reason": "Matches --color-surface."
+        "input": "#F7F3EB",
+        "reason": "Matches --color-canvas / site neutral-200 / theme-color."
+      },
+      {
+        "id": "color-005",
+        "label": "on-brand",
+        "input": "#AD5137",
+        "reason": "Site hover accent (secondary-red-600); not a primary button fill."
       }
     ],
     "imagery": [
@@ -783,20 +835,20 @@
       {
         "id": "imagery-002",
         "label": "on-brand",
-        "input": "Natural light desk scene: open laptop showing a plain brand guide page, muted neutrals, candid crop",
-        "reason": "Editorial, product-in-context, calm mood."
+        "input": "Natural light portrait of a real person, cream field, candid crop — matching site testimonial stills",
+        "reason": "Editorial, human, calm mood."
       },
       {
         "id": "imagery-003",
         "label": "off-brand",
-        "input": "Glowing AI brain in purple void",
-        "reason": "Cliché AI visual; wrong palette and energy."
+        "input": "Grief-porn close-up of crying hands over a casket, purple grade",
+        "reason": "Grief theater; wrong palette and energy."
       },
       {
         "id": "imagery-004",
         "label": "on-brand",
-        "input": "Black wordmark on white paper with generous margins, photographed flat",
-        "reason": "Matches logo and style direction."
+        "input": "Sunset discovery UI on a cream field, photographed flat, generous margins",
+        "reason": "Product-in-context; matches home / how-it-works screens."
       }
     ],
     "logo": [
@@ -804,24 +856,24 @@
         "id": "logo-001",
         "label": "off-brand",
         "input": "Wordmark stretched to fill a banner, drop shadow, placed on a busy photo",
-        "reason": "Stretch, shadow, and busy photography without a paper panel violate Logo donts."
+        "reason": "Stretch, shadow, and busy photography without a cream panel violate Logo donts."
       },
       {
         "id": "logo-002",
         "label": "on-brand",
-        "input": "Ink wordmark on paper with clearspace equal to the cap-height of S",
+        "input": "Ink wordmark on cream with clearspace equal to the height of the sun segment",
         "reason": "Default colorway and measurable clearspace."
       },
       {
         "id": "logo-003",
         "label": "off-brand",
         "input": "Outlined wordmark in #7C3AED on a neon gradient",
-        "reason": "Outline plus off-palette accent; starter lockup is ink/paper only."
+        "reason": "Outline plus off-palette accent."
       },
       {
         "id": "logo-004",
         "label": "on-brand",
-        "input": "Paper wordmark reversed on ink, SVG, transparent background",
+        "input": "Cream wordmark reversed on ink, SVG, transparent background",
         "reason": "Approved inverse; SVG preferred per Design system Logo implementation."
       }
     ],
@@ -859,8 +911,8 @@
         "max_chars": 280
       },
       "example": {
-        "proof": "Sample Brand lives in your repo.",
-        "cta": "Open the guide."
+        "proof": "Sunset finds every account, asset, and debt they left behind — free for families.",
+        "cta": "Begin search."
       }
     },
     "product_update": {
@@ -869,7 +921,7 @@
         "max_sentences": 2
       },
       "example": {
-        "why": "so agents and CSS stay aligned"
+        "why": "so you can review and close discovered accounts when you're ready"
       }
     },
     "ui_empty_state": {
@@ -878,7 +930,7 @@
         "max_chars": 120
       },
       "example": {
-        "next_step": "Run the Branding Exercise and save the file here."
+        "next_step": "Begin search to find what they left behind."
       }
     },
     "meta_description": {
@@ -887,120 +939,119 @@
         "max_chars": 155
       },
       "example": {
-        "promise": "Clear work, plainly said"
+        "promise": "Free for families, in all 50 states"
       }
     }
   },
   "guide": {
-    "name": "Sample Brand",
-    "tagline": "Clear work, plainly said.",
+    "name": "Sunset",
+    "tagline": "Find what they left behind.",
     "strategy": {
       "actLabel": "Strategy",
       "overview": {
-        "what": "Sample Brand is a starter brand constitution for teams who want guidelines agents can read and humans can trust — without hunting PDFs.",
-        "problem": "Brand rules live in slide decks and tribal knowledge. Agents invent tone; humans disagree about “on brand.”",
-        "current": "Teams paste guidelines into every prompt, or ship generic creative and hope it sticks.",
-        "opportunity": "Keep meaning in the repo — one file agents load, one design system they implement.",
-        "solution": "A filled grayscale template: Strategy, Voice, Visual, and Design system tokens in one `brand.md`, plus a visual guide you can open locally."
+        "what": "Sunset is an estate-settlement platform that finds and secures the accounts, assets, and debts a loved one left behind.",
+        "problem": "After a death, families sort mail for months, wait for creditors to call, search devices for unknown accounts, and never know if they found it all — while putting the deceased at risk of fraud.",
+        "current": "Most estates in the U.S. are still settled by hand: forms typed and retyped, balances written on legal pads, banks that take months to release funds, and companies that charge grieving families thousands of dollars or a percentage of the estate.",
+        "opportunity": "Give every family a complete picture on the day after — not the year after — and keep them in control of every next step.",
+        "solution": "Automated search across government, credit, and banking sources; county-specific probate documents in all 50 states and 3,000+ counties; an FDIC-insured estate bank account; assisted closures and transfers; then distribution to heirs. Free for families. Paid by bank partners and by Sunset Pro."
       },
       "promise": {
-        "mission": "Hold brand meaning in the repo so humans and agents share one source of truth.",
-        "purpose": "We exist to make brand context portable — clear, fast to load, and doable without a design ops team.",
-        "position": "Repo-native brand constitution for product and creative teams. Not a plugin. Not an agency. Not a vibes deck.",
-        "promise": "Say what we mean in plain language. Keep visuals quiet so content can lead. Treat agents as first-class readers."
+        "mission": "Find every account, asset, and debt a loved one left behind, then help families claim and close them — free.",
+        "purpose": "Families should be able to grieve without a second job, and without writing a check to clean up the financial life of someone they just lost.",
+        "position": "Estate settlement platform. Free for families. Paid by banks and by professionals. Not a law firm. Not a percentage of the estate.",
+        "promise": "If it exists, we’ll find it. You stay in control. You keep the money."
       },
       "audience": {
         "intro": "A closer look at the groups of people that help our business thrive. We should consider who they are and how they think when we make decisions about design and messaging.",
         "groups": [
           {
             "segments": [
-              "Founders",
-              "Product teams",
-              "AI builders"
+              "Families",
+              "Executors",
+              "Personal representatives"
             ],
-            "wants": "A shared brand context that travels with the work — not another PDF to hunt when shipping with agents.",
-            "needs": "Plain rules they can load once, trust, and apply without a design ops team."
+            "wants": "To find every account without months of mail and phone trees — and to know nothing moves unless they say so.",
+            "needs": "A free, complete inventory; probate papers for their county; an estate account they control; help closing what was found."
           },
           {
             "segments": [
-              "Designers",
-              "Design-system leads",
-              "Brand owners"
+              "Probate attorneys",
+              "Licensed fiduciaries",
+              "Trustees"
             ],
-            "wants": "Meaning and tokens in the same place so visual decisions stay tied to voice and strategy.",
-            "needs": "Clear do/don’t guidance, grayscale-first tokens, and a guide that shows the system in use."
+            "wants": "A comprehensive estate asset inventory so they can choose the right probate path and file without surprises.",
+            "needs": "Richer account detail, due-diligence records, exports, and a client-approval workflow before a search runs."
           },
           {
             "segments": [
-              "Agents",
-              "Cursor workflows",
-              "Automation"
+              "Funeral homes",
+              "Aftercare specialists"
             ],
-            "wants": "Structured brand facts they can retrieve without inventing tone or palette.",
-            "needs": "Stable `brand.json`, retrieval tags, and copy that fails a litmus test when it could belong to anyone."
+            "wants": "One less thing for families to worry about after the service.",
+            "needs": "Free materials for family packets and a path that costs the family nothing."
           }
         ]
       },
       "positioning": {
         "intro": "A succinct expression of our core business activity and what sets us apart. This statement helps align marketing efforts with our brand and value proposition.",
-        "statement": "Repo-native brand constitution for product and creative teams. Not a plugin. Not an agency. Not a vibes deck.",
+        "statement": "Estate settlement platform. Free for families. Paid by banks and by professionals. Not a law firm. Not a percentage of the estate.",
         "fields": [
           {
             "label": "Category",
-            "value": "Repo-native brand constitution for product and creative teams."
+            "value": "Estate settlement platform for families and the professionals who serve them."
           },
           {
             "label": "Not",
-            "value": "Not a design-tool plugin. Not a marketing agency. Not a vibes deck."
+            "value": "Not a probate law firm. Not a fee-extracting “after-loss” bill. Not a percentage of the estate."
           },
           {
             "label": "Differentiation",
-            "value": "File-based, grayscale-first, dual audience (human guide + agent API)."
+            "value": "Free for families in all 50 states and U.S. territories; paid by receiving banks and by Pro subscriptions, not by the estate; silent discovery (institutions are not notified during search except life insurance)."
           },
           {
             "label": "Only we",
-            "value": "A starter that ships a filled Sample Brand, a visual guide, and a compiled `brand.json` in one repo."
+            "value": "The family-facing suite — search, probate documents, closures, transfers, and estate bank account setup — stays free because banks pay a referral fee when assets move and professionals pay for Sunset Pro."
           },
           {
             "label": "Territory",
-            "value": "Clarity over ornament. Plain language over hype."
+            "value": "Clarity after a loss. Completeness over guesswork. The family stays in control."
           },
           {
             "label": "Audience primary",
-            "value": "Founders and product teams shipping with AI tools"
+            "value": "Families, executors, and personal representatives settling an estate themselves"
           },
           {
             "label": "Audience secondary",
-            "value": "Designers maintaining a design system alongside brand meaning"
+            "value": "Probate attorneys, licensed fiduciaries, trustees, aftercare specialists, and funeral homes"
           },
           {
             "label": "Position",
-            "value": "Repo-native brand constitution for product and creative teams. Not a plugin. Not an agency. Not a vibes deck."
+            "value": "Estate settlement platform. Free for families. Paid by banks and by professionals. Not a law firm. Not a percentage of the estate."
           }
         ]
       },
       "vision": {
         "intro": "Where we are headed — the long-term ambition that keeps strategy, product, and creative pointed at the same horizon.",
-        "statement": "Every team that clones this kit ships on-brand work without reverse-engineering a PDF."
+        "statement": "Do for estate settlement what TurboTax did for taxes: asset discovery, creditor notification, closures, tax filings, court submissions, and distributions — handled with care, finished in weeks instead of years."
       },
       "mission": {
         "intro": "Why we exist in practical terms — the job we do every day for the people who depend on this brand.",
-        "statement": "Hold brand meaning in the repo so humans and agents share one source of truth."
+        "statement": "Find every account, asset, and debt a loved one left behind, then help families claim and close them — free."
       },
       "values": {
         "intro": "The beliefs we return to when design and messaging decisions get hard — short enough to remember, sharp enough to choose.",
         "items": [
           {
-            "title": "Clarity",
-            "body": "Cut jargon; name the thing. You’ll always know what we mean."
+            "title": "Find everything",
+            "body": "If it exists, we’ll find it. You can be confident nothing was overlooked."
           },
           {
-            "title": "Craft",
-            "body": "Care shows in small decisions. Details aren’t decoration."
+            "title": "Free for families",
+            "body": "Paid by banks, not families. You will not get a bill in the worst month of your life."
           },
           {
-            "title": "Portability",
-            "body": "Brand rules move with the work. The brand travels with the repo."
+            "title": "Your pace, your control",
+            "body": "Nothing moves without your approval. You stay in the driver’s seat."
           }
         ]
       },
@@ -1008,131 +1059,121 @@
         "intro": "The message pillars that carry strategy into copy, product, and campaigns — each one a shorthand for what we stand on.",
         "items": [
           {
-            "name": "Clarity",
-            "summary": "Cut jargon; name the thing.",
-            "emotional": "Relieved",
-            "functional": "Plain-language copy and UI",
-            "trust": "You’ll always know what we mean."
+            "name": "Find everything",
+            "summary": "If it exists, we’ll find it.",
+            "emotional": "Relief",
+            "functional": "Automated search across IRS, credit bureaus, banking networks, and more",
+            "trust": "You can be confident nothing was overlooked."
           },
           {
-            "name": "Craft",
-            "summary": "Care shows in small decisions.",
-            "emotional": "Confident",
-            "functional": "Consistent type, space, contrast",
-            "trust": "Details aren’t decoration."
+            "name": "Free for families",
+            "summary": "Paid by banks, not families.",
+            "emotional": "Dignity",
+            "functional": "No fees, subscriptions, or cuts of the inheritance",
+            "trust": "You will not get a bill in the worst month of your life."
           },
           {
-            "name": "Portability",
-            "summary": "Brand rules move with the work.",
-            "emotional": "Steady",
-            "functional": "Files agents and humans share",
-            "trust": "The brand travels with the repo."
+            "name": "Your pace, your control",
+            "summary": "Nothing moves without your approval.",
+            "emotional": "Safety",
+            "functional": "You approve each step; the estate account is yours",
+            "trust": "You stay in the driver’s seat."
           }
         ]
       },
       "archetype": {
-        "name": "The Editor",
-        "drive": "Precision · Clarity · Restraint · Understanding · Craft",
-        "seeks": "Understanding",
+        "name": "The Caregiver",
+        "drive": "Service · Compassion · Protection · Completeness · Control stays with the family",
+        "seeks": "Service",
         "atBest": [
-          "Wise",
-          "Accessible",
-          "Calm",
-          "Grounded",
-          "Trustworthy"
+          "Compassionate",
+          "Generous",
+          "Protective"
         ],
         "atWorst": [
-          "Aloof",
-          "Detached",
-          "Complicated",
-          "Dismissive"
+          "Martyring",
+          "Intrusive",
+          "Enabling"
         ],
-        "motto": "Say the useful thing, then stop.",
+        "motto": "Here with you.",
         "voice": [
-          "Knowledgeable",
-          "Assured",
-          "Guiding",
-          "Direct",
-          "Calm"
+          "Warm",
+          "Supportive",
+          "Reassuring",
+          "Patient",
+          "Specific"
         ]
       },
       "archetypeProfiles": [
         {
           "role": "primary",
-          "name": "Editor / Sage",
-          "wheel": "Sage",
-          "motivations": "Seeking understanding",
-          "personality": "The Editor wants clarity that lasts — cutting noise so the useful thing remains. They distrust jargon and theater, and believe restraint is a form of respect. At their best they make complex work feel simple; at their worst they can sound aloof or over-precise.",
-          "quote": "Say the useful thing, then stop.",
+          "name": "Caregiver",
+          "wheel": "Caregiver",
+          "motivations": "Provide structure",
+          "personality": "Sunset sits with people on the worst week of their lives and does the financial work so they can grieve. The site never names an archetype; Caregiver is inferred from “felt cared for,” “less scary,” “guided the whole way,” and the About letter (“Here with you”). At best that is protection and permission to rest; at worst it could over-promise or take over. Human review required.",
+          "quote": "Here with you.",
           "drive": [
-            "Precision",
-            "Clarity",
-            "Restraint",
-            "Understanding",
-            "Craft"
+            "Service",
+            "Compassion",
+            "Protection",
+            "Completeness",
+            "Control stays with the family"
           ],
           "fears": [
-            "Ambiguity",
-            "Noise",
-            "Hype",
-            "Performative complexity",
-            "Vague inspiration"
+            "Unknown bills",
+            "Missed accounts",
+            "Fraud against the deceased",
+            "Charging a grieving family"
           ],
           "strategy": [
-            "Cut to the useful thing",
-            "Prefer concrete nouns",
-            "Edit until the line can only mean one thing"
+            "Find everything",
+            "Stay free for families",
+            "Nothing moves without approval"
           ],
           "voice": [
-            "Knowledgeable",
-            "Assured",
-            "Guiding",
-            "Direct",
-            "Calm"
+            "Warm",
+            "Supportive",
+            "Reassuring",
+            "Patient",
+            "Specific"
           ],
-          "seeks": "Understanding",
+          "seeks": "Service",
           "mottos": [
-            "Say the useful thing, then stop.",
-            "Clear work, plainly said."
+            "Here with you.",
+            "Find what they left behind."
           ],
           "audienceFeels": [
-            "Relieved",
-            "Oriented",
-            "Respected",
-            "Steady",
-            "Clear-headed"
+            "Cared for",
+            "Safe",
+            "Guided",
+            "Less scared",
+            "In control"
           ],
           "brands": [
-            "Strunk & White",
-            "The Economist",
-            "Notion docs done well"
+            "(not claimed on the site — do not invent peer brands)"
           ],
           "atBest": [
-            "Wise",
-            "Accessible",
-            "Calm",
-            "Grounded",
-            "Trustworthy"
+            "Compassionate",
+            "Generous",
+            "Protective"
           ],
           "atWorst": [
-            "Aloof",
-            "Detached",
-            "Complicated",
-            "Dismissive"
+            "Martyring",
+            "Intrusive",
+            "Enabling"
           ],
           "characters": [
-            "The careful editor",
-            "The reference librarian",
-            "The senior who deletes the flourish"
+            "The friend who sits at the kitchen table",
+            "The attorney who translates the bank",
+            "The product person who makes money move safely"
           ],
           "types": [
-            "Editor",
+            "Helper",
             "Guide",
-            "Critic",
-            "Analyst"
+            "Guardian"
           ],
           "typesHighlighted": [
-            "Editor",
+            "Helper",
             "Guide"
           ]
         }
@@ -1141,114 +1182,138 @@
         "intro": "A unique set of characteristics that make our brand feel truly human. We strive to maintain this personality in all of our communications.",
         "items": [
           {
-            "title": "Clear",
-            "body": "Prefer the plain word. If a line needs a decoder ring, rewrite it until it can only mean one thing."
+            "title": "Guided",
+            "body": "One question at a time. Always say what comes next."
           },
           {
-            "title": "Steady",
-            "body": "Keep the same register across product, docs, and agents — no sudden hype spikes or mood swings."
+            "title": "Specific",
+            "body": "Name the account type, the county, the document, the fee source."
           },
           {
-            "title": "Direct",
-            "body": "Lead with the useful fact. Cut throat-clearing, fake urgency, and ornamental setup."
+            "title": "Patient",
+            "body": "Families go as fast or as slow as they want. Nothing moves without approval."
           },
           {
-            "title": "Respectful",
-            "body": "Assume the reader is busy and capable. Earn attention; don’t perform for it."
+            "title": "Honest about money",
+            "body": "Say we are paid by banks and by Pro — never hide the model."
+          },
+          {
+            "title": "In your control",
+            "body": "The estate bank account is theirs. Search stays private until they request closure."
           }
         ],
         "traits": [
-          "Clear",
-          "Steady",
-          "Direct",
-          "Respectful",
-          "Practical"
+          "Guided",
+          "Specific",
+          "Patient",
+          "Honest about money",
+          "In your control"
         ],
         "weAre": [
-          "Plainspoken",
-          "Specific",
-          "Diff-friendly",
-          "Respectful of the reader’s time."
+          "Step-by-step",
+          "Specific about accounts and next steps",
+          "Patient with grief",
+          "Honest about how we get paid",
+          "Protective of the deceased and the family."
         ],
         "weAreNot": [
-          "Hype-driven",
-          "Vague",
-          "Performatively premium",
-          "Loud for its own sake"
+          "Fee-extracting",
+          "Fake-urgent",
+          "Corporate euphemism",
+          "Grief theater",
+          "Silent about revenue"
         ]
       },
       "guardrails": {
         "intro": "Hard edges for agents and humans — what we sound like, what we refuse, and the test that keeps us on-brand.",
-        "tone": "Direct, calm, specific, human.",
+        "tone": "Calm, specific, guided, honest about money.",
         "cannotBe": [
-          "Synergy soup",
+          "A fee on grief",
           "Fake urgency",
-          "Empty inspiration",
-          "Decorative complexity."
+          "A cut of the inheritance",
+          "A silent search that notifies banks (except life insurance)",
+          "Grief theater."
         ],
-        "litmus": "If you could swap in any other brand name and the line still works, rewrite it."
+        "litmus": "If you could swap in any other estate-settlement name and the line still works, rewrite it. If the line hides how Sunset gets paid, rewrite it."
       }
     },
     "voice": {
       "actLabel": "Language",
-      "identity": "We speak like a careful editor: short sentences, concrete nouns, no theater — Sample Brand, the quiet template a brand lives in the repo.",
-      "essence": "Say the useful thing, then stop.",
+      "identity": "We speak like a calm guide at the kitchen table: one question at a time, and nothing moves without you.",
+      "essence": "Find what they left behind.",
       "principles": {
         "intro": "Refer to these language principles when authoring written content. These principles cover tone of voice and the subject matter that matters in the brand, products, and services.",
         "items": [
           {
-            "title": "Say the useful thing, then stop.",
-            "body": "Cut to the job the reader needs done. Short sentences, concrete nouns, no theater — then leave the rest unsaid.",
-            "do": "Lead with the change and why it matters.",
-            "dont": "Pad the point with hype, throat-clearing, or synonym stacks."
+            "title": "One question at a time.",
+            "body": "Lead with the next useful step. Short sentences. Then stop.",
+            "do": "“Begin search.” “We’ll email you when results are ready.”",
+            "dont": "Stack five asks or bury the action in sympathy."
           },
           {
-            "title": "Specific beats impressive.",
-            "body": "Prefer the exact noun over the polished adjective. Proof before flourish; if a line could belong to any brand, rewrite it.",
-            "do": "Name the file, the step, or the outcome.",
-            "dont": "Claim seamless, revolutionary, or best-in-class without evidence."
+            "title": "Name the thing.",
+            "body": "Prefer the account, the county, the document, the fee source.",
+            "do": "“Generate probate documents for your county.”",
+            "dont": "“Unlock a seamless after-loss journey.”"
+          },
+          {
+            "title": "Honest about money.",
+            "body": "Families never pay. Say who does.",
+            "do": "“We’re paid by banks, not families.”",
+            "dont": "Hide referral fees or imply Sunset is a charity."
+          },
+          {
+            "title": "Stay in their control.",
+            "body": "Approval is the product.",
+            "do": "“Nothing happened unless I said so.” (user proof)",
+            "dont": "Move, file, or notify on their behalf without saying so."
           }
         ]
       },
       "tagline": {
         "intro": "An external piece of language that sums up our brand promise in a few memorable words.",
-        "statement": "Clear work, plainly said."
+        "statement": "Find what they left behind."
       },
       "story": {
         "intro": "Our story is an external tool that translates our core beliefs and reason for being.",
-        "long": "Brand work used to live in decks, Notion pages, and tribal memory — then vanish the moment a new hire or an agent needed it. Sample Brand exists so meaning stays where the work stays: in the repo. We started with a grayscale starter on purpose. Color and flourish can wait; clarity cannot. Strategy, language, and visual rules compile into files humans browse and agents read, so every surface — product UI, email, support — can pull from the same constitution. We are not a plugin and not an agency. We are the quiet template that shows how a brand should travel with the work.",
-        "medium": "Brand context used to scatter across decks and chat threads. Sample Brand keeps it in the repo — Strategy, Language, and Visual rules that compile for humans and agents alike. Grayscale first; meaning first. Clear work, plainly said.",
-        "short": "Sample Brand keeps brand meaning in the repo so humans and agents share one source of truth."
+        "long": "For ten years Stephen Walter and Kaela Worthen had been close friends. He was a practicing attorney who translated families to financial institutions. She had built payments systems that moved billions through small businesses. They did not set out to start an estate company. Then his father-in-law died, and the day after he sat with his mother-in-law and gave her a complete picture of the debts and accounts — work that would have taken her months. Around the same time Kaela was at a kitchen table helping her husband itemize his parents’ assets. They compared notes and built the thing they wished had existed: a platform that finds every account, files the forms, and shepherds the assets home. They refused to charge grieving families. It took almost a year to land the model: receiving banks pay a referral fee when assets move, and professionals pay for Sunset Pro. That is the day Sunset became Sunset. A sunset is also a sunrise.",
+        "medium": "Two cofounders each settled a loved one’s estate by hand, then built the platform they wished had existed. Sunset finds and closes what they left behind — free for families, paid by banks and by professionals. Founded 2024, Salt Lake City.",
+        "short": "Sunset finds what they left behind, then helps you claim and close it — free for families."
       },
       "headlines": {
         "intro": "Short, ownable lines for campaigns, product, and empty states — voice first, benefit clear.",
         "items": [
-          "Clear work, plainly said.",
-          "The brand lives where the work lives.",
-          "Specific beats impressive.",
-          "Ornament is optional; clarity is not.",
-          "Clear work, plainly said.",
-          "If it needs a synonym, it needs a rewrite.",
-          "The brand lives where the work lives.",
-          "Grayscale first; meaning first.",
-          "Specific beats impressive.",
-          "Agents read this file too.",
-          "Ornament is optional; clarity is not."
+          "Find what they left behind.",
+          "If it exists, we’ll find it.",
+          "There’s a better way to find and secure their assets.",
+          "Always know what comes next.",
+          "We’re paid by banks, not families.",
+          "At your pace, in your control.",
+          "Find what they left behind.",
+          "If it exists, we’ll find it.",
+          "We’re paid by banks, not families.",
+          "Always know what comes next.",
+          "At your pace, in your control.",
+          "Nothing moves forward without your approval.",
+          "Begin search.",
+          "You keep all your money.",
+          "A sunset is also a sunrise.",
+          "Here with you."
         ]
       },
       "cta": {
         "intro": "Clarity and brevity in wording calls to action is critical. Avoid ambiguous actions or drawn-out phrasing. Use action verbs.",
         "do": [
-          "Save draft",
-          "Open the guide",
-          "Ship with the work",
-          "Copy token"
+          "begin search",
+          "Learn more about our process",
+          "Contact partners@hellosunset.com",
+          "Log in"
         ],
         "dont": [
           "Click here",
-          "Learn more",
-          "Get started now",
-          "Unlock your potential"
+          "Unlock your after-loss journey",
+          "Start your journey today",
+          "Get started now"
         ]
       },
       "spectrum": {
@@ -1266,7 +1331,7 @@
             ],
             "start": 1,
             "end": 1,
-            "notes": "Quiet, measured; never loud for its own sake."
+            "notes": "Calm enough for grief; never loud for its own sake. Inferred from the rebrand (“clear, calm, and purposeful”)."
           },
           {
             "id": "energy",
@@ -1280,7 +1345,7 @@
             ],
             "start": 1,
             "end": 2,
-            "notes": "Calm confidence; purposeful, not frantic."
+            "notes": "At your pace — purposeful, not frantic."
           },
           {
             "id": "sociability",
@@ -1294,7 +1359,7 @@
             ],
             "start": 1,
             "end": 2,
-            "notes": "Clear for the people who need it — not a party brand."
+            "notes": "Written for the household, then for the attorney or funeral director beside them."
           },
           {
             "id": "attitude",
@@ -1306,66 +1371,69 @@
               "No filter",
               "Polarizing"
             ],
-            "start": 2,
+            "start": 1,
             "end": 2,
-            "notes": "Direct when it matters; never polarizing for sport."
+            "notes": "Gentle with families; direct about companies that charge the grieving."
           }
         ]
       },
       "phrases": [
-        "Clear work, plainly said.",
-        "If it needs a synonym, it needs a rewrite.",
-        "The brand lives where the work lives.",
-        "Grayscale first; meaning first.",
-        "Specific beats impressive.",
-        "Agents read this file too.",
-        "Ornament is optional; clarity is not."
+        "Find what they left behind.",
+        "If it exists, we’ll find it.",
+        "We’re paid by banks, not families.",
+        "Always know what comes next.",
+        "At your pace, in your control.",
+        "Nothing moves forward without your approval.",
+        "Begin search.",
+        "You keep all your money.",
+        "A sunset is also a sunrise.",
+        "Here with you."
       ],
       "andYet": {
         "intro": "Tension pairs that keep the voice from tipping into a single trait — lean into one pole, then balance with the other.",
         "pairs": [
           {
-            "lean": "Knowledgeable",
-            "yet": "Humble",
+            "lean": "Warm",
+            "yet": "Specific",
             "bridge": "yet",
-            "phrase": "Clear work, plainly said."
+            "phrase": "Find what they left behind."
           },
           {
-            "lean": "Direct",
-            "yet": "Warm",
+            "lean": "Patient",
+            "yet": "Direct",
             "bridge": "yet",
-            "phrase": "Specific beats impressive."
+            "phrase": "Nothing moves forward without your approval."
           },
           {
-            "lean": "Precise",
-            "yet": "Plain",
+            "lean": "Protective",
+            "yet": "Honest",
             "bridge": "yet",
-            "phrase": "If it needs a synonym, it needs a rewrite."
+            "phrase": "We’re paid by banks, not families."
           },
           {
-            "lean": "Confident",
-            "yet": "Quiet",
+            "lean": "Guided",
+            "yet": "In their control",
             "bridge": "yet",
-            "phrase": "Grayscale first; meaning first."
+            "phrase": "Always know what comes next."
           }
         ]
       },
       "weSay": [
         {
-          "say": "Here’s what changed and why.",
+          "say": "Find what they left behind.",
           "never": "Unlock your potential."
         },
         {
-          "say": "Ship the brand with the work.",
-          "never": "Synergistic brand solutions."
+          "say": "We’re paid by banks, not families.",
+          "never": "A small percentage of the estate."
         },
         {
-          "say": "Plain language, strong contrast.",
-          "never": "Seamless holistic experience."
+          "say": "Begin search.",
+          "never": "Start your after-loss journey today."
         },
         {
-          "say": "Specific beats impressive.",
-          "never": "World-class premium vibes."
+          "say": "Nothing moves forward without your approval.",
+          "never": "We’ll take it from here — no need to look."
         }
       ],
       "contexts": {
@@ -1374,27 +1442,32 @@
           {
             "context": "Product UI",
             "guidance": "Short labels; verbs on buttons.",
-            "example": "Save draft"
+            "example": "begin search"
           },
           {
             "context": "Email",
-            "guidance": "One purpose; clear next step.",
-            "example": "Your guide preview is ready — open it."
+            "guidance": "One purpose; when results are ready, say so.",
+            "example": "We’ll email you as soon as your requested searches are complete."
           },
           {
             "context": "Social",
-            "guidance": "One idea; ownable phrase if possible.",
-            "example": "Clear work, plainly said."
+            "guidance": "One idea; prefer a Voice phrase.",
+            "example": "Find what they left behind."
           },
           {
             "context": "Support",
-            "guidance": "Patient, concrete, no blame.",
-            "example": "Here’s the exact file to update."
+            "guidance": "Patient, concrete, a real person.",
+            "example": "Email support@hellosunset.com — we reply within 1 business day."
           },
           {
             "context": "Incident",
             "guidance": "Facts first; no spin.",
-            "example": "We fixed the deploy path at 14:02 UTC."
+            "example": "We fixed the search path at 14:02 UTC."
+          },
+          {
+            "context": "Pro / attorneys",
+            "guidance": "Precise, duty-aware, no family-voice softness that hides the work.",
+            "example": "Upload the death certificate, then invite your client to authorize the search."
           }
         ]
       }
@@ -1402,123 +1475,129 @@
     "visual": {
       "actLabel": "Visual",
       "colors": {
-        "intro": "A grayscale starter with a twelve-step interface scale — swap the palette when you adopt the kit.",
+        "intro": "A warm cream field and dark brown ink — quiet enough for grief, clear enough to act.",
         "proportion": "",
         "donts": [],
         "pairings": [],
         "brand": [
           {
+            "name": "Accent",
+            "token": "--color-accent",
+            "value": "#AD5137",
+            "usage": "Link / nav hover and FAQ rule (`secondary--red-600`); not primary button fill"
+          },
+          {
             "name": "Ink",
             "token": "--color-ink",
-            "value": "#111111",
-            "usage": "Primary text, key chrome, CTAs"
+            "value": "#211E19",
+            "usage": "Primary text, key chrome, primary CTAs (site `--_colors---neutral--900`)"
           }
         ],
         "secondary": [
           {
             "name": "Ink Muted",
             "token": "--color-ink-muted",
-            "value": "#4a4a4a",
-            "usage": "Secondary text, captions"
+            "value": "#535048",
+            "usage": "Secondary text, captions (`neutral--800`)"
           },
           {
             "name": "Ink Subtle",
             "token": "--color-ink-subtle",
-            "value": "#6b6b6b",
-            "usage": "Tertiary text, meta, placeholders"
+            "value": "#878275",
+            "usage": "Tertiary text, meta, placeholders (`neutral--700`)"
           }
         ],
         "interface": [
           {
             "name": "Gray 1",
             "token": "--color-gray-1",
-            "value": "#fcfcfc",
-            "usage": "App background"
+            "value": "#FFFFFF",
+            "usage": "App background (site `neutral--100`)"
           },
           {
             "name": "Gray 2",
             "token": "--color-gray-2",
-            "value": "#f9f9f9",
-            "usage": "Subtle background"
+            "value": "#F7F3EB",
+            "usage": "Subtle background (`neutral--200`)"
           },
           {
             "name": "Gray 3",
             "token": "--color-gray-3",
-            "value": "#f0f0f0",
-            "usage": "UI element background"
+            "value": "#EDE6DA",
+            "usage": "UI element background (`neutral--300`)"
           },
           {
             "name": "Gray 4",
             "token": "--color-gray-4",
-            "value": "#e8e8e8",
-            "usage": "Hovered UI element background"
+            "value": "#E4DECF",
+            "usage": "Hovered UI element background (interpolated 300–500)"
           },
           {
             "name": "Gray 5",
             "token": "--color-gray-5",
-            "value": "#e0e0e0",
-            "usage": "Active / selected UI element background"
+            "value": "#DCD5CA",
+            "usage": "Active / selected UI element background (`neutral--500`)"
           },
           {
             "name": "Gray 6",
             "token": "--color-gray-6",
-            "value": "#d9d9d9",
-            "usage": "Subtle borders and separators"
+            "value": "#C4BDB2",
+            "usage": "Subtle borders and separators (interpolated)"
           },
           {
             "name": "Gray 7",
             "token": "--color-gray-7",
-            "value": "#cecece",
-            "usage": "UI element border and focus rings"
+            "value": "#B2ABA0",
+            "usage": "UI element border and focus rings (interpolated)"
           },
           {
             "name": "Gray 8",
             "token": "--color-gray-8",
-            "value": "#bbbbbb",
-            "usage": "Hovered UI element border"
+            "value": "#9A948A",
+            "usage": "Hovered UI element border (interpolated)"
           },
           {
             "name": "Gray 9",
             "token": "--color-gray-9",
-            "value": "#8d8d8d",
-            "usage": "Solid backgrounds"
+            "value": "#878275",
+            "usage": "Solid backgrounds (`neutral--700`)"
           },
           {
             "name": "Gray 10",
             "token": "--color-gray-10",
-            "value": "#838383",
-            "usage": "Hovered solid backgrounds"
+            "value": "#6D6860",
+            "usage": "Hovered solid backgrounds (interpolated)"
           },
           {
             "name": "Gray 11",
             "token": "--color-gray-11",
-            "value": "#646464",
-            "usage": "Low-contrast text"
+            "value": "#535048",
+            "usage": "Low-contrast text (`neutral--800`)"
           },
           {
             "name": "Gray 12",
             "token": "--color-gray-12",
-            "value": "#202020",
-            "usage": "High-contrast text"
+            "value": "#211E19",
+            "usage": "High-contrast text (`neutral--900`)"
           }
         ]
       },
       "typography": {
-        "family": "Geist",
-        "note": "One grotesque for display and body. Hierarchy through size and weight — not a second decorative face.",
+        "family": "Tobias + Geist",
+        "note": "Tobias for headlines, Geist for everything you read and tap — hierarchy through size, not decoration.",
         "faces": {
-          "display": "",
-          "primary": "Geist — display and body",
+          "display": "Tobias — headlines and display",
+          "primary": "Geist — body and UI",
           "mono": "",
-          "fallback": "IBM Plex Sans, system-ui, sans-serif",
-          "displayFoundry": "",
-          "primaryFoundry": "",
+          "fallback": "Georgia, system-ui, sans-serif",
+          "displayFoundry": "Klim Type Foundry",
+          "primaryFoundry": "Vercel",
           "monoFoundry": ""
         },
         "specimens": [
           {
             "label": "Display",
-            "sample": "Sample Brand",
+            "sample": "Sunset",
             "size": "display"
           },
           {
@@ -1528,40 +1607,42 @@
           },
           {
             "label": "Lead",
-            "sample": "Clear work, plainly said.",
+            "sample": "Find what they left behind.",
             "size": "lg"
           },
           {
             "label": "Body",
-            "sample": "Brand context that lives in the repo and travels with the work.",
+            "sample": "Sunset finds every account, asset, and debt your loved one left behind. Free for families, in all 50 states.",
             "size": "base"
           }
         ]
       },
       "logo": {
-        "description": "A wordmark in ink on paper — or reversed on ink — that reads as type, not decoration.",
-        "clearspace": "Approximately the height of the capital S",
+        "description": "The Sunset wordmark is a typed lockup with a rising sun over the t — every sunset is also a sunrise.",
+        "clearspace": "Approximately the height of the sun segment",
         "supporting": "",
         "donts": [
           "Don’t stretch or outline",
           "Don’t add drop shadows",
-          "Don’t place on busy photography without a paper panel"
+          "Don’t place on busy photography without a cream or paper panel",
+          "Don’t separate the sun from the wordmark unless using the approved mark"
         ]
       },
       "imagery": {
-        "introduction": "Photography should feel like real work in real rooms — candid crops, natural light, product in context.",
+        "introduction": "Photography shows real families, real product screens, and quiet rooms — warm light, no grief theater.",
         "tone": "Human, authentic, reflective, hopeful",
-        "subjects": "Real workspaces, candid crops, product-in-context",
-        "settings": "Natural light, quiet interiors, honest materials",
-        "product": "",
+        "subjects": "Testimonial portraits, cofounders, product UI, funeral-home print",
+        "settings": "Kitchen-table quiet, cream fields, landscape light, honest interiors",
+        "product": "Sunset discovery or settlement UI on a cream field, natural light, candid crop --ar 4:5 --style raw",
         "moments": "",
-        "style": "Editorial, natural light, product-in-context.",
-        "mood": "Focused, calm, confident.",
+        "style": "Editorial portraits, product-in-context UI, warm natural light.",
+        "mood": "Calm, cared-for, clear.",
         "crop": "",
         "avoid": [
           "Oversaturated stock",
           "fake handshakes",
-          "neon gradients"
+          "neon gradients",
+          "grief-porn close-ups"
         ]
       }
     },
@@ -1573,15 +1654,15 @@
       "components": [
         {
           "name": "Primary button",
-          "usage": "Ink fill, paper text; no rounded-full pills"
+          "usage": "Ink fill, cream text; site label “begin search”; radius `--radius-base` — not rounded-full pills"
         },
         {
           "name": "Secondary button",
-          "usage": "Paper fill, ink text, `1px` border"
+          "usage": "Transparent fill, muted ink text, `1px` ink-muted border"
         },
         {
           "name": "Links",
-          "usage": "Ink, underline on hover; no accent color"
+          "usage": "Ink at rest; terracotta `--color-accent` on hover"
         },
         {
           "name": "Cards",
@@ -1593,19 +1674,19 @@
         },
         {
           "name": "Code / tokens",
-          "usage": "Surface background, mono optional"
+          "usage": "Surface background; no brand mono authored"
         }
       ]
     },
     "animation": {
-      "introduction": "Motion orients. It helps people see what changed, where to look next, and how the brand feels under the hand — never decoration for its own sake.",
+      "introduction": "Motion on the marketing site orients: pages settle, steps reveal, and nothing blocks the next action.",
       "principles": {
         "intro": "How the brand moves and why. Keep motion purposeful, consistent, and quiet enough that it never stands between someone and their next action.",
         "items": [
           {
             "title": "Orient, don’t decorate",
             "body": "Animate when it clarifies a change of state or space. Skip motion when it only adds spectacle.",
-            "do": "Fade and settle a panel so the eye can track what opened.",
+            "do": "Fade and settle a step so the eye can track what opened.",
             "dont": "Add bounce or sparkle to every hover and click."
           },
           {
@@ -1650,7 +1731,7 @@
           {
             "id": "editorial",
             "title": "Editorial",
-            "body": "Slow and stately. Motion at the pace of turning a page in a well-made book. Our default."
+            "body": "Slow and stately. Motion at the pace of turning a page. Our default — inferred from “clear, calm, and purposeful.”"
           }
         ]
       },
@@ -1746,27 +1827,33 @@
       "items": [
         {
           "channel": "Web",
-          "title": "Document-like pages",
-          "copy": "Brand name as the hero signal. One headline, one supporting line, one quiet system UI — grayscale throughout.",
-          "sample": "Open the guide"
+          "title": "Marketing pages",
+          "copy": "Brand name as the hero signal. One headline, one supporting line, one CTA — cream field, ink type.",
+          "sample": "Find what they left behind."
+        },
+        {
+          "channel": "App",
+          "title": "Search and settlement",
+          "copy": "One question at a time. Nothing moves without approval.",
+          "sample": "begin search"
         },
         {
           "channel": "Social",
           "title": "Ownable phrases",
-          "copy": "One idea per post. High-contrast wordmark on paper or ink. Prefer a phrase from the Voice list.",
-          "sample": "Clear work, plainly said."
-        },
-        {
-          "channel": "Print",
-          "title": "Decks & handouts",
-          "copy": "Same type hierarchy. Generous margins. Hairline rules only when they aid reading — never as decoration.",
-          "sample": "Brand Guide · 2026"
+          "copy": "One idea per post. High-contrast wordmark on cream or ink. Prefer a phrase from the Voice list.",
+          "sample": "Find what they left behind."
         },
         {
           "channel": "Email",
-          "title": "",
-          "copy": "One purpose; clear next step",
-          "sample": ""
+          "title": "Results and support",
+          "copy": "One purpose; when searches complete, say so; a real person on the reply.",
+          "sample": "We’ll email you as soon as your requested searches are complete."
+        },
+        {
+          "channel": "Print",
+          "title": "Funeral-home trifolds",
+          "copy": "Same type hierarchy. Fits a family packet. Free for the family.",
+          "sample": "Give families one less thing to worry about."
         }
       ]
     }
